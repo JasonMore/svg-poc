@@ -13,7 +13,8 @@
     "grunt": "~0.4.1"
   },
   "devDependencies": {
-    "supervisor": "*"
+    "supervisor": "*",
+    "karma-script-launcher": "0.0.1"
   },
   "repository": {
     "type": "git",
