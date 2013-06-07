@@ -1,0 +1,39 @@
+<div class="row-fluid">
+  <div class="span1">
+    <div class="btn-group btn-group-vertical">
+      <a class="btn" ng-click="addBox()">
+        <i class="icon-plus icon-2x"></i>
+      </a>
+      <a class="btn" ng-click="deleteCurrentBox()">
+        <i class="icon-trash icon-2x"></i>
+      </a>
+    </div>
+  </div>
+  <div class="span8">
+    <svg surface="" class="svg-drop" height="500px" xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <g stroke="green" fill="grey" stroke-width="1" ng-repeat="box in boxes">
+        <circle drag="box" ng-mouseDown="setActive(box)" ng-attr-cx="{{box.x}}" ng-attr-cy="{{box.y}}" r="15"></circle>
+        <text ng-attr-x="{{box.x + 20}}" ng-attr-y="{{box.y + 4}}" ng-attr-stroke="{{box.color}}">{{box.x}}, {{box.y}}
+        </text>
+      </g>
+    </svg>
+  </div>
+  <div class="span3">
+    <form ng-show="activeBox">
+      <legend>box</legend>
+      <label>
+        x
+        <input type="number" min="0" max="399" ng-model="activeBox.x"/>
+      </label>
+      <label>
+        y
+        <input type="number" min="0" max="399" ng-model="activeBox.y"/>
+      </label>
+      <label>
+        Color
+        <input type="text" ng-model="activeBox.color"/>
+      </label>
+    </form>
+  </div>
+</div>
+

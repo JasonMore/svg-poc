@@ -16,7 +16,7 @@ files = [
   'app/components/angularjs-bower/angular.js',
   // -- add angular plugins here as they are added to index.html
   'app/components/angularjs-bower/angular-mocks.js',
-  'app/js/**/*.js',
+  'app/modules/**/*.js',
   'test/unit/**/*.js'
 ];
 

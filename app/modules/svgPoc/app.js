@@ -4,8 +4,8 @@ angular.module('svgPoc', [])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        templateUrl: 'modules/svgPoc/views/main.html',
+        controller: 'mainCtrl'
       })
       .otherwise({
         redirectTo: '/'
