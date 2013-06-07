@@ -12,7 +12,7 @@ autoWatch = true;
 
 browsers = ['Chrome'];
 
-singleRun = false;
+singleRun = true;
 
 proxies = {
   '/': 'http://localhost:3000/'

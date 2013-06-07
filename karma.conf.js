@@ -1,11 +1,11 @@
-basePath = '../';
+basePath = '';
 
 files = [
   JASMINE,
   JASMINE_ADAPTER,
-  'app/lib/angular/angular.js',
-  'app/lib/angular/angular-*.js',
-  'test/lib/angular/angular-mocks.js',
+  'app/components/angularjs-bower/angular.js',
+  {pattern: 'app/components/angularjs-bower/angular.min.js', included: false, served: false},
+  'app/components/angularjs-bower/*.js',
   'app/js/**/*.js',
   'test/unit/**/*.js'
 ];
