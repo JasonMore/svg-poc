@@ -25,6 +25,5 @@ angular.module('svgPoc')
         $scope.activeBox = null;
       }
     };
-
   })
 ;
