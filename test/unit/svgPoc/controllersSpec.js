@@ -34,7 +34,7 @@ describe('Controller: mainCtrl', function () {
       expect($scope.activeBox).toBe(_box);
     });
 
-    
+    it('marks box as active')
   });
 
   describe('when adding box', function(){

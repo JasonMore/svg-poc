@@ -7,6 +7,10 @@ angular.module('svgPoc', [])
         templateUrl: 'modules/svgPoc/views/main.html',
         controller: 'mainCtrl'
       })
+      .when('/poc', {
+        templateUrl: 'modules/svgPoc/views/poc.html',
+        controller: 'mainCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
