@@ -11,7 +11,9 @@
   </div>
   <div class="span8">
     <svg surface ng-mouseDown="unSelect()" class="svg-drop" height="500px" xmlns="http://www.w3.org/2000/svg" version="1.1">
-      <!--<bounding-box model="boundingBox"></bounding-box>-->
+      <!--why don't templates work :-(-->
+      <bounding-box asdfasdf="activeBox.boundingBox"></bounding-box>
+
       <rect stroke="red" fill="yellow" opacity="0.4"
         ng-attr-x="{{activeBox.boundingBox.box.x - 3}}"
         ng-attr-y="{{activeBox.boundingBox.box.y - 3}}"
