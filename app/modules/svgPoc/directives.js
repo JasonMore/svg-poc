@@ -20,34 +20,51 @@ angular.module('svgPoc')
           box = value;
         });
 
-        var drag = function (e) {
+
+
+        var drag = function(e){
+          var x = e.offsetX - $scope.box.x,
+              y = e.offsetY - $scope.box.y;
+
+          $scope.$apply(function () {
+            box.shadow = {x: x, y: y};
+          });
+        };
+
+
+        function dragDone(e) {
+          surfaceService.element.unbind('mousemove', drag);
+          surfaceService.element.unbind('mouseup', dragDone);
 
           var x = e.offsetX,
             y = e.offsetY;
 
-          var transform = el[0].getCTM();
-          transform.scale = true;
-          var transformMatrix = transform.a + " " + transform.b + " " + transform.c + " " + transform.d + " " + transform.e + " " + transform.f;
+//          var transform = el[0].getCTM();
+//          transform.scale = true;
+//          var transformMatrix = transform.a + " " + transform.b + " " + transform.c + " " + transform.d + " " + transform.e + " " + transform.f;
 
           $scope.$apply(function () {
-            $scope.$parent.boundingBox = {
-              box: el[0].getBBox(),
-              transform: transformMatrix
-            };
-            
+
+            $scope.box.shadow = null;
+
             $scope.box.x = x;
             $scope.box.y = y;
-          });
 
-        };
+//            $scope.$parent.boundingBox = {
+//              box: el[0].getBBox(),
+//              transform: transformMatrix
+//            };
+//
+
+          });
+        }
 
         el.bind('mousedown', function (e) {
           surfaceService.element.bind('mousemove', drag);
+          surfaceService.element.bind('mouseup', dragDone);
         });
 
-        el.bind('mouseup', function (e) {
-          surfaceService.element.unbind('mousemove', drag);
-        });
+       
       }
     };
   })
@@ -90,48 +107,32 @@ angular.module('svgPoc')
     };
   })
 
-  .directive('boxable', function (surfaceService) {
-    return {
-      restrict: 'A',
-//      scope: {
-//        boundingBox: '=boxable'
-//      },
-      link: function ($scope, el, attr) {
-        var boundingBox;
-
-        $scope.$watch(attr.boxable, function (value) {
-          boundingBox = value;
-        });
-
-        el.bind('mousedown', function (e) {
-
-          var transform = el[0].getCTM();
-          transform.scale = true;
-          var transformMatrix = transform.a + " " + transform.b + " " + transform.c + " " + transform.d + " " + transform.e + " " + transform.f;
-
-          $scope.$apply(function () {
-            $scope.boundingBox = {
-              box: el[0].getBBox(),
-              transform: transformMatrix
-            };
-          });
-        });
-      }
-//      controller: function($scope, $element, $attrs){
-//        $element.bind('mousedown', function (e) {
+//  .directive('boxable', function (surfaceService) {
+//    return {
+//      restrict: 'A',
+//      link: function ($scope, el, attr) {
+//        var boundingBox;
 //
-//          var transform = $element[0].getCTM();
+//        $scope.$watch(attr.boxable, function (value) {
+//          boundingBox = value;
+//        });
+//
+//        el.bind('mousedown', function (e) {
+//
+//          var transform = el[0].getCTM();
 //          transform.scale = true;
 //          var transformMatrix = transform.a + " " + transform.b + " " + transform.c + " " + transform.d + " " + transform.e + " " + transform.f;
 //
-//          $attrs.$set('boxable', {
-//            box: $element[0].getBBox(),
-//            transform: transformMatrix
+//          $scope.$apply(function () {
+//            $scope.boundingBox = {
+//              box: el[0].getBBox(),
+//              transform: transformMatrix
+//            };
 //          });
 //        });
 //      }
-    };
-  })
+//    };
+//  })
 //      link: function ($scope, el, attr) {
 //
 //        el.bind('mousedown', function (e) {

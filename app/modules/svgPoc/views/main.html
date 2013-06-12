@@ -14,15 +14,23 @@
       <!--<bounding-box model="boundingBox"></bounding-box>-->
       <rect ng-attr-x="{{boundingBox.box.x - 3}}" ng-attr-y="{{boundingBox.box.y - 3}}"
             ng-attr-width="{{boundingBox.box.width + 3}}" ng-attr-height="{{boundingBox.box.height + 3}}"
-            stroke="red" fill="yellow" opacity="0.4"/>
+            stroke="red" fill="yellow" opacity="0.4"></rect>
       <g stroke="green" fill="grey" stroke-width="1" ng-repeat="box in boxes">
-        <circle drag="box" ng-mouseDown="setActive(box, $event)"
+        <circle r="15"
+                drag="box"
+                ng-mouseDown="setActive(box, $event)"
                 ng-attr-cx="{{box.x}}"
                 ng-attr-cy="{{box.y}}"
                 ng-attr-fill="{{box.color}}"
-                r="15"></circle>
+                ></circle>
+        <circle stroke="#999999" fill="none" stroke-opacity="1" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="10" shape-rendering="optimizespeed"
+                r="15"
+                ng-if="box.shadow"
+                ng-attr-cx="{{box.x}}"
+                ng-attr-cy="{{box.y}}"
+                ng-attr-transform="translate({{box.shadow.x}},{{box.shadow.y}})"
+        ></circle>
       </g>
-
     </svg>
   </div>
   <div class="span3">
