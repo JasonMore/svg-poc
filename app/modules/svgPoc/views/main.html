@@ -12,23 +12,28 @@
   <div class="span8">
     <svg surface ng-mouseDown="unSelect()" class="svg-drop" height="500px" xmlns="http://www.w3.org/2000/svg" version="1.1">
       <!--<bounding-box model="boundingBox"></bounding-box>-->
-      <rect ng-attr-x="{{boundingBox.box.x - 3}}" ng-attr-y="{{boundingBox.box.y - 3}}"
-            ng-attr-width="{{boundingBox.box.width + 3}}" ng-attr-height="{{boundingBox.box.height + 3}}"
-            stroke="red" fill="yellow" opacity="0.4"></rect>
+      <rect stroke="red" fill="yellow" opacity="0.4"
+        ng-attr-x="{{activeBox.boundingBox.box.x - 3}}"
+        ng-attr-y="{{activeBox.boundingBox.box.y - 3}}"
+        ng-attr-width="{{activeBox.boundingBox.box.width + 6}}"
+        ng-attr-height="{{activeBox.boundingBox.box.height + 6}}"
+        ng-attr-transform="matrix({{activeBox.boundingBox.transform}})"
+        ></rect>
       <g stroke="green" fill="grey" stroke-width="1" ng-repeat="box in boxes">
         <rect width="25" height="25"
-                drag="box"
-                ng-mouseDown="setActive(box, $event)"
-                ng-attr-x="{{box.x}}"
-                ng-attr-y="{{box.y}}"
-                ng-attr-fill="{{box.color}}"
-                ></rect>
+          hasBoundingBox="true"
+          drag="box"
+          ng-mouseDown="setActive(box, $event)"
+          ng-attr-x="{{box.x}}"
+          ng-attr-y="{{box.y}}"
+          ng-attr-fill="{{box.color}}"
+          ></rect>
         <rect stroke="#999999" fill="none" stroke-opacity="1" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="10" shape-rendering="optimizespeed"
-                width="25" height="25"
-                ng-if="box.shadow"
-                ng-attr-x="{{box.x}}"
-                ng-attr-y="{{box.y}}"
-                ng-attr-transform="translate({{box.shadow.x}},{{box.shadow.y}})"
+          width="25" height="25"
+          ng-if="box.shadow"
+          ng-attr-x="{{box.x}}"
+          ng-attr-y="{{box.y}}"
+          ng-attr-transform="translate({{box.shadow.x}},{{box.shadow.y}})"
         ></rect>
       </g>
     </svg>

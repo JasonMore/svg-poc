@@ -10,7 +10,7 @@ angular.module('svgPoc')
     };
   })
 
-  .directive('drag', function ($document, surfaceService) {
+  .directive('drag', function ($document, surfaceService, $timeout) {
     return {
       restrict: 'A',
       link: function ($scope, el, attr) {
@@ -59,9 +59,6 @@ angular.module('svgPoc')
           var x = e.offsetX - shapeOffsetX,
               y = e.offsetY - shapeOffsetY;
 
-//          var transform = el[0].getCTM();
-//          transform.scale = true;
-//          var transformMatrix = transform.a + " " + transform.b + " " + transform.c + " " + transform.d + " " + transform.e + " " + transform.f;
 
           $scope.$apply(function () {
 
@@ -72,11 +69,18 @@ angular.module('svgPoc')
               box.y = y;
             }
 
-//            $scope.$parent.boundingBox = {
-//              box: el[0].getBBox(),
-//              transform: transformMatrix
-//            };
-//
+            // hack :-(
+            // need to calculate transformation after box moved
+            $timeout(function() {
+              var transform = el[0].getCTM();
+              transform.scale = true;
+              var transformMatrix = transform.a + " " + transform.b + " " + transform.c + " " + transform.d + " " + transform.e + " " + transform.f;
+
+              box.boundingBox = {
+                box: el[0].getBBox(),
+                transform: transformMatrix
+              };
+            }, 0);
 
           });
         }
@@ -139,6 +143,13 @@ angular.module('svgPoc')
 //      }
 
     };
+  })
+
+  .directive('hasBoundingBox', function() {
+    return {
+      restrict: 'A',
+      template: 'hihihi'
+    }
   })
 
 //  .directive('boxable', function (surfaceService) {

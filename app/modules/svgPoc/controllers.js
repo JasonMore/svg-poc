@@ -13,17 +13,30 @@ angular.module('svgPoc')
     };
 
     $scope.activeBox = null;
-    $scope.boundingBox = emptyBoundingBox;
+//    $scope.activeBox.boundingBox = emptyBoundingBox;
 
-    $scope.setActive = function(box){
+    $scope.setActive = function(box, $event){
       $scope.isClicking = true;
       $scope.activeBox = box;
+      $scope.activeBox.boundingBox = calculateBoundingBox(box, $event);
 
       // will be set after all other click handlers are run
       $timeout(function() {
         $scope.isClicking = false;
       }, 0);
     };
+
+//    move to directive
+    function calculateBoundingBox(box, $event){
+      var transform = $event.target.getCTM();
+      transform.scale = true;
+      var transformMatrix = transform.a + " " + transform.b + " " + transform.c + " " + transform.d + " " + transform.e + " " + transform.f;
+
+      return {
+        box: $event.target.getBBox(),
+        transform: transformMatrix
+      };
+    }
 
     $scope.unSelect = function() {
       if($scope.isClicking){
