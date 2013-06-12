@@ -30,7 +30,6 @@ angular.module('svgPoc')
         });
 
         function drag(e){
-
           if(!originalX || !originalY){
             // start of drag
             originalX = e.offsetX;
@@ -51,9 +50,12 @@ angular.module('svgPoc')
           surfaceService.element.unbind('mousemove', drag);
           surfaceService.element.unbind('mouseup', dragDone);
 
-          originalX = null;
+          var isMouseClick = isJustMouseClick(e);
+
+          originalX = null
           originalY = null;
 
+          //debugger;
           var x = e.offsetX - shapeOffsetX,
               y = e.offsetY - shapeOffsetY;
 
@@ -62,10 +64,13 @@ angular.module('svgPoc')
 //          var transformMatrix = transform.a + " " + transform.b + " " + transform.c + " " + transform.d + " " + transform.e + " " + transform.f;
 
           $scope.$apply(function () {
+
             box.shadow = null;
 
-            box.x = x;
-            box.y = y;
+            if(!isMouseClick){
+              box.x = x;
+              box.y = y;
+            }
 
 //            $scope.$parent.boundingBox = {
 //              box: el[0].getBBox(),
@@ -74,6 +79,25 @@ angular.module('svgPoc')
 //
 
           });
+        }
+
+        function isJustMouseClick(e){
+          if(!originalX || !originalY){
+              return true;
+          }
+          
+          var xMovement = originalX - e.offsetX;
+          var xMovedLittle = xMovement < 3 && xMovement > -3;
+
+          var yMovement = originalY - e.offsetY;
+          var yMovedLittle = yMovement < 3 && yMovement > -3;
+
+          if(xMovedLittle && yMovedLittle){
+            // just a mouse click
+            return true;
+          }
+
+          return false;
         }
       }
     };
