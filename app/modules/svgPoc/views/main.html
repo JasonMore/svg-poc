@@ -10,34 +10,60 @@
     </div>
   </div>
   <div class="span8">
-    <svg surface ng-mouseDown="unSelect()" class="svg-drop" height="500px" xmlns="http://www.w3.org/2000/svg" version="1.1">
+    <svg class="svg-drop" height="500px" xmlns="http://www.w3.org/2000/svg" version="1.1"
+         surface
+         ng-mouseDown="unSelect()"
+        >
+      <g stroke="green" fill="grey" stroke-width="1" ng-repeat="box in boxes">
+        <rect class="move" width="50" height="50"
+              hasBoundingBox="true"
+              drag="box"
+              ng-mouseDown="setActive(box, $event)"
+              ng-attr-x="{{box.x}}"
+              ng-attr-y="{{box.y}}"
+              ng-attr-fill="{{box.color}}"
+            ></rect>
+        <rect class="move" stroke="#999999" fill="none" stroke-opacity="1" stroke-linecap="square" stroke-linejoin="miter"
+              stroke-miterlimit="10" shape-rendering="optimizespeed"
+              width="50" height="50"
+              ng-if="box.shadow"
+              ng-attr-x="{{box.x}}"
+              ng-attr-y="{{box.y}}"
+              ng-attr-transform="translate({{box.shadow.x}},{{box.shadow.y}})"
+            ></rect>
+      </g>
+
+      <!--bounding box template-->
+      <g ng-if="activeBox.boundingBox">
+        <rect stroke="blue" fill="none" opacity="0.4"
+              ng-attr-x="{{activeBox.boundingBox.box.x - 3}}"
+              ng-attr-y="{{activeBox.boundingBox.box.y - 3}}"
+              ng-attr-width="{{activeBox.boundingBox.box.width + 6}}"
+              ng-attr-height="{{activeBox.boundingBox.box.height + 6}}"
+              ng-attr-transform="matrix({{activeBox.boundingBox.transform}})"
+            ></rect>
+        <rect class="nwse-resize" stroke="white" fill="blue" width="6" height="6"
+              ng-attr-x="{{activeBox.boundingBox.box.x - 6 }}"
+              ng-attr-y="{{activeBox.boundingBox.box.y - 6}}"
+            ></rect>
+        <rect class="nesw-resize" stroke="white" fill="blue" width="6" height="6"
+              ng-attr-x="{{activeBox.boundingBox.box.x + activeBox.boundingBox.box.width}}"
+              ng-attr-y="{{activeBox.boundingBox.box.y - 6}}"
+            ></rect>
+        <rect class="nwse-resize" stroke="white" fill="blue" width="6" height="6"
+              ng-attr-x="{{activeBox.boundingBox.box.x + activeBox.boundingBox.box.width}}"
+              ng-attr-y="{{activeBox.boundingBox.box.y + activeBox.boundingBox.box.height}}"
+            ></rect>
+        <rect class="nesw-resize" stroke="white" fill="blue" width="6" height="6"
+              ng-attr-x="{{activeBox.boundingBox.box.x - 6}}"
+              ng-attr-y="{{activeBox.boundingBox.box.y + activeBox.boundingBox.box.height}}"
+            ></rect>
+      </g>
+
+      <!--/ bounding box template-->
+
       <!--why don't templates work :-(-->
       <bounding-box asdfasdf="activeBox.boundingBox"></bounding-box>
-
-      <rect stroke="red" fill="yellow" opacity="0.4"
-        ng-attr-x="{{activeBox.boundingBox.box.x - 3}}"
-        ng-attr-y="{{activeBox.boundingBox.box.y - 3}}"
-        ng-attr-width="{{activeBox.boundingBox.box.width + 6}}"
-        ng-attr-height="{{activeBox.boundingBox.box.height + 6}}"
-        ng-attr-transform="matrix({{activeBox.boundingBox.transform}})"
-        ></rect>
-      <g stroke="green" fill="grey" stroke-width="1" ng-repeat="box in boxes">
-        <rect width="25" height="25"
-          hasBoundingBox="true"
-          drag="box"
-          ng-mouseDown="setActive(box, $event)"
-          ng-attr-x="{{box.x}}"
-          ng-attr-y="{{box.y}}"
-          ng-attr-fill="{{box.color}}"
-          ></rect>
-        <rect stroke="#999999" fill="none" stroke-opacity="1" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="10" shape-rendering="optimizespeed"
-          width="25" height="25"
-          ng-if="box.shadow"
-          ng-attr-x="{{box.x}}"
-          ng-attr-y="{{box.y}}"
-          ng-attr-transform="translate({{box.shadow.x}},{{box.shadow.y}})"
-        ></rect>
-      </g>
     </svg>
   </div>
   <div class="span3">

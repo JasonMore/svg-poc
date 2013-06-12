@@ -114,7 +114,6 @@ angular.module('svgPoc')
       replace: true,
 //      transclude: true,
       scope: {
-        asdfasdf: '='
       },
       controller: function($scope, $element, $attrs){
 

@@ -2,6 +2,8 @@
 
 angular.module('svgPoc')
   .controller('mainCtrl', function($scope, $timeout) {
+    $scope.shapes = [];
+
     $scope.boxes = [
       {x:100, y:50, color:"blue"},
       {x:25, y:25, color:"red"}
