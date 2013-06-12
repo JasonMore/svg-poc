@@ -14,41 +14,58 @@ angular.module('svgPoc')
     return {
       restrict: 'A',
       link: function ($scope, el, attr) {
-        var box;
+        var box,
+          originalX,
+          originalY,
+          shapeOffsetX,
+          shapeOffsetY;
 
         $scope.$watch(attr.drag, function (value) {
           box = value;
         });
 
+        el.bind('mousedown', function (e) {
+          surfaceService.element.bind('mousemove', drag);
+          surfaceService.element.bind('mouseup', dragDone);
+        });
 
+        function drag(e){
 
-        var drag = function(e){
-          var x = e.offsetX - $scope.box.x,
-              y = e.offsetY - $scope.box.y;
+          if(!originalX || !originalY){
+            // start of drag
+            originalX = e.offsetX;
+            originalY = e.offsetY;
+            shapeOffsetX = originalX - box.x;
+            shapeOffsetY = originalY - box.y;
+          }
+
+          var x = e.offsetX - originalX,
+              y = e.offsetY - originalY;
 
           $scope.$apply(function () {
             box.shadow = {x: x, y: y};
           });
-        };
-
+        }
 
         function dragDone(e) {
           surfaceService.element.unbind('mousemove', drag);
           surfaceService.element.unbind('mouseup', dragDone);
 
-          var x = e.offsetX,
-            y = e.offsetY;
+          originalX = null;
+          originalY = null;
+
+          var x = e.offsetX - shapeOffsetX,
+              y = e.offsetY - shapeOffsetY;
 
 //          var transform = el[0].getCTM();
 //          transform.scale = true;
 //          var transformMatrix = transform.a + " " + transform.b + " " + transform.c + " " + transform.d + " " + transform.e + " " + transform.f;
 
           $scope.$apply(function () {
+            box.shadow = null;
 
-            $scope.box.shadow = null;
-
-            $scope.box.x = x;
-            $scope.box.y = y;
+            box.x = x;
+            box.y = y;
 
 //            $scope.$parent.boundingBox = {
 //              box: el[0].getBBox(),
@@ -58,13 +75,6 @@ angular.module('svgPoc')
 
           });
         }
-
-        el.bind('mousedown', function (e) {
-          surfaceService.element.bind('mousemove', drag);
-          surfaceService.element.bind('mouseup', dragDone);
-        });
-
-       
       }
     };
   })

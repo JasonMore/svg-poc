@@ -16,20 +16,20 @@
             ng-attr-width="{{boundingBox.box.width + 3}}" ng-attr-height="{{boundingBox.box.height + 3}}"
             stroke="red" fill="yellow" opacity="0.4"></rect>
       <g stroke="green" fill="grey" stroke-width="1" ng-repeat="box in boxes">
-        <circle r="15"
+        <rect width="25" height="25"
                 drag="box"
                 ng-mouseDown="setActive(box, $event)"
-                ng-attr-cx="{{box.x}}"
-                ng-attr-cy="{{box.y}}"
+                ng-attr-x="{{box.x}}"
+                ng-attr-y="{{box.y}}"
                 ng-attr-fill="{{box.color}}"
-                ></circle>
-        <circle stroke="#999999" fill="none" stroke-opacity="1" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="10" shape-rendering="optimizespeed"
-                r="15"
+                ></rect>
+        <rect stroke="#999999" fill="none" stroke-opacity="1" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="10" shape-rendering="optimizespeed"
+                width="25" height="25"
                 ng-if="box.shadow"
-                ng-attr-cx="{{box.x}}"
-                ng-attr-cy="{{box.y}}"
+                ng-attr-x="{{box.x}}"
+                ng-attr-y="{{box.y}}"
                 ng-attr-transform="translate({{box.shadow.x}},{{box.shadow.y}})"
-        ></circle>
+        ></rect>
       </g>
     </svg>
   </div>

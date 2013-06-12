@@ -19,6 +19,7 @@ angular.module('svgPoc')
       $scope.isClicking = true;
       $scope.activeBox = box;
 
+      // will be set after all other click handlers are run
       $timeout(function() {
         $scope.isClicking = false;
       }, 0);
