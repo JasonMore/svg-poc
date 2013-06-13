@@ -209,12 +209,6 @@ angular.module('svgPoc')
       templateUrl: 'modules/svgPoc/partials/boundingBox.html',
       replace: true,
       compile: svgService.compile
-//      transclude: true,
-//      scope: {
-//      },
-//      controller: function ($scope, $element, $attrs) {
-//
-//      }
     };
   })
 
@@ -229,5 +223,3 @@ angular.module('svgPoc')
 
 
 ;
-
-

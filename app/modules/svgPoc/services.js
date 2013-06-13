@@ -6,16 +6,36 @@ angular.module('svgPoc')
     this.transform;
   })
 
+  // this is broken for now
   .service('svgService', function(){
-    this.compile = function(elem, attrs, transclude) {
 
-      var xmlns = "http://www.w3.org/2000/svg";
-      var replacement = document.createElementNS(xmlns,elem[0].localName);
-      var a = elem[0].attributes;
-      for (var i = 0; i < a.length ; i++) {
-        replacement.setAttribute(a[i].name, a[i].value);
+    var xmlns = "http://www.w3.org/2000/svg";
+    var compileNode = function(angularElement){
+      var rawElement = angularElement[0];
+
+      if(!rawElement.localName){
+        return document.createTextNode(rawElement.wholeText);
       }
-      elem.replaceWith(replacement);
+      var replacement = document.createElementNS(xmlns,rawElement.localName);
+      var children = angularElement.children();
+      
+      angular.forEach(children, function (value) {
+        var newChildNode = compileNode(angular.element(value));
+        replacement.appendChild(newChildNode[0]);
+      });
+
+      var attributes = rawElement.attributes;
+      for (var i = 0; i < attributes.length ; i++) {
+        replacement.setAttribute(attributes[i].name, attributes[i].value);
+      }
+      angularElement = angularElement.replaceWith(replacement);
+
+      return angularElement;
+    };
+
+    this.compile = function(elem, attrs, transclude) {
+      compileNode(elem);
+
       return function postLink(scope, elem,attrs,controller){
 //        console.log('link called');
       };
