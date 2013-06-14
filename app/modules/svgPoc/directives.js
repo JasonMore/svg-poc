@@ -97,17 +97,15 @@
       };
     })
 
-    .directive('resize', function (svgService) {
+    .directive('resize', function (surfaceService, svgService) {
       return {
         restrict: 'A',
         link: function ($scope, el, attr) {
           var box,
             originalX,
-            originalY,
-            shapeOffsetX,
-            shapeOffsetY;
+            originalY;
 
-          $scope.$watch(attr.drag, function (value) {
+          $scope.$watch(attr.resize, function (value) {
             box = value;
           });
 
@@ -121,15 +119,13 @@
               // start of drag
               originalX = e.offsetX;
               originalY = e.offsetY;
-              shapeOffsetX = originalX - box.x;
-              shapeOffsetY = originalY - box.y;
             }
 
-            var x = e.offsetX - originalX,
-              y = e.offsetY - originalY;
+            var x = e.offsetX / originalX,
+              y = e.offsetY / originalY;
 
             $scope.$apply(function () {
-              box.shadow = {x: x, y: y};
+              box.shadow.scale = {x: x, y: y};
             });
           }
 
@@ -146,7 +142,6 @@
             var x = e.offsetX - shapeOffsetX,
               y = e.offsetY - shapeOffsetY;
 
-
             $scope.$apply(function () {
 
               box.shadow = null;
@@ -155,7 +150,6 @@
                 box.x = x;
                 box.y = y;
               }
-
 
               svgService.recalculateTransformation(el[0], box);
             });
@@ -183,15 +177,25 @@
 
       }
     })
+//
+//    .directive('boundingBox', function (svgService) {
+//      return {
+//        restrict: 'E',
+//        templateUrl: 'boundingBox_inline_big.html',
+//        replace: true,
+//        compile: svgService.compile
+//      };
+//    })
 
-    .directive('boundingBox', function (svgService) {
-      return {
-        restrict: 'E',
-        templateUrl: 'modules/svgPoc/partials/boundingBox.html',
-        replace: true,
-        compile: svgService.compile
-      };
-    })
+  .directive('boundingBox', function(svgService, $templateCache) {
+    return {
+      restrict: 'E',
+      //templateUrl: 'boundingBox.html',
+      template: $templateCache.get('boundingBox_inline_big.html'),
+      replace: true,
+      compile: svgService.compile
+    };
+  })
 
     .directive('corner', function (svgService) {
       return {

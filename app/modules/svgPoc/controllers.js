@@ -15,7 +15,6 @@ angular.module('svgPoc')
     };
 
     $scope.activeBox = null;
-//    $scope.activeBox.boundingBox = emptyBoundingBox;
 
     $scope.setActive = function(box, $event){
       $scope.isClicking = true;
