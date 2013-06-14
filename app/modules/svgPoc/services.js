@@ -27,11 +27,15 @@
       // converts all DOM elements in a template to SVG elements
       this.compileNode = function() {
 
-        // set namespace so correct SVG element type is created
-        var xmlns = "http://www.w3.org/2000/svg";
+        return function (elem, attrs, transclude) {
+          compileNode(elem);
 
-        // setup a function we can call recursively
-        var compileNode = function (angularElement) {
+          return function postLink(scope, elem, attrs, controller) {
+            //        console.log('link called');
+          };
+        }
+
+        function compileNode(angularElement) {
           var rawElement = angularElement[0];
 
           //new lines have no localName
@@ -39,6 +43,9 @@
             var text = document.createTextNode(rawElement.wholeText);
             return angular.element(text);
           }
+
+          // set namespace so correct SVG element type is created
+          var xmlns = "http://www.w3.org/2000/svg";
 
           // create a new SVG node with the name
           var replacement = document.createElementNS(xmlns, rawElement.localName);
@@ -68,17 +75,7 @@
           // return the new element wrapped in an angular element
           return angular.element(replacement);
         };
-
-        return function (elem, attrs, transclude) {
-          compileNode(elem);
-
-          return function postLink(scope, elem, attrs, controller) {
-            //        console.log('link called');
-          };
-        }
       }
-
-
     })
   ;
 }());
