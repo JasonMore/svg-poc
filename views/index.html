@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="svgPoc"></html>
+<html ng-app="app"></html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -20,8 +20,8 @@
     <a class="brand" href="#">Svg Poc</a>
     <ul class="nav">
       <li><a href="#">Home</a></li>
-      <li><a href="#/poc">POC</a></li>
-      <!--<li><a href="#/route2">Route 2</a></li>-->
+      <li><a href="#/svgPoc">SVG Poc</a></li>
+      <li><a href="#/textWrap">Text Wrap</a></li>
     </ul>
   </div>
 </div>
@@ -36,7 +36,14 @@
   <script src="components/ui-router/release/angular-ui-router.js"></script>
 
   <!-- build:js scripts/scripts.js -->
-  <script src="modules/svgPoc/app.js"></script>
+  <script src="modules/app.js"></script>
+  <script src="modules/main/module.js"></script>
+  <script src="modules/main/controllers.js"></script>
+  <script src="modules/textWrap/module.js"></script>
+  <script src="modules/textWrap/controllers.js"></script>
+  <!--<script src="modules/svgPoc/directives.js"></script>-->
+  <!--<script src="modules/svgPoc/services.js"></script>-->
+  <script src="modules/svgPoc/module.js"></script>
   <script src="modules/svgPoc/controllers.js"></script>
   <script src="modules/svgPoc/directives.js"></script>
   <script src="modules/svgPoc/services.js"></script>

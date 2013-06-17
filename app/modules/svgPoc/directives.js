@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular.module('svgPoc')
@@ -54,7 +54,7 @@
 
             var isMouseClick = isJustMouseClick(e);
 
-            originalX = null
+            originalX = null;
             originalY = null;
 
             //debugger;
@@ -86,12 +86,7 @@
             var yMovement = originalY - e.offsetY;
             var yMovedLittle = yMovement < 3 && yMovement > -3;
 
-            if (xMovedLittle && yMovedLittle) {
-              // just a mouse click
-              return true;
-            }
-
-            return false;
+            return xMovedLittle && yMovedLittle;
           }
         }
       };
@@ -125,7 +120,16 @@
               y = e.offsetY / originalY;
 
             $scope.$apply(function () {
-              box.shadow.scale = {x: x, y: y};
+              if (!box.shadow) {
+                box.shadow = {};
+              }
+
+              box.shadow = {
+                x: 0,
+                y: 0,
+                scale: {x: x, y: y}
+              };
+//              box.shadow.scale = {x: x, y: y};
             });
           }
 
@@ -133,26 +137,25 @@
             surfaceService.element.unbind('mousemove', drag);
             surfaceService.element.unbind('mouseup', dragDone);
 
-            var isMouseClick = isJustMouseClick(e);
-
+//            var isMouseClick = isJustMouseClick(e);
+//
             originalX = null
             originalY = null;
-
-            //debugger;
-            var x = e.offsetX - shapeOffsetX,
-              y = e.offsetY - shapeOffsetY;
-
-            $scope.$apply(function () {
-
-              box.shadow = null;
-
-              if (!isMouseClick) {
-                box.x = x;
-                box.y = y;
-              }
-
-              svgService.recalculateTransformation(el[0], box);
-            });
+//
+//            var x = e.offsetX - shapeOffsetX,
+//              y = e.offsetY - shapeOffsetY;
+//
+//            $scope.$apply(function () {
+//
+//              box.shadow = null;
+//
+//              if (!isMouseClick) {
+//                box.x = x;
+//                box.y = y;
+//              }
+//
+//              svgService.recalculateTransformation(el[0], box);
+//            });
           }
 
           function isJustMouseClick(e) {
@@ -187,15 +190,15 @@
 //      };
 //    })
 
-  .directive('boundingBox', function(svgService, $templateCache) {
-    return {
-      restrict: 'E',
-      //templateUrl: 'boundingBox.html',
-      template: $templateCache.get('boundingBox_inline_big.html'),
-      replace: true,
-      compile: svgService.compile
-    };
-  })
+    .directive('boundingBox', function (svgService, $templateCache) {
+      return {
+        restrict: 'E',
+        //templateUrl: 'boundingBox.html',
+        template: $templateCache.get('boundingBox_inline_big.html'),
+        replace: true,
+        compile: svgService.compile
+      };
+    })
 
     .directive('corner', function (svgService) {
       return {

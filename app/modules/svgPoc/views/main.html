@@ -1,35 +1,35 @@
-<script type="text/ng-template" id="modules/svgPoc/partials/boundingBox.html">
-  <g ng-show="activeBox.boundingBox">
-    <rect stroke="blue" fill="none" opacity="0.4"
-          ng-attr-x="{{activeBox.boundingBox.box.x - 3}}"
-          ng-attr-y="{{activeBox.boundingBox.box.y - 3}}"
-          ng-attr-width="{{activeBox.boundingBox.box.width + 6}}"
-          ng-attr-height="{{activeBox.boundingBox.box.height + 6}}"
-          ng-attr-transform="matrix({{activeBox.boundingBox.transform}})"
-        ></rect>
-    <!--top left-->
-    <rect class="nwse-resize" stroke="white" fill="blue" width="6" height="6"
-          ng-attr-x="{{activeBox.boundingBox.box.x - 6 }}"
-          ng-attr-y="{{activeBox.boundingBox.box.y - 6}}"
-        ></rect>
-    <corner></corner>
-    <!--top right-->
-    <rect class="nesw-resize" stroke="white" fill="blue" width="6" height="6"
-          ng-attr-x="{{activeBox.boundingBox.box.x + activeBox.boundingBox.box.width}}"
-          ng-attr-y="{{activeBox.boundingBox.box.y - 6}}"
-        ></rect>
-    <!--bottom right-->
-    <rect class="nwse-resize" stroke="white" fill="blue" width="6" height="6"
-          ng-attr-x="{{activeBox.boundingBox.box.x + activeBox.boundingBox.box.width}}"
-          ng-attr-y="{{activeBox.boundingBox.box.y + activeBox.boundingBox.box.height}}"
-          resize=""
-        ></rect>
-    <!--bottom left-->
-    <rect class="nesw-resize" stroke="white" fill="blue" width="6" height="6"
-          ng-attr-x="{{activeBox.boundingBox.box.x - 6}}"
-          ng-attr-y="{{activeBox.boundingBox.box.y + activeBox.boundingBox.box.height}}"
-        ></rect>
-  </g>
+<script type="text/ng-template" id="boundingBox_inline_big.html">
+<g ng-show="activeBox.boundingBox">
+  <rect stroke="blue" fill="none" opacity="0.4"
+        ng-attr-x="{{activeBox.boundingBox.box.x - 3}}"
+        ng-attr-y="{{activeBox.boundingBox.box.y - 3}}"
+        ng-attr-width="{{activeBox.boundingBox.box.width + 6}}"
+        ng-attr-height="{{activeBox.boundingBox.box.height + 6}}"
+        ng-attr-transform="matrix({{activeBox.boundingBox.transform}})"
+      ></rect>
+  <!--top left-->
+  <rect class="nwse-resize" stroke="white" fill="blue" width="6" height="6"
+        ng-attr-x="{{activeBox.boundingBox.box.x - 6 }}"
+        ng-attr-y="{{activeBox.boundingBox.box.y - 6}}"
+      ></rect>
+  <corner></corner>
+  <!--top right-->
+  <rect class="nesw-resize" stroke="white" fill="blue" width="6" height="6"
+        ng-attr-x="{{activeBox.boundingBox.box.x + activeBox.boundingBox.box.width}}"
+        ng-attr-y="{{activeBox.boundingBox.box.y - 6}}"
+      ></rect>
+  <!--bottom right-->
+  <rect class="nwse-resize" stroke="white" fill="blue" width="6" height="6"
+        ng-attr-x="{{activeBox.boundingBox.box.x + activeBox.boundingBox.box.width}}"
+        ng-attr-y="{{activeBox.boundingBox.box.y + activeBox.boundingBox.box.height}}"
+        resize="activeBox"
+      ></rect>
+  <!--bottom left-->
+  <rect class="nesw-resize" stroke="white" fill="blue" width="6" height="6"
+        ng-attr-x="{{activeBox.boundingBox.box.x - 6}}"
+        ng-attr-y="{{activeBox.boundingBox.box.y + activeBox.boundingBox.box.height}}"
+      ></rect>
+</g>
 </script>
 
 <div class="row-fluid">
@@ -45,8 +45,8 @@
   </div>
   <div class="span8">
     <svg class="svg-drop" height="500px" xmlns="http://www.w3.org/2000/svg" version="1.1"
-         surface
-         ng-mouseDown="unSelect()"
+         surface=""
+         ng-mouseDown="unSelect($event)"
         >
       <g stroke="green" fill="grey" stroke-width="1" ng-repeat="box in boxes">
         <rect class="move" width="50" height="50"
@@ -62,9 +62,7 @@
               stroke-miterlimit="10" shape-rendering="optimizespeed"
               width="50" height="50"
               ng-if="box.shadow"
-              ng-attr-x="{{box.x}}"
-              ng-attr-y="{{box.y}}"
-              ng-attr-transform="translate({{box.shadow.x}},{{box.shadow.y}})"
+              ng-attr-transform="translate({{box.x}},{{box.y}}), scale({{box.shadow.scale.x}}, {{box.shadow.scale.y}})"
             ></rect>
       </g>
       <!--<bounding-box></bounding-box>-->
