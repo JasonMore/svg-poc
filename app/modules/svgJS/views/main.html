@@ -4,10 +4,15 @@
   <div ng-repeat="shape in shapes">
     <div ng-switch on="shape.type">
       <div ng-switch-when="rect">
-        <svg-rect draggable width="shape.width" height="shape.height"></svg-rect>
+        <svg-rect
+            draggable="shape.canDrag"
+            width="shape.width"
+            height="shape.height"></svg-rect>
       </div>
       <div ng-switch-when="path">
-        <svg-path definition="shape.define"></svg-path>
+        <svg-path
+            draggable="shape.canDrag"
+            definition="shape.define"></svg-path>
       </div>
     </div>
   </div>

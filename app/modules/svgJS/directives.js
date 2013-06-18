@@ -12,78 +12,85 @@
           width: '@',
           height: '@'
         },
-        controller: function($scope) {
+        controller: function ($scope) {
           this.draw = SVG('drawCanvas').size($scope.width, $scope.height);
         },
-        link: function(scope, el, attrs, controller){
+        link: function (scope, el, attrs, controller) {
 //          scope.draw = SVG('drawCanvas').size(scope.width, scope.height);
         }
       };
     })
 
-    .directive('svgRect', function() {
+    .directive('svgRect', function () {
       return {
-        restrict:'E',
-        require:'^svgSurface',
+        restrict: 'E',
+        require: '^svgSurface',
         scope: {
           width: '=',
           height: '='
         },
-        link: function(scope, el, attrs, svgSurface) {
-          var rect = svgSurface.draw.rect(scope.width, scope.height);
+        link: function (scope, el, attrs, svgSurface) {
+          scope.shape = svgSurface.draw.rect(scope.width, scope.height);
 
-          scope.rect = rect;
-
-          scope.$watch('width + height', function(newVal, oldVal){
-            if(newVal == oldVal) { return; }
-            rect.size(scope.width, scope.height);
+          scope.$watch('width + height', function (newVal, oldVal) {
+            if (newVal == oldVal) {
+              return;
+            }
+            scope.shape.size(scope.width, scope.height);
           });
 
-          scope.$on('$destroy', function() {
-            rect.remove();
+          scope.$on('$destroy', function () {
+            scope.shape.remove();
           })
         }
       }
     })
 
-    .directive('svgPath', function() {
+    .directive('svgPath', function () {
       return {
-        restrict:'E',
-        require:'^svgSurface',
+        restrict: 'E',
+        require: '^svgSurface',
         scope: {
           definition: '='
         },
-        link: function(scope, el, attrs, svgSurface) {
-          var path = svgSurface.draw.path(scope.definition);
+        link: function (scope, el, attrs, svgSurface) {
+          scope.shape = svgSurface.draw.path(scope.definition);
 
-          //this.path = scope.path;
-
-          scope.$watch('definition', function(newVal, oldVal){
-            if(newVal == oldVal) { return; }
-            path.attr('d',newVal);
+          scope.$watch('definition', function (newVal, oldVal) {
+            if (newVal == oldVal) {
+              return;
+            }
+            scope.shape.attr('d', newVal);
           });
 
           scope.$on('$destroy', function () {
-            path.remove();
+            scope.shape.remove();
           });
         }
       }
     })
 
-    .directive('draggable', function() {
+//  https://github.com/wout/svg.draggable.js
+    .directive('draggable', function () {
       return {
-        restrict:'A',
+        restrict: 'A',
 //        require:'^svgSurface',
 //        scope: {
 //          definition: '='
 //        },
-        link: function(scope, el, attrs, svgSurface) {
-//          debugger;
-          scope.rect.draggable();
+        link: function (scope, el, attr) {
+          scope.$watch(attr.draggable, function (newVal, oldVal) {
+            if(newVal){
+              scope.shape.draggable();
+            } else if(scope.shape.fixed){
+              scope.shape.fixed();
+            }
+          });
         }
       }
     })
 
   ;
+
 
 }());
