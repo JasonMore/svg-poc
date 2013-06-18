@@ -1,5 +1,19 @@
 <h1>SVG JS</h1>
 
 <svg-surface class="svg-drop" width="500" height="500">
-  <svg-rect width="100" height="50"></svg-rect>
+  <div ng-repeat="shape in shapes">
+    <div ng-switch on="shape.type">
+      <div ng-switch-when="rect">
+        <svg-rect draggable width="shape.width" height="shape.height"></svg-rect>
+      </div>
+      <div ng-switch-when="path">
+        <svg-path definition="shape.define"></svg-path>
+      </div>
+    </div>
+  </div>
+
+
+  <!--<svg-rect width="100" height="50"></svg-rect>-->
 </svg-surface>
+
+ <button ng-click="change()">change!</button>

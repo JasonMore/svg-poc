@@ -25,18 +25,65 @@
       return {
         restrict:'E',
         require:'^svgSurface',
-        replace: true,
-        transclude: true,
-        template:'<div ng-transclude></div>',
         scope: {
-          width: '@',
-          height: '@'
+          width: '=',
+          height: '='
         },
         link: function(scope, el, attrs, svgSurface) {
-          svgSurface.draw.rect(scope.width, scope.height);
+          var rect = svgSurface.draw.rect(scope.width, scope.height);
+
+          scope.rect = rect;
+
+          scope.$watch('width + height', function(newVal, oldVal){
+            if(newVal == oldVal) { return; }
+            rect.size(scope.width, scope.height);
+          });
+
+          scope.$on('$destroy', function() {
+            rect.remove();
+          })
         }
       }
-    });
+    })
+
+    .directive('svgPath', function() {
+      return {
+        restrict:'E',
+        require:'^svgSurface',
+        scope: {
+          definition: '='
+        },
+        link: function(scope, el, attrs, svgSurface) {
+          var path = svgSurface.draw.path(scope.definition);
+
+          //this.path = scope.path;
+
+          scope.$watch('definition', function(newVal, oldVal){
+            if(newVal == oldVal) { return; }
+            path.attr('d',newVal);
+          });
+
+          scope.$on('$destroy', function () {
+            path.remove();
+          });
+        }
+      }
+    })
+
+    .directive('draggable', function() {
+      return {
+        restrict:'A',
+//        require:'^svgSurface',
+//        scope: {
+//          definition: '='
+//        },
+        link: function(scope, el, attrs, svgSurface) {
+//          debugger;
+          scope.rect.draggable();
+        }
+      }
+    })
+
   ;
 
 }());

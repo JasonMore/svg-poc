@@ -6,6 +6,7 @@
     "es5-shim": "~2.0.8",
     "angularjs-bower": "latest",
     "svg.js": "latest",
-    "angular-ui-router": "~0.0.1"
+    "angular-ui-router": "~0.0.1",
+    "svg.draggable.js": "https://github.com/wout/svg.draggable.js.git"
   }
 }
