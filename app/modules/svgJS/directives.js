@@ -80,11 +80,11 @@
 //        },
         link: function (scope, el, attr) {
           scope.$watch(attr.draggable, function (newVal, oldVal) {
-            if(newVal){
+//            if(newVal){
               scope.shape.draggable();
-            } else if(scope.shape.fixed){
-              scope.shape.fixed();
-            }
+//            } else if(scope.shape.fixed){
+//              scope.shape.fixed();
+//            }
           });
         }
       }

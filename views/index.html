@@ -22,6 +22,7 @@
       <li><a href="#/">Home</a></li>
       <li><a href="#/svgPoc">SVG Poc</a></li>
       <li><a href="#/svgJS">SVG JS test</a></li>
+      <li><a href="#/svgShell">Jquery Svg</a></li>
     </ul>
   </div>
 </div>
@@ -29,6 +30,7 @@
 <!-- Add your site or application content here -->
 <ng-view>
 
+  <script src="components/jquery/jquery.js"></script>
   <script src="components/angularjs-bower/angular.js"></script>
   <script src="components/angularjs-bower/angular-resource.js"></script>
   <script src="components/angularjs-bower/angular-cookies.js"></script>
@@ -36,19 +38,29 @@
   <script src="components/angular-ui-router/release/angular-ui-router.js"></script>
   <script src="components/svg.js/dist/svg.js"></script>
   <script src="components/svg.draggable.js/svg.draggable.js"></script>
+  <script src="components/jquery.svg/jquery.svg.min.js"></script>
 
   <!-- build:js scripts/scripts.js -->
   <script src="modules/app.js"></script>
+
   <script src="modules/main/module.js"></script>
   <script src="modules/main/controllers.js"></script>
+
   <script src="modules/svgJS/module.js"></script>
   <script src="modules/svgJS/controllers.js"></script>
   <script src="modules/svgJS/directives.js"></script>
   <script src="modules/svgJS/services.js"></script>
+
   <script src="modules/svgPoc/module.js"></script>
   <script src="modules/svgPoc/controllers.js"></script>
   <script src="modules/svgPoc/directives.js"></script>
   <script src="modules/svgPoc/services.js"></script>
+
+  <script src="modules/svgShell/module.js"></script>
+  <script src="modules/svgShell/controllers.js"></script>
+  <script src="modules/svgShell/other/script.js"></script>
+  <script src="modules/svgShell/other/textflow.js"></script>
+  <script src="modules/svgShell/other/resize.js"></script>
   <!-- endbuild -->
 </body>
 </html>

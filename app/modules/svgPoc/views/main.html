@@ -65,38 +65,38 @@
               ng-attr-transform="translate({{box.x}},{{box.y}}), scale({{box.shadow.scale.x}}, {{box.shadow.scale.y}})"
             ></rect>
       </g>
-      <!--<bounding-box></bounding-box>-->
-      <g ng-show="activeBox.boundingBox">
-        <rect stroke="blue" fill="none" opacity="0.4"
-              ng-attr-x="{{activeBox.boundingBox.box.x - 3}}"
-              ng-attr-y="{{activeBox.boundingBox.box.y - 3}}"
-              ng-attr-width="{{activeBox.boundingBox.box.width + 6}}"
-              ng-attr-height="{{activeBox.boundingBox.box.height + 6}}"
-              ng-attr-transform="matrix({{activeBox.boundingBox.transform}})"
-            ></rect>
-        <!--top left-->
-        <rect class="nwse-resize" stroke="white" fill="blue" width="6" height="6"
-              ng-attr-x="{{activeBox.boundingBox.box.x - 6 }}"
-              ng-attr-y="{{activeBox.boundingBox.box.y - 6}}"
-            ></rect>
-        <corner></corner>
-        <!--top right-->
-        <rect class="nesw-resize" stroke="white" fill="blue" width="6" height="6"
-              ng-attr-x="{{activeBox.boundingBox.box.x + activeBox.boundingBox.box.width}}"
-              ng-attr-y="{{activeBox.boundingBox.box.y - 6}}"
-            ></rect>
-        <!--bottom right-->
-        <rect class="nwse-resize" stroke="white" fill="blue" width="6" height="6"
-              ng-attr-x="{{activeBox.boundingBox.box.x + activeBox.boundingBox.box.width}}"
-              ng-attr-y="{{activeBox.boundingBox.box.y + activeBox.boundingBox.box.height}}"
-              resize="activeBox"
-            ></rect>
-        <!--bottom left-->
-        <rect class="nesw-resize" stroke="white" fill="blue" width="6" height="6"
-              ng-attr-x="{{activeBox.boundingBox.box.x - 6}}"
-              ng-attr-y="{{activeBox.boundingBox.box.y + activeBox.boundingBox.box.height}}"
-            ></rect>
-      </g>
+      <bounding-box></bounding-box>
+      <!--<g ng-show="activeBox.boundingBox">-->
+        <!--<rect stroke="blue" fill="none" opacity="0.4"-->
+              <!--ng-attr-x="{{activeBox.boundingBox.box.x - 3}}"-->
+              <!--ng-attr-y="{{activeBox.boundingBox.box.y - 3}}"-->
+              <!--ng-attr-width="{{activeBox.boundingBox.box.width + 6}}"-->
+              <!--ng-attr-height="{{activeBox.boundingBox.box.height + 6}}"-->
+              <!--ng-attr-transform="matrix({{activeBox.boundingBox.transform}})"-->
+            <!--></rect>-->
+        <!--&lt;!&ndash;top left&ndash;&gt;-->
+        <!--<rect class="nwse-resize" stroke="white" fill="blue" width="6" height="6"-->
+              <!--ng-attr-x="{{activeBox.boundingBox.box.x - 6 }}"-->
+              <!--ng-attr-y="{{activeBox.boundingBox.box.y - 6}}"-->
+            <!--></rect>-->
+        <!--<corner></corner>-->
+        <!--&lt;!&ndash;top right&ndash;&gt;-->
+        <!--<rect class="nesw-resize" stroke="white" fill="blue" width="6" height="6"-->
+              <!--ng-attr-x="{{activeBox.boundingBox.box.x + activeBox.boundingBox.box.width}}"-->
+              <!--ng-attr-y="{{activeBox.boundingBox.box.y - 6}}"-->
+            <!--></rect>-->
+        <!--&lt;!&ndash;bottom right&ndash;&gt;-->
+        <!--<rect class="nwse-resize" stroke="white" fill="blue" width="6" height="6"-->
+              <!--ng-attr-x="{{activeBox.boundingBox.box.x + activeBox.boundingBox.box.width}}"-->
+              <!--ng-attr-y="{{activeBox.boundingBox.box.y + activeBox.boundingBox.box.height}}"-->
+              <!--resize="activeBox"-->
+            <!--></rect>-->
+        <!--&lt;!&ndash;bottom left&ndash;&gt;-->
+        <!--<rect class="nesw-resize" stroke="white" fill="blue" width="6" height="6"-->
+              <!--ng-attr-x="{{activeBox.boundingBox.box.x - 6}}"-->
+              <!--ng-attr-y="{{activeBox.boundingBox.box.y + activeBox.boundingBox.box.height}}"-->
+            <!--></rect>-->
+      <!--</g>-->
     </svg>
   </div>
   <div class="span3">

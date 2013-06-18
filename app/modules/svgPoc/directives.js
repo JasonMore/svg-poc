@@ -181,14 +181,14 @@
       }
     })
 //
-//    .directive('boundingBox', function (svgService) {
-//      return {
-//        restrict: 'E',
-//        templateUrl: 'boundingBox_inline_big.html',
-//        replace: true,
+    .directive('boundingBox', function (svgService) {
+      return {
+        restrict: 'E',
+        templateUrl: 'modules/svgPoc/partials/boundingBox.html',
+        replace: true
 //        compile: svgService.compile
-//      };
-//    })
+      };
+    })
 
     .directive('boundingBox', function (svgService, $templateCache) {
       return {
