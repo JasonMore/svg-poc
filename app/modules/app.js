@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  angular.module('app', ['main','svgPoc','textWrap'])
+  angular.module('app', ['main','svgPoc','svgJS'])
     .config(function ($routeProvider) {
       $routeProvider
         .when('/', {
@@ -11,9 +11,9 @@
           templateUrl: 'modules/svgPoc/views/main.html',
           controller: 'svgCtrl'
         })
-        .when('/textWrap', {
-          templateUrl: 'modules/textWrap/views/main.html',
-          controller: 'svgCtrl'
+        .when('/svgJS', {
+          templateUrl: 'modules/svgJS/views/main.html',
+          controller: 'svgJSCtrl'
         })
         .otherwise({
           redirectTo: '/'
