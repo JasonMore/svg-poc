@@ -1,4 +1,4 @@
-svg-pochttp://dillinger.io/#
+svg-poc
 =====================
 
 Several small proof of concepts for using angular.js with svg
@@ -14,5 +14,7 @@ Things you'll need
 After cloning run
 
 `npm install`
+
 `bower install`
+
 `npm start`
