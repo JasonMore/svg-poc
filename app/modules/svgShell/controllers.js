@@ -23,6 +23,18 @@
 
       $scope.textValue = '';
 
+      $scope.$watch('textValue', function(val){
+        if(!val) {
+          return;
+        }
+
+        // bring to front
+        $(text.parentElement).append( text );
+
+        text.firstChild.nodeValue = val;
+        setText();
+      });
+
       $scope.$on('$viewContentLoaded', function () {
 
         $('#svgsketch').svg({onLoad: function (svg) {
@@ -30,13 +42,11 @@
           var surface = svg.rect(0, 0, '100%', '100%', {id: 'surface', fill: 'white'});
           resetSize(svg, '100%', '100%');
 
-
           //HACKs below
           parentGroup = svg.group({
             id: 'parentGroup',
             transform: 'translate(5, 5) rotate(0, 100, 100)'
           });
-
 
           textSpans = sketchpad.createText().string('');
 
@@ -49,17 +59,6 @@
             fill: 'blue'
           });
 
-          $scope.$watch('textValue', function(val){
-            if(!val) {
-              return;
-            }
-
-            // bring to front
-            $(text.parentElement).append( text );
-
-            text.firstChild.nodeValue = val;
-            setText();
-          });
         }});
 
         $(surface)
