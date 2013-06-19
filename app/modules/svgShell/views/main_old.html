@@ -1,0 +1,16 @@
+<input type="button" value="Test It" class="btnTest" id="btnTest" targetnode="textBlock" />
+<input type="button" value="Edit It" class="btnEdit" id="btnEdit" targetnode="textBlock" />
+<div id="svgDiv"></div>
+<input type="button" value="Test It" class="btnTest" id="btnTest2" targetnode="textBlock2" />
+<input type="button" value="Edit It" class="btnEdit" id="btnEdit2" targetnode="textBlock2" />
+
+
+
+<svg id="svgRoot" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1600" width="1800">
+  <defs>
+    <path transform="scale(1,1.5)" id="shape1"  d="M 100 350 l 150 -300 M 250 50 L 400 350 M 175 200 L 325 200 M 100 350 Q 250 50 400 350"></path>
+  </defs>
+  <g  transform="rotate(20)" >
+    <use transform="scale(1,1.5)" xlink:href="#shape1" id="lineAB" stroke="blue" stroke-width="5" fill="none"></use>
+  </g>
+</svg>

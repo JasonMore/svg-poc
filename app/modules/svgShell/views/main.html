@@ -1,16 +1,37 @@
-<input type="button" value="Test It" class="btnTest" id="btnTest" targetnode="textBlock" />
-<input type="button" value="Edit It" class="btnEdit" id="btnEdit" targetnode="textBlock" />
-<div id="svgDiv"></div>
-<input type="button" value="Test It" class="btnTest" id="btnTest2" targetnode="textBlock2" />
-<input type="button" value="Edit It" class="btnEdit" id="btnEdit2" targetnode="textBlock2" />
+<div id="svgsketch" class="svgdiv" style="width: 100%; height: 300px;"></div>
 
-
-<svg id="svgRoot" xmlns="http://www.w3.org/2000/svg" version="1.1" height="1600" width="1800">
-  <defs>
-    <path transform="scale(1,1.5)" id="shape1"  d="M 100 350 l 150 -300 M 250 50 L 400 350 M 175 200 L 325 200 M 100 350 Q 250 50 400 350" />
-
-  </defs>
-  <g  transform="rotate(20)" >
-    <use transform="scale(1,1.5)" xlink:href="#shape1" id="lineAB" stroke="blue" stroke-width="5" fill="none"  />
-  </g>
-</svg>
+<div class="row">
+  <span class="drawOpt">Shape</span>
+			<span class="drawOpt"><select id="shape">
+        <option value="rect">Rectangle</option><option value="circle">Circle</option>
+        <option value="ellipse">Ellipse</option><option value="line">Line</option>
+        <option value="polyline">Polyline</option><option value="polygon">Polygon</option>
+      </select></span>
+  <span class="drawOpt">Fill</span>
+			<span class="drawOpt"><select id="fill">
+        <option value="red">red</option><option value="yellow">yellow</option>
+        <option value="green">green</option><option value="blue">blue</option>
+        <option value="white">white</option><option value="gray">gray</option>
+        <option value="black">black</option><option value="none">none</option></select></span>
+</div>
+<div class="row">
+  <span class="drawOpt">Stroke width</span>
+			<span class="drawOpt"><select id="swidth">
+        <option value="1">1</option><option value="2">2</option>
+        <option value="3">3</option><option value="4">4</option>
+        <option value="5">5</option><option value="6">6</option>
+        <option value="7">7</option><option value="8">8</option>
+        <option value="9">9</option><option value="10">10</option></select></span>
+  <span class="drawOpt">Stroke</span>
+			<span class="drawOpt"><select id="stroke">
+        <option value="red">red</option><option value="yellow">yellow</option>
+        <option value="green">green</option><option value="blue" selected="selected">blue</option>
+        <option value="white">white</option><option value="gray">gray</option>
+        <option value="black">black</option><option value="none">none</option></select></span>
+</div>
+<div class="row">
+  <span class="drawOpt">&nbsp;</span>
+  <span class="drawOpt"><button type="button" id="undo">Undo</button></span>
+  <span class="drawOpt"><button type="button" id="clear2">Clear</button></span>
+  <span class="drawOpt"><button type="button" id="toSVG">To SVG</button></span>
+</div>
