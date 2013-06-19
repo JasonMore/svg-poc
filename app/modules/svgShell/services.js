@@ -11,10 +11,12 @@
       //isn't perfect, since there could be shapes that do not cover
       //any of the 4 corners, but still block the letter. However, the rectangles
       //are fairly small, and checking all the points isn't efficient.
-      function checkWordFits(container, margin, currentWord) {
+      function checkWordFits(svg, container, margin, currentWord) {
         var matrix = container.getScreenCTM();
 
-        var svg = $('#svgDiv').svg('get').root();
+//        var svg = $('#svgDiv').svg('get').root();
+        svg = svg.root();
+
         var yVals = [currentWord.y-margin+1,currentWord.y+currentWord.height+margin-1];
 
         var matrix2 = container.getTransformToElement(svg);
@@ -67,9 +69,9 @@
       }
 
       // Recalculate the text positioning for a text node.
-      function recalcText(svgText) {
+      function recalcText(svg, svgText) {
         // get the jquery svg object
-        var svg = $('#svgDiv').svg('get');
+//        var svg = $('#svgDiv').svg('get');
 
         // get the next sibling. We'll be removing the text node, and this keeps
         // track of where to put it back.
@@ -166,7 +168,7 @@
           currentWord.x = xPos;
           currentWord.y = yPos;
           // Does the word fit?
-          while (!checkWordFits(container, margin, currentWord)) {
+          while (!checkWordFits(svg, container, margin, currentWord)) {
             currentWord.x += 5
             ; // This may be too low, or create a
             // better heuristic check like a binary search such as

@@ -1,6 +1,7 @@
 (function () {
   angular.module('svgShell')
-    .controller('svgShellCtrl', function ($scope) {
+    .controller('svgShellCtrl', function ($scope, textFlowService) {
+      window.debugScope = $scope;
 
       var svg;
 
@@ -9,21 +10,14 @@
       var start = null;
       var outline = null;
       var offset = null;
+      var box = null;
+      var shape = null;
+      var parentGroup = null;
 
-      $scope.isDrawing = false;
+      $scope.isDrawing = true;
 
-      $scope.$watch('isDrawing', function(val){
-        if(val){
-          $(surface)
-            .on('mousedown', startDrag)
-            .on('mousemove', dragging)
-            .on('mouseup', endDrag);
-        }else{
-          $(surface)
-            .off('mousedown', startDrag)
-            .off('mousemove', dragging)
-            .off('mouseup', endDrag);
-        }
+      $scope.$watch('isDrawing', function (val) {
+        clearSelection();
       });
 
       $scope.$on('$viewContentLoaded', function () {
@@ -32,8 +26,20 @@
           sketchpad = svg;
           var surface = svg.rect(0, 0, '100%', '100%', {id: 'surface', fill: 'white'});
           resetSize(svg, '100%', '100%');
-        }
-        });
+
+
+          //HACK
+          parentGroup = svg.group({
+            id: 'parentGroup',
+            transform: 'translate(5, 5) rotate(0, 100, 100)'
+          });
+        }});
+
+        $(surface)
+          .on('mousedown', startDrag)
+          .on('mousemove', dragging)
+          .on('mouseup', endDrag)
+          .on('click', clearSelection);
 
         /* Remove the last drawn element */
         $('#undo').click(function () {
@@ -52,7 +58,7 @@
         });
 
         /* Convert to text */
-        $('#toSVG').click(function() {
+        $('#toSVG').click(function () {
           alert(sketchpad.toSVG());
         });
 
@@ -60,6 +66,11 @@
 
       /* Remember where we started */
       function startDrag(event) {
+        // hack?
+        if (!$scope.isDrawing) {
+          return;
+        }
+
         offset = $('#svgsketch').offset();
 
         offset.left -= document.documentElement.scrollLeft || document.body.scrollLeft;
@@ -71,6 +82,11 @@
 
       /* Provide feedback as we drag */
       function dragging(event) {
+        // hack?
+        if (!$scope.isDrawing) {
+          return;
+        }
+
         if (!start) {
           return;
         }
@@ -88,14 +104,20 @@
 
       /* Draw where we finish */
       function endDrag(event) {
+        // hack?
+        if (!$scope.isDrawing) {
+          return;
+        }
+
         if (!start) {
           return;
         }
         $(outline).remove();
         outline = null;
-        drawShape(start.X, start.Y,
+        var shapeToEdit = drawShape(start.X, start.Y,
           event.clientX - offset.left, event.clientY - offset.top);
         start = null;
+
         event.preventDefault();
       }
 
@@ -105,12 +127,23 @@
         var top = Math.min(y1, y2);
         var right = Math.max(x1, x2);
         var bottom = Math.max(y1, y2);
-        var settings = {fill: $('#fill').val(), stroke: $('#stroke').val(),
-          strokeWidth: $('#swidth').val()};
+        var settings = {
+          fill: $('#fill').val(),
+          stroke: $('#stroke').val(),
+          strokeWidth: $('#swidth').val(),
+
+          //HACK
+          id: 'rect'
+        };
+
         var shape = $('#shape').val();
         var node = null;
         if (shape == 'rect') {
-          node = sketchpad.rect(left, top, right - left, bottom - top, settings);
+
+          //HACK
+          node = sketchpad.rect(parentGroup, left, top, right - left, bottom - top, settings);
+
+//          node = sketchpad.rect(left, top, right - left, bottom - top, settings);
         }
         else if (shape == 'circle') {
           var r = Math.min(right - left, bottom - top) / 2;
@@ -144,14 +177,79 @@
           ], settings);
         }
         drawNodes[drawNodes.length] = node;
-        $(node).mousedown(startDrag).mousemove(dragging).mouseup(endDrag);
+
+        $(node)
+          .on('mousedown', startDrag)
+          .on('mousemove', dragging)
+          .on('mouseup', endDrag)
+          .on('click', editShape);
+
         $('#svgsketch').focus();
+
+        return node;
       };
 
       function resetSize(svg, width, height) {
         svg.configure({width: width || $(svg._container).width(),
           height: height || $(svg._container).height()});
       };
+
+      function editShape() {
+        if (start) {
+          return;
+        }
+
+        clearSelection();
+
+        var shapeToEdit = this;
+        var bb = shapeToEdit.getBBox();
+
+        box = sketchpad.rect(bb.x - 5, bb.y - 5, bb.width + 10, bb.height + 10, {
+          fill: 'none',
+          stroke: 'black',
+          strokeWidth: 1,
+          strokeDashArray: '2,2'
+        });
+
+        $scope.$apply(function () {
+          $scope.shape = shapeToEdit;
+        });
+
+
+        // HACK
+
+        var textSpans = sketchpad.createText();
+
+        textSpans.string('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non risus libero. Suspendisse aliquet augue vitae elit');
+
+        var text = sketchpad.text(parentGroup, 10, 10, textSpans, {
+          id: 'textBlock',
+          container: 'rect',
+          opacity: 0.7,
+          fontFamily: 'Verdana',
+          fontSize: '10.0',
+          fill: 'blue'
+        });
+
+        textFlowService.recalcText(sketchpad, text);
+      };
+
+      function clearSelection() {
+        if (start) {
+          return;
+        }
+
+        if (!box) {
+          return;
+        }
+
+        sketchpad.remove(box);
+        box = null;
+
+        $scope.$apply(function () {
+          $scope.shape = null;
+        });
+      }
     })
   ;
 
