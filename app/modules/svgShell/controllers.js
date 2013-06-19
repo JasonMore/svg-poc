@@ -13,12 +13,15 @@
       var box = null;
       var shape = null;
       var parentGroup = null;
+      var textSpans;
+      var text;
 
       $scope.isDrawing = true;
-
       $scope.$watch('isDrawing', function (val) {
         clearSelection();
       });
+
+      $scope.textValue = '';
 
       $scope.$on('$viewContentLoaded', function () {
 
@@ -28,10 +31,34 @@
           resetSize(svg, '100%', '100%');
 
 
-          //HACK
+          //HACKs below
           parentGroup = svg.group({
             id: 'parentGroup',
             transform: 'translate(5, 5) rotate(0, 100, 100)'
+          });
+
+
+          textSpans = sketchpad.createText().string('');
+
+          text = sketchpad.text(parentGroup, 10, 10, textSpans, {
+            id: 'textBlock',
+            container: 'rect',
+            opacity: 0.7,
+            fontFamily: 'Verdana',
+            fontSize: '10.0',
+            fill: 'blue'
+          });
+
+          $scope.$watch('textValue', function(val){
+            if(!val) {
+              return;
+            }
+
+            // bring to front
+            $(text.parentElement).append( text );
+
+            text.firstChild.nodeValue = val;
+            setText();
           });
         }});
 
@@ -215,23 +242,6 @@
           $scope.shape = shapeToEdit;
         });
 
-
-        // HACK
-
-        var textSpans = sketchpad.createText();
-
-        textSpans.string('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non risus libero. Suspendisse aliquet augue vitae elit');
-
-        var text = sketchpad.text(parentGroup, 10, 10, textSpans, {
-          id: 'textBlock',
-          container: 'rect',
-          opacity: 0.7,
-          fontFamily: 'Verdana',
-          fontSize: '10.0',
-          fill: 'blue'
-        });
-
-        textFlowService.recalcText(sketchpad, text);
       };
 
       function clearSelection() {
@@ -249,6 +259,14 @@
         $scope.$apply(function () {
           $scope.shape = null;
         });
+      }
+
+      function setText(){
+        // HACK
+
+
+
+        textFlowService.recalcText(sketchpad, text);
       }
     })
   ;
