@@ -10,12 +10,27 @@
       var outline = null;
       var offset = null;
 
+      $scope.isDrawing = false;
+
+      $scope.$watch('isDrawing', function(val){
+        if(val){
+          $(surface)
+            .on('mousedown', startDrag)
+            .on('mousemove', dragging)
+            .on('mouseup', endDrag);
+        }else{
+          $(surface)
+            .off('mousedown', startDrag)
+            .off('mousemove', dragging)
+            .off('mouseup', endDrag);
+        }
+      });
+
       $scope.$on('$viewContentLoaded', function () {
 
         $('#svgsketch').svg({onLoad: function (svg) {
           sketchpad = svg;
           var surface = svg.rect(0, 0, '100%', '100%', {id: 'surface', fill: 'white'});
-          $(surface).mousedown(startDrag).mousemove(dragging).mouseup(endDrag);
           resetSize(svg, '100%', '100%');
         }
         });

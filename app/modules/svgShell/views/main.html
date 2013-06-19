@@ -34,4 +34,8 @@
   <span class="drawOpt"><button type="button" id="undo">Undo</button></span>
   <span class="drawOpt"><button type="button" id="clear2">Clear</button></span>
   <span class="drawOpt"><button type="button" id="toSVG">To SVG</button></span>
+  <a class="btn" ng-click="isDrawing = !isDrawing">
+    <i ng-class="{'icon-check': isDrawing, 'icon-check-empty': !isDrawing}"></i>
+    Is Drawing
+  </a>
 </div>
