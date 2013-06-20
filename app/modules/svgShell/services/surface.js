@@ -24,7 +24,7 @@
     self.start;
 
     // the box that surrounds a selected item
-    self.selctionBox;
+    self.selectionBox;
 
     self.resetSize = function(width, height) {
       self.svg.configure({
@@ -38,14 +38,15 @@
         return;
       }
 
-      if (!self.selctionBox) {
+      if (!self.selectionBox) {
         return;
       }
 
-      self.svg.remove(self.selctionBox);
-      self.selctionBox = null;
+      self.svg.remove(self.selectionBox);
+      self.selectionBox = null;
 
-      self.$scope.$apply(function () {
+
+      safeApply(self.$scope, function() {
         self.$scope.shape = null;
       });
     };
@@ -144,15 +145,9 @@
           stroke: $('#stroke').val(),
           strokeWidth: $('#swidth').val(),
           class:'shape'
-
-          //HACK
-          //id: 'rect'
         };
 
-        var parentGroup = self.svg.group({
-//          id: 'parentGroup'
-          transform: 'translate(5, 5) rotate(0, 100, 100)'
-        });
+        var parentGroup = self.svg.group({});
 
         // hack! Need to pass shape value to service
         var shape = $('#shape').val();
@@ -203,16 +198,14 @@
         var textSpans = self.svg.createText().string('');
 
         var text = self.svg.text(parentGroup, 10, 10, textSpans, {
-//          id: 'textBlock',
           class: 'text',
-//          container: 'rect',
           opacity: 0.7,
           fontFamily: 'Verdana',
           fontSize: '10.0',
           fill: 'blue'
         });
 
-        $('#svgsketch').focus();
+//        $('#svgsketch').focus();
 
         return parentGroup;
       };
@@ -241,7 +234,11 @@
 
       };
 
-
     };
+
+    // hack while service and controller are still tightly coupled.
+    function safeApply(scope, fn) {
+      (scope.$$phase || scope.$root.$$phase) ? fn() : scope.$apply(fn);
+    }
   });
 })();

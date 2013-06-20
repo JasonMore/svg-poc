@@ -53,9 +53,9 @@
 
 
           // If the hit is null, then the points are off the screen
-          // If the hit.id doesn't match the container, the container
+          // If the hit doesn't match the container, the container
           // is not on top.
-          if (hit == null || hit.id != container.id) {
+          if (hit == null || hit !== container) {
             //var pt3 = pt1.matrixTransform(matrix2);
             //$('#svgDiv').svg('get').circle(pt3.x, pt3.y, 1, {id: 'circle2', class: 'svgdrag', fillOpacity: 0.9, fill: 'white', stroke: 'red', strokeWidth: 2});
             return false;
@@ -68,7 +68,7 @@
     }
 
     // Recalculate the text positioning for a text node.
-    function recalcText(svgText) {
+    function recalcText(svgText, container) {
       // get the jquery svg object
 //        var svg = $('#svgDiv').svg('get');
       var svg = surfaceService.svg;
@@ -83,7 +83,10 @@
       // The text element has a custom attribute called container.
       // This references the shape that the text should be clipping
       // against.
-      var container = document.getElementById(svgText.getAttribute('container'));
+
+
+      // jmore - this is the rectangle
+//      var container = document.getElementById(svgText.getAttribute('container'));
 
       // Get Bounding box of the container
       var bbox = container.getBBox();
