@@ -9,6 +9,7 @@
     "angular-ui-router": "~0.0.1",
     "svg.draggable.js": "https://github.com/wout/svg.draggable.js.git",
     "jquery.svg": "latest",
-    "jquery": "~2.0.2"
+    "jquery": "~2.0.2",
+    "angular-bootstrap": "~0.3.0"
   }
 }
