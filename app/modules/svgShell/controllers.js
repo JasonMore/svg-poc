@@ -23,7 +23,7 @@
 
       $scope.textValue = '';
 
-      $scope.$watch('textValue', function(val){
+      $scope.$watch('textValue', _.debounce(function(val){
         if(!val) {
           return;
         }
@@ -33,7 +33,7 @@
 
         text.firstChild.nodeValue = val;
         setText();
-      });
+      }, 250));
 
       $scope.$on('$viewContentLoaded', function () {
 
