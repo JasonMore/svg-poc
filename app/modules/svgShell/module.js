@@ -12,7 +12,9 @@
     .config(function ($routeProvider) {
       $routeProvider.when('/svgShell', {
         templateUrl:'modules/svgShell/views/main.html',
-        controller:'svgPocCtrl'
+        controller:'svgShellCtrl'
       });
-    })
+    });
+
+  angular.module('svgShell.services',[]);
 }());

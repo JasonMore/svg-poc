@@ -1,5 +1,5 @@
 (function () {
-  angular.module('svgShell.services',[]).service('resizeService', function () {
+  angular.module('svgShell.services').service('resizeService', function () {
     var svgRoot = document.getElementById("svgRoot");
 
     var svgns = "http://www.w3.org/2000/svg";

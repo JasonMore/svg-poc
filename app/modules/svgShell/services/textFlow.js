@@ -1,5 +1,5 @@
 (function () {
-  angular.module('svgShell.services',[]).service('textFlowService', function () {
+  angular.module('svgShell.services').service('textFlowService', function (surfaceService) {
 
     this.checkWordFits = checkWordFits;
     this.recalcText = recalcText;
@@ -68,9 +68,10 @@
     }
 
     // Recalculate the text positioning for a text node.
-    function recalcText(svg, svgText) {
+    function recalcText(svgText) {
       // get the jquery svg object
 //        var svg = $('#svgDiv').svg('get');
+      var svg = surfaceService.svg;
 
       // get the next sibling. We'll be removing the text node, and this keeps
       // track of where to put it back.

@@ -1,7 +1,7 @@
 (function () {
 
   // remember: services in angular are singletons!
-  angular.module('svgShell.services',[]).service('surfaceService', function () {
+  angular.module('svgShell.services').service('surfaceService', function () {
     var self = this;
 
     // div containing svg
@@ -28,8 +28,8 @@
 
     self.resetSize = function(width, height) {
       self.svg.configure({
-        width: width || self.svgsketch.width(),
-        height: height || self.svgsketch.height()
+        width: width || $(self.svg._container).width(),
+        height: height || $(self.svg._container).height()
       });
     };
 
@@ -42,7 +42,7 @@
         return;
       }
 
-      sketchpad.remove(self.selctionBox);
+      self.svg.remove(self.selctionBox);
       self.selctionBox = null;
 
       self.$scope.$apply(function () {
@@ -91,7 +91,7 @@
         }
 
         if (!outline) {
-          outline = sketchpad.rect(0, 0, 0, 0, {
+          outline = self.svg.rect(0, 0, 0, 0, {
             fill: 'none',
             stroke: '#c0c0c0',
             strokeWidth: 1,
@@ -101,7 +101,7 @@
           $(outline).mouseup(endDrag);
         }
 
-        sketchpad.change(outline, {
+        self.svg.change(outline, {
           x: Math.min(event.clientX - offset.left, start.X),
           y: Math.min(event.clientY - offset.top, start.Y),
           width: Math.abs(event.clientX - offset.left - start.X),
@@ -143,47 +143,37 @@
           fill: $('#fill').val(),
           stroke: $('#stroke').val(),
           strokeWidth: $('#swidth').val(),
+          class:'shape'
 
           //HACK
-          id: 'rect'
+          //id: 'rect'
         };
 
-        var parentGroup = svg.group({
-          id: 'parentGroup',
+        var parentGroup = self.svg.group({
+//          id: 'parentGroup'
           transform: 'translate(5, 5) rotate(0, 100, 100)'
-        });
-
-        var textSpans = sketchpad.createText().string('');
-
-        var text = sketchpad.text(parentGroup, 10, 10, textSpans, {
-          id: 'textBlock',
-          container: 'rect',
-          opacity: 0.7,
-          fontFamily: 'Verdana',
-          fontSize: '10.0',
-          fill: 'blue'
         });
 
         // hack! Need to pass shape value to service
         var shape = $('#shape').val();
         var node = null;
         if (shape == 'rect') {
-          node = sketchpad.rect(parentGroup, left, top, right - left, bottom - top, settings);
+          node = self.svg.rect(parentGroup, left, top, right - left, bottom - top, settings);
         }
         else if (shape == 'circle') {
           var r = Math.min(right - left, bottom - top) / 2;
-          node = sketchpad.circle(parentGroup, left + r, top + r, r, settings);
+          node = self.svg.circle(parentGroup, left + r, top + r, r, settings);
         }
         else if (shape == 'ellipse') {
           var rx = (right - left) / 2;
           var ry = (bottom - top) / 2;
-          node = sketchpad.ellipse(parentGroup, left + rx, top + ry, rx, ry, settings);
+          node = self.svg.ellipse(parentGroup, left + rx, top + ry, rx, ry, settings);
         }
         else if (shape == 'line') {
-          node = sketchpad.line(parentGroup, x1, y1, x2, y2, settings);
+          node = self.svg.line(parentGroup, x1, y1, x2, y2, settings);
         }
         else if (shape == 'polyline') {
-          node = sketchpad.polyline(parentGroup, [
+          node = self.svg.polyline(parentGroup, [
             [(x1 + x2) / 2, y1],
             [x2, y2],
             [x1, (y1 + y2) / 2],
@@ -193,7 +183,7 @@
           ], $.extend(settings, {fill: 'none'}));
         }
         else if (shape == 'polygon') {
-          node = sketchpad.polygon(parentGroup, [
+          node = self.svg.polygon(parentGroup, [
             [(x1 + x2) / 2, y1],
             [x2, y1],
             [x2, y2],
@@ -209,6 +199,19 @@
           .on('mouseup', endDrag)
           .on('click', editShape);
 
+
+        var textSpans = self.svg.createText().string('');
+
+        var text = self.svg.text(parentGroup, 10, 10, textSpans, {
+//          id: 'textBlock',
+          class: 'text',
+//          container: 'rect',
+          opacity: 0.7,
+          fontFamily: 'Verdana',
+          fontSize: '10.0',
+          fill: 'blue'
+        });
+
         $('#svgsketch').focus();
 
         return parentGroup;
@@ -222,9 +225,10 @@
         self.clearSelection();
 
         var shapeToEdit = this;
-        var bb = shapeToEdit.getBBox();
+        var rect = $(shapeToEdit).find('.shape')[0];
+        var bb = rect.getBBox();
 
-        self.selectionBox = sketchpad.rect(bb.x - 5, bb.y - 5, bb.width + 10, bb.height + 10, {
+        self.selectionBox = self.svg.rect(bb.x - 5, bb.y - 5, bb.width + 10, bb.height + 10, {
           fill: 'none',
           stroke: 'black',
           strokeWidth: 1,

@@ -32,11 +32,13 @@
           return;
         }
 
+        var text = $($scope.shape).find('.text')[0];
+
         // bring to front
-        $(text.parentElement).append( text );
+//        $(text.parentElement).append( text );
 
         text.firstChild.nodeValue = val;
-        setText();
+        textFlowService.recalcText(text);
       }, 250));
 
 //      $scope.$on('$viewContentLoaded', function () {
@@ -263,14 +265,6 @@
 //          $scope.shape = null;
 //        });
 //      }
-
-      function setText(){
-        // HACK
-
-
-
-        textFlowService.recalcText(sketchpad, text);
-      }
     })
   ;
 
