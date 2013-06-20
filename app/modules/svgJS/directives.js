@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  angular.module('svgJS')
+  angular.module('svgJS.directives', [])
     .directive('svgSurface', function ($rootScope) {
       return {
         restrict: 'E',

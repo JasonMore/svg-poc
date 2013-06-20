@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  angular.module('svgPoc')
+  angular.module('svgPoc.services', [])
 
     .service('surfaceService', function () {
       this.element;

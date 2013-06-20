@@ -28,7 +28,7 @@
 </div>
 
 <!-- Add your site or application content here -->
-<ng-view>
+<ng-view />
 
   <script src="components/jquery/jquery.js"></script>
 
@@ -39,7 +39,7 @@
   <!--<script src="components/jquery.svg/jquery.svggraph.js"></script>-->
   <!--<script src="components/jquery.svg/jquery.svgplot.js"></script>-->
 
-  <script src="components/lodash/dist/lodash.js" type="text/javascript"> </script>
+  <script src="components/lodash/dist/lodash.js" type="text/javascript"></script>
 
   <script src="components/angularjs-bower/angular.js"></script>
   <script src="components/angularjs-bower/angular-resource.js"></script>
@@ -53,18 +53,16 @@
   <script src="components/svg.draggable.js/svg.draggable.js"></script>
 
 
-
-
   <!-- build:js scripts/scripts.js -->
   <script src="modules/app.js"></script>
 
-  <script src="modules/main/module.js"></script>
-  <script src="modules/main/controllers.js"></script>
+  <script src="modules/main/main.js"></script>
+  <!--<script src="modules/main/controllers.js"></script>-->
 
   <script src="modules/svgJS/module.js"></script>
   <script src="modules/svgJS/controllers.js"></script>
   <script src="modules/svgJS/directives.js"></script>
-  <script src="modules/svgJS/services.js"></script>
+  <!--<script src="modules/svgJS/services.js"></script>-->
 
   <script src="modules/svgPoc/module.js"></script>
   <script src="modules/svgPoc/controllers.js"></script>
@@ -73,7 +71,10 @@
 
   <script src="modules/svgShell/module.js"></script>
   <script src="modules/svgShell/controllers.js"></script>
-  <script src="modules/svgShell/services.js"></script>
+  <script src="modules/svgShell/directives.js"></script>
+  <script src="modules/svgShell/services/resize.js"></script>
+  <script src="modules/svgShell/services/textFlow.js"></script>
+  <script src="modules/svgShell/services/surface.js"></script>
   <!--<script src="modules/svgShell/other/script.js"></script>-->
   <!--<script src="modules/svgShell/other/textflow.js"></script>-->
   <!--<script src="modules/svgShell/other/resize.js"></script>-->

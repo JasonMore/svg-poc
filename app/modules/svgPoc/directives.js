@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  angular.module('svgPoc')
+  angular.module('svgPoc.directives',[])
 
     .directive('surface', function (surfaceService) {
       return{

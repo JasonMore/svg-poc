@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  angular.module('svgJS')
+  angular.module('svgJS.controllers', [])
     .controller('svgJSCtrl', function ($scope) {
       $scope.shapes = [
         {type: 'rect', canDrag: true, width: 100, height: 100},

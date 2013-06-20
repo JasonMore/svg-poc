@@ -1,5 +1,5 @@
 <div class="svg-drop">
-  <div id="svgsketch" class="svgdiv" style="width: 100%; height: 300px;"></div>
+  <svg-sketchPad></svg-sketchPad>
 </div>
 
 <div class="row">
@@ -15,51 +15,57 @@
     <div class="well well-large">
       <div class="row">
         <span class="drawOpt">Shape</span>
-			<span class="drawOpt"><select id="shape">
-        <option value="rect">Rectangle</option>
-        <option value="circle">Circle</option>
-        <option value="ellipse">Ellipse</option>
-        <option value="line">Line</option>
-        <option value="polyline">Polyline</option>
-        <option value="polygon">Polygon</option>
-      </select></span>
+			  <span class="drawOpt">
+          <select id="shape">
+            <option value="rect">Rectangle</option>
+            <option value="circle">Circle</option>
+            <option value="ellipse">Ellipse</option>
+            <option value="line">Line</option>
+            <option value="polyline">Polyline</option>
+            <option value="polygon">Polygon</option>
+          </select></span>
         <span class="drawOpt">Fill</span>
-			<span class="drawOpt"><select id="fill">
-        <option value="red">red</option>
-        <option value="yellow">yellow</option>
-        <option value="green">green</option>
-        <option value="blue">blue</option>
-        <option value="white">white</option>
-        <option value="gray">gray</option>
-        <option value="black">black</option>
-        <option value="none">none</option>
-      </select></span>
+			<span class="drawOpt">
+        <select id="fill">
+          <option value="red">red</option>
+          <option value="yellow">yellow</option>
+          <option value="green">green</option>
+          <option value="blue">blue</option>
+          <option value="white">white</option>
+          <option value="gray">gray</option>
+          <option value="black">black</option>
+          <option value="none">none</option>
+        </select></span>
       </div>
       <div class="row">
         <span class="drawOpt">Stroke width</span>
-			<span class="drawOpt"><select id="swidth">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-      </select></span>
+			<span class="drawOpt">
+        <select id="swidth">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select>
+      </span>
         <span class="drawOpt">Stroke</span>
-			<span class="drawOpt"><select id="stroke">
-        <option value="red">red</option>
-        <option value="yellow">yellow</option>
-        <option value="green">green</option>
-        <option value="blue" selected="selected">blue</option>
-        <option value="white">white</option>
-        <option value="gray">gray</option>
-        <option value="black">black</option>
-        <option value="none">none</option>
-      </select></span>
+			<span class="drawOpt">
+        <select id="stroke">
+          <option value="red">red</option>
+          <option value="yellow">yellow</option>
+          <option value="green">green</option>
+          <option value="blue" selected="selected">blue</option>
+          <option value="white">white</option>
+          <option value="gray">gray</option>
+          <option value="black">black</option>
+          <option value="none">none</option>
+        </select>
+      </span>
       </div>
     </div>
   </div>
@@ -67,7 +73,7 @@
   <div collapse="!shape">
     <div class="well well-large row">
       <label>Text
-      <textarea ng-model="textValue"></textarea>
+        <textarea ng-model="textValue"></textarea>
       </label>
     </div>
   </div>

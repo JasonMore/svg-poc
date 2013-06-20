@@ -1,24 +1,8 @@
 (function() {
   'use strict';
   angular.module('app', ['main','svgPoc','svgJS', 'svgShell'])
-    .config(function ($routeProvider) {
+    .config(function ($routeProvider, $injector) {
       $routeProvider
-        .when('/', {
-          templateUrl: 'modules/main/views/main.html',
-          controller: 'mainCtrl'
-        })
-        .when('/svgPoc', {
-          templateUrl: 'modules/svgPoc/views/main.html',
-          controller: 'svgCtrl'
-        })
-        .when('/svgJS', {
-          templateUrl: 'modules/svgJS/views/main.html',
-          controller: 'svgJSCtrl'
-        })
-        .when('/svgShell', {
-          templateUrl: 'modules/svgShell/views/main.html',
-          controller: 'svgShellCtrl'
-        })
         .otherwise({
           redirectTo: '/'
         });

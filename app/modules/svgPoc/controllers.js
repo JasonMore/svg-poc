@@ -1,8 +1,8 @@
 (function () {
   'use strict';
 
-  angular.module('svgPoc')
-    .controller('svgCtrl', function ($scope, $timeout, surfaceService) {
+  angular.module('svgPoc.controllers', [])
+    .controller('svgPocCtrl', function ($scope, $timeout, surfaceService) {
       $scope.shapes = [];
 
       $scope.boxes = [
