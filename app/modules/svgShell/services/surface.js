@@ -13,9 +13,6 @@
     // rect that 100% fills the svg
     self.surface;
 
-    // HACK - for now...
-    self.$scope;
-
     // nodes on surface
     self.drawNodes = [];
 
@@ -52,11 +49,7 @@
 
       self.svg.remove(self.selectionBox);
       self.selectionBox = null;
-
-
-      safeApply(self.$scope, function () {
-        self.$scope.shape = null;
-      });
+      self.resetSelectedShape();
     };
 
     self.setupDrawMouseBindings = function () {
@@ -70,8 +63,7 @@
         .on('click', self.clearSelection);
 
       function startDrag(event) {
-        // hack?
-        if (!self.$scope.isDrawing) {
+        if (!self.isDrawing()) {
           return;
         }
 
@@ -90,8 +82,7 @@
 
       /* Provide feedback as we drag */
       function dragging(event) {
-        // hack?
-        if (!self.$scope.isDrawing) {
+        if (!self.isDrawing()) {
           return;
         }
 
@@ -122,8 +113,7 @@
 
       /* Draw where we finish */
       function endDrag(event) {
-        // hack?
-        if (!self.$scope.isDrawing) {
+        if (!self.isDrawing()) {
           return;
         }
 
@@ -239,17 +229,11 @@
           strokeDashArray:'2,2'
         });
 
-        self.$scope.$apply(function () {
-          self.$scope.shape = shapeToEdit;
-        });
+        self.setShapeToEdit(shapeToEdit);
 
       };
 
     };
 
-    // hack while service and controller are still tightly coupled.
-    function safeApply(scope, fn) {
-      (scope.$$phase || scope.$root.$$phase) ? fn() : scope.$apply(fn);
-    }
   });
 })();

@@ -3,10 +3,6 @@
     .controller('svgShellCtrl', function ($scope, surfaceService, textFlowService) {
       window.debugScope = $scope;
 
-      // hack until things get moved around
-      surfaceService.$scope = $scope;
-
-
       // properties
       $scope.isDrawing = true;
       $scope.textValue = '';
@@ -77,12 +73,36 @@
         $scope.textValue = textElement.firstChild.nodeValue;
       });
 
-      surfaceService.drawSettings = {
-        shape: $scope.selectedShape,
-        fill: $scope.selectedFill,
-        stroke: $scope.selectedStrokeColor,
-        strokeWidth: $scope.selectedStrokeWidth
+      $scope.$watch('selectedShape + selectedFill + selectedStrokeColor + selectedStrokeWidth', function() {
+        surfaceService.drawSettings = {
+          shape: $scope.selectedShape,
+          fill: $scope.selectedFill,
+          stroke: $scope.selectedStrokeColor,
+          strokeWidth: $scope.selectedStrokeWidth
+        };
+      });
+
+
+      // provide surfaceService some scope information
+      surfaceService.setShapeToEdit = function(shape){
+        $scope.$apply(function() {
+          $scope.shape = shape;
+        });
       };
 
+      surfaceService.resetSelectedShape = function() {
+        safeApply(self.$scope, function () {
+          self.$scope.shape = null;
+        });
+      };
+
+      surfaceService.isDrawing = function() {
+        return $scope.isDrawing;
+      }
+
+      // hack while service and controller are still tightly coupled.
+      function safeApply(fn) {
+        ($scope.$$phase || $scope.$root.$$phase) ? fn() : $scope.$apply(fn);
+      }
     });
 })();
