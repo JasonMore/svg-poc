@@ -54,7 +54,9 @@
         surfaceService.clearSelection();
       });
 
-      $scope.$watch('textValue', _.debounce(function(val){
+
+      // move this to directive
+      $scope.$watch('textValue', _.debounce(function(newVal, oldVal){
         if(!$scope.shape) {
           return;
         }
@@ -62,10 +64,18 @@
         var text = $($scope.shape).find('.text')[0];
         var container = $($scope.shape).find('.shape')[0];
 
-        text.firstChild.nodeValue = val || '';
+        text.firstChild.nodeValue = newVal || '';
         textFlowService.recalcText(text, container);
       }, 250));
 
+      $scope.$watch('shape', function(newVal, oldVal){
+        if(!newVal || newVal === oldVal){
+          return;
+        }
+
+        var textElement = $($scope.shape).find('.text')[0];
+        $scope.textValue = textElement.firstChild.nodeValue;
+      });
 
       surfaceService.drawSettings = {
         shape: $scope.selectedShape,
