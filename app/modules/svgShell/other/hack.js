@@ -103,7 +103,6 @@
         $('.selectable').click(function () {
           var bbox = this.lastElementChild.getBBox();
           translateRectToPath(svg, bbox, this.getAttribute('transform'), this.getAttribute('id'));
-
         });
 
         var dragObj = {
@@ -118,8 +117,6 @@
             this.setAttribute('orig', JSON.stringify({x: pt.x, y: pt.y}));
           },
           drag: function (event, ui) {
-
-
             var matrix = this.parentNode.getScreenCTM().inverse();
             var orig = JSON.parse(this.getAttribute('orig'));
             // convert screen to element coordinates
@@ -184,14 +181,11 @@
             ptA.y = 0;
             ptB = ptA.matrixTransform(this.parentNode.getCTM());
 
-
             var origRect = JSON.parse(this.parentNode.getAttribute('origRect'));
-
 
             var rect = this.parentNode.getAttribute('rect1');
 
             rect = JSON.parse(rect);
-
 
             var pt3 = this.ownerSVGElement.createSVGPoint();
             pt3.x = 0;
@@ -293,32 +287,83 @@
 
 
         function translateRectToPath(svg, rect, transformStr, id) {
-
-
           var path = svg.createPath();
-          path.move(0, 0).line(rect.width, 0).line(rect.width, rect.height).line(0, rect.height).close();
+
+          path.move(0, 0)
+            .line(rect.width, 0)
+            .line(rect.width, rect.height)
+            .line(0, rect.height)
+            .close();
 
           var pathElt = $('#outlineShape');
-          pathElt.each(function (index, p) {
 
+          pathElt.each(function (index, p) {
             svg.remove(p);
           });
 
+          var selectG = svg.group({
+            id: 'outlineShape',
+            refId: id,
+            origRect: JSON.stringify(rect),
+            rect1: JSON.stringify(rect),
+            transform: transformStr
+          });
 
-          var selectG = svg.group({id: 'outlineShape', refId: id, origRect: JSON.stringify(rect), rect1: JSON.stringify(rect), transform: transformStr });
-
-          var pathx = svg.path(selectG, path, {id: 'outlinePath', fill: 'white', fillOpacity: '0.3', 'stroke-dasharray': '5,5', stroke: '#D90000', strokeWidth: 2, class_: 'draggable'});
+          var pathx = svg.path(selectG, path, {
+            id: 'outlinePath',
+            fill: 'white',
+            fillOpacity: '0.3',
+            'stroke-dasharray': '5,5',
+            stroke: '#D90000',
+            strokeWidth: 2,
+            class_: 'draggable'
+          });
 
           var w2 = rect.width / 2;
 
-          svg.circle(selectG, 0, 0, 5, {id: 'cornerNW', class_: 'resizable', fill: '#D90000', transform: 'translate(0,0)'});
-          svg.circle(selectG, 0, 0, 5, {id: 'cornerNE', class_: 'resizable', fill: '#D90000', transform: 'translate(' + rect.width + ',0)'});
-          svg.circle(selectG, 0, 0, 5, {id: 'cornerSE', class_: 'resizable', fill: '#D90000', transform: 'translate(' + rect.width + ',' + rect.height + ')'});
-          svg.circle(selectG, 0, 0, 5, {id: 'cornerSW', class_: 'resizable', fill: '#D90000', transform: 'translate(0,' + rect.height + ')'});
+          svg.circle(selectG, 0, 0, 5, {
+            id: 'cornerNW',
+            class_: 'resizable',
+            fill: '#D90000',
+            transform: 'translate(0,0)'
+          });
 
-          svg.line(selectG, 0, 0, 0, -20, {id: 'rotatorLine', stroke: '#D90000', strokeWidth: 3, transform: 'translate(' + w2 + ',0)'});
+          svg.circle(selectG, 0, 0, 5, {
+            id: 'cornerNE',
+            class_: 'resizable',
+            fill: '#D90000',
+            transform: 'translate(' + rect.width + ',0)'
+          });
 
-          svg.circle(selectG, 0, 0, 5, {id: 'rotator', class_: 'resizable', stroke: '#D90000', fill: '#FFFFFF', strokeWidth: 1, transform: 'translate(' + w2 + ',-20)'});
+          svg.circle(selectG, 0, 0, 5, {
+            id: 'cornerSE',
+            class_: 'resizable',
+            fill: '#D90000',
+            transform: 'translate(' + rect.width + ',' + rect.height + ')'
+          });
+
+          svg.circle(selectG, 0, 0, 5, {
+            id: 'cornerSW',
+            class_: 'resizable',
+            fill: '#D90000',
+            transform: 'translate(0,' + rect.height + ')'
+          });
+
+          svg.line(selectG, 0, 0, 0, -20, {
+            id: 'rotatorLine',
+            stroke: '#D90000',
+            strokeWidth: 3,
+            transform: 'translate(' + w2 + ',0)'
+          });
+
+          svg.circle(selectG, 0, 0, 5, {
+            id: 'rotator',
+            class_: 'resizable',
+            stroke: '#D90000',
+            fill: '#FFFFFF',
+            strokeWidth: 1,
+            transform: 'translate(' + w2 + ',-20)'
+          });
 
           $('.resizable').draggable(resizeObj);
           $('.draggable').draggable(dragObj);
@@ -340,16 +385,15 @@
         cornerSW.setAttribute('transform', 'translate(0,' + height + ')');
         rotator.setAttribute('transform', 'translate(' + halfwidth + ',-20 )');
         rotatorLine.setAttribute('transform', 'translate(' + halfwidth + ',0 )');
-
       }
 
-      function translatePt(svg, matrix, x, y) {
-        var pt1 = svg.root().createSVGPoint();
-        pt1.x = x;
-        pt1.y = y;
-
-        return pt1.matrixTransform(matrix);
-      }
+//      function translatePt(svg, matrix, x, y) {
+//        var pt1 = svg.root().createSVGPoint();
+//        pt1.x = x;
+//        pt1.y = y;
+//
+//        return pt1.matrixTransform(matrix);
+//      }
 
       function adjustTranslate(elt, x, y, rel) {
 
@@ -440,7 +484,6 @@
         element.setAttribute('d', newPath.path());
       }
 
-
       function getAngle(ptA, ptB, ptC) {
         var a = dist(ptB, ptC);
         var b = dist(ptA, ptC);
@@ -461,7 +504,6 @@
       }
 
       function getAngleABC(a, b, c) {
-
         var t = (a * a + b * b - c * c) / (2 * a * b);
         //  //console.log('t', t);
         return Math.acos(t);

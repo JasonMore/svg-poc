@@ -1,7 +1,7 @@
 (function () {
 
   // remember: services in angular are singletons!
-  angular.module('svgShell.services').service('surfaceService', function () {
+  angular.module('svgShell.services').service('surfaceService', function (selectionService) {
     var self = this;
 
     // div containing svg
@@ -97,7 +97,7 @@
           $(outline).mouseup(endDrag);
         }
 
-        self.svg.change(outline, {
+        $(outline).attr({
           x: Math.min(event.clientX - offset.left, start.X),
           y: Math.min(event.clientY - offset.top, start.Y),
           width: Math.abs(event.clientX - offset.left - start.X),
@@ -127,7 +127,6 @@
           endY: event.clientY - offset.top
         });
 
-
         self.drawNodes[self.drawNodes.length] = shapeGroup;
 
         $(shapeGroup)
@@ -135,7 +134,6 @@
           .on('mousemove', dragging)
           .on('mouseup', endDrag)
           .on('click', editShape);
-
 
         start = null;
 
@@ -154,12 +152,16 @@
           class: 'shape'
         }, self.drawSettings);
 
-        var parentGroup = self.svg.group({});
+        var parentGroup = self.svg.group({
+          transform: 'translate(' + left + ',' + top + ')'
+        });
 
         var node = null;
 
         if (settings.shape == 'rect') {
-          node = self.svg.rect(parentGroup, left, top, right - left, bottom - top, settings);
+//          node = self.svg.rect(parentGroup, left, top, right - left, bottom - top, settings);
+
+          node = self.svg.rect(parentGroup, 0, 0, right - left, bottom - top, settings)
         }
         else if (settings.shape == 'circle') {
           var r = Math.min(right - left, bottom - top) / 2;
@@ -213,20 +215,95 @@
 
         self.clearSelection();
 
-        var shapeToEdit = this;
-        var rect = $(shapeToEdit).find('.shape')[0];
-        var bb = rect.getBBox();
-
-        self.selectionBox = self.svg.rect(bb.x - 5, bb.y - 5, bb.width + 10, bb.height + 10, {
-          fill: 'none',
-          stroke: 'black',
-          strokeWidth: 1,
-          strokeDashArray: '2,2'
-        });
-
-        self.setShapeToEdit(shapeToEdit);
-
+//        var shape = $(this).find('.shape')[0];
+        self.selectionBox = selectionService.createSelectionBox(self.svg, this);
+        self.setShapeToEdit(this);
       };
+
+//      function createSelectionBox(shape){
+//        var boundingBox = shape.getBBox();
+//
+//        var selectionPath = svg.createPath()
+//          .move(0, 0)
+//          .line(boundingBox.width, 0)
+//          .line(boundingBox.width, boundingBox.height)
+//          .line(0, boundingBox.height)
+//          .close();
+//
+//        var selectionGroup = svg.group({
+////          id: 'outlineShape',
+////          refId: id,
+////          origRect: JSON.stringify(boundingBox),
+////          rect1: JSON.stringify(boundingBox),
+////          transform: transformStr
+//        });
+//
+//        svg.path(selectG, path, {
+////          id: 'outlinePath',
+//          fill: 'white',
+//          fillOpacity: '0.3',
+//          'stroke-dasharray': '5,5',
+//          stroke: '#D90000',
+//          strokeWidth: 2,
+//          class: 'draggable'
+//        });
+//
+//
+////        var selectionBox = self.svg.rect(boundingBox.x - 5, boundingBox.y - 5, boundingBox.width + 10, boundingBox.height + 10, {
+////          fill: 'none',
+////          stroke: 'black',
+////          strokeWidth: 1,
+////          strokeDashArray: '2,2'
+////        });
+//
+//        var w2 = rect.width / 2;
+//
+//        svg.circle(selectG, 0, 0, 5, {
+//          id: 'cornerNW',
+//          class_: 'resizable',
+//          fill: '#D90000',
+//          transform: 'translate(0,0)'
+//        });
+//
+//        svg.circle(selectG, 0, 0, 5, {
+//          id: 'cornerNE',
+//          class_: 'resizable',
+//          fill: '#D90000',
+//          transform: 'translate(' + rect.width + ',0)'
+//        });
+//
+//        svg.circle(selectG, 0, 0, 5, {
+//          id: 'cornerSE',
+//          class_: 'resizable',
+//          fill: '#D90000',
+//          transform: 'translate(' + rect.width + ',' + rect.height + ')'
+//        });
+//
+//        svg.circle(selectG, 0, 0, 5, {
+//          id: 'cornerSW',
+//          class_: 'resizable',
+//          fill: '#D90000',
+//          transform: 'translate(0,' + rect.height + ')'
+//        });
+//
+//        svg.line(selectG, 0, 0, 0, -20, {
+//          id: 'rotatorLine',
+//          stroke: '#D90000',
+//          strokeWidth: 3,
+//          transform: 'translate(' + w2 + ',0)'
+//        });
+//
+//        svg.circle(selectG, 0, 0, 5, {
+//          id: 'rotator',
+//          class_: 'resizable',
+//          stroke: '#D90000',
+//          fill: '#FFFFFF',
+//          strokeWidth: 1,
+//          transform: 'translate(' + w2 + ',-20)'
+//        });
+//
+//        return selectionGroup;
+//      }
 
     };
 
@@ -235,7 +312,6 @@
       shape.attr(self.drawSettings);
       console.log(shape);
     };
-
 
   });
 })();
