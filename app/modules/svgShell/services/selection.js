@@ -33,7 +33,7 @@
         class: 'draggable'
       });
 
-      var halfWidth = shape.width / 2;
+      var halfWidth = boundingBox.width / 2;
 
       svg.circle(selectionGroup, 0, 0, 5, {
         id: 'cornerNW',
