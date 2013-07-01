@@ -16,10 +16,6 @@
     // nodes on surface
     self.drawNodes = [];
 
-    // the drag information
-    // todo: rename it
-    self.start;
-
     // the box that surrounds a selected item
     self.selectionBox;
 
@@ -33,8 +29,8 @@
 
     self.resetSize = function (width, height) {
       self.svg.configure({
-        width:width || $(self.svg._container).width(),
-        height:height || $(self.svg._container).height()
+        width: width || $(self.svg._container).width(),
+        height: height || $(self.svg._container).height()
       });
     };
 
@@ -73,8 +69,8 @@
         offset.top -= document.documentElement.scrollTop || document.body.scrollTop;
 
         start = {
-          X:event.clientX - offset.left,
-          Y:event.clientY - offset.top
+          X: event.clientX - offset.left,
+          Y: event.clientY - offset.top
         };
 
         event.preventDefault();
@@ -92,20 +88,20 @@
 
         if (!outline) {
           outline = self.svg.rect(0, 0, 0, 0, {
-            fill:'none',
-            stroke:'#c0c0c0',
-            strokeWidth:1,
-            strokeDashArray:'2,2'
+            fill: 'none',
+            stroke: '#c0c0c0',
+            strokeWidth: 1,
+            strokeDashArray: '2,2'
           });
 
           $(outline).mouseup(endDrag);
         }
 
         self.svg.change(outline, {
-          x:Math.min(event.clientX - offset.left, start.X),
-          y:Math.min(event.clientY - offset.top, start.Y),
-          width:Math.abs(event.clientX - offset.left - start.X),
-          height:Math.abs(event.clientY - offset.top - start.Y)
+          x: Math.min(event.clientX - offset.left, start.X),
+          y: Math.min(event.clientY - offset.top, start.Y),
+          width: Math.abs(event.clientX - offset.left - start.X),
+          height: Math.abs(event.clientY - offset.top - start.Y)
         });
 
         event.preventDefault();
@@ -125,10 +121,10 @@
         outline = null;
 
         var shapeGroup = drawShape({
-          startX:start.X,
-          startY:start.Y,
-          endX:event.clientX - offset.left,
-          endY:event.clientY - offset.top
+          startX: start.X,
+          startY: start.Y,
+          endX: event.clientX - offset.left,
+          endY: event.clientY - offset.top
         });
 
 
@@ -155,30 +151,29 @@
         var bottom = Math.max(createShape.startY, createShape.endY);
 
         var settings = _.extend({
-          class:'shape'
+          class: 'shape'
         }, self.drawSettings);
 
         var parentGroup = self.svg.group({});
 
-        // hack! Need to pass shape value to service
-        var shape = settings.shape;
         var node = null;
-        if (shape == 'rect') {
+
+        if (settings.shape == 'rect') {
           node = self.svg.rect(parentGroup, left, top, right - left, bottom - top, settings);
         }
-        else if (shape == 'circle') {
+        else if (settings.shape == 'circle') {
           var r = Math.min(right - left, bottom - top) / 2;
           node = self.svg.circle(parentGroup, left + r, top + r, r, settings);
         }
-        else if (shape == 'ellipse') {
+        else if (settings.shape == 'ellipse') {
           var rx = (right - left) / 2;
           var ry = (bottom - top) / 2;
           node = self.svg.ellipse(parentGroup, left + rx, top + ry, rx, ry, settings);
         }
-        else if (shape == 'line') {
+        else if (settings.shape == 'line') {
           node = self.svg.line(parentGroup, x1, y1, x2, y2, settings);
         }
-        else if (shape == 'polyline') {
+        else if (settings.shape == 'polyline') {
           node = self.svg.polyline(parentGroup, [
             [(x1 + x2) / 2, y1],
             [x2, y2],
@@ -186,9 +181,9 @@
             [x2, (y1 + y2) / 2],
             [x1, y2],
             [(x1 + x2) / 2, y1]
-          ], $.extend(settings, {fill:'none'}));
+          ], $.extend(settings, {fill: 'none'}));
         }
-        else if (shape == 'polygon') {
+        else if (settings.shape == 'polygon') {
           node = self.svg.polygon(parentGroup, [
             [(x1 + x2) / 2, y1],
             [x2, y1],
@@ -201,11 +196,11 @@
         var textSpans = self.svg.createText().string('');
 
         var text = self.svg.text(parentGroup, 10, 10, textSpans, {
-          class:'text',
-          opacity:0.7,
-          fontFamily:'Verdana',
-          fontSize:'10.0',
-          fill:'blue'
+          class: 'text',
+          opacity: 0.7,
+          fontFamily: 'Verdana',
+          fontSize: '10.0',
+          fill: 'blue'
         });
 
         return parentGroup;
@@ -223,10 +218,10 @@
         var bb = rect.getBBox();
 
         self.selectionBox = self.svg.rect(bb.x - 5, bb.y - 5, bb.width + 10, bb.height + 10, {
-          fill:'none',
-          stroke:'black',
-          strokeWidth:1,
-          strokeDashArray:'2,2'
+          fill: 'none',
+          stroke: 'black',
+          strokeWidth: 1,
+          strokeDashArray: '2,2'
         });
 
         self.setShapeToEdit(shapeToEdit);
@@ -234,6 +229,13 @@
       };
 
     };
+
+    self.updateShape = function (shape) {
+      var shape = $(shape).find('.shape');
+      shape.attr(self.drawSettings);
+      console.log(shape);
+    };
+
 
   });
 })();

@@ -80,8 +80,11 @@
           stroke: $scope.selectedStrokeColor,
           strokeWidth: $scope.selectedStrokeWidth
         };
-      });
 
+        if($scope.shape){
+          surfaceService.updateShape($scope.shape);
+        }
+      });
 
       // provide surfaceService some scope information
       surfaceService.setShapeToEdit = function(shape){
@@ -91,8 +94,8 @@
       };
 
       surfaceService.resetSelectedShape = function() {
-        safeApply(self.$scope, function () {
-          self.$scope.shape = null;
+        safeApply(function () {
+          $scope.shape = null;
         });
       };
 
