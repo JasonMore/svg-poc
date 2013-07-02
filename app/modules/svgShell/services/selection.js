@@ -1,7 +1,25 @@
 (function () {
   angular.module('svgShell.services').service('selectionService', function () {
+    var self = this;
 
-    this.createSelectionBox = function (svg, group, transformStr) {
+    // the box that surrounds a selected item
+    self.selectionBox;
+
+    self.clearSelection = function () {
+      if (self.start) {
+        return;
+      }
+
+      if (!self.selectionBox) {
+        return;
+      }
+
+      self.svg.remove(self.selectionBox);
+      self.selectionBox = null;
+      self.resetSelectedShape();
+    };
+
+    self.createSelectionBox = function (svg, group, transformStr) {
       var id = 'what is this used for?';
 
       var shape = $(group).find('.shape')[0];

@@ -1,6 +1,6 @@
 (function () {
   angular.module('svgShell.directives', [])
-    .directive('svgSketchpad', function (surfaceService) {
+    .directive('svgSketchpad', function (surfaceService, drawService) {
       return {
         restrict: 'E',
         template: '<div style="width: 100%; height: 300px;"></div>',
@@ -15,7 +15,7 @@
             });
 
             surfaceService.resetSize('100%', '100%');
-            surfaceService.setupDrawMouseBindings();
+            drawService.setupDrawMouseBindings();
           }});
         }
       }

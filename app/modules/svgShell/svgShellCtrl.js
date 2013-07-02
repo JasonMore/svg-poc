@@ -1,6 +1,6 @@
 (function () {
   angular.module('svgShell.controllers', [])
-    .controller('svgShellCtrl', function ($scope, surfaceService, textFlowService) {
+    .controller('svgShellCtrl', function ($scope, surfaceService, drawService, selectionService, textFlowService) {
       window.debugScope = $scope;
 
       // properties
@@ -47,7 +47,7 @@
 
       // watches
       $scope.$watch('isDrawing', function (val) {
-        surfaceService.clearSelection();
+        selectionService.clearSelection();
       });
 
 
@@ -74,7 +74,7 @@
       });
 
       $scope.$watch('selectedShape + selectedFill + selectedStrokeColor + selectedStrokeWidth', function() {
-        surfaceService.drawSettings = {
+        drawService.drawSettings = {
           shape: $scope.selectedShape,
           fill: $scope.selectedFill,
           stroke: $scope.selectedStrokeColor,
@@ -82,13 +82,13 @@
         };
 
         if($scope.shape){
-          surfaceService.updateShape($scope.shape);
+          drawService.updateShape($scope.shape);
         }
       });
 
       // provide surfaceService some scope information
       surfaceService.setShapeToEdit = function(shape){
-        $scope.$apply(function() {
+        safeApply(function() {
           $scope.shape = shape;
         });
       };
@@ -99,7 +99,7 @@
         });
       };
 
-      surfaceService.isDrawing = function() {
+      drawService.isDrawing = function() {
         return $scope.isDrawing;
       }
 
