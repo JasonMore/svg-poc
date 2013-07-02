@@ -1,7 +1,7 @@
 (function () {
 
   // remember: services in angular are singletons!
-  angular.module('svgShell.services').service('surfaceService', function (selectionService) {
+  angular.module('svgShell.services').service('surfaceService', function () {
     var self = this;
 
     // external hooks wired up elsewhere

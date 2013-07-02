@@ -129,7 +129,17 @@
         if (settings.shape == 'rect') {
 //          node = self.svg.rect(parentGroup, left, top, right - left, bottom - top, settings);
 
-          node = surfaceService.svg.rect(parentGroup, 0, 0, right - left, bottom - top, settings)
+//          node = surfaceService.svg.rect(parentGroup, 0, 0, right - left, bottom - top, settings)
+
+          var path1 = surfaceService.svg.createPath()
+            .move(0, 0)
+            .line(right - left, 0)
+            .line(right - left, bottom - top)
+            .line(0, bottom - top)
+            .close();
+
+          node = surfaceService.svg.path(parentGroup, path1, settings);
+
         }
         else if (settings.shape == 'circle') {
           var r = Math.min(right - left, bottom - top) / 2;
@@ -183,8 +193,8 @@
 
         selectionService.clearSelection();
 
-//        var shape = $(this).find('.shape')[0];
-        self.selectionBox = selectionService.createSelectionBox(surfaceService.svg, this);
+        // "this" is the shape that was clicked
+        selectionService.createSelectionBox(this);
         surfaceService.setShapeToEdit(this);
       };
 
@@ -193,7 +203,6 @@
     self.updateShape = function (shape) {
       var shape = $(shape).find('.shape');
       shape.attr(self.drawSettings);
-      console.log(shape);
     };
 
   });

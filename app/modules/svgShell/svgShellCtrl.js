@@ -50,7 +50,6 @@
         selectionService.clearSelection();
       });
 
-
       // move this to directive
       $scope.$watch('textValue', _.debounce(function(newVal, oldVal){
         if(!$scope.shape) {
@@ -93,7 +92,7 @@
         });
       };
 
-      surfaceService.resetSelectedShape = function() {
+      selectionService.resetSelectedShape = function() {
         safeApply(function () {
           $scope.shape = null;
         });
@@ -101,7 +100,7 @@
 
       drawService.isDrawing = function() {
         return $scope.isDrawing;
-      }
+      };
 
       // hack while service and controller are still tightly coupled.
       function safeApply(fn) {
