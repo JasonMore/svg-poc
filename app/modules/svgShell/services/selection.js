@@ -25,8 +25,9 @@
 
       svg.path(selectionGroup, selectionPath, {
         id: 'outlinePath',
-        fill: 'white',
-        fillOpacity: '0.3',
+        fill: 'none',
+//        fill: 'white',
+        //fillOpacity: '0.3',
         'stroke-dasharray': '5,5',
         stroke: '#D90000',
         strokeWidth: 2,
@@ -35,33 +36,30 @@
 
       var halfWidth = boundingBox.width / 2;
 
-      svg.circle(selectionGroup, 0, 0, 5, {
+      var defaultCircleSettings = {
+        class_: 'resizable',
+        fill: '#D90000'
+      };
+
+      svg.circle(selectionGroup, 0, 0, 5, _.extend(defaultCircleSettings, {
         id: 'cornerNW',
-        class_: 'resizable',
-        fill: '#D90000',
         transform: 'translate(0,0)'
-      });
+      }));
 
-      svg.circle(selectionGroup, 0, 0, 5, {
+      svg.circle(selectionGroup, 0, 0, 5, _.extend(defaultCircleSettings, {
         id: 'cornerNE',
-        class_: 'resizable',
-        fill: '#D90000',
         transform: 'translate(' + boundingBox.width + ',0)'
-      });
+      }));
 
-      svg.circle(selectionGroup, 0, 0, 5, {
+      svg.circle(selectionGroup, 0, 0, 5, _.extend(defaultCircleSettings, {
         id: 'cornerSE',
-        class_: 'resizable',
-        fill: '#D90000',
         transform: 'translate(' + boundingBox.width + ',' + boundingBox.height + ')'
-      });
+      }));
 
-      svg.circle(selectionGroup, 0, 0, 5, {
+      svg.circle(selectionGroup, 0, 0, 5, _.extend(defaultCircleSettings, {
         id: 'cornerSW',
-        class_: 'resizable',
-        fill: '#D90000',
         transform: 'translate(0,' + boundingBox.height + ')'
-      });
+      }));
 
       svg.line(selectionGroup, 0, 0, 0, -20, {
         id: 'rotatorLine',
@@ -81,7 +79,5 @@
 
       return selectionGroup;
     }
-
-
   });
 })();
