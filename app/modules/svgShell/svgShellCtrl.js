@@ -47,21 +47,16 @@
 
       // watches
       $scope.$watch('isDrawing', function (val) {
-        selectionService.clearSelection();
+        //selectionService.clearSelection();
       });
 
-      // move this to directive
-      $scope.$watch('textValue', _.debounce(function(newVal, oldVal){
+      $scope.$watch('textValue', function(newVal, oldVal){
         if(!$scope.shape) {
           return;
         }
 
-        var text = $($scope.shape).find('.text')[0];
-        var container = $($scope.shape).find('.shape')[0];
-
-        text.firstChild.nodeValue = newVal || '';
-        textFlowService.recalcText(text, container);
-      }, 250));
+        textFlowService.updateTextFlowForCurrentShape(newVal);
+      });
 
       $scope.$watch('shape', function(newVal, oldVal){
         if(!newVal || newVal === oldVal){
@@ -88,6 +83,9 @@
       // provide surfaceService some scope information
       surfaceService.setShapeToEdit = function(shape){
         safeApply(function() {
+
+          $scope.isDrawing = false;
+
           $scope.shape = shape;
         });
       };
@@ -101,6 +99,10 @@
       drawService.isDrawing = function() {
         return $scope.isDrawing;
       };
+
+      textFlowService.currentShape = function() {
+        return $scope.shape;
+      }
 
       // hack while service and controller are still tightly coupled.
       function safeApply(fn) {

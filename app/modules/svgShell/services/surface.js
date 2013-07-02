@@ -6,7 +6,6 @@
 
     // external hooks wired up elsewhere
     self.setShapeToEdit;
-    self.resetSelectedShape;
 
     // div containing svg
     self.svgsketch;

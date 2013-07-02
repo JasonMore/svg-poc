@@ -12,35 +12,33 @@
   </a>
 </div>
 
-<div collapse="!isDrawing">
-  <div class="well well-large">
-    <div class="row">
-      <div class="span4"></div>
-      <label>
-        Shape
-        <select ng-model="selectedShape"
-                ng-options="shape.id as shape.name for shape in shapeOptions"></select>
-      </label>
+<div class="well well-large">
+  <div class="row">
+    <div class="span4"></div>
+    <label>
+      Shape
+      <select ng-model="selectedShape"
+              ng-options="shape.id as shape.name for shape in shapeOptions"></select>
+    </label>
 
-      <label>
-        Fill
-        <select ng-model="selectedFill"
-                ng-options="color.id as color.name for color in colorOptions"></select>
-      </label>
-    </div>
-    <div class="row">
-      <label>
-        Stroke width
-        <select ng-model="selectedStrokeWidth"
-                ng-options="size.id as size.name for size in strokeWidthOptions"></select>
-      </label>
+    <label>
+      Fill
+      <select ng-model="selectedFill"
+              ng-options="color.id as color.name for color in colorOptions"></select>
+    </label>
+  </div>
+  <div class="row">
+    <label>
+      Stroke width
+      <select ng-model="selectedStrokeWidth"
+              ng-options="size.id as size.name for size in strokeWidthOptions"></select>
+    </label>
 
-      <label>
-        Fill
-        <select ng-model="selectedStrokeColor"
-                ng-options="color.id as color.name for color in colorOptions"></select>
-      </label>
-    </div>
+    <label>
+      Fill
+      <select ng-model="selectedStrokeColor"
+              ng-options="color.id as color.name for color in colorOptions"></select>
+    </label>
   </div>
 </div>
 

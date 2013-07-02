@@ -1,5 +1,5 @@
 (function () {
-  angular.module('svgShell.services').service('resizeService', function (surfaceService) {
+  angular.module('svgShell.services').service('resizeService', function (surfaceService, textFlowService) {
 
     this.attachResizeBindings = function(controlPoints) {
       $(controlPoints).draggable(resizeObj);
@@ -120,7 +120,8 @@
           this.parentNode.setAttribute('rect1', JSON.stringify(rect));
           adjustTranslate(linkedNode, deltax, deltay, true);
 
-          rescaleElement(surfaceService.svg, linkedNode.lastElementChild, scaleX, scaleY);
+          var shape = $(linkedNode).find('.shape')[0];
+          rescaleElement(surfaceService.svg, shape, scaleX, scaleY);
         }
 
         setRotation(linkedNode, angle, width / 2, height / 2);
@@ -241,6 +242,8 @@
 
       newPath = newPath.close();
       element.setAttribute('d', newPath.path());
+
+      textFlowService.updateTextFlowForCurrentShape();
     }
 
     function getAngle(ptA, ptB, ptC) {

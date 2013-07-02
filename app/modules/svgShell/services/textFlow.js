@@ -1,8 +1,25 @@
 (function () {
   angular.module('svgShell.services').service('textFlowService', function (surfaceService) {
+    var self = this;
 
-    this.checkWordFits = checkWordFits;
-    this.recalcText = recalcText;
+    // hooked up elsewhere
+    self.currentShape;
+
+    self.updateTextFlowForCurrentShape = function(newVal) {
+      var shape = self.currentShape();
+
+      var text = $(shape).find('.text')[0];
+      var container = $(shape).find('.shape')[0];
+
+      if(!_.isUndefined(newVal)) {
+        text.firstChild.nodeValue = newVal || '';
+      }
+      self.recalcText(text, container);
+    }
+
+
+    self.checkWordFits = checkWordFits;
+    self.recalcText = _.throttle(recalcText, 250);
 
 
     //rectVisible checks the 4 corners of the rectangle to see if the
