@@ -1,5 +1,5 @@
 (function () {
-  angular.module('svgShell.services').service('selectionService', function (surfaceService, resizeService) {
+  angular.module('svgShell.services').service('selectionService', function (surfaceService, resizeService, dragService) {
     var self = this;
 
     // the box that surrounds a selected item
@@ -30,20 +30,16 @@
         .close();
 
       var selectionGroup = surfaceService.svg.group({
-        id: 'outlineShape',
-//        refId: id,
         origRect: JSON.stringify(boundingBox),
         rect1: JSON.stringify(boundingBox),
         transform: transformStr
       });
 
-      $(selectionGroup).data('groupToModify', group);
-
       surfaceService.svg.path(selectionGroup, selectionPath, {
         id: 'outlinePath',
         fill: 'none',
-//        fill: 'white',
-        //fillOpacity: '0.3',
+        fill: 'white',
+        fillOpacity: '0.3',
         'stroke-dasharray': '5,5',
         stroke: '#D90000',
         strokeWidth: 2,
@@ -84,16 +80,15 @@
         transform: 'translate(' + halfWidth + ',0)'
       });
 
-      var rotator = surfaceService.svg.circle(selectionGroup, 0, 0, 5, {
+      var rotator = surfaceService.svg.circle(selectionGroup, 0, 0, 5, _.extend(defaultCircleSettings, {
         id: 'rotator',
-        class_: 'resizable',
-        stroke: '#D90000',
         fill: '#FFFFFF',
         strokeWidth: 1,
         transform: 'translate(' + halfWidth + ',-20)'
-      });
+      }));
 
       // hack?
+      $(selectionGroup).data('groupToModify', group);
       $(cornerNW).data('groupToModify', group);
       $(cornerNE).data('groupToModify', group);
       $(cornerSE).data('groupToModify', group);
@@ -103,6 +98,7 @@
       self.selectionBox = selectionGroup;
 
       resizeService.attachResizeBindings($('.resizable'));
+      dragService.makeDraggable(selectionGroup);
 
       return selectionGroup;
     }

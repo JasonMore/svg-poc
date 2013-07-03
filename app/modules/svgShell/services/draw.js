@@ -1,5 +1,5 @@
 (function () {
-  angular.module('svgShell.services').service('drawService', function (surfaceService, selectionService) {
+  angular.module('svgShell.services').service('drawService', function (surfaceService, selectionService, dragService) {
     var self = this;
 
     // external hooks wired up elsewhere
@@ -102,6 +102,8 @@
           .on('mousemove', dragging)
           .on('mouseup', endDrag)
           .on('click', editShape);
+
+//        dragService.makeDraggable(shapeGroup);
 
         start = null;
 
