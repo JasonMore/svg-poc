@@ -12,7 +12,9 @@
             var origY = trans.matrix.f;
 
             //  //console.log('AdjustTranslate', x, y);
+            console.log(origX, origY);
             trans.setTranslate(origX + x, origY + y);
+
           } else {
             trans.setTranslate(x, y);
           }
