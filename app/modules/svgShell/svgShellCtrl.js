@@ -10,11 +10,11 @@
       $scope.selectedShape = 'rect';
       $scope.shapeOptions = [
         {id: 'rect', name: 'Rectangle'},
-        {id: 'circle', name: 'Circle'},
-        {id: 'ellipse', name: 'Ellipse'},
-        {id: 'line', name: 'Line'},
-        {id: 'polyline', name: 'Polyline'},
-        {id: 'polygon', name: 'Polygon'}
+        {id: 'circle', name: 'Circle'}
+//        {id: 'ellipse', name: 'Ellipse'},
+//        {id: 'line', name: 'Line'},
+//        {id: 'polyline', name: 'Polyline'},
+//        {id: 'polygon', name: 'Polygon'}
       ];
 
       $scope.selectedFill = 'gray';

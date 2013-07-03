@@ -36,7 +36,7 @@
 
         var path2 = svg.createPath();
         path2.move(0, 75)
-          .arc(75, 75, 0, 1, 0, 150, 0, true)
+          .arc(/*rx*/75,/*ry*/ 75,/*xrotate*/ 0,/*large*/ 1,/*clockwise*/ 0,/*x*/ 150,/*y*/ 0,/*relative*/ true)
           .arc(75, 75, 0, 1, 0, -150, 0, true)
           .close();
 

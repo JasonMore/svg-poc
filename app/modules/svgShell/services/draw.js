@@ -117,6 +117,8 @@
         var top = Math.min(createShape.startY, createShape.endY);
         var right = Math.max(createShape.startX, createShape.endX);
         var bottom = Math.max(createShape.startY, createShape.endY);
+        var width = right - left;
+        var height = bottom - top;
 
         var settings = _.extend({
           class: 'shape'
@@ -126,54 +128,65 @@
           transform: 'translate(' + left + ',' + top + ')'
         });
 
-        var node = null;
-
         if (settings.shape == 'rect') {
-//          node = self.svg.rect(parentGroup, left, top, right - left, bottom - top, settings);
-
-//          node = surfaceService.svg.rect(parentGroup, 0, 0, right - left, bottom - top, settings)
-
-          var path1 = surfaceService.svg.createPath()
+          surfaceService.svg.path(parentGroup, surfaceService.svg.createPath()
             .move(0, 0)
-            .line(right - left, 0)
-            .line(right - left, bottom - top)
-            .line(0, bottom - top)
-            .close();
-
-          node = surfaceService.svg.path(parentGroup, path1, settings);
-
+            .line(width, 0)
+            .line(width, height)
+            .line(0, height)
+            .close(), settings);
         }
         else if (settings.shape == 'circle') {
-          var r = Math.min(right - left, bottom - top) / 2;
-          node = surfaceService.svg.circle(parentGroup, left + r, top + r, r, settings);
+          surfaceService.svg.path(parentGroup, surfaceService.svg.createPath()
+            .move(width / 2, 0)
+            .arc(
+              /*rx*/ width / 2,
+              /*ry*/ height / 2,
+              /*xRotate*/ 0,
+              /*large*/ 1,
+              /*clockwise*/ 0,
+              /*x*/ 0,
+              /*y*/ height,
+              /*relative*/ true)
+            .arc(
+              /*rx*/ width / 2,
+              /*ry*/ height / 2,
+              /*xRotate*/ 0,
+              /*large*/ 1,
+              /*clockwise*/ 0,
+              /*x*/ 0,
+              /*y*/ (height * -1),
+              /*relative*/ true)
+            .close(), settings);
+
         }
-        else if (settings.shape == 'ellipse') {
-          var rx = (right - left) / 2;
-          var ry = (bottom - top) / 2;
-          node = surfaceService.svg.ellipse(parentGroup, left + rx, top + ry, rx, ry, settings);
-        }
-        else if (settings.shape == 'line') {
-          node = surfaceService.svg.line(parentGroup, x1, y1, x2, y2, settings);
-        }
-        else if (settings.shape == 'polyline') {
-          node = surfaceService.svg.polyline(parentGroup, [
-            [(x1 + x2) / 2, y1],
-            [x2, y2],
-            [x1, (y1 + y2) / 2],
-            [x2, (y1 + y2) / 2],
-            [x1, y2],
-            [(x1 + x2) / 2, y1]
-          ], $.extend(settings, {fill: 'none'}));
-        }
-        else if (settings.shape == 'polygon') {
-          node = surfaceService.svg.polygon(parentGroup, [
-            [(x1 + x2) / 2, y1],
-            [x2, y1],
-            [x2, y2],
-            [(x1 + x2) / 2, y2],
-            [x1, (y1 + y2) / 2]
-          ], settings);
-        }
+//        else if (settings.shape == 'ellipse') {
+//          var rx = (right - left) / 2;
+//          var ry = (bottom - top) / 2;
+//          node = surfaceService.svg.ellipse(parentGroup, left + rx, top + ry, rx, ry, settings);
+//        }
+//        else if (settings.shape == 'line') {
+//          node = surfaceService.svg.line(parentGroup, x1, y1, x2, y2, settings);
+//        }
+//        else if (settings.shape == 'polyline') {
+//          node = surfaceService.svg.polyline(parentGroup, [
+//            [(x1 + x2) / 2, y1],
+//            [x2, y2],
+//            [x1, (y1 + y2) / 2],
+//            [x2, (y1 + y2) / 2],
+//            [x1, y2],
+//            [(x1 + x2) / 2, y1]
+//          ], $.extend(settings, {fill: 'none'}));
+//        }
+//        else if (settings.shape == 'polygon') {
+//          node = surfaceService.svg.polygon(parentGroup, [
+//            [(x1 + x2) / 2, y1],
+//            [x2, y1],
+//            [x2, y2],
+//            [(x1 + x2) / 2, y2],
+//            [x1, (y1 + y2) / 2]
+//          ], settings);
+//        }
 
         var textSpans = surfaceService.svg.createText().string('');
 
