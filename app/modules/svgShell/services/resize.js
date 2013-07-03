@@ -1,5 +1,10 @@
 (function () {
-  angular.module('svgShell.services').service('resizeService', function (surfaceService, textFlowService) {
+  angular.module('svgShell.services').service('resizeService', function (surfaceService) {
+    var self = this;
+
+    // poor man's event bus?
+    self.resizeStarted;
+    self.resizeEnded;
 
     this.attachResizeBindings = function(controlPoints) {
       $(controlPoints).draggable(resizeObj);
@@ -7,6 +12,7 @@
 
     var resizeObj = {
       start: function () {
+        self.resizeStarted();
         var matrix = this.parentNode.getScreenCTM().inverse();
 
         var pt = this.ownerSVGElement.createSVGPoint();
@@ -129,7 +135,7 @@
 
       },
       stop: function () {
-
+        self.resizeEnded();
       }
     }
 
@@ -243,7 +249,6 @@
       newPath = newPath.close();
       element.setAttribute('d', newPath.path());
 
-      textFlowService.updateTextFlowForCurrentShape();
     }
 
     function getAngle(ptA, ptB, ptC) {

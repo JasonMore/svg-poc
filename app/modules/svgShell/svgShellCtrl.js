@@ -1,6 +1,6 @@
 (function () {
   angular.module('svgShell.controllers', [])
-    .controller('svgShellCtrl', function ($scope, $timeout, surfaceService, drawService, selectionService, textFlowService) {
+    .controller('svgShellCtrl', function ($scope, $timeout, surfaceService, drawService, selectionService, textFlowService, resizeService) {
       window.debugScope = $scope;
 
 
@@ -91,9 +91,7 @@
       // provide surfaceService some scope information
       surfaceService.setShapeToEdit = function(shape){
         safeApply(function() {
-
           $scope.isDrawing = false;
-
           $scope.shape = shape;
         });
       };
@@ -111,7 +109,18 @@
 
       textFlowService.currentShape = function() {
         return $scope.shape;
-      }
+      };
+
+      resizeService.resizeStarted = function() {
+        selectionService.hideSelectionBox();
+        $($scope.shape).find('.text').hide();
+      };
+
+      resizeService.resizeEnded = function() {
+        $($scope.shape).find('.text').show();
+        textFlowService.updateTextFlowForCurrentShape();
+        selectionService.showSelectionBox();
+      };
 
       // hack while service and controller are still tightly coupled.
       function safeApply(fn) {
