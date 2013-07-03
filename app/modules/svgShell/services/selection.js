@@ -4,6 +4,7 @@
 
     // the box that surrounds a selected item
     self.selectionBox;
+    self.boundingBox;
 
     self.clearSelection = function () {
       if (!self.selectionBox) {
@@ -16,8 +17,6 @@
     };
 
     self.createSelectionBox = function (group) {
-      var id = 'what is this used for?';
-
       var shape = $(group).find('.shape')[0];
       var transformStr = group.getAttribute('transform');
       var boundingBox = shape.getBBox();
@@ -29,15 +28,15 @@
         .line(0, boundingBox.height)
         .close();
 
-      var selectionGroup = surfaceService.svg.group({
+      var selectionBox = surfaceService.svg.group({
         origRect: JSON.stringify(boundingBox),
         rect1: JSON.stringify(boundingBox),
         transform: transformStr
       });
 
-      surfaceService.svg.path(selectionGroup, selectionPath, {
+      surfaceService.svg.path(selectionBox, selectionPath, {
         id: 'outlinePath',
-        fill: 'none',
+        //fill: 'none',
         fill: 'white',
         fillOpacity: '0.3',
         'stroke-dasharray': '5,5',
@@ -53,34 +52,34 @@
         fill: '#D90000'
       };
 
-      var cornerNW = surfaceService.svg.circle(selectionGroup, 0, 0, 5, _.extend(defaultCircleSettings, {
+      var cornerNW = surfaceService.svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
         id: 'cornerNW',
         transform: 'translate(0,0)'
       }));
 
-      var cornerNE = surfaceService.svg.circle(selectionGroup, 0, 0, 5, _.extend(defaultCircleSettings, {
+      var cornerNE = surfaceService.svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
         id: 'cornerNE',
         transform: 'translate(' + boundingBox.width + ',0)'
       }));
 
-      var cornerSE = surfaceService.svg.circle(selectionGroup, 0, 0, 5, _.extend(defaultCircleSettings, {
+      var cornerSE = surfaceService.svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
         id: 'cornerSE',
         transform: 'translate(' + boundingBox.width + ',' + boundingBox.height + ')'
       }));
 
-      var cornerSW = surfaceService.svg.circle(selectionGroup, 0, 0, 5, _.extend(defaultCircleSettings, {
+      var cornerSW = surfaceService.svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
         id: 'cornerSW',
         transform: 'translate(0,' + boundingBox.height + ')'
       }));
 
-      surfaceService.svg.line(selectionGroup, 0, 0, 0, -20, {
+      surfaceService.svg.line(selectionBox, 0, 0, 0, -20, {
         id: 'rotatorLine',
         stroke: '#D90000',
         strokeWidth: 3,
         transform: 'translate(' + halfWidth + ',0)'
       });
 
-      var rotator = surfaceService.svg.circle(selectionGroup, 0, 0, 5, _.extend(defaultCircleSettings, {
+      var rotator = surfaceService.svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
         id: 'rotator',
         fill: '#FFFFFF',
         strokeWidth: 1,
@@ -88,19 +87,30 @@
       }));
 
       // hack?
-      $(selectionGroup).data('groupToModify', group);
+      $(selectionBox).data('groupToModify', group);
       $(cornerNW).data('groupToModify', group);
       $(cornerNE).data('groupToModify', group);
       $(cornerSE).data('groupToModify', group);
       $(cornerSW).data('groupToModify', group);
       $(rotator).data('groupToModify', group);
 
-      self.selectionBox = selectionGroup;
+      // set public properties for selection for use outside service
+      self.selectionBox = selectionBox;
+      self.boundingBox = boundingBox;
+      self.translationOffset = $(group).data('translationOffset');
 
       resizeService.attachResizeBindings($('.resizable'));
-      dragService.makeDraggable(selectionGroup);
+      dragService.makeDraggable(selectionBox);
 
-      return selectionGroup;
+      return selectionBox;
     }
+
+    self.hideSelectionBox = function() {
+      $(self.selectionBox).hide();
+    };
+
+    self.showSelectionBox = function(){
+      $(self.selectionBox).show();
+    };
   });
 })();

@@ -1,11 +1,14 @@
 (function () {
   angular.module('svgShell.controllers', [])
-    .controller('svgShellCtrl', function ($scope, surfaceService, drawService, selectionService, textFlowService) {
+    .controller('svgShellCtrl', function ($scope, $timeout, surfaceService, drawService, selectionService, textFlowService) {
       window.debugScope = $scope;
+
 
       // properties
       $scope.isDrawing = true;
+      $scope.isEditingText = false;
       $scope.textValue = '';
+      $scope.shape;
 
       $scope.selectedShape = 'rect';
       $scope.shapeOptions = [
@@ -50,12 +53,17 @@
         //selectionService.clearSelection();
       });
 
-      $scope.$watch('textValue', function(newVal, oldVal){
-        if(!$scope.shape) {
-          return;
-        }
-
-        textFlowService.updateTextFlowForCurrentShape(newVal);
+      $scope.$watch('isEditingText', function(newVal, oldVal){
+        // need to wait for the textarea to go away before
+        // calculating the new textflow
+        $timeout(function() {
+          if(newVal) {
+            selectionService.hideSelectionBox();
+          } else {
+            textFlowService.updateTextFlowForCurrentShape($scope.textValue);
+            selectionService.showSelectionBox();
+          }
+        });
       });
 
       $scope.$watch('shape', function(newVal, oldVal){
@@ -93,6 +101,7 @@
       selectionService.resetSelectedShape = function() {
         safeApply(function () {
           $scope.shape = null;
+          $scope.isEditingText = false;
         });
       };
 

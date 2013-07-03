@@ -17,4 +17,5 @@
     });
 
   angular.module('svgShell.services',[]);
+  angular.module('svgShell.directives', []);
 }());

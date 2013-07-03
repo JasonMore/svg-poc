@@ -1,5 +1,5 @@
 (function () {
-  angular.module('svgShell.directives', [])
+  angular.module('svgShell.directives')
     .directive('svgSketchpad', function (surfaceService, drawService) {
       return {
         restrict: 'E',

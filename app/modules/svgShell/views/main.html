@@ -1,4 +1,5 @@
 <div class="svg-drop">
+  <floating-text-editor text-value="textValue" is-editing="isEditingText"></floating-text-editor>
   <svg-sketchpad></svg-sketchpad>
 </div>
 
@@ -9,6 +10,10 @@
   <a class="btn" ng-click="isDrawing = !isDrawing">
     <i ng-class="{'icon-check': isDrawing, 'icon-check-empty': !isDrawing}"></i>
     Draw
+  </a>
+  <a class="btn" ng-show="shape" ng-click="isEditingText = !isEditingText">
+    <i ng-class="{'icon-check': isEditingText, 'icon-check-empty': !isEditingText}"></i>
+    Edit Text
   </a>
 </div>
 
@@ -42,12 +47,14 @@
   </div>
 </div>
 
-<div collapse="!shape">
-  <div class="well well-large">
-    <div class="row">
-      <label>Text
-        <textarea ng-model="textValue"></textarea>
-      </label>
-    </div>
-  </div>
-</div>
+
+
+<!--<div collapse="!isEditingText">-->
+  <!--<div class="well well-large">-->
+    <!--<div class="row">-->
+      <!--<label>Text-->
+        <!--<textarea class="input-xxlarge" ng-model="textValue"></textarea>-->
+      <!--</label>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->

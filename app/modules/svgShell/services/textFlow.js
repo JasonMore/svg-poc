@@ -11,6 +11,10 @@
       var text = $(shape).find('.text')[0];
       var container = $(shape).find('.shape')[0];
 
+      if(_.isUndefined(text)){
+        return;
+      }
+
       if(!_.isUndefined(newVal)) {
         text.firstChild.nodeValue = newVal || '';
       }

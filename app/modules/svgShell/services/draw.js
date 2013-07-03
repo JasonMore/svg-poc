@@ -128,6 +128,8 @@
           transform: 'translate(' + left + ',' + top + ')'
         });
 
+        $(parentGroup).data('translationOffset', {top: top, left: left});
+
         if (settings.shape == 'rect') {
           surfaceService.svg.path(parentGroup, surfaceService.svg.createPath()
             .move(0, 0)
