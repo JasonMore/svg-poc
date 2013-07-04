@@ -103,8 +103,6 @@
           .on('mouseup', endDrag)
           .on('click', editShape);
 
-//        dragService.makeDraggable(shapeGroup);
-
         start = null;
 
         event.preventDefault();
@@ -214,6 +212,10 @@
         selectionService.createSelectionBox(this);
         surfaceService.setShapeToEdit(this);
       };
+
+      function editText(){
+        self.startEditingText();
+      }
 
     };
 

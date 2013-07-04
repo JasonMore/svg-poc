@@ -2,6 +2,10 @@
   angular.module('svgShell.services').service('selectionService', function (surfaceService, resizeService, dragService) {
     var self = this;
 
+    // hooks from external sources
+    self.startEditingText;
+
+
     // the box that surrounds a selected item
     self.selectionBox;
     self.boundingBox;
@@ -93,6 +97,8 @@
       $(cornerSE).data('groupToModify', group);
       $(cornerSW).data('groupToModify', group);
       $(rotator).data('groupToModify', group);
+
+      $(selectionBox).on('dblclick', self.startEditingText);
 
       // set public properties for selection for use outside service
       self.selectionBox = selectionBox;

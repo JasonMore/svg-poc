@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "supervisor server.js"
+    "start": "node server.js",
+    "startDev": "supervisor server.js"
   },
   "dependencies": {
     "express": "3.1.0",

@@ -8,9 +8,10 @@
       $scope.isDrawing = true;
       $scope.isEditingText = false;
       $scope.textValue = '';
-      $scope.shape;
+      $scope.isEditingShape = false;
+      $scope.shapeToEdit;
 
-      $scope.selectedShape = 'rect';
+      $scope.shapeToDraw = 'rect';
       $scope.shapeOptions = [
         {id: 'rect', name: 'Rectangle'},
         {id: 'circle', name: 'Circle'}
@@ -71,35 +72,29 @@
           return;
         }
 
-        var textElement = $($scope.shape).find('.text')[0];
+        var textElement = $($scope.shapeToEdit).find('.text')[0];
         $scope.textValue = textElement.firstChild.nodeValue;
       });
 
-      $scope.$watch('selectedShape + selectedFill + selectedStrokeColor + selectedStrokeWidth', function() {
+      $scope.$watch('shapeToDraw + selectedFill + selectedStrokeColor + selectedStrokeWidth', function() {
         drawService.drawSettings = {
-          shape: $scope.selectedShape,
+          shape: $scope.shapeToDraw,
           fill: $scope.selectedFill,
           stroke: $scope.selectedStrokeColor,
           strokeWidth: $scope.selectedStrokeWidth
         };
 
-        if($scope.shape){
-          drawService.updateShape($scope.shape);
+        if($scope.isEditingShape){
+          drawService.updateShape($scope.shapeToEdit);
         }
       });
 
-      // provide surfaceService some scope information
+      // provide services functions to update scope
       surfaceService.setShapeToEdit = function(shape){
         safeApply(function() {
           $scope.isDrawing = false;
-          $scope.shape = shape;
-        });
-      };
-
-      selectionService.resetSelectedShape = function() {
-        safeApply(function () {
-          $scope.shape = null;
-          $scope.isEditingText = false;
+          $scope.isEditingShape = true;
+          $scope.shapeToEdit = shape;
         });
       };
 
@@ -107,22 +102,34 @@
         return $scope.isDrawing;
       };
 
+      selectionService.resetSelectedShape = function() {
+        safeApply(function () {
+          $scope.isEditingText = false;
+          $scope.isEditingShape = false;
+        });
+      };
+
+      selectionService.startEditingText = function() {
+        safeApply(function() {
+          $scope.isEditingText = true;
+        });
+      }
+
       textFlowService.currentShape = function() {
-        return $scope.shape;
+        return $scope.shapeToEdit;
       };
 
       resizeService.resizeStarted = function() {
         selectionService.hideSelectionBox();
-        $($scope.shape).find('.text').hide();
+        $($scope.shapeToEdit).find('.text').hide();
       };
 
       resizeService.resizeEnded = function() {
-        $($scope.shape).find('.text').show();
+        $($scope.shapeToEdit).find('.text').show();
         textFlowService.updateTextFlowForCurrentShape();
         selectionService.showSelectionBox();
       };
 
-      // hack while service and controller are still tightly coupled.
       function safeApply(fn) {
         ($scope.$$phase || $scope.$root.$$phase) ? fn() : $scope.$apply(fn);
       }

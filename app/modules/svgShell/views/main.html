@@ -11,7 +11,7 @@
     <i ng-class="{'icon-check': isDrawing, 'icon-check-empty': !isDrawing}"></i>
     Draw
   </a>
-  <a class="btn" ng-show="shape" ng-click="isEditingText = !isEditingText">
+  <a class="btn" ng-show="isEditingShape" ng-click="isEditingText = !isEditingText">
     <i ng-class="{'icon-check': isEditingText, 'icon-check-empty': !isEditingText}"></i>
     Edit Text
   </a>
@@ -22,7 +22,7 @@
     <div class="span4"></div>
     <label>
       Shape
-      <select ng-model="selectedShape"
+      <select ng-model="shapeToDraw"
               ng-options="shape.id as shape.name for shape in shapeOptions"></select>
     </label>
 
