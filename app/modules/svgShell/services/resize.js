@@ -99,7 +99,7 @@
         scaleY = height / rect.height;
 
         setRotation(this.parentNode, angle, width / 2, height / 2);
-        var linkedNode = $(this).data('groupToModify');
+        var groupToModify = $(this).data('groupToModify');
 
         if (!didRotate) {
           var pt2 = this.ownerSVGElement.createSVGPoint();
@@ -124,13 +124,17 @@
 
           setCornerTransforms(surfaceService.svg, width, height);
           this.parentNode.setAttribute('rect1', JSON.stringify(rect));
-          adjustTranslate(linkedNode, deltax, deltay, true);
+          adjustTranslate(groupToModify, deltax, deltay, true);
 
-          var shape = $(linkedNode).find('.shape')[0];
+          var shape = $(groupToModify).find('.shape')[0];
           rescaleElement(surfaceService.svg, shape, scaleX, scaleY);
+
+
+          // TODO: I need the new top and left coordinates of the redrawn box
+          //$(groupToModify).data('translationOffset', {top: rect.top, left: rect.left});
         }
 
-        setRotation(linkedNode, angle, width / 2, height / 2);
+        setRotation(groupToModify, angle, width / 2, height / 2);
         // Redraw the path
 
       },

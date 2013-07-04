@@ -68,10 +68,8 @@
           // a matrix transformation
           var pt2 = pt1.matrixTransform(matrix);
 
-
           // Get the top element at the point in screen coordinates
           var hit = document.elementFromPoint(pt2.x, pt2.y);
-
 
           // If the hit is null, then the points are off the screen
           // If the hit doesn't match the container, the container
@@ -90,8 +88,6 @@
 
     // Recalculate the text positioning for a text node.
     function recalcText(svgText, container) {
-      // get the jquery svg object
-//        var svg = $('#svgDiv').svg('get');
       var svg = surfaceService.svg;
 
       // get the next sibling. We'll be removing the text node, and this keeps
@@ -101,14 +97,6 @@
       // The parent element of the text node.
       var svgG = svgText.parentElement;
 
-      // The text element has a custom attribute called container.
-      // This references the shape that the text should be clipping
-      // against.
-
-
-      // jmore - this is the rectangle
-//      var container = document.getElementById(svgText.getAttribute('container'));
-
       // Get Bounding box of the container
       var bbox = container.getBBox();
 
@@ -116,6 +104,7 @@
       var numberofChars = svgText.getNumberOfChars();
       var words = [];
       var currentWord = null;
+
       // Get the text of the text node.
       var textContent = svgText.textContent;
       var height = 0;
@@ -130,6 +119,7 @@
 
       // Loop through each of the characters in the text node
       for (var i = 0; i < numberofChars; i++) {
+
         // Grab the rectangle for each char
         var r = svgText.getExtentOfChar(i);
         // Grab the value of that piece of text
@@ -140,12 +130,14 @@
         } else if (currentWord.height < r.height) {
           currentWord.height = r.height
         }
+
         // The line height is the same for all the rows. It is equal to the height of
         // the tallest character. If the assumption that all the characters are the
         // same height, this isn't imporant
         if (r.height > height) {
           height = r.height;
         }
+
         // Push the bounding rectable of the character onto the array
         //currentWord.charRect.push(r);
         currentWord.chars.push({c:c, x:r.x - currentWord.x});
@@ -159,6 +151,7 @@
           // Add the checkpoints
           currentWord.checkPoints.push(r.x + r.width - currentWord.x);
         }
+
         // Should be refactored out keep track of the last rectangle
         prev = r;
       }
@@ -177,7 +170,6 @@
       // like put text behind the container, but it works.
       svgG.removeChild(svgText);
 
-
       // Margin should be set as a custom attribute of the text block
       var xPos = yPos = margin = 3;
       var i = 0;
@@ -186,6 +178,7 @@
       // COuld this be done in 1 loop? probably, but would get a little
       // tricky with word wrapping.
       while (i < words.length) {
+
         // Get the rect o the currect char
         currentWord = words[i];
 
@@ -193,10 +186,11 @@
         currentWord.y = yPos;
         // Does the word fit?
         while (!checkWordFits(svg, container, margin, currentWord)) {
-          currentWord.x += 5
-          ; // This may be too low, or create a
+
+          // This may be too low, or create a
           // better heuristic check like a binary search such as
           // check the word length ahead.
+          currentWord.x += 5;
 
           // If you extend past the bounding box of the container, move to the
           // next line and reset your x position to the margin.
@@ -204,17 +198,18 @@
             currentWord.x = margin;
             currentWord.y += height;
           }
+
           // If you are beyond the bounding box vertically, the text does not
           // fit in the shape. This is an exception case.
           if (currentWord.y > (bbox.y + bbox.height)) {
-            // this is an error!
-            console.log('ERROR');
+            console.log('Word is outside boundaries');
             break;
           }
         }
-        yPos = currentWord.y;
-        // Draw the word
 
+        yPos = currentWord.y;
+
+        // Draw the word
         for (var j = 0; j < currentWord.chars.length; j++) {
           var newX = svg.root().createSVGLength();
           var newY = svg.root().createSVGLength();
@@ -225,7 +220,9 @@
           svgText.x.baseVal.appendItem(newX);
           svgText.y.baseVal.appendItem(newY);
         }
+
         xPos = currentWord.x + currentWord.width;
+
         i++;
       }
 

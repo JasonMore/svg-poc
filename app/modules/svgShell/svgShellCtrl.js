@@ -50,13 +50,9 @@
       ];
 
       // watches
-      $scope.$watch('isDrawing', function (val) {
-        //selectionService.clearSelection();
-      });
-
       $scope.$watch('isEditingText', function(newVal, oldVal){
-        // need to wait for the textarea to go away before
-        // calculating the new textflow
+        // setTimeout needed so we don't recalculate the textflow until
+        // the text area has gone away
         $timeout(function() {
           if(newVal) {
             selectionService.hideSelectionBox();
