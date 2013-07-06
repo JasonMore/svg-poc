@@ -147,10 +147,10 @@
         }
         else if (settings.shape == 'circle') {
           surfaceService.svg.path(parentGroup, surfaceService.svg.createPath()
-            .move(width / 2, 0)
+            .move(halfWidth, 0)
             .arc(
-              /*rx*/ width / 2,
-              /*ry*/ height / 2,
+              /*rx*/ halfWidth,
+              /*ry*/ halfHeight,
               /*xRotate*/ 0,
               /*large*/ 1,
               /*clockwise*/ 0,
@@ -158,8 +158,8 @@
               /*y*/ height,
               /*relative*/ true)
             .arc(
-              /*rx*/ width / 2,
-              /*ry*/ height / 2,
+              /*rx*/ halfWidth,
+              /*ry*/ halfHeight,
               /*xRotate*/ 0,
               /*large*/ 1,
               /*clockwise*/ 0,
