@@ -1,5 +1,5 @@
 (function () {
-  angular.module('svgShell.services').service('resizeService', function (surfaceService) {
+  angular.module('svgShell.services').service('resizeService', function (surfaceService, translationService) {
     var self = this;
 
     // poor man's event bus?
@@ -116,7 +116,7 @@
           deltay = ptB.y - pt2.y;
 
 
-          adjustTranslate(this.parentNode, deltax, deltay, true);
+          translationService.adjustTranslate(this.parentNode, deltax, deltay, true);
           rescaleElement(surfaceService.svg, outlinePath, scaleX, scaleY);
 
           rect.width = width;
@@ -124,7 +124,7 @@
 
           setCornerTransforms(surfaceService.svg, width, height);
           this.parentNode.setAttribute('rect1', JSON.stringify(rect));
-          adjustTranslate(groupToModify, deltax, deltay, true);
+          translationService.adjustTranslate(groupToModify, deltax, deltay, true);
 
           var shape = $(groupToModify).find('.shape')[0];
           rescaleElement(surfaceService.svg, shape, scaleX, scaleY);
@@ -158,26 +158,6 @@
       cornerSW.setAttribute('transform', 'translate(0,' + height + ')');
       rotator.setAttribute('transform', 'translate(' + halfwidth + ',-20 )');
       rotatorLine.setAttribute('transform', 'translate(' + halfwidth + ',0 )');
-    }
-
-    function adjustTranslate(elt, x, y, rel) {
-
-      if (elt.transform.baseVal.numberOfItems > 0) {
-        // make sure transform 1 is a translate transform
-        var trans = elt.transform.baseVal.getItem(0);
-        if (trans.type == 2) {
-          if (rel) {
-
-            var origX = trans.matrix.e;
-            var origY = trans.matrix.f;
-
-            //  //console.log('AdjustTranslate', x, y);
-            trans.setTranslate(origX + x, origY + y);
-          } else {
-            trans.setTranslate(x, y);
-          }
-        }
-      }
     }
 
     function getRotation(pt, elt) {

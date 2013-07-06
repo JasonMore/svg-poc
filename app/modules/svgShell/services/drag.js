@@ -7,7 +7,7 @@
 
     var dragObj = {
       start: function () {
-        var matrix = this.parentNode.getScreenCTM().inverse();
+        var matrix = this.getScreenCTM().inverse();
 
         var pt = this.ownerSVGElement.createSVGPoint();
         pt.x = event.pageX;
@@ -17,7 +17,7 @@
         this.setAttribute('orig', JSON.stringify({x: pt.x, y: pt.y}));
       },
       drag: function (event, ui) {
-        var matrix = this.parentNode.getScreenCTM().inverse();
+        var matrix = this.getScreenCTM().inverse();
         var orig = JSON.parse(this.getAttribute('orig'));
 
         // convert screen to element coordinates
@@ -32,12 +32,12 @@
         var pt2 = this.ownerSVGElement.createSVGPoint();
         pt2.x = deltax;
         pt2.y = deltay;
-        pt2 = pt2.matrixTransform(this.parentNode.getCTM());
+        pt2 = pt2.matrixTransform(this.getCTM());
 
         var pt3 = this.ownerSVGElement.createSVGPoint();
         pt3.x = 0;
         pt3.y = 0;
-        pt3 = pt3.matrixTransform(this.parentNode.getCTM());
+        pt3 = pt3.matrixTransform(this.getCTM());
 
         deltax = pt2.x - pt3.x;
         deltay = pt2.y - pt3.y;
