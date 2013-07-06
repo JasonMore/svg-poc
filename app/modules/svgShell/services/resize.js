@@ -2,7 +2,7 @@
   angular.module('svgShell.services').service('resizeService', function (surfaceService, translationService) {
     var self = this;
 
-    // poor man's event bus?
+    // external methods
     self.resizeStarted;
     self.resizeEnded;
 

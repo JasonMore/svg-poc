@@ -86,6 +86,7 @@
       var rotator = surfaceService.svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
         id: 'rotator',
         fill: '#FFFFFF',
+        stroke: '#D90000',
         strokeWidth: 1,
         transform: 'translate(' + halfWidth + ',-20)'
       }));

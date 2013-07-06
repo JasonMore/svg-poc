@@ -117,13 +117,22 @@
         var bottom = Math.max(createShape.startY, createShape.endY);
         var width = right - left;
         var height = bottom - top;
+        var halfWidth = width / 2;
+        var halfHeight = height / 2;
 
         var settings = _.extend({
           class: 'shape'
         }, self.drawSettings);
 
+        var transform = 'translate(${left},${top}), rotate(0,${halfWidth},${halfHeight})';
+
         var parentGroup = surfaceService.svg.group({
-          transform: 'translate(' + left + ',' + top + ')'
+          transform: _.template(transform, {
+            left: left,
+            top: top,
+            halfWidth: halfWidth,
+            halfHeight: halfHeight
+          })
         });
 
         $(parentGroup).data('translationOffset', {top: top, left: left});
