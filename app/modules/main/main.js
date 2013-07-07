@@ -10,7 +10,7 @@
   });
 
   main.controller('mainCtrl', function ($scope) {
-    $scope.test = "foobar";
+
   });
 
 }());

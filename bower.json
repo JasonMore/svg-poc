@@ -10,8 +10,9 @@
     "svg.draggable.js": "https://github.com/wout/svg.draggable.js.git",
     "jquery.svg": "latest",
     "jquery": "~2.0.2",
-    "angular-bootstrap": "~0.3.0",
+    "angular-bootstrap": "~0.4.0",
     "lodash": "~1.3.1",
-    "jquery-ui": "~1.10.3"
+    "jquery-ui": "~1.10.3",
+    "bootstrap-css": "~2.3.2"
   }
 }

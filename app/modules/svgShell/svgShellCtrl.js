@@ -10,6 +10,7 @@
       $scope.textValue = '';
       $scope.isEditingShape = false;
       $scope.shapeToEdit;
+      $scope.dynamicTooltip = 'abc123';
 
       $scope.shapeToDraw = 'rect';
       $scope.shapeOptions = [

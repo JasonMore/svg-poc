@@ -4,7 +4,7 @@
     .config(function ($routeProvider, $injector) {
       $routeProvider
         .otherwise({
-          redirectTo: '/'
+          redirectTo: '/svgShell'
         });
     });
 
