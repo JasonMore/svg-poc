@@ -8,7 +8,7 @@
 
     // the box that surrounds a selected item
     self.selectionBox;
-    self.boundingBox;
+    self.textBoxDimensions;
 
     self.clearSelection = function () {
       if (!self.selectionBox) {
@@ -99,17 +99,31 @@
       $(cornerSW).data('groupToModify', group);
       $(rotator).data('groupToModify', group);
 
-      $(selectionBox).on('dblclick', self.startEditingText);
+      $(selectionBox).on('dblclick', editText);
 
       // set public properties for selection for use outside service
       self.selectionBox = selectionBox;
-      self.boundingBox = boundingBox;
       self.translationOffset = $(group).data('translationOffset');
 
       resizeService.attachResizeBindings($('.resizable'));
       dragService.makeDraggable(selectionBox);
 
       return selectionBox;
+    }
+
+    function editText() {
+      var shapeGroup = $(this).data('groupToModify');
+      var boundingBox = shapeGroup.getBBox();
+      var screenCtm = shapeGroup.getCTM();
+
+      self.textBoxDimensions = {
+        left: screenCtm.e,
+        top: screenCtm.f,
+        width: boundingBox.width,
+        height: boundingBox.height
+      };
+
+      self.startEditingText();
     }
 
     self.hideSelectionBox = function() {

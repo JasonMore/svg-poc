@@ -11,12 +11,12 @@
         },
         controller: function($scope) {
           $scope.$watch('isEditing', function(val){
-            if(!selectionService.boundingBox){return;}
+            if(!selectionService.textBoxDimensions){return;}
 
-            $scope.top = selectionService.translationOffset.top;
-            $scope.left = selectionService.translationOffset.left;
-            $scope.width = selectionService.boundingBox.width;
-            $scope.height = selectionService.boundingBox.height;
+            $scope.top = selectionService.textBoxDimensions.top;
+            $scope.left = selectionService.textBoxDimensions.left;
+            $scope.width = selectionService.textBoxDimensions.width;
+            $scope.height = selectionService.textBoxDimensions.height;
           })
         }
       }
