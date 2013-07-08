@@ -1,6 +1,7 @@
 <!--<h2>SVG Javascript Demo</h2>-->
 
 <div class="well">
+
   <div class="btn-toolbar" style="margin: 0;">
     <div class="btn-group">
       <button type="button" class="btn btn-primary"
@@ -15,15 +16,6 @@
       <button class="btn dropdown-toggle">
         <span class="caret"></span>
       </button>
-      <!--<ul class="dropdown-menu">-->
-        <!--<li>-->
-          <!--<a ng-click="setShapeToDraw('rect')">Square</a>-->
-        <!--</li>-->
-        <!--<li>-->
-          <!--<a ng-click="setShapeToDraw('circle')">Circle</a>-->
-        <!--</li>-->
-        <!--&lt;!&ndash; dropdown menu links &ndash;&gt;-->
-      <!--</ul>-->
       <ul class="dropdown-menu">
         <li ng-repeat="shape in shapeOptions">
           <a ng-click="setShapeToDraw(shape.id)">
@@ -34,7 +26,17 @@
         </li>
       </ul>
     </div>
+
+    <edit-options name="Fill" visible="isEditingShape" options="colorOptions" selection="selectedFill"></edit-options>
+    <edit-options name="Border Size" visible="isEditingShape" options="strokeWidthOptions" selection="selectedStrokeWidth"></edit-options>
+    <edit-options name="Border Color" visible="isEditingShape" options="colorOptions" selection="selectedStrokeColor"></edit-options>
+
   </div>
+
+
+
+</div>
+
 </div>
 <div class="canvas">
   <floating-text-editor text-value="textValue" is-editing="isEditingText"></floating-text-editor>
@@ -46,44 +48,44 @@
   <!--<span class="drawOpt"><button type="button" id="clear2">Clear</button></span>-->
   <!--<span class="drawOpt"><button type="button" id="toSVG">To SVG</button></span>-->
   <!--<a class="btn" ng-click="isDrawing = !isDrawing">-->
-    <!--<i ng-class="{'icon-check': isDrawing, 'icon-check-empty': !isDrawing}"></i>-->
-    <!--Draw-->
+  <!--<i ng-class="{'icon-check': isDrawing, 'icon-check-empty': !isDrawing}"></i>-->
+  <!--Draw-->
   <!--</a>-->
   <!--<a class="btn" ng-show="isEditingShape" ng-click="isEditingText = !isEditingText">-->
-    <!--<i ng-class="{'icon-check': isEditingText, 'icon-check-empty': !isEditingText}"></i>-->
-    <!--Edit Text-->
+  <!--<i ng-class="{'icon-check': isEditingText, 'icon-check-empty': !isEditingText}"></i>-->
+  <!--Edit Text-->
   <!--</a>-->
 </div>
 
-<div class="well well-large">
-  <div class="row">
-    <div class="span4"></div>
-    <label>
-      Shape
-      <select ng-model="shapeToDraw"
-              ng-options="shape.id as shape.name for shape in shapeOptions"></select>
-    </label>
+<!--<div class="well well-large">-->
+<!--<div class="row">-->
+<!--<div class="span4"></div>-->
+<!--<label>-->
+<!--Shape-->
+<!--<select ng-model="shapeToDraw"-->
+<!--ng-options="shape.id as shape.name for shape in shapeOptions"></select>-->
+<!--</label>-->
 
-    <label>
-      Fill
-      <select ng-model="selectedFill"
-              ng-options="color.id as color.name for color in colorOptions"></select>
-    </label>
-  </div>
-  <div class="row">
-    <label>
-      Stroke width
-      <select ng-model="selectedStrokeWidth"
-              ng-options="size.id as size.name for size in strokeWidthOptions"></select>
-    </label>
+<!--<label>-->
+<!--Fill-->
+<!--<select ng-model="selectedFill"-->
+<!--ng-options="color.id as color.name for color in colorOptions"></select>-->
+<!--</label>-->
+<!--</div>-->
+<!--<div class="row">-->
+<!--<label>-->
+<!--Stroke width-->
+<!--<select ng-model="selectedStrokeWidth"-->
+<!--ng-options="size.id as size.name for size in strokeWidthOptions"></select>-->
+<!--</label>-->
 
-    <label>
-      Fill
-      <select ng-model="selectedStrokeColor"
-              ng-options="color.id as color.name for color in colorOptions"></select>
-    </label>
-  </div>
-</div>
+<!--<label>-->
+<!--Fill-->
+<!--<select ng-model="selectedStrokeColor"-->
+<!--ng-options="color.id as color.name for color in colorOptions"></select>-->
+<!--</label>-->
+<!--</div>-->
+<!--</div>-->
 
 
 <!--<div collapse="!isEditingText">-->

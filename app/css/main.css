@@ -17,3 +17,14 @@
 .move { cursor: move; }
 .nwse-resize { cursor: nwse-resize; }
 .nesw-resize { cursor: nesw-resize; }
+
+.demo-enter {
+  -webkit-transition: all 1s linear;
+  transition: all 1s linear;
+
+  background: #000;
+}
+
+.demo-enter.demo-enter-active {
+  background: #fc3;
+}

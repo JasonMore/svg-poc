@@ -1,0 +1,15 @@
+<div class="btn-group" ng-show="visible">
+  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+    {{name}}
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu">
+    <li ng-repeat="option in options">
+      <a ng-click="action(option.id)">
+        <i ng-class="selection === option.id ? 'icon-check' : 'icon-check-empty'">
+          &nbsp; {{option.name}}
+        </i>
+      </a>
+    </li>
+  </ul>
+</div>

@@ -20,7 +20,7 @@
 //      $scope.isDrawing = false;
       $scope.isEditingText = false;
       $scope.textValue = '';
-      $scope.isEditingShape = true;
+      $scope.isEditingShape = false;
       $scope.shapeToEdit;
       $scope.dynamicTooltip = 'abc123';
 

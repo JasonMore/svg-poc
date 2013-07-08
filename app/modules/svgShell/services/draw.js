@@ -201,10 +201,10 @@
 
         var text = surfaceService.svg.text(parentGroup, 10, 10, textSpans, {
           class: 'text',
-          opacity: 0.7,
+          opacity: 1,
           fontFamily: 'Verdana',
-          fontSize: '10.0',
-          fill: 'blue'
+          fontSize: '14.0',
+          fill: 'black'
         });
 
         return parentGroup;
