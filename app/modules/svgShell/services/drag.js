@@ -1,5 +1,10 @@
 (function () {
   angular.module('svgShell.services').service('dragService', function (translationService) {
+    var self = this;
+
+    // external
+    self.dragStarted;
+    self.dragEnded;
 
     this.makeDraggable = function(shape) {
       $(shape).draggable(dragObj);
@@ -15,6 +20,7 @@
         pt = pt.matrixTransform(matrix);
 
         this.setAttribute('orig', JSON.stringify({x: pt.x, y: pt.y}));
+        self.dragStarted();
       },
       drag: function (event, ui) {
         var matrix = this.getScreenCTM().inverse();
@@ -52,7 +58,7 @@
         translationService.adjustTranslate(groupToModify, deltax, deltay, true);
       },
       stop: function () {
-
+        self.dragEnded();
       }
     };
 

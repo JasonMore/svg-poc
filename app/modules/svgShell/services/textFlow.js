@@ -5,21 +5,34 @@
     // hooked up elsewhere
     self.currentShape;
 
-    self.updateTextFlowForCurrentShape = function(newVal) {
+    self.updateTextFlowForCurrentShape = function(newTextVal) {
       var shape = self.currentShape();
 
       var text = $(shape).find('.text')[0];
-      var container = $(shape).find('.shape')[0];
 
       if(_.isUndefined(text)){
         return;
       }
 
-      if(!_.isUndefined(newVal)) {
-        text.firstChild.nodeValue = newVal || '';
+      if(!_.isUndefined(newTextVal)) {
+        text.firstChild.nodeValue = newTextVal || '';
       }
-      self.recalcText(text, container);
+
+      updateTextFlowForShape(shape);
     }
+
+    self.updateTextFlowForAllShapes = function(shapes){
+      _.each(shapes, function(shape) {
+        updateTextFlowForShape(shape);
+      })
+    }
+
+    var updateTextFlowForShape = function(shape){
+      var text = $(shape).find('.text')[0];
+      var container = $(shape).find('.shape')[0];
+
+      self.recalcText(text, container);
+    };
 
 
     self.checkWordFits = checkWordFits;

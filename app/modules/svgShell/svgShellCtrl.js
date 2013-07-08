@@ -1,6 +1,6 @@
 (function () {
   angular.module('svgShell.controllers', [])
-    .controller('svgShellCtrl', function ($scope, $timeout, surfaceService, drawService, selectionService, textFlowService, resizeService) {
+    .controller('svgShellCtrl', function ($scope, $timeout, surfaceService, drawService, selectionService, textFlowService, resizeService, dragService) {
       window.debugScope = $scope;
 
       // clicks
@@ -136,6 +136,17 @@
       resizeService.resizeEnded = function() {
         $($scope.shapeToEdit).find('.text').show();
         textFlowService.updateTextFlowForCurrentShape();
+        selectionService.showSelectionBox();
+      };
+
+      dragService.dragStarted = function() {
+        $($scope.shapeToEdit).find('.text').hide();
+        selectionService.hideSelectionBox();
+      };
+
+      dragService.dragEnded = function() {
+        $($scope.shapeToEdit).find('.text').show();
+        textFlowService.updateTextFlowForAllShapes(drawService.drawNodes);
         selectionService.showSelectionBox();
       };
 
