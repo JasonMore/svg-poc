@@ -3,16 +3,28 @@
     .controller('svgShellCtrl', function ($scope, $timeout, surfaceService, drawService, selectionService, textFlowService, resizeService) {
       window.debugScope = $scope;
 
+      // clicks
+      $scope.setShapeToDraw = function(shape){
+          $scope.shapeToDraw = shape;
+      }
+
+      // computed
+      $scope.isDrawing = function() {
+        if($scope.shapeToDraw){
+          return true;
+        }
+        return false;
+      }
 
       // properties
-      $scope.isDrawing = true;
+//      $scope.isDrawing = false;
       $scope.isEditingText = false;
       $scope.textValue = '';
-      $scope.isEditingShape = false;
+      $scope.isEditingShape = true;
       $scope.shapeToEdit;
       $scope.dynamicTooltip = 'abc123';
 
-      $scope.shapeToDraw = 'rect';
+      $scope.shapeToDraw = '';
       $scope.shapeOptions = [
         {id: 'rect', name: 'Rectangle'},
         {id: 'circle', name: 'Circle'}
@@ -89,20 +101,20 @@
       // provide services functions to update scope
       surfaceService.setShapeToEdit = function(shape){
         safeApply(function() {
-          $scope.isDrawing = false;
+//          $scope.isDrawing = false;
           $scope.isEditingShape = true;
+          $scope.shapeToDraw = '';
           $scope.shapeToEdit = shape;
         });
       };
 
-      drawService.isDrawing = function() {
-        return $scope.isDrawing;
-      };
+      drawService.isDrawing = $scope.isDrawing;
 
       selectionService.resetSelectedShape = function() {
         safeApply(function () {
           $scope.isEditingText = false;
           $scope.isEditingShape = false;
+
         });
       };
 

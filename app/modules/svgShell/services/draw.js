@@ -225,7 +225,6 @@
       function editText(){
         self.startEditingText();
       }
-
     };
 
     self.updateShape = function (shape) {

@@ -6,6 +6,14 @@
   position: relative;
 }
 
+.canvas {
+  background-image: url('../img/checker-bg.png');
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  width: 100%
+}
+
 .move { cursor: move; }
 .nwse-resize { cursor: nwse-resize; }
 .nesw-resize { cursor: nesw-resize; }

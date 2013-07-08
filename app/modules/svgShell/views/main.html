@@ -1,35 +1,58 @@
-<h2>SVG Javascript Demo</h2>
+<!--<h2>SVG Javascript Demo</h2>-->
 
 <div class="well">
   <div class="btn-toolbar" style="margin: 0;">
     <div class="btn-group">
-      <a class="btn">
-        <span tooltip="{{dynamicTooltip}}"><i class="icon-location-arrow icon-rotate-270"></i></span>
-      </a>
+      <button type="button" class="btn btn-primary"
+              ng-class="{'active': !isDrawing()}"
+              ng-click="setShapeToDraw('')"
+          >
+        Select
+      </button>
     </div>
     <div class="btn-group">
-      <button class="btn">Square</button>
-      <button class="btn">Circle</button>
+      <button class="btn dropdown-toggle" ng-class="{'active': isDrawing()}">Draw</button>
+      <button class="btn dropdown-toggle">
+        <span class="caret"></span>
+      </button>
+      <!--<ul class="dropdown-menu">-->
+        <!--<li>-->
+          <!--<a ng-click="setShapeToDraw('rect')">Square</a>-->
+        <!--</li>-->
+        <!--<li>-->
+          <!--<a ng-click="setShapeToDraw('circle')">Circle</a>-->
+        <!--</li>-->
+        <!--&lt;!&ndash; dropdown menu links &ndash;&gt;-->
+      <!--</ul>-->
+      <ul class="dropdown-menu">
+        <li ng-repeat="shape in shapeOptions">
+          <a ng-click="setShapeToDraw(shape.id)">
+            <i ng-class="shapeToDraw === shape.id ? 'icon-check' : 'icon-check-empty'">
+              &nbsp; {{shape.name}}
+            </i>
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
-<div class="svg-drop">
+<div class="canvas">
   <floating-text-editor text-value="textValue" is-editing="isEditingText"></floating-text-editor>
   <svg-sketchpad></svg-sketchpad>
 </div>
 
 <div class="row">
-  <span class="drawOpt"><button type="button" id="undo">Undo</button></span>
-  <span class="drawOpt"><button type="button" id="clear2">Clear</button></span>
-  <span class="drawOpt"><button type="button" id="toSVG">To SVG</button></span>
-  <a class="btn" ng-click="isDrawing = !isDrawing">
-    <i ng-class="{'icon-check': isDrawing, 'icon-check-empty': !isDrawing}"></i>
-    Draw
-  </a>
-  <a class="btn" ng-show="isEditingShape" ng-click="isEditingText = !isEditingText">
-    <i ng-class="{'icon-check': isEditingText, 'icon-check-empty': !isEditingText}"></i>
-    Edit Text
-  </a>
+  <!--<span class="drawOpt"><button type="button" id="undo">Undo</button></span>-->
+  <!--<span class="drawOpt"><button type="button" id="clear2">Clear</button></span>-->
+  <!--<span class="drawOpt"><button type="button" id="toSVG">To SVG</button></span>-->
+  <!--<a class="btn" ng-click="isDrawing = !isDrawing">-->
+    <!--<i ng-class="{'icon-check': isDrawing, 'icon-check-empty': !isDrawing}"></i>-->
+    <!--Draw-->
+  <!--</a>-->
+  <!--<a class="btn" ng-show="isEditingShape" ng-click="isEditingText = !isEditingText">-->
+    <!--<i ng-class="{'icon-check': isEditingText, 'icon-check-empty': !isEditingText}"></i>-->
+    <!--Edit Text-->
+  <!--</a>-->
 </div>
 
 <div class="well well-large">
