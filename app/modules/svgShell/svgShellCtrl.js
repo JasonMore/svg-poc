@@ -76,7 +76,7 @@
         });
       });
 
-      $scope.$watch('shape', function(newVal, oldVal){
+      $scope.$watch('shapeToEdit', function(newVal, oldVal){
         if(!newVal || newVal === oldVal){
           return;
         }
