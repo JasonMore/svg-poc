@@ -90,7 +90,7 @@
           shape: $scope.shapeToDraw,
           fill: $scope.selectedFill,
           stroke: $scope.selectedStrokeColor,
-          strokeWidth: $scope.selectedStrokeWidth
+          'stroke-width': $scope.selectedStrokeWidth
         };
 
         if($scope.isEditingShape){
