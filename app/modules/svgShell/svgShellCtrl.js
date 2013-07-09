@@ -35,6 +35,7 @@
 
       $scope.selectedFill = 'gray';
       $scope.selectedStrokeColor = 'black';
+      $scope.selectedFontColor = 'black';
 
       $scope.colorOptions = [
         {id: 'red', name: 'Red'},
@@ -116,8 +117,12 @@
         $scope.selectedStrokeColor = shape.attr('stroke');
         $scope.selectedStrokeWidth = Number(shape.attr('stroke-width'));
 
-        var text = $($scope.shapeToEdit).find('.text')[0];
-        $scope.textValue = text.firstChild.nodeValue;
+        var text = $($scope.shapeToEdit).find('.text');
+        $scope.selectedFontSize = text.attr('font-size');
+        $scope.selectedFontFamily = text.attr('font-family');
+        $scope.selectedFontColor = text.attr('fill');
+
+        $scope.textValue = text[0].firstChild.nodeValue;
       });
 
       $scope.$watch('selectedFill + selectedStrokeColor + selectedStrokeWidth', function () {
@@ -134,7 +139,7 @@
 
       });
 
-      $scope.$watch('selectedFontSize + selectedFontFamily', function () {
+      $scope.$watch('selectedFontSize + selectedFontFamily + selectedFontColor', function () {
         if (!$scope.isEditingShape) {
           return
         }
@@ -142,7 +147,8 @@
         var text = $($scope.shapeToEdit).find('.text');
         text.attr({
           'font-family': $scope.selectedFontFamily,
-          'font-size': $scope.selectedFontSize
+          'font-size': $scope.selectedFontSize,
+          'fill': $scope.selectedFontColor
         });
         textFlowService.updateTextFlowForAllShapes(drawService.drawNodes);
       });
