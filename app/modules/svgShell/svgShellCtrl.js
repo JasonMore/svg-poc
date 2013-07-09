@@ -81,8 +81,13 @@
           return;
         }
 
-        var textElement = $($scope.shapeToEdit).find('.text')[0];
-        $scope.textValue = textElement.firstChild.nodeValue;
+        var shape = $($scope.shapeToEdit).find('.shape');
+        $scope.selectedFill = shape.attr('fill');
+        $scope.selectedStrokeColor = shape.attr('stroke');
+        $scope.selectedStrokeWidth = Number(shape.attr('stroke-width'));
+
+        var text = $($scope.shapeToEdit).find('.text')[0];
+        $scope.textValue = text.firstChild.nodeValue;
       });
 
       $scope.$watch('shapeToDraw + selectedFill + selectedStrokeColor + selectedStrokeWidth', function() {
