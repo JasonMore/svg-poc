@@ -127,6 +127,7 @@
           $scope.isEditingText = false;
           $scope.isEditingShape = false;
 
+          textFlowService.updateTextFlowForAllShapes(drawService.drawNodes);
         });
       };
 
@@ -141,7 +142,7 @@
       };
 
       resizeService.resizeStarted = function () {
-        selectionService.removeSelection();
+        selectionService.hideSelectionBox();
         $($scope.shapeToEdit).find('.text').hide();
       };
 
@@ -149,16 +150,16 @@
 //        textFlowService.updateTextFlowForCurrentShape();
         textFlowService.updateTextFlowForAllShapes(drawService.drawNodes);
         $($scope.shapeToEdit).find('.text').show();
-        selectionService.createSelectionBox($scope.shapeToEdit);
+        selectionService.showSelectionBox();
       };
 
       dragService.dragStarted = function () {
-        $($scope.shapeToEdit).find('.text').hide();
+//        $($scope.shapeToEdit).find('.text').hide();
         selectionService.removeSelection();
       };
 
       dragService.dragEnded = function () {
-        $($scope.shapeToEdit).find('.text').show();
+//        $($scope.shapeToEdit).find('.text').show();
         textFlowService.updateTextFlowForAllShapes(drawService.drawNodes);
         selectionService.createSelectionBox($scope.shapeToEdit);
       };

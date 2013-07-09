@@ -59,7 +59,7 @@
 
         var angle = rotateInfo.angle;
 
-//        var outlinePath = surfaceService.svg.getElementById('outlinePath');
+        var outlinePath = surfaceService.svg.getElementById('outlinePath');
 
         if (this.getAttribute('id') == 'cornerNW') {
           deltax = -pt.x;
@@ -117,7 +117,7 @@
 
 
           translationService.adjustTranslate(this.parentNode, deltax, deltay, true);
-//          rescaleElement(surfaceService.svg, outlinePath, scaleX, scaleY);
+          rescaleElement(surfaceService.svg, outlinePath, scaleX, scaleY);
 
           rect.width = width;
           rect.height = height;

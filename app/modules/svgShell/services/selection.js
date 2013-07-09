@@ -132,9 +132,9 @@
       self.startEditingText();
     }
 
-//    self.hideSelectionBox = function() {
-//      $(self.selectionBox).hide();
-//    };
+    self.hideSelectionBox = function() {
+      $(self.selectionBox).hide();
+    };
 
     self.showSelectionBox = function(){
       $(self.selectionBox).show();

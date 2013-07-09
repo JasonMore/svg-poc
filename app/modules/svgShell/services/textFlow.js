@@ -36,7 +36,7 @@
 
 
     self.checkWordFits = checkWordFits;
-    self.recalcText = _.throttle(recalcText, 250);
+    self.recalcText = recalcText;
 
 
     //rectVisible checks the 4 corners of the rectangle to see if the
