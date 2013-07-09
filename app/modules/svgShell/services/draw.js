@@ -4,17 +4,10 @@
 
     // external hooks wired up elsewhere
     self.isDrawing;
+    self.shapeToDraw;
 
     // nodes on surface
     self.drawNodes = [];
-
-    // draw settings, set by controller (for now)
-    self.drawSettings = {
-      shape: '',
-      fill: '',
-      stroke: '',
-      strokeWidth: ''
-    };
 
     self.setupDrawMouseBindings = function () {
       var start,
@@ -120,9 +113,12 @@
         var halfWidth = width / 2;
         var halfHeight = height / 2;
 
-        var settings = _.extend({
-          class: 'shape'
-        }, self.drawSettings);
+        var settings = {
+          class: 'shape',
+          fill: 'gray',
+          stroke: 'black',
+          'stroke-width': 2
+        };
 
         var transform = 'translate(${left},${top}), rotate(0,${halfWidth},${halfHeight})';
 
@@ -137,7 +133,7 @@
 
         $(parentGroup).data('translationOffset', {top: top, left: left});
 
-        if (settings.shape == 'rect') {
+        if (self.shapeToDraw() == 'rect') {
           surfaceService.svg.path(parentGroup, surfaceService.svg.createPath()
             .move(0, 0)
             .line(width, 0)
@@ -145,7 +141,7 @@
             .line(0, height)
             .close(), settings);
         }
-        else if (settings.shape == 'circle') {
+        else if (self.shapeToDraw() == 'circle') {
           surfaceService.svg.path(parentGroup, surfaceService.svg.createPath()
             .move(halfWidth, 0)
             .arc(
@@ -222,11 +218,5 @@
         surfaceService.setShapeToEdit(this);
       };
     };
-
-    self.updateShape = function (shape) {
-      var shape = $(shape).find('.shape');
-      shape.attr(self.drawSettings);
-    };
-
   });
 })();

@@ -13,12 +13,13 @@
           visible: '='
         },
         controller: function ($scope) {
-          //check for a noop action
-          $scope.action = function(selectedOption) {
+
+          if(_.isUndefined($scope.visible)) {
+            $scope.visible = true;
+          }
+
+          $scope.setValue = function(selectedOption) {
             $scope.selection = selectedOption;
-            if($scope.whenSelected){
-              $scope.whenSelected(selectedOption);
-            }
           };
         }
       }

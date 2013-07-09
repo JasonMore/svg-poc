@@ -5,7 +5,7 @@
   </a>
   <ul class="dropdown-menu">
     <li ng-repeat="option in options">
-      <a ng-click="action(option.id)">
+      <a ng-click="setValue(option.id)">
         <i ng-class="selection === option.id ? 'icon-check' : 'icon-check-empty'">
           &nbsp; {{option.name}}
         </i>

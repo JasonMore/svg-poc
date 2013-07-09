@@ -11,28 +11,28 @@
         Select
       </button>
     </div>
-    <div class="btn-group">
-      <button class="btn dropdown-toggle" ng-class="{'active': isDrawing()}">Shapes</button>
-      <button class="btn dropdown-toggle">
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu">
-        <li ng-repeat="shape in shapeOptions">
-          <a ng-click="setShapeToDraw(shape.id)">
-            <i ng-class="shapeToDraw === shape.id ? 'icon-check' : 'icon-check-empty'">
-              &nbsp; {{shape.name}}
-            </i>
-          </a>
-        </li>
-      </ul>
-    </div>
 
-    <edit-options name="Fill" visible="isEditingShape" options="colorOptions" selection="selectedFill"></edit-options>
-    <edit-options name="Border Size" visible="isEditingShape" options="strokeWidthOptions" selection="selectedStrokeWidth"></edit-options>
-    <edit-options name="Border Color" visible="isEditingShape" options="colorOptions" selection="selectedStrokeColor"></edit-options>
+    <edit-options name="Draw Shape"
+                  visible="true"
+                  options="shapeOptions"
+                  selection="shapeToDraw"></edit-options>
+
+    <edit-options name="Background Color"
+                  visible="isEditingShape"
+                  options="colorOptions"
+                  selection="selectedFill"></edit-options>
+
+    <edit-options name="Border Size"
+                  visible="isEditingShape"
+                  options="strokeWidthOptions"
+                  selection="selectedStrokeWidth"></edit-options>
+
+    <edit-options name="Border Color"
+                  visible="isEditingShape"
+                  options="colorOptions"
+                  selection="selectedStrokeColor"></edit-options>
 
   </div>
-
 
 
 </div>

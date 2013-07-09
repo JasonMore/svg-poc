@@ -53,7 +53,9 @@
 
       var defaultCircleSettings = {
         class_: 'resizable',
-        fill: '#D90000'
+        fill: '#D90000',
+        'stroke-width': 1,
+        stroke: 'white'
       };
 
       var cornerNW = surfaceService.svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
