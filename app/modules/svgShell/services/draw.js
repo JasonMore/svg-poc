@@ -5,6 +5,7 @@
     // external hooks wired up elsewhere
     self.isDrawing;
     self.shapeToDraw;
+    self.setShapeToEdit;
 
     // nodes on surface
     self.drawNodes = [];
@@ -94,9 +95,11 @@
           .on('mousedown', startDrag)
           .on('mousemove', dragging)
           .on('mouseup', endDrag)
-          .on('click', editShape);
+          .on('click', function() { editShape(shapeGroup); });
 
         start = null;
+
+        editShape(shapeGroup);
 
         event.preventDefault();
       }
@@ -206,7 +209,7 @@
         return parentGroup;
       };
 
-      function editShape() {
+      function editShape(shape) {
         if (start) {
           return;
         }
@@ -214,8 +217,8 @@
         selectionService.clearSelection();
 
         // "this" is the shape that was clicked
-        selectionService.createSelectionBox(this);
-        surfaceService.setShapeToEdit(this);
+        selectionService.createSelectionBox(shape);
+        self.setShapeToEdit(shape);
       };
     };
   });

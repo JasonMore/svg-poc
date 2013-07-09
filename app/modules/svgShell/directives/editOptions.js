@@ -10,7 +10,7 @@
           options: '=',
           whenSelected: '&',
           selection: '=',
-          visible: '='
+          visible: '=?'
         },
         controller: function ($scope) {
 

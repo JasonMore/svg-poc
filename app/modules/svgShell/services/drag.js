@@ -54,8 +54,8 @@
 
         translationService.adjustTranslate(this, deltax, deltay, true);
 
-        var groupToModify = $(this).data('groupToModify');
-        translationService.adjustTranslate(groupToModify, deltax, deltay, true);
+//        var groupToModify = $(this).data('groupToModify');
+//        translationService.adjustTranslate(groupToModify, deltax, deltay, true);
       },
       stop: function () {
         self.dragEnded();

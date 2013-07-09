@@ -4,9 +4,6 @@
   angular.module('svgShell.services').service('surfaceService', function () {
     var self = this;
 
-    // external hooks wired up elsewhere
-    self.setShapeToEdit;
-
     // div containing svg
     self.svgsketch;
 

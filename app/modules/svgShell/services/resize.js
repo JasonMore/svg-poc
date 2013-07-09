@@ -15,7 +15,7 @@
         self.resizeStarted();
         var matrix = this.parentNode.getScreenCTM().inverse();
 
-        var pt = this.ownerSVGElement.createSVGPoint();
+        var pt = surfaceService.svg._svg.createSVGPoint();
         pt.x = event.pageX;
         pt.y = event.pageY;
         pt = pt.matrixTransform(matrix);
@@ -27,12 +27,12 @@
         var matrix = this.parentNode.getScreenCTM().inverse();
 
         // convert screen to element coordinates
-        var pt = this.ownerSVGElement.createSVGPoint();
+        var pt = surfaceService.svg._svg.createSVGPoint();
         pt.x = event.pageX;
         pt.y = event.pageY;
         pt = pt.matrixTransform(matrix);
 
-        var ptA = this.ownerSVGElement.createSVGPoint();
+        var ptA = surfaceService.svg._svg.createSVGPoint();
         ptA.x = 0;
         ptA.y = 0;
         ptB = ptA.matrixTransform(this.parentNode.getCTM());
@@ -43,7 +43,7 @@
 
         rect = JSON.parse(rect);
 
-        var pt3 = this.ownerSVGElement.createSVGPoint();
+        var pt3 = surfaceService.svg._svg.createSVGPoint();
         pt3.x = 0;
         pt3.y = 0;
 
@@ -59,7 +59,7 @@
 
         var angle = rotateInfo.angle;
 
-        var outlinePath = surfaceService.svg.getElementById('outlinePath');
+//        var outlinePath = surfaceService.svg.getElementById('outlinePath');
 
         if (this.getAttribute('id') == 'cornerNW') {
           deltax = -pt.x;
@@ -102,7 +102,7 @@
         var groupToModify = $(this).data('groupToModify');
 
         if (!didRotate) {
-          var pt2 = this.ownerSVGElement.createSVGPoint();
+          var pt2 = surfaceService.svg._svg.createSVGPoint();
           pt2.x = deltax;
           pt2.y = deltay;
           pt2 = pt2.matrixTransform(this.parentNode.getCTM());
@@ -117,7 +117,7 @@
 
 
           translationService.adjustTranslate(this.parentNode, deltax, deltay, true);
-          rescaleElement(surfaceService.svg, outlinePath, scaleX, scaleY);
+//          rescaleElement(surfaceService.svg, outlinePath, scaleX, scaleY);
 
           rect.width = width;
           rect.height = height;

@@ -64,14 +64,16 @@
 
       // watches
       $scope.$watch('isEditingText', function (newVal, oldVal) {
+        if(newVal === oldVal){return;}
+
         // setTimeout needed so we don't recalculate the textflow until
         // the text area has gone away
         $timeout(function () {
           if (newVal) {
-            selectionService.hideSelectionBox();
+            selectionService.removeSelection();
           } else {
             textFlowService.updateTextFlowForCurrentShape($scope.textValue);
-            selectionService.showSelectionBox();
+            selectionService.createSelectionBox($scope.shapeToEdit);
           }
         });
       });
@@ -105,7 +107,7 @@
       });
 
       // provide services functions to update scope
-      surfaceService.setShapeToEdit = function (shape) {
+      drawService.setShapeToEdit = function (shape) {
         safeApply(function () {
 //          $scope.isDrawing = false;
           $scope.isEditingShape = true;
@@ -120,7 +122,7 @@
         return $scope.shapeToDraw;
       }
 
-      selectionService.resetSelectedShape = function () {
+      selectionService.clearSelectedShape = function () {
         safeApply(function () {
           $scope.isEditingText = false;
           $scope.isEditingShape = false;
@@ -139,25 +141,26 @@
       };
 
       resizeService.resizeStarted = function () {
-        selectionService.hideSelectionBox();
+        selectionService.removeSelection();
         $($scope.shapeToEdit).find('.text').hide();
       };
 
       resizeService.resizeEnded = function () {
+//        textFlowService.updateTextFlowForCurrentShape();
+        textFlowService.updateTextFlowForAllShapes(drawService.drawNodes);
         $($scope.shapeToEdit).find('.text').show();
-        textFlowService.updateTextFlowForCurrentShape();
-        selectionService.showSelectionBox();
+        selectionService.createSelectionBox($scope.shapeToEdit);
       };
 
       dragService.dragStarted = function () {
         $($scope.shapeToEdit).find('.text').hide();
-        selectionService.hideSelectionBox();
+        selectionService.removeSelection();
       };
 
       dragService.dragEnded = function () {
         $($scope.shapeToEdit).find('.text').show();
         textFlowService.updateTextFlowForAllShapes(drawService.drawNodes);
-        selectionService.showSelectionBox();
+        selectionService.createSelectionBox($scope.shapeToEdit);
       };
 
       function safeApply(fn) {

@@ -10,14 +10,18 @@
     self.selectionBox;
     self.textBoxDimensions;
 
-    self.clearSelection = function () {
+    self.removeSelection = function() {
       if (!self.selectionBox) {
         return;
       }
 
       surfaceService.svg.remove(self.selectionBox);
       self.selectionBox = null;
-      self.resetSelectedShape();
+    };
+
+    self.clearSelection = function () {
+      self.removeSelection();
+      self.clearSelectedShape();
     };
 
     self.createSelectionBox = function (group) {
@@ -40,8 +44,8 @@
 
       surfaceService.svg.path(selectionBox, selectionPath, {
         id: 'outlinePath',
-        //fill: 'none',
-        fill: 'white',
+        fill: 'none',
+//        fill: 'white',
         fillOpacity: '0.3',
         'stroke-dasharray': '5,5',
         stroke: '#D90000',
@@ -94,29 +98,29 @@
       }));
 
       // hack?
-      $(selectionBox).data('groupToModify', group);
+//      $(selectionBox).data('groupToModify', group);
       $(cornerNW).data('groupToModify', group);
       $(cornerNE).data('groupToModify', group);
       $(cornerSE).data('groupToModify', group);
       $(cornerSW).data('groupToModify', group);
       $(rotator).data('groupToModify', group);
 
-      $(selectionBox).on('dblclick', editText);
+      $(group).on('dblclick', editText);
 
       // set public properties for selection for use outside service
       self.selectionBox = selectionBox;
       self.translationOffset = $(group).data('translationOffset');
 
       resizeService.attachResizeBindings($('.resizable'));
-      dragService.makeDraggable(selectionBox);
+      dragService.makeDraggable(group);
 
       return selectionBox;
     }
 
     function editText() {
-      var shapeGroup = $(this).data('groupToModify');
-      var boundingBox = shapeGroup.getBBox();
-      var screenCtm = shapeGroup.getCTM();
+//      var shapeGroup = $(this).data('groupToModify');
+      var boundingBox = this.getBBox();
+      var screenCtm = this.getCTM();
 
       self.textBoxDimensions = {
         left: screenCtm.e,
@@ -128,9 +132,9 @@
       self.startEditingText();
     }
 
-    self.hideSelectionBox = function() {
-      $(self.selectionBox).hide();
-    };
+//    self.hideSelectionBox = function() {
+//      $(self.selectionBox).hide();
+//    };
 
     self.showSelectionBox = function(){
       $(self.selectionBox).show();
