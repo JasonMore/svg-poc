@@ -83,6 +83,12 @@
         {id: 'Verdana', name: 'Verdana'}
       ];
 
+      // clicks
+      $scope.deleteShape = function() {
+        surfaceService.svg.remove($scope.shapeToEdit);
+        drawService.drawNodes.remove($scope.shapeToEdit);
+        selectionService.clearSelection();
+      };
 
       // watches
       $scope.$watch('isEditingText', function (newVal, oldVal) {
