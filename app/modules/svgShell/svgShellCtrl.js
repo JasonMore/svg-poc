@@ -17,7 +17,6 @@
       }
 
       // properties
-//      $scope.isDrawing = false;
       $scope.isEditingText = false;
       $scope.textValue = '';
       $scope.isEditingShape = false;
@@ -109,7 +108,6 @@
       // provide services functions to update scope
       drawService.setShapeToEdit = function (shape) {
         safeApply(function () {
-//          $scope.isDrawing = false;
           $scope.isEditingShape = true;
           $scope.shapeToDraw = '';
           $scope.shapeToEdit = shape;
@@ -147,19 +145,16 @@
       };
 
       resizeService.resizeEnded = function () {
-//        textFlowService.updateTextFlowForCurrentShape();
-        textFlowService.updateTextFlowForAllShapes(drawService.drawNodes);
         $($scope.shapeToEdit).find('.text').show();
+        textFlowService.updateTextFlowForAllShapes(drawService.drawNodes);
         selectionService.showSelectionBox();
       };
 
       dragService.dragStarted = function () {
-//        $($scope.shapeToEdit).find('.text').hide();
         selectionService.removeSelection();
       };
 
       dragService.dragEnded = function () {
-//        $($scope.shapeToEdit).find('.text').show();
         textFlowService.updateTextFlowForAllShapes(drawService.drawNodes);
         selectionService.createSelectionBox($scope.shapeToEdit);
       };

@@ -98,7 +98,6 @@
       }));
 
       // hack?
-//      $(selectionBox).data('groupToModify', group);
       $(cornerNW).data('groupToModify', group);
       $(cornerNE).data('groupToModify', group);
       $(cornerSE).data('groupToModify', group);
@@ -118,7 +117,6 @@
     }
 
     function editText() {
-//      var shapeGroup = $(this).data('groupToModify');
       var boundingBox = this.getBBox();
       var screenCtm = this.getCTM();
 
