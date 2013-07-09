@@ -61,6 +61,29 @@
         {id: 10, name: '10'}
       ];
 
+      $scope.selectedFontSize = '14.0';
+      $scope.fontSizeOptions = [
+        {id: '8.0', name: '8'},
+        {id: '9.0', name: '9'},
+        {id: '10.0', name: '10'},
+        {id: '11.0', name: '11'},
+        {id: '12.0', name: '12'},
+        {id: '13.0', name: '13'},
+        {id: '14.0', name: '14'},
+        {id: '15.0', name: '15'},
+        {id: '16.0', name: '16'},
+        {id: '17.0', name: '17'},
+      ];
+
+      $scope.selectedFontFamily = 'Verdana';
+      $scope.fontFamilyOptions = [
+        {id: 'Arial', name: 'Arial'},
+        {id: 'Cambria', name: 'Cambria'},
+        {id: 'Consolas', name: 'Consolas'},
+        {id: 'Verdana', name: 'Verdana'}
+      ];
+
+
       // watches
       $scope.$watch('isEditingText', function (newVal, oldVal) {
         if(newVal === oldVal){return;}
@@ -103,6 +126,19 @@
           'stroke-width': $scope.selectedStrokeWidth
         });
 
+      });
+
+      $scope.$watch('selectedFontSize + selectedFontFamily', function () {
+        if (!$scope.isEditingShape) {
+          return
+        }
+
+        var text = $($scope.shapeToEdit).find('.text');
+        text.attr({
+          'font-family': $scope.selectedFontFamily,
+          'font-size': $scope.selectedFontSize
+        });
+        textFlowService.updateTextFlowForAllShapes(drawService.drawNodes);
       });
 
       // provide services functions to update scope

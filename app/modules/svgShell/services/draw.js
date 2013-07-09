@@ -201,8 +201,8 @@
         var text = surfaceService.svg.text(parentGroup, 10, 10, textSpans, {
           class: 'text',
           opacity: 1,
-          fontFamily: 'Verdana',
-          fontSize: '14.0',
+          'font-family': 'Verdana',
+          'font-size': '14.0',
           fill: 'black'
         });
 

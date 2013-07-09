@@ -7,7 +7,9 @@
         replace: 'true',
         scope: {
           isEditing: '=',
-          textValue: '='
+          textValue: '=',
+          fontFamily: '=',
+          fontSize: '='
         },
         controller: function($scope) {
           $scope.$watch('isEditing', function(val){
@@ -17,7 +19,11 @@
             $scope.left = selectionService.textBoxDimensions.left;
             $scope.width = selectionService.textBoxDimensions.width;
             $scope.height = selectionService.textBoxDimensions.height;
-          })
+          });
+
+          $scope.fontSizePx = function() {
+            return $scope.fontSize + 'px';
+          }
         }
       }
     })

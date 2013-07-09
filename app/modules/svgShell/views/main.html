@@ -4,12 +4,12 @@
 
   <div class="btn-toolbar" style="margin: 0;">
     <!--<div class="btn-group">-->
-      <!--<button type="button" class="btn btn-primary"-->
-              <!--ng-class="{'active': !isDrawing()}"-->
-              <!--ng-click="setShapeToDraw('')"-->
-          <!-->-->
-        <!--Select-->
-      <!--</button>-->
+    <!--<button type="button" class="btn btn-primary"-->
+    <!--ng-class="{'active': !isDrawing()}"-->
+    <!--ng-click="setShapeToDraw('')"-->
+    <!-->-->
+    <!--Select-->
+    <!--</button>-->
     <!--</div>-->
 
     <edit-options name="Draw Shape"
@@ -31,6 +31,16 @@
                   options="colorOptions"
                   selection="selectedStrokeColor"></edit-options>
 
+    <edit-options name="Font Size"
+                  visible="isEditingShape"
+                  options="fontSizeOptions"
+                  selection="selectedFontSize"></edit-options>
+
+    <edit-options name="Font Family"
+                  visible="isEditingShape"
+                  options="fontFamilyOptions"
+                  selection="selectedFontFamily"></edit-options>
+
     <button ng-show="" class="btn btn-warning">Delete</button>
   </div>
 
@@ -39,7 +49,10 @@
 
 </div>
 <div class="canvas">
-  <floating-text-editor text-value="textValue" is-editing="isEditingText"></floating-text-editor>
+  <floating-text-editor text-value="textValue"
+                        is-editing="isEditingText"
+                        font-family="selectedFontFamily"
+                        font-size="selectedFontSize"></floating-text-editor>
   <svg-sketchpad></svg-sketchpad>
 </div>
 
