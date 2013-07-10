@@ -8,6 +8,15 @@
         $scope.shapeToDraw = shape;
       }
 
+      $scope.import = function() {
+        drawService.clearScreen();
+        drawService.importTemplate($scope.templateJson, $scope.dataJson);
+      }
+
+      $scope.export = function() {
+        $scope.exportScreenJson = drawService.exportShapes();
+      }
+
       // computed
       $scope.isDrawing = function () {
         if ($scope.shapeToDraw) {
@@ -17,11 +26,14 @@
       }
 
       // properties
+      $scope.templateJson = '';
+      $scope.dataJson = '';
+      $scope.exportScreenJson = '';
+
       $scope.isEditingText = false;
       $scope.textValue = '';
       $scope.isEditingShape = false;
       $scope.shapeToEdit;
-      $scope.dynamicTooltip = 'abc123';
 
       $scope.shapeToDraw = '';
       $scope.shapeOptions = [
@@ -87,8 +99,7 @@
 
       // clicks
       $scope.deleteShape = function() {
-        surfaceService.svg.remove($scope.shapeToEdit);
-        drawService.drawNodes.remove($scope.shapeToEdit);
+        drawService.deleteShape($scope.shapeToEdit);
         selectionService.clearSelection();
       };
 
@@ -151,7 +162,7 @@
           'font-size': $scope.selectedFontSize,
           'fill': $scope.selectedFontColor
         });
-        textFlowService.updateTextFlowForAllShapes(drawService.drawNodes);
+        textFlowService.updateTextFlowForAllShapes(drawService.shapesOnScreen);
       });
 
       // provide services functions to update scope
@@ -160,6 +171,9 @@
           $scope.isEditingShape = true;
           $scope.shapeToDraw = '';
           $scope.shapeToEdit = shape;
+
+          // hack
+          drawService.exportShapes();
         });
       };
 
@@ -167,14 +181,14 @@
 
       drawService.shapeToDraw = function () {
         return $scope.shapeToDraw;
-      }
+      };
 
       selectionService.clearSelectedShape = function () {
         safeApply(function () {
           $scope.isEditingText = false;
           $scope.isEditingShape = false;
 
-          textFlowService.updateTextFlowForAllShapes(drawService.drawNodes);
+          textFlowService.updateTextFlowForAllShapes(drawService.shapesOnScreen);
         });
       };
 
@@ -182,7 +196,7 @@
         safeApply(function () {
           $scope.isEditingText = true;
         });
-      }
+      };
 
       textFlowService.currentShape = function () {
         return $scope.shapeToEdit;
@@ -195,7 +209,7 @@
 
       resizeService.resizeEnded = function () {
         $($scope.shapeToEdit).find('.text').show();
-        textFlowService.updateTextFlowForAllShapes(drawService.drawNodes);
+        textFlowService.updateTextFlowForAllShapes(drawService.shapesOnScreen);
         selectionService.showSelectionBox();
       };
 
@@ -204,7 +218,7 @@
       };
 
       dragService.dragEnded = function () {
-        textFlowService.updateTextFlowForAllShapes(drawService.drawNodes);
+        textFlowService.updateTextFlowForAllShapes(drawService.shapesOnScreen);
         selectionService.createSelectionBox($scope.shapeToEdit);
       };
 

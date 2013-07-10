@@ -8,7 +8,7 @@
     self.setShapeToEdit;
 
     // nodes on surface
-    self.drawNodes = [];
+    self.shapesOnScreen = [];
 
     self.setupDrawMouseBindings = function () {
       var start,
@@ -89,7 +89,7 @@
           endY: event.clientY - offset.top
         });
 
-        self.drawNodes[self.drawNodes.length] = shapeGroup;
+        self.shapesOnScreen[self.shapesOnScreen.length] = shapeGroup;
 
         $(shapeGroup)
           .on('mousedown', startDrag)
@@ -174,34 +174,6 @@
 //          resizeService.rescaleElement(shape,1.5, 1.5);
         }
 
-//        else if (settings.shape == 'ellipse') {
-//          var rx = (right - left) / 2;
-//          var ry = (bottom - top) / 2;
-//          node = surfaceService.svg.ellipse(parentGroup, left + rx, top + ry, rx, ry, settings);
-//        }
-//        else if (settings.shape == 'line') {
-//          node = surfaceService.svg.line(parentGroup, x1, y1, x2, y2, settings);
-//        }
-//        else if (settings.shape == 'polyline') {
-//          node = surfaceService.svg.polyline(parentGroup, [
-//            [(x1 + x2) / 2, y1],
-//            [x2, y2],
-//            [x1, (y1 + y2) / 2],
-//            [x2, (y1 + y2) / 2],
-//            [x1, y2],
-//            [(x1 + x2) / 2, y1]
-//          ], $.extend(settings, {fill: 'none'}));
-//        }
-//        else if (settings.shape == 'polygon') {
-//          node = surfaceService.svg.polygon(parentGroup, [
-//            [(x1 + x2) / 2, y1],
-//            [x2, y1],
-//            [x2, y2],
-//            [(x1 + x2) / 2, y2],
-//            [x1, (y1 + y2) / 2]
-//          ], settings);
-//        }
-
         var textSpans = surfaceService.svg.createText().string('');
 
         var text = surfaceService.svg.text(parentGroup, 10, 10, textSpans, {
@@ -213,7 +185,7 @@
         });
 
         return parentGroup;
-      };
+      }
 
       function editShape(shape) {
         if (start) {
@@ -225,7 +197,68 @@
         // "this" is the shape that was clicked
         selectionService.createSelectionBox(shape);
         self.setShapeToEdit(shape);
-      };
+      }
     };
+
+    self.exportShapes = function () {
+      var exportShapes = [];
+      _.forEach(self.shapesOnScreen, function (shapeGroup) {
+        var group = $(shapeGroup);
+        var shape = group.find('.shape');
+        var text = group.find('.text');
+
+        exportShapes.push({
+          transform: group.attr('transform'),
+          translationOffset: group.data('translationOffset'),
+          shape: {
+            path: shape.attr('d'),
+            fill: shape.attr('fill'),
+            stroke: shape.attr('stroke'),
+            'stroke-width': shape.attr('stroke-width')
+          },
+          text: {
+
+          }
+        });
+        // path
+        // transformation
+        // text
+
+        // background color
+        // border size
+        // border color
+        // font color
+        // font size
+        // font family
+      });
+
+      return JSON.stringify(exportShapes);
+    };
+
+    self.importTemplate = function (template, data) {
+      var importShapes = JSON.parse(template);
+
+      _.forEach(importShapes, function (shapeGroup) {
+        var parentGroup = surfaceService.svg.group({
+          transform: shapeGroup.transform
+        });
+
+        $(parentGroup).data('translationOffset', shapeGroup.translationOffset);
+
+        surfaceService.svg.path(parentGroup, shapeGroup.shape.path, shapeGroup.shape);
+      });
+    };
+
+    self.deleteShape = function (shape) {
+      surfaceService.svg.remove(shape);
+      self.shapesOnScreen.remove(shape);
+    };
+
+    self.clearScreen = function() {
+      _.forEach(self.shapesOnScreen, function(shape){
+        self.deleteShape(shape);
+      });
+    };
+
   });
 })();

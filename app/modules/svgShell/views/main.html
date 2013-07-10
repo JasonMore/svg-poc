@@ -1,110 +1,85 @@
 <!--<h2>SVG Javascript Demo</h2>-->
+<!--<div class="container">-->
+<div class="row-fluid">
+  <div class="span12">
+    <div class="well">
+      <div class="btn-toolbar" style="margin: 0;">
+        <edit-options name="Draw Shape"
+                      options="shapeOptions"
+                      selection="shapeToDraw"></edit-options>
 
-<div class="well">
+        <edit-options name="Background Color"
+                      visible="isEditingShape"
+                      options="colorOptions"
+                      selection="selectedFill"></edit-options>
 
-  <div class="btn-toolbar" style="margin: 0;">
-    <edit-options name="Draw Shape"
-                  options="shapeOptions"
-                  selection="shapeToDraw"></edit-options>
+        <edit-options name="Border Size"
+                      visible="isEditingShape"
+                      options="strokeWidthOptions"
+                      selection="selectedStrokeWidth"></edit-options>
 
-    <edit-options name="Background Color"
-                  visible="isEditingShape"
-                  options="colorOptions"
-                  selection="selectedFill"></edit-options>
+        <edit-options name="Border Color"
+                      visible="isEditingShape"
+                      options="colorOptions"
+                      selection="selectedStrokeColor"></edit-options>
 
-    <edit-options name="Border Size"
-                  visible="isEditingShape"
-                  options="strokeWidthOptions"
-                  selection="selectedStrokeWidth"></edit-options>
+        <edit-options name="Font Color"
+                      visible="isEditingShape"
+                      options="colorOptions"
+                      selection="selectedFontColor"></edit-options>
 
-    <edit-options name="Border Color"
-                  visible="isEditingShape"
-                  options="colorOptions"
-                  selection="selectedStrokeColor"></edit-options>
+        <edit-options name="Font Size"
+                      visible="isEditingShape"
+                      options="fontSizeOptions"
+                      selection="selectedFontSize"></edit-options>
 
-    <edit-options name="Font Color"
-                  visible="isEditingShape"
-                  options="colorOptions"
-                  selection="selectedFontColor"></edit-options>
+        <edit-options name="Font Family"
+                      visible="isEditingShape"
+                      options="fontFamilyOptions"
+                      selection="selectedFontFamily"></edit-options>
 
-    <edit-options name="Font Size"
-                  visible="isEditingShape"
-                  options="fontSizeOptions"
-                  selection="selectedFontSize"></edit-options>
-
-    <edit-options name="Font Family"
-                  visible="isEditingShape"
-                  options="fontFamilyOptions"
-                  selection="selectedFontFamily"></edit-options>
-
-    <a ng-show="isEditingShape" ng-click="deleteShape()" class="btn btn-warning">
-      Delete
-    </a>
+        <a ng-show="isEditingShape" ng-click="deleteShape()" class="btn btn-warning">
+          Delete
+        </a>
+      </div>
+    </div>
   </div>
-
-
 </div>
 
-</div>
-<div class="canvas">
-  <floating-text-editor text-value="textValue"
-                        is-editing="isEditingText"
-                        font-family="selectedFontFamily"
-                        font-size="selectedFontSize"></floating-text-editor>
-  <svg-sketchpad></svg-sketchpad>
-</div>
-
-<div class="row">
-  <!--<span class="drawOpt"><button type="button" id="undo">Undo</button></span>-->
-  <!--<span class="drawOpt"><button type="button" id="clear2">Clear</button></span>-->
-  <!--<span class="drawOpt"><button type="button" id="toSVG">To SVG</button></span>-->
-  <!--<a class="btn" ng-click="isDrawing = !isDrawing">-->
-  <!--<i ng-class="{'icon-check': isDrawing, 'icon-check-empty': !isDrawing}"></i>-->
-  <!--Draw-->
-  <!--</a>-->
-  <!--<a class="btn" ng-show="isEditingShape" ng-click="isEditingText = !isEditingText">-->
-  <!--<i ng-class="{'icon-check': isEditingText, 'icon-check-empty': !isEditingText}"></i>-->
-  <!--Edit Text-->
-  <!--</a>-->
+<div class="row-fluid">
+  <div class="span12">
+    <div class="canvas">
+      <floating-text-editor text-value="textValue"
+                            is-editing="isEditingText"
+                            font-family="selectedFontFamily"
+                            font-size="selectedFontSize"></floating-text-editor>
+      <svg-sketchpad></svg-sketchpad>
+    </div>
+  </div>
 </div>
 
-<!--<div class="well well-large">-->
-<!--<div class="row">-->
-<!--<div class="span4"></div>-->
-<!--<label>-->
-<!--Shape-->
-<!--<select ng-model="shapeToDraw"-->
-<!--ng-options="shape.id as shape.name for shape in shapeOptions"></select>-->
-<!--</label>-->
+<div class="row-fluid">
+  <div class="span12">
+    <accordion close-others="true">
+      <accordion-group heading="Import">
+        <div class="span4">
+          <textarea placeholder="Template..." rows="5" class="input-xlarge" ng-model="templateJson"></textarea>
+        </div>
+        <div class="span4">
+          <textarea placeholder="Data..." rows="5" class="input-xlarge" ng-model="dataJson"></textarea>
+        </div>
+        <div class="span4">
+          <button class="btn" ng-click="import()">Import</button>
+        </div>
+      </accordion-group>
+      <accordion-group heading="Export">
+        <p>
+          <textarea placeholder="Click 'Export'..." rows="5" class="input-xlarge" ng-model="exportScreenJson"></textarea>
+        </p>
 
-<!--<label>-->
-<!--Fill-->
-<!--<select ng-model="selectedFill"-->
-<!--ng-options="color.id as color.name for color in colorOptions"></select>-->
-<!--</label>-->
-<!--</div>-->
-<!--<div class="row">-->
-<!--<label>-->
-<!--Stroke width-->
-<!--<select ng-model="selectedStrokeWidth"-->
-<!--ng-options="size.id as size.name for size in strokeWidthOptions"></select>-->
-<!--</label>-->
-
-<!--<label>-->
-<!--Fill-->
-<!--<select ng-model="selectedStrokeColor"-->
-<!--ng-options="color.id as color.name for color in colorOptions"></select>-->
-<!--</label>-->
-<!--</div>-->
-<!--</div>-->
-
-
-<!--<div collapse="!isEditingText">-->
-<!--<div class="well well-large">-->
-<!--<div class="row">-->
-<!--<label>Text-->
-<!--<textarea class="input-xxlarge" ng-model="textValue"></textarea>-->
-<!--</label>-->
-<!--</div>-->
-<!--</div>-->
+        <button class="btn" ng-click="export()">Export</button>
+      </accordion-group>
+    </accordion>
+  </div>
+</div>
 <!--</div>-->
