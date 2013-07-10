@@ -26,7 +26,8 @@
       $scope.shapeToDraw = '';
       $scope.shapeOptions = [
         {id: 'rect', name: 'Rectangle'},
-        {id: 'circle', name: 'Circle'}
+        {id: 'circle', name: 'Circle'},
+        {id: 'heart', name: 'Heart'}
 //        {id: 'ellipse', name: 'Ellipse'},
 //        {id: 'line', name: 'Line'},
 //        {id: 'polyline', name: 'Polyline'},

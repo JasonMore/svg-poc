@@ -10,6 +10,8 @@
       $(controlPoints).draggable(resizeObj);
     }
 
+    this.rescaleElement = rescaleElement;
+
     var resizeObj = {
       start: function () {
         self.resizeStarted();
@@ -117,7 +119,7 @@
 
 
           translationService.adjustTranslate(this.parentNode, deltax, deltay, true);
-          rescaleElement(surfaceService.svg, outlinePath, scaleX, scaleY);
+          rescaleElement(outlinePath, scaleX, scaleY);
 
           rect.width = width;
           rect.height = height;
@@ -127,7 +129,7 @@
           translationService.adjustTranslate(groupToModify, deltax, deltay, true);
 
           var shape = $(groupToModify).find('.shape')[0];
-          rescaleElement(surfaceService.svg, shape, scaleX, scaleY);
+          rescaleElement(shape, scaleX, scaleY);
 
 
           // TODO: I need the new top and left coordinates of the redrawn box
@@ -187,7 +189,7 @@
       }
     }
 
-    function rescaleElement(svg, element, scaleX, scaleY) {
+    function rescaleElement(element, scaleX, scaleY) {
       if (typeof(element.instanceRoot) != "undefined") {
         element = element.instanceRoot.correspondingElement;
       }
@@ -197,7 +199,7 @@
         return;
       }
 
-      var newPath = svg.createPath();
+      var newPath = surfaceService.svg.createPath();
 
       // create the new path element
       for (var i = 0; i < element.pathSegList.numberOfItems; i++) {
