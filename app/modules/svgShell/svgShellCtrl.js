@@ -216,10 +216,6 @@
       };
 
       dragService.dragStarted = function () {
-        if(!dragService.isDrawing()) {
-          return;
-        }
-        
         selectionService.removeSelection();
       };
 

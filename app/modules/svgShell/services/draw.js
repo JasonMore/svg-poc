@@ -40,7 +40,7 @@
           },
           text: {
             value: text.text(),
-            color: text.attr('fill'),
+            fill: text.attr('fill'),
             'font-family': text.attr('font-family'),
             'font-size': text.attr('font-size'),
           }
@@ -112,8 +112,10 @@
 
     self.clearScreen = function () {
       _.forEach(self.shapesOnScreen, function (shape) {
-        self.deleteShape(shape);
+        surfaceService.svg.remove(shape);
       });
+
+      self.shapesOnScreen = [];
     };
 
     function startDrag(event) {
