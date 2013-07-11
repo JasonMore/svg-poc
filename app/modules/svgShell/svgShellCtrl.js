@@ -216,13 +216,23 @@
       };
 
       dragService.dragStarted = function () {
+        if(!dragService.isDrawing()) {
+          return;
+        }
+        
         selectionService.removeSelection();
       };
 
       dragService.dragEnded = function () {
+        if(!dragService.isDrawing()) {
+          return;
+        }
+
         textFlowService.updateTextFlowForAllShapes(drawService.shapesOnScreen);
         selectionService.createSelectionBox($scope.shapeToEdit);
       };
+
+      dragService.isDrawing = $scope.isDrawing;
 
       function safeApply(fn) {
         ($scope.$$phase || $scope.$root.$$phase) ? fn() : $scope.$apply(fn);

@@ -5,6 +5,7 @@
     // external
     self.dragStarted;
     self.dragEnded;
+    self.isDrawing;
 
     this.makeDraggable = function(shape) {
       $(shape).draggable(dragObj);
@@ -12,6 +13,10 @@
 
     var dragObj = {
       start: function () {
+        if (self.isDrawing()) {
+          return;
+        }
+
         var matrix = this.getScreenCTM().inverse();
 
         var pt = this.ownerSVGElement.createSVGPoint();
@@ -23,6 +28,9 @@
         self.dragStarted();
       },
       drag: function (event, ui) {
+        if (self.isDrawing()) {
+          return;
+        }
         var matrix = this.getScreenCTM().inverse();
         var orig = JSON.parse(this.getAttribute('orig'));
 
