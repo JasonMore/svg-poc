@@ -8,12 +8,15 @@
         $scope.shapeToDraw = shape;
       }
 
-      $scope.import = function() {
+      $scope.import = function (templateJson, dataJson) {
         drawService.clearScreen();
-        drawService.importTemplate($scope.templateJson, $scope.dataJson);
+//        drawService.importTemplate($scope.templateJson, $scope.dataJson);
+        drawService.importTemplate(templateJson, dataJson);
+        textFlowService.updateTextFlowForAllShapes(drawService.shapesOnScreen);
+
       }
 
-      $scope.export = function() {
+      $scope.export = function () {
         $scope.exportScreenJson = drawService.exportShapes();
       }
 
@@ -98,14 +101,16 @@
       ];
 
       // clicks
-      $scope.deleteShape = function() {
+      $scope.deleteShape = function () {
         drawService.deleteShape($scope.shapeToEdit);
         selectionService.clearSelection();
       };
 
       // watches
       $scope.$watch('isEditingText', function (newVal, oldVal) {
-        if(newVal === oldVal){return;}
+        if (newVal === oldVal) {
+          return;
+        }
 
         // setTimeout needed so we don't recalculate the textflow until
         // the text area has gone away
@@ -134,7 +139,7 @@
         $scope.selectedFontFamily = text.attr('font-family');
         $scope.selectedFontColor = text.attr('fill');
 
-        $scope.textValue = text[0].firstChild.nodeValue;
+        $scope.textValue = text.text();
       });
 
       $scope.$watch('selectedFill + selectedStrokeColor + selectedStrokeWidth', function () {
@@ -171,9 +176,6 @@
           $scope.isEditingShape = true;
           $scope.shapeToDraw = '';
           $scope.shapeToEdit = shape;
-
-          // hack
-          drawService.exportShapes();
         });
       };
 

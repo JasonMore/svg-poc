@@ -8,14 +8,15 @@
     self.updateTextFlowForCurrentShape = function(newTextVal) {
       var shape = self.currentShape();
 
-      var text = $(shape).find('.text')[0];
+      var text = $(shape).find('.text');
 
       if(_.isUndefined(text)){
         return;
       }
 
       if(!_.isUndefined(newTextVal)) {
-        text.firstChild.nodeValue = newTextVal || '';
+//        text.firstChild.nodeValue = newTextVal || '';
+        text.text(newTextVal || '');
       }
 
       updateTextFlowForShape(shape);
