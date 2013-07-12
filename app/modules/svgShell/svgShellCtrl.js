@@ -89,7 +89,7 @@
         {id: '14.0', name: '14'},
         {id: '15.0', name: '15'},
         {id: '16.0', name: '16'},
-        {id: '17.0', name: '17'},
+        {id: '17.0', name: '17'}
       ];
 
       $scope.selectedFontFamily = 'Verdana';

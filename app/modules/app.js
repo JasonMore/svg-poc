@@ -1,10 +1,10 @@
 (function() {
   'use strict';
-  angular.module('app', ['main','svgPoc','svgJS', 'svgShell'])
+  angular.module('app', ['main','svgPoc','svgJS', 'svgShell', 'svgAbstraction'])
     .config(function ($routeProvider, $injector) {
       $routeProvider
         .otherwise({
-          redirectTo: '/svgShell'
+          redirectTo: '/'
         });
     });
 

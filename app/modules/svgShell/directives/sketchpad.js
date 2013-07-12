@@ -5,7 +5,7 @@
         restrict: 'E',
         template: '<div style="border:1px; width: 100%; height: 300px;"></div>',
         replace: 'true',
-        link: function(scope, el, attrs){
+        link: function svgSketchpadLink(scope, el, attrs){
           $(el).svg({onLoad: function (svg) {
             surfaceService.svgsketch = el;
             surfaceService.svg = svg;
