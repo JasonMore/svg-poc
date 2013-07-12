@@ -1,7 +1,6 @@
-<svg>
-  <drawing-surface>
-    <shape
-        ng-repeat="shape in shapes"
-          ></shape>
-  </drawing-surface>
-</svg>
+<button ng-click="addShape()">Add Shape</button>
+<button ng-click="removeShape()">Remove Shape</button>
+
+<ng-svg style="height: 600px">
+  <square x="shape.x" y="shape.y" ng-repeat="shape in shapes"></square>
+</ng-svg>
