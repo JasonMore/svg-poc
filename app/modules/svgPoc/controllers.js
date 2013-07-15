@@ -3,7 +3,7 @@
 
   angular.module('svgPoc.controllers', [])
     .controller('svgPocCtrl', function ($scope, $timeout, surfaceService) {
-      $scope.shapes = [];
+      $scope.oldShapes = [];
 
       $scope.boxes = [
         {x: 100, y: 50, color: "blue"},
