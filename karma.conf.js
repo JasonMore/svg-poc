@@ -5,10 +5,12 @@
 // base path, that will be used to resolve files and exclude
 basePath = '';
 
-
 // frameworks to use
 frameworks = ['jasmine'];
 
+preprocessors = {
+  'test/unit/**/*.html': 'html2js'
+};
 
 // list of files / patterns to load in the browser
 files = [
@@ -31,7 +33,8 @@ files = [
 
   'app/components/angularjs-bower/angular-mocks.js',
   'app/modules/**/*.js',
-  'test/unit/**/*.js'
+  'test/unit/**/*.js',
+  'test/unit/**/*.html'
 ];
 
 
