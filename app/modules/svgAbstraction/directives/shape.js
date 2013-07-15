@@ -22,9 +22,7 @@
           var transform = 'translate({{left}},{{top}}), rotate(0,{{midPointX}},{{midPointY}})';
           var parentGroup = ngSvgController.svg.group({ transform: transform });
 
-          var square = '';
-
-          var shape = ngSvgController.svg.path(parentGroup, square, {
+          var shape = ngSvgController.svg.path(parentGroup, '', {
             'class': 'shape',
             'fill':'{{fill}}',
             'stroke':'{{stroke}}',
