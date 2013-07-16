@@ -45,5 +45,9 @@
         $scope.shapes.splice($scope.shapes.length - 1, 1);
       };
 
+      $scope.canDragShape = function(shape) {
+        return true;
+      };
+
     });
   }());

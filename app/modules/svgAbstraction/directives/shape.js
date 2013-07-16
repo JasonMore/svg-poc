@@ -11,7 +11,9 @@
           d: '=',
           fill: '=',
           stroke: '=',
-          strokeWidth: '='
+          strokeWidth: '=',
+
+          draggable: '='
         },
         link: function (scope, element, attr, ngSvgController) {
 
@@ -34,6 +36,9 @@
           });
 
           $compile(parentGroup)(scope);
+
+          // attach svg element to dom element so we can access it from other directives
+          element.data('parentGroup', parentGroup);
 
           scope.$on("$destroy", function () {
             ngSvgController.svg.remove(parentGroup);

@@ -6,13 +6,13 @@
 <button ng-click="increaseY()">Decrease Y</button>
 
 <ng-svg style="height: 600px">
-  <shape top="shape.top"
-         left="shape.left"
-         d="shape.path"
-         fill="shape.backgroundColor"
-         stroke="shape.borderColor"
-         stroke-width="shape.borderWidth"
-         ng-repeat="shape in shapes"
+  <shape top = "shape.top"
+         left = "shape.left"
+         d = "shape.path"
+         fill = "shape.backgroundColor"
+         stroke = "shape.borderColor"
+         stroke-width = "shape.borderWidth"
+         draggable = "canDragShape(shape)"
+         ng-repeat = "shape in shapes"
       ></shape>
-  <!--<square x="shape.x" y="shape.y" ng-repeat="shape in oldShapes"></square>-->
 </ng-svg>

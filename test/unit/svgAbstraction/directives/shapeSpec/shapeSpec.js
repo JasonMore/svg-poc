@@ -5,7 +5,7 @@ describe('shape', function () {
     scope;
 
   beforeEach(module('svgAbstraction'));
-  beforeEach(inject(function ($rootScope, $compile, $controller) {
+  beforeEach(inject(function ($rootScope, $compile) {
     act = function () {
       element = angular.element(htmlToRender);
       scope = $rootScope;
@@ -158,6 +158,4 @@ describe('shape', function () {
       });
     });
   });
-
-
 });
