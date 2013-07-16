@@ -219,6 +219,12 @@
           case 5:
             newPath = newPath.line(seg.x * scaleX, seg.y * scaleY, true);
             break;
+          case 6:
+            newPath = newPath.curveC(seg.x1 * scaleX, seg.y1 * scaleY, seg.x2 * scaleX, seg.y2 * scaleY, seg.x * scaleX, seg.y * scaleY);
+            break;
+          case 7:
+            newPath = newPath.curveC(seg.x1 * scaleX, seg.y1 * scaleY, seg.x2 * scaleX, seg.y2 * scaleY, seg.x * scaleX, seg.y * scaleY, true);
+            break;
           case 8:
             newPath = newPath.curveQ(seg.x1 * scaleX, seg.y1 * scaleY, seg.x * scaleX, seg.y * scaleY);
             break;
