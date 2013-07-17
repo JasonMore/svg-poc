@@ -16,10 +16,10 @@
   },
   "devDependencies": {
     "supervisor": "*",
-    "karma": "~0.9",
     "karma-ng-html2js-preprocessor": "0.0.2",
     "karma-script-launcher": "0.0.1",
-    "karma-ng-scenario": "0.0.1"
+    "karma-ng-scenario": "0.0.1",
+    "karma": "~0.9.4"
   },
   "repository": {
     "type": "git",

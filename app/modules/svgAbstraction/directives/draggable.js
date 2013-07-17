@@ -15,7 +15,7 @@
           });
 
           var options = {
-            start:function () {
+            start:function (event) {
 //              if (self.isDrawing()) {
 //                return;
 //              }
