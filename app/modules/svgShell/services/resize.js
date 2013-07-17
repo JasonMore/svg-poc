@@ -10,9 +10,10 @@
       $(controlPoints).draggable(resizeObj);
     }
 
-    this.rescaleElement = rescaleElement;
+      this.rescaleElement = rescaleElement;
+      this.transformShape = transformShape;
 
-    var resizeObj = {
+      var resizeObj = {
       start: function () {
         self.resizeStarted();
         var matrix = this.parentNode.getScreenCTM().inverse();
@@ -190,6 +191,14 @@
     }
 
     function rescaleElement(element, scaleX, scaleY) {
+        transformShape(element, scaleX, scaleY, 0, 0);
+    }
+
+    function translateElement(element, transX, transY) {
+          transformShape(element, 1.0, 1.0, 0, 0);
+    }
+
+    function transformShape(element, scaleX, scaleY, transX, transY) {
       if (typeof(element.instanceRoot) != "undefined") {
         element = element.instanceRoot.correspondingElement;
       }
@@ -208,31 +217,31 @@
         // Create the new segment, applying the transform matrix
         switch (seg.pathSegType) {
           case 2:
-            newPath = newPath.move(seg.x * scaleX, seg.y * scaleY);
+            newPath = newPath.move(seg.x * scaleX + transX, seg.y * scaleY + transY);
             break;
           case 3:
             newPath = newPath.move(seg.x * scaleX, seg.y * scaleY, true);
             break;
           case 4:
-            newPath = newPath.line(seg.x * scaleX, seg.y * scaleY);
+            newPath = newPath.line(seg.x * scaleX + transX, seg.y * scaleY + transY);
             break;
           case 5:
             newPath = newPath.line(seg.x * scaleX, seg.y * scaleY, true);
             break;
           case 6:
-            newPath = newPath.curveC(seg.x1 * scaleX, seg.y1 * scaleY, seg.x2 * scaleX, seg.y2 * scaleY, seg.x * scaleX, seg.y * scaleY);
+            newPath = newPath.curveC(seg.x1 * scaleX + transX, seg.y1 * scaleY + transY, seg.x2 * scaleX + transX, seg.y2 * scaleY + transY, seg.x * scaleX + transX, seg.y * scaleY + transY);
             break;
           case 7:
             newPath = newPath.curveC(seg.x1 * scaleX, seg.y1 * scaleY, seg.x2 * scaleX, seg.y2 * scaleY, seg.x * scaleX, seg.y * scaleY, true);
             break;
           case 8:
-            newPath = newPath.curveQ(seg.x1 * scaleX, seg.y1 * scaleY, seg.x * scaleX, seg.y * scaleY);
+            newPath = newPath.curveQ(seg.x1 * scaleX + tranX, seg.y1 * scaleY + transY, seg.x * scaleX + transX, seg.y * scaleY) + transY;
             break;
           case 9:
             newPath = newPath.curveQ(seg.x1 * scaleX, seg.y1 * scaleY, seg.x * scaleX, seg.y * scaleY, true);
             break;
           case 10:
-            newPath = newPath.arc(scaleX * seg.r1, scaleY * seg.r2, seg.angle, seg.largeArcFlag, seg.sweepFlag, scaleX * seg.x, scaleY * seg.y);
+            newPath = newPath.arc(scaleX * seg.r1 + transX, scaleY * seg.r2 + transY, seg.angle, seg.largeArcFlag, seg.sweepFlag, scaleX * seg.x + transX, scaleY * seg.y + transY);
           case 11:
             newPath = newPath.arc(scaleX * seg.r1, scaleY * seg.r2, seg.angle, seg.largeArcFlag, seg.sweepFlag, scaleX * seg.x, scaleY * seg.y, true);
         }
