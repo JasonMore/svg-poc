@@ -7,13 +7,12 @@ module.exports = function(karma) {
     // base path, that will be used to resolve files and exclude
     basePath: '',
 
-
     // frameworks to use
     frameworks: ['jasmine'],
 
-//    preprocessors: {
-//      'test/unit/**/*.html': ['ng-html2js']
-//    },
+    preprocessors : {
+      'app/modules/**/*.js': 'coverage'
+    },
 
 //    plugins: ['ng-html2js'],
 
@@ -50,7 +49,7 @@ module.exports = function(karma) {
 
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-    reporters: ['progress'],
+    reporters: ['progress', 'coverage'],
 
 
     // web server port

@@ -19,7 +19,8 @@
     "karma-ng-html2js-preprocessor": "0.0.2",
     "karma-script-launcher": "0.0.1",
     "karma-ng-scenario": "0.0.1",
-    "karma": "~0.9.4"
+    "karma": "~0.9.4",
+    "karma-coverage": "0.0.3"
   },
   "repository": {
     "type": "git",

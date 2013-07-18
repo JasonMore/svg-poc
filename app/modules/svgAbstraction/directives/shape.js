@@ -17,23 +17,7 @@
         },
         link: function (scope, element, attr, ngSvgController) {
 
-          // TODO: get half width / half height for rotate center point
-          scope.midPointX = 50;
-          scope.midPointY = 50;
-
-          var transform = 'translate({{left}},{{top}}), rotate(0,{{midPointX}},{{midPointY}})';
-          var parentGroup = ngSvgController.svg.group({ transform: transform });
-
-          var shape = ngSvgController.svg.path(parentGroup, '', {
-            'class': 'shape',
-            'fill':'{{fill}}',
-            'stroke':'{{stroke}}',
-            'stroke-width':'{{strokeWidth}}',
-
-            // not sure why "d" is the only one that needs ng-attr
-            // jquery.svg throws error without "ng-attr"
-            'ng-attr-d':'{{d}}'
-          });
+          var parentGroup = drawShape(scope, ngSvgController);
 
           $compile(parentGroup)(scope);
 
@@ -44,6 +28,28 @@
             ngSvgController.svg.remove(parentGroup);
           });
         }
+      };
+
+      function drawShape(scope, ngSvgController){
+        // TODO: get half width / half height for rotate center point
+        scope.midPointX = 50;
+        scope.midPointY = 50;
+
+        var transform = 'translate({{left}},{{top}}), rotate(0,{{midPointX}},{{midPointY}})';
+        var parentGroup = ngSvgController.svg.group({ transform: transform });
+
+        var shape = ngSvgController.svg.path(parentGroup, '', {
+          'class': 'shape',
+          'fill':'{{fill}}',
+          'stroke':'{{stroke}}',
+          'stroke-width':'{{strokeWidth}}',
+
+          // not sure why "d" is the only one that needs ng-attr
+          // jquery.svg throws error without "ng-attr"
+          'ng-attr-d':'{{d}}'
+        });
+
+        return parentGroup;
       };
     });
 })();

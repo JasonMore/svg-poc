@@ -89,8 +89,6 @@
               y += origY;
             }
 
-//            trans.setTranslate(x, y);
-
             scope.$apply(function() {
               scope.left = x;
               scope.top = y;

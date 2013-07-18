@@ -6,6 +6,7 @@
 <button ng-click="increaseY()">Decrease Y</button>
 
 <ng-svg style="height: 600px">
+  <selection-box shape="selectedShape"></selection-box>
   <shape top = "shape.top"
          left = "shape.left"
          d = "shape.path"
@@ -13,6 +14,7 @@
          stroke = "shape.borderColor"
          stroke-width = "shape.borderWidth"
          draggable = "canDragShape(shape)"
+         ng-click = "selectedShape = shape"
          ng-repeat = "shape in shapes"
       ></shape>
 </ng-svg>
