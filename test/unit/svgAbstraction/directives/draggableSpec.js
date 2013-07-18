@@ -24,6 +24,7 @@ describe('draggable', function() {
           '  fill="shape.backgroundColor"' +
           '  stroke="shape.borderColor"' +
           '  stroke-width="shape.borderWidth"' +
+          '  svg-element = "shape.svgElement"' +
           '  draggable = "true"' +
           ' ></shape>' +
           '</ng-svg>';
@@ -83,6 +84,7 @@ describe('draggable', function() {
         '  fill="shape.backgroundColor"' +
         '  stroke="shape.borderColor"' +
         '  stroke-width="shape.borderWidth"' +
+        '  svg-element = "shape.svgElement"' +
         '  draggable = "false"' +
         ' ></shape>' +
         '</ng-svg>';

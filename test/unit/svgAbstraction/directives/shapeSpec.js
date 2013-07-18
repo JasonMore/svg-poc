@@ -28,6 +28,7 @@ describe('shape', function () {
             'fill="shape.backgroundColor"' +
             'stroke="shape.borderColor"' +
             'stroke-width="shape.borderWidth"' +
+            'svg-element = "shape.svgElement"' +
             'ng-repeat="shape in shapes"' +
             '></shape>' +
             '</ng-svg>'
@@ -36,20 +37,22 @@ describe('shape', function () {
 
         scope.shapes = [
           {
-            top:50,
-            left:50,
-            path:'M0,0L100,0L100,100L0,100z',
-            backgroundColor:'green',
-            borderColor:'blue',
-            borderWidth:12
+            top: 50,
+            left: 50,
+            path: 'M0,0L100,0L100,100L0,100z',
+            backgroundColor: 'green',
+            borderColor: 'blue',
+            borderWidth: 12,
+            svgElement: null
           },
           {
-            top:100,
-            left:100,
-            path:'M0,0L100,0L100,100L0,100z',
-            backgroundColor:'gray',
-            borderColor:'black',
-            borderWidth:'2'
+            top: 100,
+            left: 100,
+            path: 'M0,0L100,0L100,100L0,100z',
+            backgroundColor: 'gray',
+            borderColor: 'black',
+            borderWidth: '2',
+            svgElement: null
           }
         ];
 
@@ -87,6 +90,10 @@ describe('shape', function () {
         expect(shape.attr('stroke-width')).toEqual('2');
       });
 
+      it('svg element is set on shape', function() {
+        expect(scope.shapes[1].svgElement).toEqual(parentGroup[0]);
+      });
+
       describe('removing shape', function () {
         beforeEach(function () {
           scope.shapes.splice(scope.shapes.length - 1, 1);
@@ -104,23 +111,25 @@ describe('shape', function () {
         htmlToRender =
           '<ng-svg style="height: 600px">' +
             '<shape top="shape.top"' +
-            'left="shape.left"' +
-            'd="shape.path"' +
-            'fill="shape.backgroundColor"' +
-            'stroke="shape.borderColor"' +
-            'stroke-width="shape.borderWidth"' +
+            ' left="shape.left"' +
+            ' d="shape.path"' +
+            ' fill="shape.backgroundColor"' +
+            ' stroke="shape.borderColor"' +
+            ' stroke-width="shape.borderWidth"' +
+            ' svg-element="shape.svgElement"' +
             '></shape>' +
             '</ng-svg>'
 
         act();
 
         scope.shape = {
-          top:50,
-          left:50,
-          path:'M0,0L100,0L100,100L0,100z',
-          backgroundColor:'green',
-          borderColor:'blue',
-          borderWidth:12
+          top: 25,
+          left: 25,
+          path: 'M0,0L100,0L100,100L0,100z',
+          backgroundColor: 'red',
+          borderColor: 'orange',
+          borderWidth: 15,
+          svgElement: 'aasdfsad'
         };
 
         scope.$digest();
@@ -134,7 +143,7 @@ describe('shape', function () {
       });
 
       it('parent group has correct transformation', function () {
-        expect(parentGroup.attr('transform')).toEqual('translate(50,50), rotate(0,50,50)');
+        expect(parentGroup.attr('transform')).toEqual('translate(25,25), rotate(0,50,50)');
       });
 
       it('parent group has path', function () {
@@ -145,16 +154,21 @@ describe('shape', function () {
         expect(shape.attr('d')).toEqual('M0,0L100,0L100,100L0,100z');
       });
 
-      it('shape has background color green', function () {
-        expect(shape.attr('fill')).toEqual('green');
+      it('shape has background color red', function () {
+        expect(shape.attr('fill')).toEqual('red');
       });
 
-      it('shape has border color blue', function () {
-        expect(shape.attr('stroke')).toEqual('blue');
+      it('shape has border color orange', function () {
+        expect(shape.attr('stroke')).toEqual('orange');
       });
 
-      it('shape has border width of 12', function () {
-        expect(shape.attr('stroke-width')).toEqual('12');
+      it('shape has border width of 15', function () {
+        expect(shape.attr('stroke-width')).toEqual('15');
+      });
+
+      // GRR I don't understand why this doesn't work
+      xit('svg element is set on shape', function() {
+        expect(scope.shape.svgElement).toEqual(parentGroup[0]);
       });
     });
   });

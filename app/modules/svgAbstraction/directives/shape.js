@@ -13,11 +13,19 @@
           stroke: '=',
           strokeWidth: '=',
 
-          draggable: '='
+          draggable: '=',
+
+          whenClick: '&',
+          svgElement: '='
+
+        },
+        controller: function($scope){
+//          $scope.svgElment = 'narg';
         },
         link: function (scope, element, attr, ngSvgController) {
 
-          var parentGroup = drawShape(scope, ngSvgController);
+          var parentGroup = drawShape(scope, attr, ngSvgController.svg);
+          scope.svgElement = parentGroup;
 
           $compile(parentGroup)(scope);
 
@@ -30,24 +38,26 @@
         }
       };
 
-      function drawShape(scope, ngSvgController){
+      function drawShape(scope, attr, svg){
         // TODO: get half width / half height for rotate center point
         scope.midPointX = 50;
         scope.midPointY = 50;
 
         var transform = 'translate({{left}},{{top}}), rotate(0,{{midPointX}},{{midPointY}})';
-        var parentGroup = ngSvgController.svg.group({ transform: transform });
+        var parentGroup = svg.group({ transform: transform });
 
-        var shape = ngSvgController.svg.path(parentGroup, '', {
+        var shape = svg.path(parentGroup, '', {
           'class': 'shape',
           'fill':'{{fill}}',
           'stroke':'{{stroke}}',
           'stroke-width':'{{strokeWidth}}',
-
+          //'ng-click': scope.whenClick,
           // not sure why "d" is the only one that needs ng-attr
           // jquery.svg throws error without "ng-attr"
           'ng-attr-d':'{{d}}'
         });
+
+        $(shape).click(scope.whenClick);
 
         return parentGroup;
       };

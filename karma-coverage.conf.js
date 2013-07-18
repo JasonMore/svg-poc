@@ -10,9 +10,9 @@ module.exports = function(karma) {
     // frameworks to use
     frameworks: ['jasmine'],
 
-//    preprocessors : {
-//      'app/modules/**/*.js': 'coverage'
-//    },
+    preprocessors : {
+      'app/modules/**/*.js': 'coverage'
+    },
 
 //    plugins: ['ng-html2js'],
 
@@ -49,11 +49,11 @@ module.exports = function(karma) {
 
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-    reporters: ['progress'],
+    reporters: ['progress', 'coverage'],
 
 
     // web server port
-    port: 9876,
+    port: 9886,
 
 
     // cli runner port

@@ -2,6 +2,11 @@
   angular.module('svgAbstraction.controllers', [])
     .controller('svgAbstractionCtrl', function ($scope) {
       $scope.selectedShape = null;
+
+      $scope.setSelectedShape = function(shape){
+        $scope.selectedShape = shape;
+      };
+
       $scope.shapes = [
         {
           top: 50,
