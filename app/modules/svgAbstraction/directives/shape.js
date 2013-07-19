@@ -1,12 +1,14 @@
 (function () {
   angular.module('svgAbstraction.directives')
-    .directive('shape', function ($compile) {
+    .directive('shape', function ($compile, $timeout) {
       return {
         restrict: 'E',
         require: '^ngSvg',
         scope: {
           top: '=',
           left: '=',
+          midPointX: '=',
+          midPointY: '=',
 
           d: '=',
           fill: '=',
@@ -19,7 +21,8 @@
           svgElement: '='
         },
         controller: function($scope){
-//          $scope.svgElment = 'narg';
+//          $scope.midPointX = 0;
+//          $scope.midPointY = 0;
         },
         link: function ($scope, element, attr, ngSvgController) {
           var ngSvg = ngSvgController;
@@ -43,9 +46,7 @@
       };
 
       function drawShape($scope, attr, ngSvg){
-        // TODO: get half width / half height for rotate center point
-        $scope.midPointX = 50;
-        $scope.midPointY = 50;
+
 
         var transform = 'translate({{left}},{{top}}), rotate(0,{{midPointX}},{{midPointY}})';
         var parentGroup = ngSvg.svg.group(ngSvg.shapeGroup, {
@@ -64,14 +65,27 @@
           'ng-attr-d':'{{d}}'
         });
 
-        // HACK: ugh
-        $(shape).mousedown(function() {
-          $scope.$apply(function() {
-            $scope.whenClick();
-          });
-        });
+        setupShapeEvents($scope, shape);
+        setMidpointOfShape($scope, shape, ngSvg);
 
         return parentGroup;
       };
+
+      function setupShapeEvents($scope, shape) {
+        // HACK: ugh
+        $(shape).mousedown(function () {
+          $scope.$apply(function () {
+            $scope.whenClick();
+          });
+        });
+      }
+
+      function setMidpointOfShape($scope, shape, ngSvg){
+        $timeout(function() {
+          var selectionBox = ngSvg.getSelectionBox(shape);
+          $scope.midPointX = selectionBox.width / 2;
+          $scope.midPointY = selectionBox.height / 2;
+        });
+      }
     });
 })();

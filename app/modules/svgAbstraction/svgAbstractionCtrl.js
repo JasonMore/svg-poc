@@ -7,12 +7,15 @@
         $scope.selectedShape = shape;
       };
 
-
-      $scope.$watch('selectedShape', function (shape) {
-        console.log(shape);
-      });
-
       $scope.shapes = [
+        {
+          top: 25,
+          left: 25,
+          path: 'M0,0L50,0L50,50L0,50z',
+          backgroundColor: 'gray',
+          borderColor: 'black',
+          borderWidth: '2'
+        },
         {
           top: 50,
           left: 50,

@@ -12,19 +12,39 @@
           $scope.height = 0;
 //          $scope.left = 0;
 //          $scope.top = 0;
-          $scope.midPointX = 0;
-          $scope.midPointY = 0;
+//          $scope.midPointX = 0;
+//          $scope.midPointY = 0;
         },
         link: function ($scope, element, attr, ngSvgController) {
-          var selectionBox = createSelectionBox($scope, ngSvgController);
+          var ngSvg = ngSvgController,
+            selectionBox = createSelectionBox($scope, ngSvg);
+
           $compile(selectionBox)($scope);
+
+          $scope.calcLeft = function(shape){
+            if(!shape){
+              return 0;
+            }
+
+            var strokeWidth = $(shape.svgElement).find('.shape').attr('stroke-width');
+            return shape.left - strokeWidth;
+          };
+
+          $scope.calcTop = function(shape) {
+            if(!shape){
+              return 0;
+            }
+
+            var strokeWidth = $(shape.svgElement).find('.shape').attr('stroke-width');
+            return shape.top - strokeWidth;
+          }
 
           $scope.$watch('shape', function(shape, oldVal) {
             if(shape === oldVal) {
               return;
             }
 
-            var selectionBox = getSelectionBox(shape);
+            var selectionBox = ngSvg.getSelectionBox(shape);
 //            $scope.top = shape.top;
 //            $scope.left = shape.left;
             $scope.width = selectionBox.width;
@@ -35,7 +55,7 @@
 
       function createSelectionBox(scope, ngSvg) {
         // HACK: Need midpoint from something
-        var transform = 'translate({{shape.left}},{{shape.top}}), rotate(0,{{50}},{{50}})';
+        var transform = 'translate({{calcLeft(shape)}},{{calcTop(shape)}}), rotate(0,{{shape.middleX}},{{shape.middleY}})';
         var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup,{
           transform: transform
 //          origRect: JSON.stringify(boundingBox),
@@ -58,41 +78,7 @@
         return selectionBox;
       }
 
-      function getSelectionBox(shape) {
 
-        var shapeRaw = $(shape.svgElement).find('.shape')[0];
-        var totalLen = shapeRaw.getTotalLength();
-
-        var minX = 999999;
-        var maxX = 0;
-        var minY = 999999;
-        var maxY = 0;
-
-        for (var i = 0; i < totalLen; i++) {
-          var pt = shapeRaw.getPointAtLength(i);
-
-          minX = Math.min(minX, pt.x);
-          maxX = Math.max(maxX, pt.x);
-          minY = Math.min(minY, pt.y);
-          maxY = Math.max(maxY, pt.y);
-        }
-
-        // TODO: Look at this for refactor. Why do we need a Rect ?
-//        var boundingBox = shapeRaw.ownerSVGElement.createSVGRect();
-//
-//        boundingBox.x = minX;
-//        boundingBox.y = minY;
-//        boundingBox.width = maxX - minX;
-//        boundingBox.height = maxY - minY;
-//        return boundingBox;
-
-        return {
-          x: minX,
-          y: minY,
-          width: maxX - minX,
-          height: maxY - minY
-        };
-      }
     })
   ;
 })();
