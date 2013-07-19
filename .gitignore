@@ -7,4 +7,4 @@ dist
 app/components
 .idea
 coverage/*
-Test\ Results\ -\ karma_conf_js.html
+Test Results - karma-coverage_conf_js.html

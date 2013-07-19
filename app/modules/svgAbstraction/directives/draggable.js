@@ -6,6 +6,7 @@
         require:'^ngSvg',
         link:function (scope, element, attr, ngSvgController) {
 //          var self = this;
+          var ngSvg = ngSvgController;
 
           scope.$watch('draggable', function (isDraggable) {
             if (isDraggable) {

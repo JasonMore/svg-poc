@@ -17,47 +17,59 @@
 
           whenClick: '&',
           svgElement: '='
-
         },
         controller: function($scope){
 //          $scope.svgElment = 'narg';
         },
-        link: function (scope, element, attr, ngSvgController) {
+        link: function ($scope, element, attr, ngSvgController) {
+          var ngSvg = ngSvgController;
 
-          var parentGroup = drawShape(scope, attr, ngSvgController.svg);
-          scope.svgElement = parentGroup;
+          var parentGroup = drawShape($scope, attr, ngSvg);
+          $scope.svgElement = parentGroup;
 
-          $compile(parentGroup)(scope);
+          $compile(parentGroup)($scope);
 
           // attach svg element to dom element so we can access it from other directives
           element.data('parentGroup', parentGroup);
 
-          scope.$on("$destroy", function () {
-            ngSvgController.svg.remove(parentGroup);
+          $scope.isDragging = function(){
+            return ngSvg.isDragging && ngSvg.selectedShape === parentGroup;
+          };
+
+          $scope.$on("$destroy", function () {
+            ngSvg.svg.remove(parentGroup);
           });
         }
       };
 
-      function drawShape(scope, attr, svg){
+      function drawShape($scope, attr, ngSvg){
         // TODO: get half width / half height for rotate center point
-        scope.midPointX = 50;
-        scope.midPointY = 50;
+        $scope.midPointX = 50;
+        $scope.midPointY = 50;
 
         var transform = 'translate({{left}},{{top}}), rotate(0,{{midPointX}},{{midPointY}})';
-        var parentGroup = svg.group({ transform: transform });
+        var parentGroup = ngSvg.svg.group(ngSvg.shapeGroup, {
+          transform: transform
+        });
 
-        var shape = svg.path(parentGroup, '', {
+        var shape = ngSvg.svg.path(parentGroup, '', {
           'class': 'shape',
           'fill':'{{fill}}',
           'stroke':'{{stroke}}',
           'stroke-width':'{{strokeWidth}}',
+//          'shape-rendering':'{{isDragging() ? ',
           //'ng-click': scope.whenClick,
           // not sure why "d" is the only one that needs ng-attr
           // jquery.svg throws error without "ng-attr"
           'ng-attr-d':'{{d}}'
         });
 
-        $(shape).click(scope.whenClick);
+        // HACK: ugh
+        $(shape).mousedown(function() {
+          $scope.$apply(function() {
+            $scope.whenClick();
+          });
+        });
 
         return parentGroup;
       };

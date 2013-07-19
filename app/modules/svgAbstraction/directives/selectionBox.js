@@ -10,10 +10,14 @@
         controller: function ($scope) {
           $scope.width = 0;
           $scope.height = 0;
-          $scope.left = 0;
-          $scope.top = 0;
+//          $scope.left = 0;
+//          $scope.top = 0;
           $scope.midPointX = 0;
           $scope.midPointY = 0;
+        },
+        link: function ($scope, element, attr, ngSvgController) {
+          var selectionBox = createSelectionBox($scope, ngSvgController);
+          $compile(selectionBox)($scope);
 
           $scope.$watch('shape', function(shape, oldVal) {
             if(shape === oldVal) {
@@ -21,40 +25,25 @@
             }
 
             var selectionBox = getSelectionBox(shape);
-            $scope.top = shape.top;
-            $scope.left = shape.left;
+//            $scope.top = shape.top;
+//            $scope.left = shape.left;
             $scope.width = selectionBox.width;
             $scope.height = selectionBox.height;
           });
-        },
-        link: function (scope, element, attr, ngSvgController) {
-
-          var selectionBox = createSelectionBox(scope, ngSvgController.svg);
-
-          $compile(selectionBox)(scope);
-
-
-//          if (scope.shape) {
-//            var parentGroup = scope.shape.svgElement;
-//          }
-//
-//          var shape = parentGroup.find('.shape');
-//          var selectionBox = getSelectionBox(shape);
-
-
-        }
+         }
       };
 
-      function createSelectionBox(scope, svg) {
-        var transform = 'translate({{left}},{{top}}), rotate(0,{{midPointX}},{{midPointY}})';
-        var selectionBox = svg.group({
+      function createSelectionBox(scope, ngSvg) {
+        // HACK: Need midpoint from something
+        var transform = 'translate({{shape.left}},{{shape.top}}), rotate(0,{{50}},{{50}})';
+        var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup,{
           transform: transform
 //          origRect: JSON.stringify(boundingBox),
 //          rect1: JSON.stringify(boundingBox),
 //          transform: transformStr
         });
 
-        svg.path(selectionBox, '', {
+        ngSvg.svg.path(selectionBox, '', {
 //          id: 'outlinePath',
           'ng-attr-d': 'M0,0L{{width}},0L{{width}},{{height}}L0,{{height}}z',
           fill: 'none',

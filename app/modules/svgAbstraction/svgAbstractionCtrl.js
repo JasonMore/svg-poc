@@ -7,6 +7,11 @@
         $scope.selectedShape = shape;
       };
 
+
+      $scope.$watch('selectedShape', function (shape) {
+        console.log(shape);
+      });
+
       $scope.shapes = [
         {
           top: 50,
