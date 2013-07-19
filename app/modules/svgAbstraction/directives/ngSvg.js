@@ -17,8 +17,8 @@
       $element.svg({onLoad: function (svg) {
         self.svg = svg;
 
-        self.shapeGroup = svg.group();
-        self.selectionGroup = svg.group();
+        self.shapeGroup = svg.group({class:'shapes'});
+        self.selectionGroup = svg.group({class:'selection'});
       }});
 
       // functions
@@ -48,20 +48,11 @@
           maxY = Math.max(maxY, pt.y);
         }
 
-        // TODO: Look at this for refactor. Why do we need a Rect ?
-//        var boundingBox = shapeRaw.ownerSVGElement.createSVGRect();
-//
-//        boundingBox.x = minX;
-//        boundingBox.y = minY;
-//        boundingBox.width = maxX - minX;
-//        boundingBox.height = maxY - minY;
-//        return boundingBox;
-
         return {
-          x: minX - strokeWidth,
-          y: minY - strokeWidth,
-          width: maxX - minX + (strokeWidth * 2),
-          height: maxY - minY + (strokeWidth * 2)
+          x: minX - (strokeWidth /2),
+          y: minY - (strokeWidth /2),
+          width: maxX - minX + (strokeWidth * 1),
+          height: maxY - minY + (strokeWidth * 1)
         };
       }
     })

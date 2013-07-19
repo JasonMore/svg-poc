@@ -27,7 +27,7 @@
             }
 
             var strokeWidth = $(shape.svgElement).find('.shape').attr('stroke-width');
-            return shape.left - strokeWidth;
+            return shape.left - strokeWidth /2;
           };
 
           $scope.calcTop = function(shape) {
@@ -36,7 +36,7 @@
             }
 
             var strokeWidth = $(shape.svgElement).find('.shape').attr('stroke-width');
-            return shape.top - strokeWidth;
+            return shape.top - strokeWidth / 2;
           }
 
           $scope.$watch('shape', function(shape, oldVal) {

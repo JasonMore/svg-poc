@@ -2,10 +2,13 @@ describe('shape', function () {
   var htmlToRender,
     act,
     element,
-    scope;
+    scope,
+    timeout;
 
   beforeEach(module('svgAbstraction'));
-  beforeEach(inject(function ($rootScope, $compile) {
+  beforeEach(inject(function ($rootScope, $compile, $timeout) {
+    timeout = $timeout;
+
     act = function () {
       element = angular.element(htmlToRender);
       scope = $rootScope;
@@ -23,15 +26,19 @@ describe('shape', function () {
         htmlToRender =
           '<ng-svg style="height: 600px">' +
             '<shape top="shape.top"' +
-            'left="shape.left"' +
-            'd="shape.path"' +
-            'fill="shape.backgroundColor"' +
-            'stroke="shape.borderColor"' +
-            'stroke-width="shape.borderWidth"' +
-            'svg-element = "shape.svgElement"' +
-            'ng-repeat="shape in shapes"' +
+            ' left="shape.left"' +
+            ' mid-point-x="shape.middleX"' +
+            ' mid-point-y="shape.middleY"' +
+            ' d="shape.path"' +
+            ' fill="shape.backgroundColor"' +
+            ' stroke="shape.borderColor"' +
+            ' stroke-width="shape.borderWidth"' +
+            ' draggable="canDragShape(shape)"' +
+            ' svg-element="shape.svgElement"' +
+            ' when-click="setSelectedShape(shape)"' +
+            ' ng-repeat="shape in shapes"' +
             '></shape>' +
-            '</ng-svg>'
+            '</ng-svg>';
 
         act();
 
@@ -57,7 +64,7 @@ describe('shape', function () {
         ];
 
         scope.$digest();
-        parentGroup = element.find('g:last');
+        parentGroup = element.find('g.shapes g:last');
         shape = parentGroup.find('path');
         text = parentGroup.find('text');
       });
@@ -67,7 +74,8 @@ describe('shape', function () {
       });
 
       it('parent group has correct transformation', function () {
-        expect(parentGroup.attr('transform')).toEqual('translate(100,100), rotate(0,50,50)');
+        timeout.flush();
+        expect(parentGroup.attr('transform')).toEqual('translate(100,100), rotate(0,52.000003814697266,52.000003814697266)');
       });
 
       it('parent group has path', function () {
@@ -90,7 +98,7 @@ describe('shape', function () {
         expect(shape.attr('stroke-width')).toEqual('2');
       });
 
-      it('svg element is set on shape', function() {
+      it('svg element is set on shape', function () {
         expect(scope.shapes[1].svgElement).toEqual(parentGroup[0]);
       });
 
@@ -101,7 +109,7 @@ describe('shape', function () {
         });
 
         it('reduces shape count from 2 to 1', function () {
-          expect(element.find('g').length).toBe(1);
+          expect(element.find('g.shapes g').length).toBe(1);
         });
       });
     });
@@ -133,7 +141,7 @@ describe('shape', function () {
         };
 
         scope.$digest();
-        parentGroup = element.find('g');
+        parentGroup = element.find('g.shapes g');
         shape = parentGroup.find('path');
         text = parentGroup.find('text');
       });
@@ -143,6 +151,7 @@ describe('shape', function () {
       });
 
       it('parent group has correct transformation', function () {
+        timeout.flush();
         expect(parentGroup.attr('transform')).toEqual('translate(25,25), rotate(0,50,50)');
       });
 
@@ -167,7 +176,7 @@ describe('shape', function () {
       });
 
       // GRR I don't understand why this doesn't work
-      xit('svg element is set on shape', function() {
+      xit('svg element is set on shape', function () {
         expect(scope.shape.svgElement).toEqual(parentGroup[0]);
       });
     });
