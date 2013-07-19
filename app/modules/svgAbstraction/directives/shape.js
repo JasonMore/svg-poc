@@ -20,10 +20,6 @@
           whenClick: '&',
           svgElement: '='
         },
-        controller: function($scope){
-//          $scope.midPointX = 0;
-//          $scope.midPointY = 0;
-        },
         link: function ($scope, element, attr, ngSvgController) {
           var ngSvg = ngSvgController;
 
@@ -46,8 +42,6 @@
       };
 
       function drawShape($scope, attr, ngSvg){
-
-
         var transform = 'translate({{left}},{{top}}), rotate(0,{{midPointX}},{{midPointY}})';
         var parentGroup = ngSvg.svg.group(ngSvg.shapeGroup, {
           transform: transform
@@ -58,29 +52,20 @@
           'fill':'{{fill}}',
           'stroke':'{{stroke}}',
           'stroke-width':'{{strokeWidth}}',
-//          'shape-rendering':'{{isDragging() ? ',
-          //'ng-click': scope.whenClick,
+          'ng-mousedown': 'whenClick()',
+
           // not sure why "d" is the only one that needs ng-attr
           // jquery.svg throws error without "ng-attr"
           'ng-attr-d':'{{d}}'
         });
 
-        setupShapeEvents($scope, shape);
         setMidpointOfShape($scope, shape, ngSvg);
 
         return parentGroup;
       };
 
-      function setupShapeEvents($scope, shape) {
-        // HACK: ugh
-        $(shape).mousedown(function () {
-          $scope.$apply(function () {
-            $scope.whenClick();
-          });
-        });
-      }
-
       function setMidpointOfShape($scope, shape, ngSvg){
+        // shape needs to be rendered before we can calculate its midpoint
         $timeout(function() {
           var selectionBox = ngSvg.getSelectionBox(shape);
           $scope.midPointX = selectionBox.width / 2;
