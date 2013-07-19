@@ -49,10 +49,10 @@
         }
 
         return {
-          x: minX - (strokeWidth /2),
-          y: minY - (strokeWidth /2),
-          width: maxX - minX + (strokeWidth * 1),
-          height: maxY - minY + (strokeWidth * 1)
+          x: minX - (strokeWidth / 2).toFixed(5),
+          y: minY - (strokeWidth / 2).toFixed(5),
+          width: (maxX - minX + (strokeWidth * 1)).toFixed(5),
+          height: (maxY - minY + (strokeWidth * 1)).toFixed(5)
         };
       }
     })

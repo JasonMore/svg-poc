@@ -2,11 +2,14 @@ describe('draggable', function() {
   var htmlToRender,
     act,
     element,
-    scope;
+    scope,
+    timeout;
 
   beforeEach(module('svgAbstraction'));
 
-  beforeEach(inject(function($rootScope, $compile){
+  beforeEach(inject(function($rootScope, $compile, $timeout){
+    timeout = $timeout;
+
     act = function () {
       element = angular.element(htmlToRender);
       scope = $rootScope;
@@ -18,15 +21,18 @@ describe('draggable', function() {
     beforeEach(function () {
       htmlToRender =
         '<ng-svg style="height: 600px">' +
-          ' <shape top="shape.top"' +
-          '  left="shape.left"' +
-          '  d="shape.path"' +
-          '  fill="shape.backgroundColor"' +
-          '  stroke="shape.borderColor"' +
-          '  stroke-width="shape.borderWidth"' +
-          '  svg-element = "shape.svgElement"' +
-          '  draggable = "true"' +
-          ' ></shape>' +
+          '<shape top="shape.top"' +
+          ' left="shape.left"' +
+          ' mid-point-x="shape.middleX"' +
+          ' mid-point-y="shape.middleY"' +
+          ' d="shape.path"' +
+          ' fill="shape.backgroundColor"' +
+          ' stroke="shape.borderColor"' +
+          ' stroke-width="shape.borderWidth"' +
+          ' draggable="true"' +
+          ' svg-element="shape.svgElement"' +
+          ' when-click="setSelectedShape(shape)"' +
+          '></shape>' +
           '</ng-svg>';
 
       act();
@@ -41,6 +47,7 @@ describe('draggable', function() {
       };
 
       scope.$digest();
+      timeout.flush();
 
       var mouseDown = $.Event('mousedown', {
         which: 1,
@@ -78,15 +85,18 @@ describe('draggable', function() {
   beforeEach(function () {
     htmlToRender =
       '<ng-svg style="height: 600px">' +
-        ' <shape top="shape.top"' +
-        '  left="shape.left"' +
-        '  d="shape.path"' +
-        '  fill="shape.backgroundColor"' +
-        '  stroke="shape.borderColor"' +
-        '  stroke-width="shape.borderWidth"' +
-        '  svg-element = "shape.svgElement"' +
-        '  draggable = "false"' +
-        ' ></shape>' +
+        '<shape top="shape.top"' +
+        ' left="shape.left"' +
+        ' mid-point-x="shape.middleX"' +
+        ' mid-point-y="shape.middleY"' +
+        ' d="shape.path"' +
+        ' fill="shape.backgroundColor"' +
+        ' stroke="shape.borderColor"' +
+        ' stroke-width="shape.borderWidth"' +
+        ' draggable="false"' +
+        ' svg-element="shape.svgElement"' +
+        ' when-click="setSelectedShape(shape)"' +
+        '></shape>' +
         '</ng-svg>';
 
     act();

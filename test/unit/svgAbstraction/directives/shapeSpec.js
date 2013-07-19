@@ -75,7 +75,7 @@ describe('shape', function () {
 
       it('parent group has correct transformation', function () {
         timeout.flush();
-        expect(parentGroup.attr('transform')).toEqual('translate(100,100), rotate(0,52.000003814697266,52.000003814697266)');
+        expect(parentGroup.attr('transform')).toEqual('translate(100,100), rotate(0,51.000005,51.000005)');
       });
 
       it('parent group has path', function () {
@@ -120,13 +120,17 @@ describe('shape', function () {
           '<ng-svg style="height: 600px">' +
             '<shape top="shape.top"' +
             ' left="shape.left"' +
+            ' mid-point-x="shape.middleX"' +
+            ' mid-point-y="shape.middleY"' +
             ' d="shape.path"' +
             ' fill="shape.backgroundColor"' +
             ' stroke="shape.borderColor"' +
             ' stroke-width="shape.borderWidth"' +
+            ' draggable="canDragShape(shape)"' +
             ' svg-element="shape.svgElement"' +
+            ' when-click="setSelectedShape(shape)"' +
             '></shape>' +
-            '</ng-svg>'
+            '</ng-svg>';
 
         act();
 
@@ -152,7 +156,7 @@ describe('shape', function () {
 
       it('parent group has correct transformation', function () {
         timeout.flush();
-        expect(parentGroup.attr('transform')).toEqual('translate(25,25), rotate(0,50,50)');
+        expect(parentGroup.attr('transform')).toEqual('translate(25,25), rotate(0,57.500005,57.500005)');
       });
 
       it('parent group has path', function () {
