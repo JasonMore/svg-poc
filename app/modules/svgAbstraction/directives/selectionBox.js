@@ -13,7 +13,7 @@
         },
         link: function ($scope, element, attr, ngSvgController) {
           var ngSvg = ngSvgController,
-            selectionBox = createSelectionBox($scope, ngSvg);
+            selectionBox = createSelectionBox(ngSvg);
 
           $compile(selectionBox)($scope);
           addScopeMethods($scope, ngSvg);
@@ -40,9 +40,10 @@
         });
       }
 
-      function createSelectionBox(scope, ngSvg) {
+      function createSelectionBox(ngSvg) {
         var selectionBox = drawSelectionBox(ngSvg);
         drawSelectionCorners(ngSvg, selectionBox);
+
         return selectionBox;
       }
 

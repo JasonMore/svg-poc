@@ -1,4 +1,4 @@
-describe('draggable', function() {
+describe('draggableSpec.js', function () {
   var htmlToRender,
     act,
     element,
@@ -7,7 +7,7 @@ describe('draggable', function() {
 
   beforeEach(module('svgAbstraction'));
 
-  beforeEach(inject(function($rootScope, $compile, $timeout){
+  beforeEach(inject(function ($rootScope, $compile, $timeout) {
     timeout = $timeout;
 
     act = function () {
@@ -50,19 +50,19 @@ describe('draggable', function() {
       timeout.flush();
 
       var mouseDown = $.Event('mousedown', {
-        which: 1,
-        pageX: 50,
-        pageY: 50
+        which:1,
+        pageX:50,
+        pageY:50
       });
 
       var mousemove = $.Event("mousemove.draggable", {
-        pageX: 60,
-        pageY: 60
+        pageX:60,
+        pageY:60
       });
 
       var mouseup = $.Event("mouseup.draggable", {
-        pageX: 60,
-        pageY: 60
+        pageX:60,
+        pageY:60
       });
 
       var parentGroup = element.find('g');
@@ -73,11 +73,11 @@ describe('draggable', function() {
       $(document).trigger($.Event("mouseup"));
     });
 
-    it('moves shape top', function() {
+    it('moves shape top', function () {
       expect(scope.shape.top).toEqual(10);
     });
 
-    it('moves shape left', function() {
+    it('moves shape left', function () {
       expect(scope.shape.left).toEqual(10);
     });
   });
@@ -113,19 +113,19 @@ describe('draggable', function() {
     scope.$digest();
 
     var mouseDown = $.Event('mousedown', {
-      which: 1,
-      pageX: 50,
-      pageY: 50
+      which:1,
+      pageX:50,
+      pageY:50
     });
 
     var mousemove = $.Event("mousemove.draggable", {
-      pageX: 60,
-      pageY: 60
+      pageX:60,
+      pageY:60
     });
 
     var mouseup = $.Event("mouseup.draggable", {
-      pageX: 60,
-      pageY: 60
+      pageX:60,
+      pageY:60
     });
 
     var parentGroup = element.find('g');
@@ -136,11 +136,11 @@ describe('draggable', function() {
     $(document).trigger($.Event("mouseup"));
   });
 
-  it('moves shape top', function() {
+  it('moves shape top', function () {
     expect(scope.shape.top).toEqual(0);
   });
 
-  it('moves shape left', function() {
+  it('moves shape left', function () {
     expect(scope.shape.left).toEqual(0);
   });
 });

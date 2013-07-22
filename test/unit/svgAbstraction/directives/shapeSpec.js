@@ -1,4 +1,4 @@
-describe('shape', function () {
+describe('shapeSpec.js', function () {
   var htmlToRender,
     act,
     element,
@@ -49,8 +49,7 @@ describe('shape', function () {
             path: 'M0,0L100,0L100,100L0,100z',
             backgroundColor: 'green',
             borderColor: 'blue',
-            borderWidth: 12,
-            svgElement: null
+            borderWidth: 12
           },
           {
             top: 100,
@@ -58,8 +57,7 @@ describe('shape', function () {
             path: 'M0,0L100,0L100,100L0,100z',
             backgroundColor: 'gray',
             borderColor: 'black',
-            borderWidth: '2',
-            svgElement: null
+            borderWidth: '2'
           }
         ];
 
@@ -75,7 +73,7 @@ describe('shape', function () {
 
       it('parent group has correct transformation', function () {
         timeout.flush();
-        expect(parentGroup.attr('transform')).toEqual('translate(100,100), rotate(0,51.000005,51.000005)');
+        expect(parentGroup.attr('transform')).toEqual('translate(100,100), rotate(0,51.000003814697266,51)');
       });
 
       it('parent group has path', function () {
@@ -140,8 +138,7 @@ describe('shape', function () {
           path: 'M0,0L100,0L100,100L0,100z',
           backgroundColor: 'red',
           borderColor: 'orange',
-          borderWidth: 15,
-          svgElement: 'aasdfsad'
+          borderWidth: 15
         };
 
         scope.$digest();
@@ -156,7 +153,7 @@ describe('shape', function () {
 
       it('parent group has correct transformation', function () {
         timeout.flush();
-        expect(parentGroup.attr('transform')).toEqual('translate(25,25), rotate(0,57.500005,57.500005)');
+        expect(parentGroup.attr('transform')).toEqual('translate(25,25), rotate(0,57.500003814697266,57.5)');
       });
 
       it('parent group has path', function () {
@@ -179,8 +176,7 @@ describe('shape', function () {
         expect(shape.attr('stroke-width')).toEqual('15');
       });
 
-      // GRR I don't understand why this doesn't work
-      xit('svg element is set on shape', function () {
+      it('svg element is set on shape', function () {
         expect(scope.shape.svgElement).toEqual(parentGroup[0]);
       });
     });

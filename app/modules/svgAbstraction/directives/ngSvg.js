@@ -30,7 +30,7 @@
             shapeRaw = $(shape.svgElement).find('.shape')[0];
         }
 
-        var strokeWidth = $(shapeRaw).attr('stroke-width') || 0;
+        var strokeWidth = Number($(shapeRaw).attr('stroke-width')) || 0;
         
         var totalLen = shapeRaw.getTotalLength();
 
@@ -49,10 +49,10 @@
         }
 
         return {
-          x: minX - (strokeWidth / 2).toFixed(5),
-          y: minY - (strokeWidth / 2).toFixed(5),
-          width: (maxX - minX + (strokeWidth * 1)).toFixed(5),
-          height: (maxY - minY + (strokeWidth * 1)).toFixed(5)
+          x: minX - (strokeWidth / 2),
+          y: minY - (strokeWidth / 2),
+          width: maxX - minX + strokeWidth,
+          height: maxY - minY + strokeWidth
         };
       }
     })
