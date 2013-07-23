@@ -50,7 +50,8 @@
       function drawSelectionBox(ngSvg) {
         var transform = 'translate({{calcLeft(shape)}},{{calcTop(shape)}}), rotate(0,{{shape.middleX}},{{shape.middleY}})';
         var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup, {
-          transform: transform
+          transform: transform,
+          'ng-show': 'shape'
 //          origRect: JSON.stringify(boundingBox),
 //          rect1: JSON.stringify(boundingBox),
 //          transform: transformStr

@@ -79,4 +79,33 @@ describe('selectionBoxSpec.js', function () {
       expect(selectionBoxLine.attr('d')).toEqual('M0,0L104,0L104,104L0,104z')
     });
   });
+
+  describe('when no selected shape', function() {
+    beforeEach(function() {
+      scope.shape = {
+        top:100,
+        left:100,
+        middleX: 50,
+        middleY: 50,
+        path:'M0,0L100,0L100,100L0,100z',
+        backgroundColor:'gray',
+        borderColor:'black',
+        borderWidth: 2
+      };
+
+      scope.selectedShape = null;
+
+      scope.$digest();
+
+      selectionBoxGroup = element.find('g.selection g');
+    });
+
+    it('creates a selection box', function () {
+      expect(selectionBoxGroup.length).toEqual(1);
+    });
+
+    it('selection box is not visible', function () {
+      expect(selectionBoxGroup.is(':visible')).toBeFalsy();
+    });
+  });
 });
