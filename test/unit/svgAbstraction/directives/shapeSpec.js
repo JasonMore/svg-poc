@@ -3,9 +3,19 @@ describe('shapeSpec.js', function () {
     act,
     element,
     scope,
+    selectionBox,
     timeout;
 
   beforeEach(module('svgAbstraction'));
+
+  beforeEach(module('svgAbstraction', function ($provide) {
+    $provide.service('pathService', function () {
+      this.getSelectionBox = function (shape) {
+        return selectionBox;
+      }
+    });
+  }));
+
   beforeEach(inject(function ($rootScope, $compile, $timeout) {
     timeout = $timeout;
 
@@ -61,6 +71,13 @@ describe('shapeSpec.js', function () {
           }
         ];
 
+        selectionBox = {
+          x:99,
+          y:99,
+          width:104,
+          height:104
+        };
+
         scope.$digest();
         parentGroup = element.find('g.shapes g:last');
         shape = parentGroup.find('path');
@@ -73,7 +90,7 @@ describe('shapeSpec.js', function () {
 
       it('parent group has correct transformation', function () {
         timeout.flush();
-        expect(parentGroup.attr('transform')).toEqual('translate(100,100), rotate(0,51.000003814697266,51)');
+        expect(parentGroup.attr('transform')).toEqual('translate(100,100), rotate(0,52,52)');
       });
 
       it('parent group has path', function () {
@@ -141,6 +158,13 @@ describe('shapeSpec.js', function () {
           borderWidth: 15
         };
 
+        selectionBox = {
+          x:99,
+          y:99,
+          width:104,
+          height:104
+        };
+
         scope.$digest();
         parentGroup = element.find('g.shapes g');
         shape = parentGroup.find('path');
@@ -153,7 +177,7 @@ describe('shapeSpec.js', function () {
 
       it('parent group has correct transformation', function () {
         timeout.flush();
-        expect(parentGroup.attr('transform')).toEqual('translate(25,25), rotate(0,57.500003814697266,57.5)');
+        expect(parentGroup.attr('transform')).toEqual('translate(25,25), rotate(0,52,52)');
       });
 
       it('parent group has path', function () {

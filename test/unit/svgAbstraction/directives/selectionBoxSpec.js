@@ -5,27 +5,11 @@ describe('selectionBoxSpec.js', function () {
 
   beforeEach(module('svgAbstraction'));
 
-//  beforeEach(module(function($provide) {
-//    $provide.factory('User', function() {
-//      var getSync;
-//      getById = function(id) {
-//        return {
-//          firstName: 'Bob'
-//        };
-//      };
-//      return {
-//        getById: getById
-//      };
-//    });
-//  }));
-
   beforeEach(module('svgAbstraction', function ($provide) {
     $provide.service('pathService', function () {
-//          return { /* service goes here. */ };
       this.getSelectionBox = function (shape) {
         return selectionBox;
       }
-
     });
   }));
 
@@ -94,9 +78,5 @@ describe('selectionBoxSpec.js', function () {
     it('box width/height is 100 width + 4px line width', function () {
       expect(selectionBoxLine.attr('d')).toEqual('M0,0L104,0L104,104L0,104z')
     });
-
-    it('box left is to the left of shape');
-    it('box bottom is below shape');
-    it('box right is right of shape');
   });
 });
