@@ -1,7 +1,9 @@
 describe('selectionBoxSpec.js', function () {
   var element,
     scope,
-    selectionBox;
+    selectionBox,
+    selectionBoxGroup,
+    selectionBoxLine;
 
   beforeEach(module('svgAbstraction'));
 
@@ -37,9 +39,6 @@ describe('selectionBoxSpec.js', function () {
   }));
 
   describe('when there is a selected shape', function () {
-    var selectionBoxGroup,
-      selectionBoxLine;
-
     beforeEach(function () {
       scope.shape = {
         top:100,
@@ -76,7 +75,7 @@ describe('selectionBoxSpec.js', function () {
     });
 
     it('box width/height is 100 width + 4px line width', function () {
-      expect(selectionBoxLine.attr('d')).toEqual('M0,0L104,0L104,104L0,104z')
+      expect(selectionBoxLine.attr('d')).toEqual('M0,0L104,0L104,104L0,104z');
     });
   });
 
@@ -96,7 +95,6 @@ describe('selectionBoxSpec.js', function () {
       scope.selectedShape = null;
 
       scope.$digest();
-
       selectionBoxGroup = element.find('g.selection g');
     });
 
