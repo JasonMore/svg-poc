@@ -1,6 +1,6 @@
 (function () {
   angular.module('svgAbstraction.directives')
-    .directive('shape', function ($compile, $timeout) {
+    .directive('shape', function ($compile, $timeout, pathService) {
       return {
         restrict: 'E',
         require: '^ngSvg',
@@ -23,7 +23,7 @@
         link: function ($scope, element, attr, ngSvgController) {
           var ngSvg = ngSvgController;
 
-          var parentGroup = drawShape($scope, attr, ngSvg);
+          var parentGroup = drawShape($scope, ngSvg);
           $scope.svgElement = parentGroup;
 
           $compile(parentGroup)($scope);
@@ -41,7 +41,7 @@
         }
       };
 
-      function drawShape($scope, attr, ngSvg){
+      function drawShape($scope, ngSvg) {
         var transform = 'translate({{left}},{{top}}), rotate(0,{{midPointX}},{{midPointY}})';
         var parentGroup = ngSvg.svg.group(ngSvg.shapeGroup, {
           transform: transform
@@ -59,15 +59,15 @@
           'ng-attr-d':'{{d}}'
         });
 
-        setMidpointOfShape($scope, shape, ngSvg);
+        setMidpointOfShape($scope, shape);
 
         return parentGroup;
       };
 
-      function setMidpointOfShape($scope, shape, ngSvg){
+      function setMidpointOfShape($scope, shape){
         // shape needs to be rendered before we can calculate its midpoint
         $timeout(function() {
-          var selectionBox = ngSvg.getSelectionBox(shape);
+          var selectionBox = pathService.getSelectionBox(shape);
           $scope.midPointX = selectionBox.width / 2;
           $scope.midPointY = selectionBox.height / 2;
         });

@@ -57,7 +57,7 @@ describe('shapeSpec.js', function () {
             path: 'M0,0L100,0L100,100L0,100z',
             backgroundColor: 'gray',
             borderColor: 'black',
-            borderWidth: '2'
+            borderWidth: 2
           }
         ];
 

@@ -1,17 +1,39 @@
 describe('selectionBoxSpec.js', function () {
   var element,
     scope,
-    timeout;
+    selectionBox;
 
   beforeEach(module('svgAbstraction'));
 
-  beforeEach(inject(function ($rootScope, $compile, $timeout) {
-    timeout = $timeout;
+//  beforeEach(module(function($provide) {
+//    $provide.factory('User', function() {
+//      var getSync;
+//      getById = function(id) {
+//        return {
+//          firstName: 'Bob'
+//        };
+//      };
+//      return {
+//        getById: getById
+//      };
+//    });
+//  }));
 
+  beforeEach(module('svgAbstraction', function ($provide) {
+    $provide.service('pathService', function () {
+//          return { /* service goes here. */ };
+      this.getSelectionBox = function (shape) {
+        return selectionBox;
+      }
+
+    });
+  }));
+
+  beforeEach(inject(function ($rootScope, $compile) {
     element = angular.element(
       '<ng-svg style="height: 600px">' +
         ' <selection-box shape="selectedShape"></selection-box>' +
-                '<shape top="shape.top"' +
+        '<shape top="shape.top"' +
         ' left="shape.left"' +
         ' mid-point-x="shape.middleX"' +
         ' mid-point-y="shape.middleY"' +
@@ -31,35 +53,48 @@ describe('selectionBoxSpec.js', function () {
   }));
 
   describe('when there is a selected shape', function () {
-    var selectionBox;
+    var selectionBoxGroup,
+      selectionBoxLine;
 
     beforeEach(function () {
       scope.shape = {
         top:100,
         left:100,
+        middleX: 50,
+        middleY: 50,
         path:'M0,0L100,0L100,100L0,100z',
         backgroundColor:'gray',
         borderColor:'black',
-        borderWidth:'2'
+        borderWidth: 2
       };
 
       scope.selectedShape = scope.shape;
 
+      selectionBox = {
+        x:99,
+        y:99,
+        width:104,
+        height:104
+      };
+
       scope.$digest();
 
-      selectionBox = element.find('g.selection g');
+      selectionBoxGroup = element.find('g.selection g');
+      selectionBoxLine = selectionBoxGroup.find('path');
     });
 
     it('creates a selection box', function () {
-      expect(selectionBox.length).toEqual(1);
+      expect(selectionBoxGroup.length).toEqual(1);
     });
 
-    it('draws a box around shape with 1px line width buffer', function() {
-      timeout.flush();
-      expect(selectionBox.attr('transform')).toEqual('translate(99,99), rotate(0,51.000003814697266,51)');
+    it('draws a box around shape with 1px line width buffer for top and left', function () {
+      expect(selectionBoxGroup.attr('transform')).toEqual('translate(99,99), rotate(0,50,50)');
     });
 
-    it('box top is above shape');
+    it('box width/height is 100 width + 4px line width', function () {
+      expect(selectionBoxLine.attr('d')).toEqual('M0,0L104,0L104,104L0,104z')
+    });
+
     it('box left is to the left of shape');
     it('box bottom is below shape');
     it('box right is right of shape');

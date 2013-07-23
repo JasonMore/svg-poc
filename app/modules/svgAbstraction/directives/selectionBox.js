@@ -1,6 +1,6 @@
 (function () {
   angular.module('svgAbstraction.directives')
-    .directive('selectionBox', function ($compile) {
+    .directive('selectionBox', function ($compile, pathService) {
       return {
         restrict: 'E',
         require: '^ngSvg',
@@ -29,12 +29,12 @@
           return shape ? shape.top - shape.borderWidth / 2 : 0;
         };
 
-        $scope.$watch('shape', function (shape, oldVal) {
-          if (shape === oldVal) {
+        $scope.$watch('shape', function (shape) {
+          if (!shape) {
             return;
           }
 
-          var selectionBox = ngSvg.getSelectionBox(shape);
+          var selectionBox = pathService.getSelectionBox(shape);
           $scope.width = selectionBox.width;
           $scope.height = selectionBox.height;
         });
