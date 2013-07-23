@@ -114,7 +114,7 @@ describe('shapeSpec.js', function () {
       });
 
       it('svg element is set on shape', function () {
-        expect(scope.shapes[1].svgElement).toEqual(parentGroup[0]);
+        expect(scope.shapes[1].svgElement[0]).toEqual(parentGroup[0]);
       });
 
       describe('removing shape', function () {
@@ -201,7 +201,7 @@ describe('shapeSpec.js', function () {
       });
 
       it('svg element is set on shape', function () {
-        expect(scope.shape.svgElement).toEqual(parentGroup[0]);
+        expect(scope.shape.svgElement[0]).toEqual(parentGroup[0]);
       });
     });
   });

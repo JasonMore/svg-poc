@@ -31,7 +31,16 @@
           backgroundColor: 'gray',
           borderColor: 'black',
           borderWidth: '2'
+        },
+        {
+          top: 150,
+          left: 150,
+          path: 'M0,0L1000,0L1000,1000L0,1000z',
+          backgroundColor: 'gray',
+          borderColor: 'black',
+          borderWidth: '2'
         }
+
       ];
 
       $scope.increaseX = function() {

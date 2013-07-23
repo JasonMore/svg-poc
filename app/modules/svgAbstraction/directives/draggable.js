@@ -15,33 +15,33 @@
             }
           });
 
-          var options = {
+          var orig,
+          options = {
             start:function (event) {
 //              if (self.isDrawing()) {
 //                return;
 //              }
 
-              var matrix = this.getScreenCTM().inverse();
-
               var pt = this.ownerSVGElement.createSVGPoint();
               pt.x = event.pageX;
               pt.y = event.pageY;
+
+              var matrix = this.getScreenCTM().inverse();
               pt = pt.matrixTransform(matrix);
 
-              this.setAttribute('orig', JSON.stringify({x:pt.x, y:pt.y}));
-//              self.dragStarted();
+              orig = {x:pt.x, y:pt.y};
             },
             drag:function (event, ui) {
 //              if (self.isDrawing()) {
 //                return;
 //              }
-              var matrix = this.getScreenCTM().inverse();
-              var orig = JSON.parse(this.getAttribute('orig'));
 
               // convert screen to element coordinates
               var pt = this.ownerSVGElement.createSVGPoint();
               pt.x = event.pageX;
               pt.y = event.pageY;
+
+              var matrix = this.getScreenCTM().inverse();
               pt = pt.matrixTransform(matrix);
 
               var deltax = pt.x - orig.x;

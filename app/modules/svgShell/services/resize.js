@@ -14,137 +14,137 @@
       this.transformShape = transformShape;
 
       var resizeObj = {
-      start: function () {
-        self.resizeStarted();
-        var matrix = this.parentNode.getScreenCTM().inverse();
+        start: function () {
+          self.resizeStarted();
+          var matrix = this.parentNode.getScreenCTM().inverse();
 
-        var pt = surfaceService.svg._svg.createSVGPoint();
-        pt.x = event.pageX;
-        pt.y = event.pageY;
-        pt = pt.matrixTransform(matrix);
+          var pt = surfaceService.svg._svg.createSVGPoint();
+          pt.x = event.pageX;
+          pt.y = event.pageY;
+          pt = pt.matrixTransform(matrix);
 
-        this.setAttribute('origX', JSON.stringify({x: 0, y: 0}));
-        //    this.setAttribute('origY', event.pageT);
-      },
-      drag: function (event, ui) {
-        var matrix = this.parentNode.getScreenCTM().inverse();
+          this.setAttribute('origX', JSON.stringify({x: 0, y: 0}));
+          //    this.setAttribute('origY', event.pageT);
+        },
+        drag: function (event, ui) {
+          var matrix = this.parentNode.getScreenCTM().inverse();
 
-        // convert screen to element coordinates
-        var pt = surfaceService.svg._svg.createSVGPoint();
-        pt.x = event.pageX;
-        pt.y = event.pageY;
-        pt = pt.matrixTransform(matrix);
+          // convert screen to element coordinates
+          var pt = surfaceService.svg._svg.createSVGPoint();
+          pt.x = event.pageX;
+          pt.y = event.pageY;
+          pt = pt.matrixTransform(matrix);
 
-        var ptA = surfaceService.svg._svg.createSVGPoint();
-        ptA.x = 0;
-        ptA.y = 0;
-        ptB = ptA.matrixTransform(this.parentNode.getCTM());
+          var ptA = surfaceService.svg._svg.createSVGPoint();
+          ptA.x = 0;
+          ptA.y = 0;
+          ptB = ptA.matrixTransform(this.parentNode.getCTM());
 
-        var origRect = JSON.parse(this.parentNode.getAttribute('origRect'));
+          var origRect = JSON.parse(this.parentNode.getAttribute('origRect'));
 
-        var rect = this.parentNode.getAttribute('rect1');
+          var rect = this.parentNode.getAttribute('rect1');
 
-        rect = JSON.parse(rect);
+          rect = JSON.parse(rect);
 
-        var pt3 = surfaceService.svg._svg.createSVGPoint();
-        pt3.x = 0;
-        pt3.y = 0;
+          var pt3 = surfaceService.svg._svg.createSVGPoint();
+          pt3.x = 0;
+          pt3.y = 0;
 
-        var deltax = 0,
-          deltay = 0,
-          width = rect.width,
-          height = rect.height;
+          var deltax = 0,
+            deltay = 0,
+            width = rect.width,
+            height = rect.height;
 
-        var scaleX = 1;
-        var scaleY = 1;
-        var rotateInfo = getRotation(pt3, this.parentNode);
-        var didRotate = false;
+          var scaleX = 1;
+          var scaleY = 1;
+          var rotateInfo = getRotation(pt3, this.parentNode);
+          var didRotate = false;
 
-        var angle = rotateInfo.angle;
+          var angle = rotateInfo.angle;
 
-        var outlinePath = surfaceService.svg.getElementById('outlinePath');
+          var outlinePath = surfaceService.svg.getElementById('outlinePath');
 
-        if (this.getAttribute('id') == 'cornerNW') {
-          deltax = -pt.x;
-          deltay = -pt.y;
-          width = width - pt.x;
-          height = height - pt.y;
-        } else if (this.getAttribute('id') == 'cornerNE') {
-          deltay = -pt.y;
-          width = pt.x;
-          height = height - pt.y;
-        } else if (this.getAttribute('id') == 'cornerSE') {
-          width = pt.x;
-          height = pt.y;
-        } else if (this.getAttribute('id') == 'cornerSW') {
-          deltax = -pt.x;
-          width = width - pt.x;
-          height = pt.y;
-        } else if (this.getAttribute('id') == 'rotator') {
-          // ref point is height/2, -20
-          var cx = height / 2;
-          var cy = height / 2;
+          if (this.getAttribute('id') == 'cornerNW') {
+            deltax = -pt.x;
+            deltay = -pt.y;
+            width = width - pt.x;
+            height = height - pt.y;
+          } else if (this.getAttribute('id') == 'cornerNE') {
+            deltay = -pt.y;
+            width = pt.x;
+            height = height - pt.y;
+          } else if (this.getAttribute('id') == 'cornerSE') {
+            width = pt.x;
+            height = pt.y;
+          } else if (this.getAttribute('id') == 'cornerSW') {
+            deltax = -pt.x;
+            width = width - pt.x;
+            height = pt.y;
+          } else if (this.getAttribute('id') == 'rotator') {
+            // ref point is height/2, -20
+            var cx = height / 2;
+            var cy = height / 2;
 
-          var newAngle = getAngle({x: pt.x, y: pt.y},
-            {x: cx, y: -20},
-            {x: cx, y: cy});
+            var newAngle = getAngle({x: pt.x, y: pt.y},
+              {x: cx, y: -20},
+              {x: cx, y: cy});
 
 
-          angle = (angle + newAngle) % 360;
+            angle = (angle + newAngle) % 360;
 
-          if (!event.shiftKey) {
-            angle = Math.floor(angle / 15) * 15;
+            if (!event.shiftKey) {
+              angle = Math.floor(angle / 15) * 15;
+            }
+
+            didRotate = true;
+          }
+          scaleX = width / rect.width;
+          scaleY = height / rect.height;
+
+          setRotation(this.parentNode, angle, width / 2, height / 2);
+          var groupToModify = $(this).data('groupToModify');
+
+          if (!didRotate) {
+            var pt2 = surfaceService.svg._svg.createSVGPoint();
+            pt2.x = deltax;
+            pt2.y = deltay;
+            pt2 = pt2.matrixTransform(this.parentNode.getCTM());
+
+
+            pt3 = pt3.matrixTransform(this.parentNode.getCTM());
+
+            // where should x,y be?
+
+            deltax = ptB.x - pt2.x;
+            deltay = ptB.y - pt2.y;
+
+
+            translationService.adjustTranslate(this.parentNode, deltax, deltay, true);
+            rescaleElement(outlinePath, scaleX, scaleY);
+
+            rect.width = width;
+            rect.height = height;
+
+            setCornerTransforms(surfaceService.svg, width, height);
+            this.parentNode.setAttribute('rect1', JSON.stringify(rect));
+            translationService.adjustTranslate(groupToModify, deltax, deltay, true);
+
+            var shape = $(groupToModify).find('.shape')[0];
+            rescaleElement(shape, scaleX, scaleY);
+
+
+            // TODO: I need the new top and left coordinates of the redrawn box
+            //$(groupToModify).data('translationOffset', {top: rect.top, left: rect.left});
           }
 
-          didRotate = true;
+          setRotation(groupToModify, angle, width / 2, height / 2);
+          // Redraw the path
+
+        },
+        stop: function () {
+          self.resizeEnded();
         }
-        scaleX = width / rect.width;
-        scaleY = height / rect.height;
-
-        setRotation(this.parentNode, angle, width / 2, height / 2);
-        var groupToModify = $(this).data('groupToModify');
-
-        if (!didRotate) {
-          var pt2 = surfaceService.svg._svg.createSVGPoint();
-          pt2.x = deltax;
-          pt2.y = deltay;
-          pt2 = pt2.matrixTransform(this.parentNode.getCTM());
-
-
-          pt3 = pt3.matrixTransform(this.parentNode.getCTM());
-
-          // where should x,y be?
-
-          deltax = ptB.x - pt2.x;
-          deltay = ptB.y - pt2.y;
-
-
-          translationService.adjustTranslate(this.parentNode, deltax, deltay, true);
-          rescaleElement(outlinePath, scaleX, scaleY);
-
-          rect.width = width;
-          rect.height = height;
-
-          setCornerTransforms(surfaceService.svg, width, height);
-          this.parentNode.setAttribute('rect1', JSON.stringify(rect));
-          translationService.adjustTranslate(groupToModify, deltax, deltay, true);
-
-          var shape = $(groupToModify).find('.shape')[0];
-          rescaleElement(shape, scaleX, scaleY);
-
-
-          // TODO: I need the new top and left coordinates of the redrawn box
-          //$(groupToModify).data('translationOffset', {top: rect.top, left: rect.left});
-        }
-
-        setRotation(groupToModify, angle, width / 2, height / 2);
-        // Redraw the path
-
-      },
-      stop: function () {
-        self.resizeEnded();
-      }
-    }
+      };
 
     function setCornerTransforms(svg, width, height) {
       var cornerNW = svg.getElementById('cornerNW');

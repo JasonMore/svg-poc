@@ -24,7 +24,7 @@
           var ngSvg = ngSvgController;
 
           var parentGroup = drawShape($scope, ngSvg);
-          $scope.svgElement = parentGroup;
+          $scope.svgElement = angular.element(parentGroup);
 
           $compile(parentGroup)($scope);
 
