@@ -11,6 +11,7 @@
         {
           top: 25,
           left: 25,
+          rotation: 0,
           path: 'M0,0L50,0L50,50L0,50z',
           backgroundColor: 'gray',
           borderColor: 'black',
@@ -19,6 +20,7 @@
         {
           top: 50,
           left: 50,
+          rotation: 15,
           path: 'M0,0L100,0L100,100L0,100z',
           backgroundColor: 'green',
           borderColor: 'blue',
@@ -27,6 +29,7 @@
         {
           top: 100,
           left: 100,
+          rotation: 25,
           path: 'M0,0L100,0L100,100L0,100z',
           backgroundColor: 'gray',
           borderColor: 'black',
@@ -35,6 +38,7 @@
         {
           top: 150,
           left: 150,
+          rotation: 45,
           path: 'M0,0L1000,0L1000,1000L0,1000z',
           backgroundColor: 'gray',
           borderColor: 'black',

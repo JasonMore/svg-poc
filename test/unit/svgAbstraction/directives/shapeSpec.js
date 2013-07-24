@@ -48,6 +48,7 @@ describe('shapeSpec.js', function () {
           {
             top: 50,
             left: 50,
+            rotation: 45,
             path: 'M0,0L100,0L100,100L0,100z',
             backgroundColor: 'green',
             borderColor: 'blue',
@@ -56,6 +57,7 @@ describe('shapeSpec.js', function () {
           {
             top: 100,
             left: 100,
+            rotation: 75,
             path: 'M0,0L100,0L100,100L0,100z',
             backgroundColor: 'gray',
             borderColor: 'black',
@@ -82,7 +84,7 @@ describe('shapeSpec.js', function () {
 
       it('parent group has correct transformation', function () {
         timeout.flush();
-        expect(parentGroup.attr('transform')).toEqual('translate(100,100), rotate(0,52,52)');
+        expect(parentGroup.attr('transform')).toEqual('translate(100,100), rotate(75,52,52)');
       });
 
       it('parent group has path', function () {

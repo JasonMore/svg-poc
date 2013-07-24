@@ -35,6 +35,7 @@ describe('selectionBoxSpec.js', function () {
       scope.shapes = [{
         top:100,
         left:100,
+        rotation: 75,
         midPointX: 50,
         midPointY: 50,
         path:'M0,0L100,0L100,100L0,100z',
@@ -63,7 +64,7 @@ describe('selectionBoxSpec.js', function () {
     });
 
     it('draws a box around shape with 1px line width buffer for top and left', function () {
-      expect(selectionBoxGroup.attr('transform')).toEqual('translate(99,99), rotate(0,50,50)');
+      expect(selectionBoxGroup.attr('transform')).toEqual('translate(99,99), rotate(75,50,50)');
     });
 
     it('box width/height is 100 width + 4px line width', function () {

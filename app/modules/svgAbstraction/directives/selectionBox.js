@@ -53,7 +53,7 @@
       }
 
       function drawSelectionBox(ngSvg) {
-        var transform = 'translate({{calcLeft(shape)}},{{calcTop(shape)}}), rotate(0,{{shape.midPointX}},{{shape.midPointY}})';
+        var transform = 'translate({{calcLeft(shape)}},{{calcTop(shape)}}), rotate({{shape.rotation}},{{shape.midPointX}},{{shape.midPointY}})';
         var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup, {
           transform: transform,
           'ng-show': 'shape'
@@ -214,8 +214,8 @@
             scaleX = width / $scope.width;
             scaleY = height / $scope.height;
 
-            setRotation(this.parentNode, angle, width / 2, height / 2);
-            var groupToModify = $(this).data('groupToModify');
+//            setRotation(this.parentNode, angle, width / 2, height / 2);
+//            var groupToModify = $(this).data('groupToModify');
 
             if (!didRotate) {
               var pt2 = svg._svg.createSVGPoint();
@@ -257,7 +257,10 @@
               //$(groupToModify).data('translationOffset', {top: rect.top, left: rect.left});
             }
 
-            setRotation($scope.shape.svgElement[0], angle, width / 2, height / 2);
+            $scope.$apply(function() {
+              $scope.shape.rotation = angle;
+            });
+            //setRotation($scope.shape.svgElement[0], angle, width / 2, height / 2);
             // Redraw the path
 
           },

@@ -33,6 +33,7 @@ describe('draggableSpec.js', function () {
       scope.shapes = [{
         top:0,
         left:0,
+        rotation: 0,
         path:'M0,0L100,0L100,100L0,100z',
         backgroundColor:'green',
         borderColor:'blue',
@@ -90,6 +91,7 @@ describe('draggableSpec.js', function () {
     scope.shapes = [{
       top:0,
       left:0,
+      rotation: 0,
       path:'M0,0L100,0L100,100L0,100z',
       backgroundColor:'green',
       borderColor:'blue',

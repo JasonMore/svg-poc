@@ -31,9 +31,13 @@
       };
 
       function drawShape($scope, ngSvg) {
-        var transform = 'translate({{model.left}},{{model.top}}), rotate(0,{{model.midPointX}},{{model.midPointY}})';
+        var transform = [
+          'translate({{model.left}},{{model.top}})',
+          'rotate({{model.rotation}},{{model.midPointX}},{{model.midPointY}})'
+        ];
+
         var parentGroup = ngSvg.svg.group(ngSvg.shapeGroup, {
-          transform: transform
+          transform: transform.join(', ')
         });
 
         var shape = ngSvg.svg.path(parentGroup, '', {
