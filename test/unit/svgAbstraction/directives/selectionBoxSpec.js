@@ -156,10 +156,10 @@ describe('selectionBoxSpec.js', function () {
           move = { x: 10, y: 10 };
           act();
         });
-        it('decreases box line and width by 10', function() {
+        it('decreases shape height and width by 10', function() {
           expect(scope.shapes[0].path).toEqual('M0,0L90,0L90,90L0,90z');
         });
-        it('decreases line height and width by 10', function () {
+        it('decreases outline height and width by 10', function () {
           expect(selectionBoxLine.attr('d')).toEqual('M0,0L90,0L90,90L0,90z');
         });
       });
@@ -168,15 +168,104 @@ describe('selectionBoxSpec.js', function () {
           move = { x: -10, y: -10 };
           act();
         });
-        it('increases box line and width by 10', function() {
+        it('increases shape height and width by 10', function() {
           expect(scope.shapes[0].path).toEqual('M0,0L110.00000000000001,0L110.00000000000001,110.00000000000001L0,110.00000000000001z');
         });
-        it('increases line height and width by 10', function () {
+        it('increases outline height and width by 10', function () {
           expect(selectionBoxLine.attr('d')).toEqual('M0,0L110,0L110,110L0,110z');
         });
-      }); 
+      });
     });
 
+    describe('ne corner', function() {
+      beforeEach(function () {
+        corner = selectionBoxGroup.find('#cornerNE');
+      });
+      describe('down and right', function() {
+        beforeEach(function () {
+          move = { x: 10, y: 10 };
+          act();
+        });
+        it('decreases shape height and increases width by 10', function() {
+          expect(scope.shapes[0].path).toEqual('M0,0L110.00000000000001,0L110.00000000000001,90L0,90z');
+        });
+        it('decreases outline height and increases width by 10', function () {
+          expect(selectionBoxLine.attr('d')).toEqual('M0,0L110,0L110,90L0,90z');
+        });
+      });
+      describe('up and left', function() {
+        beforeEach(function () {
+          move = { x: -10, y: -10 };
+          act();
+        });
+        it('increases height and decreases width by 10', function() {
+          expect(scope.shapes[0].path).toEqual('M0,0L90,0L90,110.00000000000001L0,110.00000000000001z');
+        });
+        it('increases outline height and decreases width by 10', function () {
+          expect(selectionBoxLine.attr('d')).toEqual('M0,0L90,0L90,110L0,110z');
+        });
+      });
+    });
+
+    describe('se corner', function() {
+      beforeEach(function () {
+        corner = selectionBoxGroup.find('#cornerSE');
+      });
+      describe('down and right', function() {
+        beforeEach(function () {
+          move = { x: 10, y: 10 };
+          act();
+        });
+        it('increases shape height and width by 10', function() {
+          expect(scope.shapes[0].path).toEqual('M0,0L110.00000000000001,0L110.00000000000001,110.00000000000001L0,110.00000000000001z');
+        });
+        it('increases outline height and width by 10', function () {
+          expect(selectionBoxLine.attr('d')).toEqual('M0,0L110,0L110,110L0,110z');
+        });
+      });
+      describe('up and left', function() {
+        beforeEach(function () {
+          move = { x: -10, y: -10 };
+          act();
+        });
+        it('decreases shape height and width by 10', function() {
+          expect(scope.shapes[0].path).toEqual('M0,0L90,0L90,90L0,90z');
+        });
+        it('decreases outline height and width by 10', function () {
+          expect(selectionBoxLine.attr('d')).toEqual('M0,0L90,0L90,90L0,90z');
+        });
+      });
+    });
+
+    describe('sw corner', function() {
+      beforeEach(function () {
+        corner = selectionBoxGroup.find('#cornerSW');
+      });
+      describe('down and right', function() {
+        beforeEach(function () {
+          move = { x: 10, y: 10 };
+          act();
+        });
+        it('increases shape height and decreases width by 10', function() {
+          expect(scope.shapes[0].path).toEqual('M0,0L90,0L90,110.00000000000001L0,110.00000000000001z');
+        });
+        it('increases outline height and decreases width by 10', function () {
+          expect(selectionBoxLine.attr('d')).toEqual('M0,0L90,0L90,110L0,110z');
+        });
+      });
+      describe('up and left', function() {
+        beforeEach(function () {
+          move = { x: -10, y: -10 };
+          act();
+        });
+        it('decreases shape height and increases width by 10', function() {
+          expect(scope.shapes[0].path).toEqual('M0,0L110.00000000000001,0L110.00000000000001,90L0,90z');
+        });
+        it('decreases outline height and increases width by 10', function () {
+          expect(selectionBoxLine.attr('d')).toEqual('M0,0L110,0L110,90L0,90z');
+        });
+      });
+    });
   });
 
 
