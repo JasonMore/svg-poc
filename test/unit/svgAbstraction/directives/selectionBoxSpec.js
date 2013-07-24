@@ -19,19 +19,11 @@ describe('selectionBoxSpec.js', function () {
     element = angular.element(
       '<ng-svg style="height: 600px">' +
         ' <selection-box shape="selectedShape"></selection-box>' +
-        '<shape top="shape.top"' +
-        ' left="shape.left"' +
-        ' mid-point-x="shape.middleX"' +
-        ' mid-point-y="shape.middleY"' +
-        ' d="shape.path"' +
-        ' fill="shape.backgroundColor"' +
-        ' stroke="shape.borderColor"' +
-        ' stroke-width="shape.borderWidth"' +
+        '<ng-shape model="shape"' +
         ' draggable="canDragShape(shape)"' +
-        ' svg-element="shape.svgElement"' +
         ' when-click="setSelectedShape(shape)"' +
-        '></shape>' +
-
+        ' ng-repeat="shape in shapes"' +
+        '></ng-shape>' +
         '</ng-svg>');
 
     scope = $rootScope;
@@ -40,18 +32,18 @@ describe('selectionBoxSpec.js', function () {
 
   describe('when there is a selected shape', function () {
     beforeEach(function () {
-      scope.shape = {
+      scope.shapes = [{
         top:100,
         left:100,
-        middleX: 50,
-        middleY: 50,
+        midPointX: 50,
+        midPointY: 50,
         path:'M0,0L100,0L100,100L0,100z',
         backgroundColor:'gray',
         borderColor:'black',
         borderWidth: 2
-      };
+      }];
 
-      scope.selectedShape = scope.shape;
+      scope.selectedShape = scope.shapes[0];
 
       selectionBox = {
         x:99,
@@ -84,8 +76,8 @@ describe('selectionBoxSpec.js', function () {
       scope.shape = {
         top:100,
         left:100,
-        middleX: 50,
-        middleY: 50,
+        midPointX: 50,
+        midPointY: 50,
         path:'M0,0L100,0L100,100L0,100z',
         backgroundColor:'gray',
         borderColor:'black',

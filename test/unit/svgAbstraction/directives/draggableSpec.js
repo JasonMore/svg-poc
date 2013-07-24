@@ -21,30 +21,23 @@ describe('draggableSpec.js', function () {
     beforeEach(function () {
       htmlToRender =
         '<ng-svg style="height: 600px">' +
-          '<shape top="shape.top"' +
-          ' left="shape.left"' +
-          ' mid-point-x="shape.middleX"' +
-          ' mid-point-y="shape.middleY"' +
-          ' d="shape.path"' +
-          ' fill="shape.backgroundColor"' +
-          ' stroke="shape.borderColor"' +
-          ' stroke-width="shape.borderWidth"' +
+          '<ng-shape model="shape"' +
           ' draggable="true"' +
-          ' svg-element="shape.svgElement"' +
           ' when-click="setSelectedShape(shape)"' +
-          '></shape>' +
+          ' ng-repeat="shape in shapes"'+
+          '></ng-shape>' +
           '</ng-svg>';
 
       act();
 
-      scope.shape = {
+      scope.shapes = [{
         top:0,
         left:0,
         path:'M0,0L100,0L100,100L0,100z',
         backgroundColor:'green',
         borderColor:'blue',
         borderWidth:12
-      };
+      }];
 
       scope.$digest();
       timeout.flush();
@@ -74,41 +67,34 @@ describe('draggableSpec.js', function () {
     });
 
     it('moves shape top', function () {
-      expect(scope.shape.top).toEqual(10);
+      expect(scope.shapes[0].top).toEqual(10);
     });
 
     it('moves shape left', function () {
-      expect(scope.shape.left).toEqual(10);
+      expect(scope.shapes[0].left).toEqual(10);
     });
   });
 
   beforeEach(function () {
     htmlToRender =
       '<ng-svg style="height: 600px">' +
-        '<shape top="shape.top"' +
-        ' left="shape.left"' +
-        ' mid-point-x="shape.middleX"' +
-        ' mid-point-y="shape.middleY"' +
-        ' d="shape.path"' +
-        ' fill="shape.backgroundColor"' +
-        ' stroke="shape.borderColor"' +
-        ' stroke-width="shape.borderWidth"' +
+        '<ng-shape model="shape"' +
         ' draggable="false"' +
-        ' svg-element="shape.svgElement"' +
         ' when-click="setSelectedShape(shape)"' +
-        '></shape>' +
+        ' ng-repeat="shape in shapes"'+
+        '></ng-shape>' +
         '</ng-svg>';
 
     act();
 
-    scope.shape = {
+    scope.shapes = [{
       top:0,
       left:0,
       path:'M0,0L100,0L100,100L0,100z',
       backgroundColor:'green',
       borderColor:'blue',
       borderWidth:12
-    };
+    }];
 
     scope.$digest();
 
@@ -137,10 +123,10 @@ describe('draggableSpec.js', function () {
   });
 
   it('moves shape top', function () {
-    expect(scope.shape.top).toEqual(0);
+    expect(scope.shapes[0].top).toEqual(0);
   });
 
   it('moves shape left', function () {
-    expect(scope.shape.left).toEqual(0);
+    expect(scope.shapes[0].left).toEqual(0);
   });
 });

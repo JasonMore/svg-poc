@@ -1,30 +1,19 @@
 (function () {
   angular.module('svgAbstraction.directives')
-    .directive('shape', function ($compile, $timeout, pathService) {
+    .directive('ngShape', function ($compile, $timeout, pathService) {
       return {
         restrict: 'E',
         require: '^ngSvg',
         scope: {
-          top: '=',
-          left: '=',
-          midPointX: '=',
-          midPointY: '=',
-
-          d: '=',
-          fill: '=',
-          stroke: '=',
-          strokeWidth: '=',
-
+          model:'=',
           draggable: '=',
-
-          whenClick: '&',
-          svgElement: '='
+          whenClick: '&'
         },
         link: function ($scope, element, attr, ngSvgController) {
           var ngSvg = ngSvgController;
 
           var parentGroup = drawShape($scope, ngSvg);
-          $scope.svgElement = angular.element(parentGroup);
+          $scope.model.svgElement = angular.element(parentGroup);
 
           $compile(parentGroup)($scope);
 
@@ -42,21 +31,21 @@
       };
 
       function drawShape($scope, ngSvg) {
-        var transform = 'translate({{left}},{{top}}), rotate(0,{{midPointX}},{{midPointY}})';
+        var transform = 'translate({{model.left}},{{model.top}}), rotate(0,{{model.midPointX}},{{model.midPointY}})';
         var parentGroup = ngSvg.svg.group(ngSvg.shapeGroup, {
           transform: transform
         });
 
         var shape = ngSvg.svg.path(parentGroup, '', {
           'class': 'shape',
-          'fill':'{{fill}}',
-          'stroke':'{{stroke}}',
-          'stroke-width':'{{strokeWidth}}',
+          'fill':'{{model.backgroundColor}}',
+          'stroke':'{{model.borderColor}}',
+          'stroke-width':'{{model.borderWidth}}',
           'ng-mousedown': 'whenClick()',
 
           // not sure why "d" is the only one that needs ng-attr
           // jquery.svg throws error without "ng-attr"
-          'ng-attr-d':'{{d}}'
+          'ng-attr-d':'{{model.path}}'
         });
 
         setMidpointOfShape($scope, shape);
@@ -68,8 +57,8 @@
         // shape needs to be rendered before we can calculate its midpoint
         $timeout(function() {
           var selectionBox = pathService.getSelectionBox(shape);
-          $scope.midPointX = selectionBox.width / 2;
-          $scope.midPointY = selectionBox.height / 2;
+          $scope.model.midPointX = selectionBox.width / 2;
+          $scope.model.midPointY = selectionBox.height / 2;
         });
       }
     });

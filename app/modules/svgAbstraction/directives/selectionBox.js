@@ -53,7 +53,7 @@
       }
 
       function drawSelectionBox(ngSvg) {
-        var transform = 'translate({{calcLeft(shape)}},{{calcTop(shape)}}), rotate(0,{{shape.middleX}},{{shape.middleY}})';
+        var transform = 'translate({{calcLeft(shape)}},{{calcTop(shape)}}), rotate(0,{{shape.midPointX}},{{shape.midPointY}})';
         var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup, {
           transform: transform,
           'ng-show': 'shape'
@@ -108,7 +108,7 @@
           id: 'rotatorLine',
           stroke: '#D90000',
           strokeWidth: 3,
-          transform: 'translate({{shape.middleX}},0)'
+          transform: 'translate({{shape.midPointX}},0)'
         });
 
         var rotator = ngSvg.svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
@@ -116,7 +116,7 @@
           fill: '#FFFFFF',
           stroke: '#D90000',
           strokeWidth: 1,
-          transform: 'translate({{shape.middleX}},-20)'
+          transform: 'translate({{shape.midPointX}},-20)'
         }));
 
         return angular.element([cornerNW, cornerNE, cornerSE, cornerSW, rotator]);
@@ -240,8 +240,8 @@
                 $scope.shape.width = width;
                 $scope.shape.height = height;
 
-                $scope.shape.middleX = width / 2;
-                $scope.shape.middleY = height / 2;
+                $scope.shape.midPointX = width / 2;
+                $scope.shape.midPointY = height / 2;
               });
 //              rect.width = width;
 //              rect.height = height;

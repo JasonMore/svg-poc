@@ -91,8 +91,8 @@
             }
 
             scope.$apply(function() {
-              scope.left = x;
-              scope.top = y;
+              scope.model.left = x;
+              scope.model.top = y;
             });
           }
         }
