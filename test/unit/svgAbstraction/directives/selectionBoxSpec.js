@@ -113,16 +113,6 @@ describe('selectionBoxSpec.js', function () {
     });
 
     beforeEach(function () {
-
-//        selectionBox = {
-//          x:100,
-//          y:100,
-//          width:100,
-//          height:100
-//        };
-
-      scope.$digest;
-
       act = function() {
         var ctm = corner[0].getScreenCTM();
 
@@ -263,6 +253,30 @@ describe('selectionBoxSpec.js', function () {
         });
         it('decreases outline height and increases width by 10', function () {
           expect(selectionBoxLine.attr('d')).toEqual('M0,0L110,0L110,90L0,90z');
+        });
+      });
+    });
+
+    describe('rotation', function() {
+      beforeEach(function () {
+        corner = selectionBoxGroup.find('#rotator');
+      });
+      describe('down and right', function() {
+        beforeEach(function () {
+          move = { x: 150, y: 100 };
+          act();
+        });
+        it('rotates box 105 degrees', function() {
+          expect(scope.shapes[0].rotation).toEqual(90);
+        });
+      });
+      describe('straight down', function() {
+        beforeEach(function () {
+          move = { x: -15, y: 200 };
+          act();
+        });
+        it('rotates box 180 degrees', function() {
+          expect(scope.shapes[0].rotation).toEqual(-180);
         });
       });
     });
