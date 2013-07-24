@@ -1,4 +1,6 @@
 (function () {
+  var rotatorLineLength = 20;
+
   angular.module('svgAbstraction.directives')
     .directive('selectionBox', function ($compile, pathService) {
       return {
@@ -31,6 +33,14 @@
           return shape ? shape.top - shape.borderWidth / 2 : 0;
         };
 
+        $scope.calcMidPointX = function (shape) {
+          return shape ? shape.midPointX : 0;
+        };
+
+        $scope.calcMidPointY = function (shape) {
+          return shape ? shape.midPointY : 0;
+        };
+
         $scope.$watch('shape', function (shape) {
           if (!shape) {
             return;
@@ -53,9 +63,13 @@
       }
 
       function drawSelectionBox(ngSvg) {
-        var transform = 'translate({{calcLeft(shape)}},{{calcTop(shape)}}), rotate({{shape.rotation}},{{shape.midPointX}},{{shape.midPointY}})';
+        var transform = [
+          'translate({{calcLeft(shape)}},{{calcTop(shape)}})',
+          'rotate({{shape.rotation}},{{calcMidPointX(shape)}},{{calcMidPointY(shape)}})'
+        ];
+
         var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup, {
-          transform: transform,
+          transform: transform.join(', '),
           'ng-show': 'shape'
 //          origRect: JSON.stringify(boundingBox),
 //          rect1: JSON.stringify(boundingBox),
@@ -104,7 +118,7 @@
           transform: 'translate(0,{{height}})'
         }));
 
-        ngSvg.svg.line(selectionBox, 0, 0, 0, -20, {
+        ngSvg.svg.line(selectionBox, 0, 0, 0, (-1 * rotatorLineLength), {
           id: 'rotatorLine',
           stroke: '#D90000',
           strokeWidth: 3,
@@ -128,16 +142,6 @@
         selectionCorners.draggable({
           start: function () {
 //            self.resizeStarted();
-
-//            var pt = surfaceService.svg._svg.createSVGPoint();
-//            pt.x = event.pageX;
-//            pt.y = event.pageY;
-//
-//            var matrix = this.parentNode.getScreenCTM().inverse();
-//            pt = pt.matrixTransform(matrix);
-
-//            this.setAttribute('origX', JSON.stringify({x: 0, y: 0}));
-            //    this.setAttribute('origY', event.pageT);
           },
           drag: function (event, ui) {
             var matrix = this.parentNode.getScreenCTM().inverse();
@@ -153,12 +157,6 @@
             ptA.y = 0;
             ptB = ptA.matrixTransform(this.parentNode.getCTM());
 
-//            var origRect = JSON.parse(this.parentNode.getAttribute('origRect'));
-
-//            var rect = this.parentNode.getAttribute('rect1');
-
-//            rect = JSON.parse(rect);
-
             var pt3 = svg._svg.createSVGPoint();
             pt3.x = 0;
             pt3.y = 0;
@@ -170,10 +168,10 @@
 
             var scaleX = 1;
             var scaleY = 1;
-            var rotateInfo = getRotation(pt3, this.parentNode);
+//            var rotateInfo = getRotation(pt3, this.parentNode);
             var didRotate = false;
 
-            var angle = rotateInfo.angle;
+            var angle = $scope.shape.rotation;
 
             var outlinePath = svg.getElementById('outlinePath');
 
@@ -202,7 +200,6 @@
                 {x: cx, y: -20},
                 {x: cx, y: cy});
 
-
               angle = (angle + newAngle) % 360;
 
               if (!event.shiftKey) {
@@ -214,76 +211,38 @@
             scaleX = width / $scope.width;
             scaleY = height / $scope.height;
 
-//            setRotation(this.parentNode, angle, width / 2, height / 2);
-//            var groupToModify = $(this).data('groupToModify');
+            var pt2 = svg._svg.createSVGPoint();
+            pt2.x = deltax;
+            pt2.y = deltay;
+            pt2 = pt2.matrixTransform(this.parentNode.getCTM());
 
-            if (!didRotate) {
-              var pt2 = svg._svg.createSVGPoint();
-              pt2.x = deltax;
-              pt2.y = deltay;
-              pt2 = pt2.matrixTransform(this.parentNode.getCTM());
+            // where should x,y be?
 
-//              pt3 = pt3.matrixTransform(this.parentNode.getCTM());
+            deltax = ptB.x - pt2.x;
+            deltay = ptB.y - pt2.y;
 
-              // where should x,y be?
+            adjustTranslate($scope.shape.svgElement[0], deltax, deltay, true);
 
-              deltax = ptB.x - pt2.x;
-              deltay = ptB.y - pt2.y;
+            var shape = $scope.shape.svgElement.find('.shape')[0];
+            var newShapePath = rescaleElement(shape, scaleX, scaleY);
 
-//              adjustTranslate(this.parentNode, deltax, deltay, true);
-//              rescaleElement(outlinePath, scaleX, scaleY);
+            $scope.$apply(function () {
+              $scope.width = width;
+              $scope.height = height;
 
-              $scope.$apply(function () {
-                $scope.width = width;
-                $scope.height = height;
+              $scope.shape.width = width;
+              $scope.shape.height = height;
 
-                $scope.shape.width = width;
-                $scope.shape.height = height;
+              $scope.shape.midPointX = width / 2;
+              $scope.shape.midPointY = height / 2;
 
-                $scope.shape.midPointX = width / 2;
-                $scope.shape.midPointY = height / 2;
-              });
-//              rect.width = width;
-//              rect.height = height;
-
-//              setCornerTransforms(surfaceService.svg, width, height);
-//              this.parentNode.setAttribute('rect1', JSON.stringify(rect));
-              adjustTranslate($scope.shape.svgElement[0], deltax, deltay, true);
-
-              var shape = $scope.shape.svgElement.find('.shape')[0];
-              rescaleElement(shape, scaleX, scaleY);
-
-              // TODO: I need the new top and left coordinates of the redrawn box
-              //$(groupToModify).data('translationOffset', {top: rect.top, left: rect.left});
-            }
-
-            $scope.$apply(function() {
               $scope.shape.rotation = angle;
+              $scope.shape.path = newShapePath;
             });
-            //setRotation($scope.shape.svgElement[0], angle, width / 2, height / 2);
-            // Redraw the path
-
           },
           stop: function () {
           }
         });
-//      }
-
-//      function setCornerTransforms(svg, width, height) {
-//        var cornerNW = svg.getElementById('cornerNW');
-//        var cornerNE = svg.getElementById('cornerNE');
-//        var cornerSE = svg.getElementById('cornerSE');
-//        var cornerSW = svg.getElementById('cornerSW');
-//        var rotator = svg.getElementById('rotator');
-//        var rotatorLine = svg.getElementById('rotatorLine');
-//
-//        var halfwidth = width / 2;
-//        cornerNW.setAttribute('transform', 'translate(0,0)');
-//        cornerNE.setAttribute('transform', 'translate(' + width + ',0)');
-//        cornerSE.setAttribute('transform', 'translate(' + width + ',' + height + ')');
-//        cornerSW.setAttribute('transform', 'translate(0,' + height + ')');
-//        rotator.setAttribute('transform', 'translate(' + halfwidth + ',-20 )');
-//        rotatorLine.setAttribute('transform', 'translate(' + halfwidth + ',0 )');
 //      }
 
         function getRotation(pt, elt) {
@@ -303,22 +262,12 @@
           return {angle: 0, offsetx: 0, offsety: 0};
         }
 
-        function setRotation(elt, angle, x, y) {
-          if (elt.transform.baseVal.numberOfItems > 1) {
-            // make sure transform 1 is a translate transform
-            var trans = elt.transform.baseVal.getItem(1);
-            if (trans.type == 4) {
-              trans.setRotate(angle, x, y);
-            }
-          }
-        }
-
         function rescaleElement(element, scaleX, scaleY) {
-          transformShape(element, scaleX, scaleY, 0, 0);
+          return transformShape(element, scaleX, scaleY, 0, 0);
         }
 
         function translateElement(element, transX, transY) {
-          transformShape(element, 1.0, 1.0, 0, 0);
+          return transformShape(element, 1.0, 1.0, 0, 0);
         }
 
         function transformShape(element, scaleX, scaleY, transX, transY) {
@@ -370,11 +319,11 @@
             }
           }
 
-          newPath = newPath.close();
-//        element.setAttribute('d', newPath.path());
-          $scope.$apply(function () {
-            $scope.shape.path = newPath.path();
-          });
+          return newPath.close().path();
+
+//          $scope.$apply(function () {
+//            $scope.shape.path = newPath.path();
+//          });
         }
 
         function getAngle(ptA, ptB, ptC) {
