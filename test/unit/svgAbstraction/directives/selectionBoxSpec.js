@@ -28,22 +28,40 @@ describe('selectionBoxSpec.js', function () {
 
     scope = $rootScope;
     $compile(element)(scope);
+
+    scope.shapes = [{
+      top:100,
+      left:100,
+      rotation: 75,
+      midPointX: 50,
+      midPointY: 50,
+      path:'M0,0L100,0L100,100L0,100z',
+      backgroundColor:'gray',
+      borderColor:'black',
+      borderWidth: 2
+    }];
   }));
+
+  describe('when no selected shape', function() {
+    beforeEach(function() {
+      scope.selectedShape = null;
+
+      scope.$digest();
+      selectionBoxGroup = element.find('g.selection g');
+    });
+
+    it('creates a selection box', function () {
+      expect(selectionBoxGroup.length).toEqual(1);
+    });
+
+    it('selection box is not visible', function () {
+      expect(selectionBoxGroup.is(':visible')).toBeFalsy();
+    });
+  });
+
 
   describe('when there is a selected shape', function () {
     beforeEach(function () {
-      scope.shapes = [{
-        top:100,
-        left:100,
-        rotation: 75,
-        midPointX: 50,
-        midPointY: 50,
-        path:'M0,0L100,0L100,100L0,100z',
-        backgroundColor:'gray',
-        borderColor:'black',
-        borderWidth: 2
-      }];
-
       scope.selectedShape = scope.shapes[0];
 
       selectionBox = {
@@ -72,31 +90,94 @@ describe('selectionBoxSpec.js', function () {
     });
   });
 
-  describe('when no selected shape', function() {
-    beforeEach(function() {
-      scope.shape = {
-        top:100,
-        left:100,
-        midPointX: 50,
-        midPointY: 50,
-        path:'M0,0L100,0L100,100L0,100z',
-        backgroundColor:'gray',
-        borderColor:'black',
-        borderWidth: 2
+  describe('when resizing', function() {
+    var act,
+      corner,
+      move;
+
+    beforeEach(function () {
+      scope.shapes[0].rotation = 0;
+      scope.selectedShape = scope.shapes[0];
+
+      selectionBox = {
+        x:100,
+        y:100,
+        width:100,
+        height:100
       };
 
-      scope.selectedShape = null;
-
       scope.$digest();
+
       selectionBoxGroup = element.find('g.selection g');
+      selectionBoxLine = selectionBoxGroup.find('path');
     });
 
-    it('creates a selection box', function () {
-      expect(selectionBoxGroup.length).toEqual(1);
+    beforeEach(function () {
+
+//        selectionBox = {
+//          x:100,
+//          y:100,
+//          width:100,
+//          height:100
+//        };
+
+      scope.$digest;
+
+      act = function() {
+        var ctm = corner[0].getScreenCTM();
+
+        var drag = {
+          which:1,
+          pageX:ctm.e,
+          pageY:ctm.f
+        };
+
+        var mouseDown = $.Event('mousedown', drag);
+
+        drag.pageX += move.x;
+        drag.pageY += move.y;
+
+        var mousemove = $.Event("mousemove.draggable", drag);
+        var mouseup = $.Event("mouseup.draggable", drag);
+
+        corner.trigger(mouseDown);
+        $(document).trigger(mousemove);
+        $(document).trigger(mouseup);
+        $(document).trigger($.Event("mouseup"));
+      }
     });
 
-    it('selection box is not visible', function () {
-      expect(selectionBoxGroup.is(':visible')).toBeFalsy();
+    describe('nw corner', function() {
+      beforeEach(function () {
+        corner = selectionBoxGroup.find('#cornerNW');
+      });
+      describe('down and right', function() {
+        beforeEach(function () {
+          move = { x: 10, y: 10 };
+          act();
+        });
+        it('decreases box line and width by 10', function() {
+          expect(scope.shapes[0].path).toEqual('M0,0L90,0L90,90L0,90z');
+        });
+        it('decreases line height and width by 10', function () {
+          expect(selectionBoxLine.attr('d')).toEqual('M0,0L90,0L90,90L0,90z');
+        });
+      });
+      describe('up and left', function() {
+        beforeEach(function () {
+          move = { x: -10, y: -10 };
+          act();
+        });
+        it('increases box line and width by 10', function() {
+          expect(scope.shapes[0].path).toEqual('M0,0L110.00000000000001,0L110.00000000000001,110.00000000000001L0,110.00000000000001z');
+        });
+        it('increases line height and width by 10', function () {
+          expect(selectionBoxLine.attr('d')).toEqual('M0,0L110,0L110,110L0,110z');
+        });
+      }); 
     });
+
   });
+
+
 });
