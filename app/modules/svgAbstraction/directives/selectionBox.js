@@ -4,16 +4,16 @@
   angular.module('svgAbstraction.directives')
     .directive('selectionBox', function ($compile, pathService) {
       return {
-        restrict: 'E',
-        require: '^ngSvg',
-        scope: {
-          shape: '='
+        restrict:'E',
+        require:'^ngSvg',
+        scope:{
+          shape:'='
         },
-        controller: function ($scope) {
+        controller:function ($scope) {
           $scope.width = 0;
           $scope.height = 0;
         },
-        link: function ($scope, element, attr, ngSvgController) {
+        link:function ($scope, element, attr, ngSvgController) {
           var ngSvg = ngSvgController,
             selection = createSelectionBox(ngSvg);
 
@@ -57,8 +57,8 @@
           selectionCorners = drawSelectionCorners(ngSvg, selectionBox);
 
         return {
-          box: selectionBox,
-          corners: selectionCorners
+          box:selectionBox,
+          corners:selectionCorners
         };
       }
 
@@ -69,181 +69,189 @@
         ];
 
         var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup, {
-          transform: transform.join(', '),
-          'ng-show': 'shape'
-//          origRect: JSON.stringify(boundingBox),
-//          rect1: JSON.stringify(boundingBox),
-//          transform: transformStr
+          transform:transform.join(', '),
+          'ng-show':'shape'
         });
 
         ngSvg.svg.path(selectionBox, '', {
-//          id: 'outlinePath',
-          'ng-attr-d': 'M0,0L{{width}},0L{{width}},{{height}}L0,{{height}}z',
-          fill: 'none',
-//          fill: 'white',
-          fillOpacity: '0.3',
-          'stroke-dasharray': '5,5',
-          stroke: '#D90000',
-          strokeWidth: 2
-//          class: 'draggable'
+          'ng-attr-d':'M0,0L{{width}},0L{{width}},{{height}}L0,{{height}}z',
+          fill:'none',
+          fillOpacity:'0.3',
+          'stroke-dasharray':'5,5',
+          stroke:'#D90000',
+          strokeWidth:2
         });
         return selectionBox;
       }
 
       function drawSelectionCorners(ngSvg, selectionBox) {
         var defaultCircleSettings = {
-          class_: 'resizable',
-          fill: '#D90000',
-          'stroke-width': 1,
-          stroke: 'white'
+          class_:'resizable',
+          fill:'#D90000',
+          'stroke-width':1,
+          stroke:'white'
         };
 
         var cornerNW = ngSvg.svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
-          id: 'cornerNW',
-          transform: 'translate(0,0)'
+          id:'cornerNW',
+          transform:'translate(0,0)'
         }));
 
         var cornerNE = ngSvg.svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
-          id: 'cornerNE',
-          transform: 'translate({{width}},0)'
+          id:'cornerNE',
+          transform:'translate({{width}},0)'
         }));
 
         var cornerSE = ngSvg.svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
-          id: 'cornerSE',
-          transform: 'translate({{width}},{{height}})'
+          id:'cornerSE',
+          transform:'translate({{width}},{{height}})'
         }));
 
         var cornerSW = ngSvg.svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
-          id: 'cornerSW',
-          transform: 'translate(0,{{height}})'
+          id:'cornerSW',
+          transform:'translate(0,{{height}})'
         }));
 
         ngSvg.svg.line(selectionBox, 0, 0, 0, (-1 * rotatorLineLength), {
-          id: 'rotatorLine',
-          stroke: '#D90000',
-          strokeWidth: 3,
-          transform: 'translate({{shape.midPointX}},0)'
+          id:'rotatorLine',
+          stroke:'#D90000',
+          strokeWidth:3,
+          transform:'translate({{shape.midPointX}},0)'
         });
 
         var rotator = ngSvg.svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
-          id: 'rotator',
-          fill: '#FFFFFF',
-          stroke: '#D90000',
-          strokeWidth: 1,
-          transform: 'translate({{shape.midPointX}},-20)'
+          id:'rotator',
+          fill:'#FFFFFF',
+          stroke:'#D90000',
+          strokeWidth:1,
+          transform:'translate({{shape.midPointX}},-20)'
         }));
 
         return angular.element([cornerNW, cornerNE, cornerSE, cornerSW, rotator]);
       }
 
       function attachResizeBindings(selectionCorners, $scope, svg) {
-        var origX;
-
         selectionCorners.draggable({
-          start: function () {
+          start:function () {
 //            self.resizeStarted();
           },
-          drag: function (event, ui) {
-            var matrix = this.parentNode.getScreenCTM().inverse();
+          drag:function (event, ui) {
 
-            // convert screen to element coordinates
-            var pt = svg._svg.createSVGPoint();
-            pt.x = event.pageX;
-            pt.y = event.pageY;
-            pt = pt.matrixTransform(matrix);
-
-            var ptA = svg._svg.createSVGPoint();
-            ptA.x = 0;
-            ptA.y = 0;
-            ptB = ptA.matrixTransform(this.parentNode.getCTM());
-
-            var pt3 = svg._svg.createSVGPoint();
-            pt3.x = 0;
-            pt3.y = 0;
-
-            var deltax = 0,
-              deltay = 0,
-              width = $scope.width,
-              height = $scope.height;
-
-            var scaleX = 1;
-            var scaleY = 1;
-//            var rotateInfo = getRotation(pt3, this.parentNode);
-            var didRotate = false;
-
-            var angle = $scope.shape.rotation;
-
-            var outlinePath = svg.getElementById('outlinePath');
-
-            if (this.getAttribute('id') == 'cornerNW') {
-              deltax = -pt.x;
-              deltay = -pt.y;
-              width = width - pt.x;
-              height = height - pt.y;
-            } else if (this.getAttribute('id') == 'cornerNE') {
-              deltay = -pt.y;
-              width = pt.x;
-              height = height - pt.y;
-            } else if (this.getAttribute('id') == 'cornerSE') {
-              width = pt.x;
-              height = pt.y;
-            } else if (this.getAttribute('id') == 'cornerSW') {
-              deltax = -pt.x;
-              width = width - pt.x;
-              height = pt.y;
-            } else if (this.getAttribute('id') == 'rotator') {
-              // ref point is height/2, -20
-              var cx = height / 2;
-              var cy = height / 2;
-
-              var newAngle = getAngle({x: pt.x, y: pt.y},
-                {x: cx, y: -20},
-                {x: cx, y: cy});
-
-              angle = (angle + newAngle) % 360;
-
-              if (!event.shiftKey) {
-                angle = Math.floor(angle / 15) * 15;
-              }
-
-              didRotate = true;
-            }
-            scaleX = width / $scope.width;
-            scaleY = height / $scope.height;
-
-            var pt2 = svg._svg.createSVGPoint();
-            pt2.x = deltax;
-            pt2.y = deltay;
-            pt2 = pt2.matrixTransform(this.parentNode.getCTM());
-
-            // where should x,y be?
-
-            deltax = ptB.x - pt2.x;
-            deltay = ptB.y - pt2.y;
-
-            adjustTranslate($scope.shape.svgElement[0], deltax, deltay, true);
-
-            var shape = $scope.shape.svgElement.find('.shape')[0];
-            var newShapePath = rescaleElement(shape, scaleX, scaleY);
+            var draggedCorner = $(this),
+              rawElement = $scope.shape.svgElement[0],
+              newDim = getNewShapeLocationAndDimensions(draggedCorner, event, $scope),
+              translation = getTranslation(rawElement, newDim.deltaX, newDim.deltaY, true),
+              scaleX = newDim.width / $scope.width,
+              scaleY = newDim.height / $scope.height,
+              shapePath = $scope.shape.svgElement.find('.shape')[0],
+              newShapePath = rescaleElement(shapePath, scaleX, scaleY);
 
             $scope.$apply(function () {
-              $scope.width = width;
-              $scope.height = height;
+              $scope.top = translation.y;
+              $scope.left = translation.x;
+              $scope.width = newDim.width;
+              $scope.height = newDim.height;
 
-              $scope.shape.width = width;
-              $scope.shape.height = height;
+              $scope.shape.width = newDim.width;
+              $scope.shape.height = newDim.height;
 
-              $scope.shape.midPointX = width / 2;
-              $scope.shape.midPointY = height / 2;
+              $scope.shape.midPointX = newDim.width / 2;
+              $scope.shape.midPointY = newDim.height / 2;
 
-              $scope.shape.rotation = angle;
+              $scope.shape.rotation = newDim.angle;
               $scope.shape.path = newShapePath;
             });
           },
-          stop: function () {
+          stop:function () {
           }
         });
-//      }
+
+        function getNewShapeLocationAndDimensions(draggedCorner, event, $scope) {
+          var selectionBoxGroup = draggedCorner.parent()[0],
+            pt = convertScreenToElementCoordinates(selectionBoxGroup, event),
+            cornerId = draggedCorner.attr('id'),
+            deltaX = 0,
+            deltaY = 0,
+            width = $scope.width,
+            height = $scope.height,
+            angle = $scope.shape.rotation;
+
+          if (cornerId == 'cornerNW') {
+            deltaX = -pt.x;
+            deltaY = -pt.y;
+            width = width - pt.x;
+            height = height - pt.y;
+          } else if (cornerId == 'cornerNE') {
+            deltaY = -pt.y;
+            width = pt.x;
+            height = height - pt.y;
+          } else if (cornerId == 'cornerSE') {
+            width = pt.x;
+            height = pt.y;
+          } else if (cornerId == 'cornerSW') {
+            deltaX = -pt.x;
+            width = width - pt.x;
+            height = pt.y;
+          } else if (cornerId == 'rotator') {
+            // ref point is height/2, -20
+            var cx = height / 2;
+            var cy = height / 2;
+
+            var newAngle = getAngle({x:pt.x, y:pt.y},
+              {x:cx, y:-20},
+              {x:cx, y:cy});
+
+            angle = (angle + newAngle) % 360;
+
+            if (!event.shiftKey) {
+              angle = Math.floor(angle / 15) * 15;
+            }
+          }
+
+          var conversion = convertDeltasToSVG(selectionBoxGroup, deltaX, deltaY);
+
+          return {
+            deltaX:conversion.deltaX,
+            deltaY:conversion.deltaY,
+            width:width,
+            height:height,
+            angle:angle
+          }
+        }
+
+
+        function convertScreenToElementCoordinates(selectionBoxGroup, event) {
+          var matrix = selectionBoxGroup.getScreenCTM().inverse();
+
+          // convert screen to element coordinates
+          var pt = svg._svg.createSVGPoint();
+          pt.x = event.pageX;
+          pt.y = event.pageY;
+          pt = pt.matrixTransform(matrix);
+
+          return pt;
+        }
+
+        function convertDeltasToSVG(selectionBoxGroup, deltaX, deltaY) {
+          var ptA = svg._svg.createSVGPoint();
+          ptA.x = 0;
+          ptA.y = 0;
+
+          var ptB = ptA.matrixTransform(selectionBoxGroup.getCTM());
+
+          var pt2 = svg._svg.createSVGPoint();
+          pt2.x = deltaX;
+          pt2.y = deltaY;
+          pt2 = pt2.matrixTransform(selectionBoxGroup.getCTM());
+          
+          deltaX = ptB.x - pt2.x;
+          deltaY = ptB.y - pt2.y;
+
+          return {
+            deltaX:deltaX,
+            deltaY:deltaY
+          };
+        }
 
         function getRotation(pt, elt) {
           if (elt.transform.baseVal.numberOfItems > 1) {
@@ -253,13 +261,13 @@
               var pt2 = pt.matrixTransform(trans.matrix);
 
               return {
-                angle: trans.angle,
-                offsetx: pt2.x,
-                offsety: pt2.y
+                angle:trans.angle,
+                offsetx:pt2.x,
+                offsety:pt2.y
               };
             }
           }
-          return {angle: 0, offsetx: 0, offsety: 0};
+          return {angle:0, offsetx:0, offsety:0};
         }
 
         function rescaleElement(element, scaleX, scaleY) {
@@ -320,10 +328,6 @@
           }
 
           return newPath.close().path();
-
-//          $scope.$apply(function () {
-//            $scope.shape.path = newPath.path();
-//          });
         }
 
         function getAngle(ptA, ptB, ptC) {
@@ -349,7 +353,7 @@
           return Math.acos(t);
         }
 
-        function adjustTranslate(elt, x, y, isRelative) {
+        function getTranslation(elt, x, y, isRelative) {
           if (!elt.transform.baseVal.numberOfItems) {
             return;
           }
@@ -357,7 +361,7 @@
           // make sure transform 1 is a translate transform
           var trans = elt.transform.baseVal.getItem(0);
           if (trans.type !== 2) {
-            return;
+            return { };
           }
 
           if (isRelative) {
@@ -368,10 +372,10 @@
             y += origY;
           }
 
-          $scope.$apply(function () {
-            $scope.shape.left = x;
-            $scope.shape.top = y;
-          });
+          return {
+            x:x,
+            y:y
+          };
         }
       }
     });
