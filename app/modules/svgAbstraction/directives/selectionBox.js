@@ -9,10 +9,10 @@
         scope: {
           shape: '='
         },
-        controller: function ($scope) {
-          $scope.width = 0;
-          $scope.height = 0;
-        },
+//        controller: function ($scope) {
+//          $scope.width = 0;
+//          $scope.height = 0;
+//        },
         link: function ($scope, element, attr, ngSvgController) {
           var ngSvg = ngSvgController,
             selection = createSelectionBox(ngSvg);
@@ -142,7 +142,7 @@
             var newDim = getNewShapeLocationAndDimensions(draggedCorner, event, $scope);
             var translation = getTranslation(rawElement, newDim.deltaX, newDim.deltaY, true);
 //              console.log('newDim', newDim);
-//              console.log('$scope.width:' + $scope.width);
+//              console.log('translation', translation);
 
             var scaleX = (newDim.width - $scope.shape.borderWidth) / ($scope.width - $scope.shape.borderWidth);
             var scaleY = (newDim.height - $scope.shape.borderWidth) / ($scope.height - $scope.shape.borderWidth);
@@ -150,11 +150,14 @@
             var newShapePath = rescaleElement(shapePath, scaleX, scaleY);
 
             $scope.$apply(function () {
-              $scope.top = translation.y;
-              $scope.left = translation.x;
+//              $scope.top = translation.y;
+//              $scope.left = translation.x;
+
               $scope.width = newDim.width;
               $scope.height = newDim.height;
 
+              $scope.shape.top = translation.y;
+              $scope.shape.left = translation.x;
               $scope.shape.width = newDim.width;
               $scope.shape.height = newDim.height;
 
@@ -221,7 +224,6 @@
             angle: angle
           }
         }
-
 
         function convertScreenToElementCoordinates(selectionBoxGroup, event) {
           var matrix = selectionBoxGroup.getScreenCTM().inverse();
