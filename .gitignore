@@ -5,6 +5,5 @@ dist
 .tmp
 .sass-cache
 app/components
-.idea
 coverage/*
 Test Results - karma-coverage_conf_js.html
