@@ -16,6 +16,9 @@
       // yes, belongs in link, but easier here
       $element.svg({onLoad: function (svg) {
         self.svg = svg;
+
+        self.shapeGroup = svg.group({class:'shapes'});
+        self.selectionGroup = svg.group({class:'selection'});
       }});
     })
   ;

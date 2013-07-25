@@ -1,49 +1,69 @@
 (function () {
   angular.module('svgAbstraction.directives')
-    .directive('shape', function ($compile) {
+    .directive('ngShape', function ($compile, $timeout, pathService) {
       return {
         restrict: 'E',
         require: '^ngSvg',
         scope: {
-          top: '=',
-          left: '=',
-
-          d: '=',
-          fill: '=',
-          stroke: '=',
-          strokeWidth: '=',
-
-          draggable: '='
+          model:'=',
+          draggable: '=',
+          whenClick: '&'
         },
-        link: function (scope, element, attr, ngSvgController) {
+        link: function ($scope, element, attr, ngSvgController) {
+          var ngSvg = ngSvgController;
 
-          // TODO: get half width / half height for rotate center point
-          scope.midPointX = 50;
-          scope.midPointY = 50;
+          var parentGroup = drawShape($scope, ngSvg);
+          $scope.model.svgElement = angular.element(parentGroup);
 
-          var transform = 'translate({{left}},{{top}}), rotate(0,{{midPointX}},{{midPointY}})';
-          var parentGroup = ngSvgController.svg.group({ transform: transform });
-
-          var shape = ngSvgController.svg.path(parentGroup, '', {
-            'class': 'shape',
-            'fill':'{{fill}}',
-            'stroke':'{{stroke}}',
-            'stroke-width':'{{strokeWidth}}',
-
-            // not sure why "d" is the only one that needs ng-attr
-            // jquery.svg throws error without "ng-attr"
-            'ng-attr-d':'{{d}}'
-          });
-
-          $compile(parentGroup)(scope);
+          $compile(parentGroup)($scope);
 
           // attach svg element to dom element so we can access it from other directives
           element.data('parentGroup', parentGroup);
 
-          scope.$on("$destroy", function () {
-            ngSvgController.svg.remove(parentGroup);
+          $scope.isDragging = function(){
+            return ngSvg.isDragging && ngSvg.selectedShape === parentGroup;
+          };
+
+          $scope.$on("$destroy", function () {
+            ngSvg.svg.remove(parentGroup);
           });
         }
       };
+
+      function drawShape($scope, ngSvg) {
+        var transform = [
+          'translate({{model.left}},{{model.top}})',
+          'rotate({{model.rotation}},{{model.midPointX}},{{model.midPointY}})'
+        ];
+
+        var parentGroup = ngSvg.svg.group(ngSvg.shapeGroup, {
+          transform: transform.join(', ')
+        });
+
+        var shape = ngSvg.svg.path(parentGroup, '', {
+          'class': 'shape',
+          'fill':'{{model.backgroundColor}}',
+          'stroke':'{{model.borderColor}}',
+          'stroke-width':'{{model.borderWidth}}',
+          'ng-mousedown': 'whenClick()',
+
+          // not sure why "d" is the only one that needs ng-attr
+          // jquery.svg throws error without "ng-attr"
+          'ng-attr-d':'{{model.path}}'
+        });
+
+        setMidpointOfShape($scope, shape);
+
+        return parentGroup;
+      };
+
+      function setMidpointOfShape($scope, shape){
+        // shape needs to be rendered before we can calculate its midpoint
+        $timeout(function() {
+          var selectionBox = pathService.getSelectionBox(shape);
+          $scope.model.midPointX = selectionBox.width / 2;
+          $scope.model.midPointY = selectionBox.height / 2;
+        });
+      }
     });
 })();

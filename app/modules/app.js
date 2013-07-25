@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
   angular.module('app', ['main', 'svgShell', 'svgAbstraction'])
     .config(function ($routeProvider, $injector) {
@@ -8,10 +8,13 @@
         });
     });
 
-  // best place for this array extension? not sure
+  // best place for extensions? not sure
+
   Array.prototype.remove = function (valueOrPredicate) {
     var predicate = typeof valueOrPredicate == "function" ? valueOrPredicate
-      : function (value) { return value === valueOrPredicate; };
+      : function (value) {
+      return value === valueOrPredicate;
+    };
 
     for (var i = 0; i < this.length; i++) {
       var value = this[i];
@@ -22,6 +25,16 @@
     }
     return this;
   };
+
+  // Decimal round
+  Math.roundPrecision = function (value, points) {
+    if(!points){
+      return Math.round(value);
+    }
+    var precision = Math.pow(10, points);
+    return Math.round(value * precision) / precision;
+  };
+
 
 }());
 

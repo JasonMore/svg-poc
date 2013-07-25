@@ -1,4 +1,4 @@
-describe('ngSvg', function() {
+describe('ngSvgSpec.js', function() {
   var element,
     scope,
     controller;
@@ -21,4 +21,13 @@ describe('ngSvg', function() {
   it('sets jquery.svg element on controller', function() {
     expect(controller.svg).toBeDefined();
   });
+
+  it('creates a shapes group', function() {
+    expect(element.find('g.shapes').length).toEqual(1);
+  });
+
+  it('creates a selection group', function () {
+    expect(element.find('g.selection').length).toEqual(1);
+  });
+
 });
