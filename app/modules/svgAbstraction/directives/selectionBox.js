@@ -20,11 +20,11 @@
           attachResizeBindings(selection.corners, $scope, ngSvg.svg);
 
           $compile(selection.box)($scope);
-          addScopeMethods($scope, ngSvg);
+          addScopeMethods($scope);
         }
       };
 
-      function addScopeMethods($scope, ngSvg) {
+      function addScopeMethods($scope) {
         $scope.calcLeft = function (shape) {
           return shape ? shape.left - shape.borderWidth / 2 : 0;
         };
@@ -54,7 +54,7 @@
 
       function createSelectionBox(ngSvg) {
         var selectionBox = drawSelectionBox(ngSvg),
-          selectionCorners = drawSelectionCorners(ngSvg, selectionBox);
+          selectionCorners = drawSelectionCorners(ngSvg.svg, selectionBox);
 
         return {
           box:selectionBox,
@@ -84,7 +84,7 @@
         return selectionBox;
       }
 
-      function drawSelectionCorners(ngSvg, selectionBox) {
+      function drawSelectionCorners(svg, selectionBox) {
         var defaultCircleSettings = {
           class_:'resizable',
           fill:'#D90000',
@@ -92,34 +92,34 @@
           stroke:'white'
         };
 
-        var cornerNW = ngSvg.svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
+        var cornerNW = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
           id:'cornerNW',
           transform:'translate(0,0)'
         }));
 
-        var cornerNE = ngSvg.svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
+        var cornerNE = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
           id:'cornerNE',
           transform:'translate({{width}},0)'
         }));
 
-        var cornerSE = ngSvg.svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
+        var cornerSE = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
           id:'cornerSE',
           transform:'translate({{width}},{{height}})'
         }));
 
-        var cornerSW = ngSvg.svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
+        var cornerSW = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
           id:'cornerSW',
           transform:'translate(0,{{height}})'
         }));
 
-        ngSvg.svg.line(selectionBox, 0, 0, 0, (-1 * rotatorLineLength), {
+        svg.line(selectionBox, 0, 0, 0, (-1 * rotatorLineLength), {
           id:'rotatorLine',
           stroke:'#D90000',
           strokeWidth:3,
           transform:'translate({{shape.midPointX}},0)'
         });
 
-        var rotator = ngSvg.svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
+        var rotator = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
           id:'rotator',
           fill:'#FFFFFF',
           stroke:'#D90000',
@@ -137,14 +137,14 @@
           },
           drag:function (event, ui) {
 
-            var draggedCorner = $(this),
-              rawElement = $scope.shape.svgElement[0],
-              newDim = getNewShapeLocationAndDimensions(draggedCorner, event, $scope),
-              translation = getTranslation(rawElement, newDim.deltaX, newDim.deltaY, true),
-              scaleX = newDim.width / $scope.width,
-              scaleY = newDim.height / $scope.height,
-              shapePath = $scope.shape.svgElement.find('.shape')[0],
-              newShapePath = rescaleElement(shapePath, scaleX, scaleY);
+            var draggedCorner = $(this);
+            var rawElement = $scope.shape.svgElement[0];
+            var newDim = getNewShapeLocationAndDimensions(draggedCorner, event, $scope);
+            var translation = getTranslation(rawElement, newDim.deltaX, newDim.deltaY, true);
+            var scaleX = newDim.width / $scope.width;
+            var scaleY = newDim.height / $scope.height;
+            var shapePath = $scope.shape.svgElement.find('.shape')[0];
+            var newShapePath = rescaleElement(shapePath, scaleX, scaleY);
 
             $scope.$apply(function () {
               $scope.top = translation.y;
@@ -167,9 +167,9 @@
         });
 
         function getNewShapeLocationAndDimensions(draggedCorner, event, $scope) {
-          var selectionBoxGroup = draggedCorner.parent()[0],
-            pt = convertScreenToElementCoordinates(selectionBoxGroup, event),
-            cornerId = draggedCorner.attr('id'),
+          var selectionBoxGroup = draggedCorner.parent()[0];
+          var pt = convertScreenToElementCoordinates(selectionBoxGroup, event);
+          var cornerId = draggedCorner.attr('id'),
             deltaX = 0,
             deltaY = 0,
             width = $scope.width,
@@ -243,7 +243,7 @@
           pt2.x = deltaX;
           pt2.y = deltaY;
           pt2 = pt2.matrixTransform(selectionBoxGroup.getCTM());
-          
+
           deltaX = ptB.x - pt2.x;
           deltaY = ptB.y - pt2.y;
 
