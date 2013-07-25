@@ -7,3 +7,4 @@ dist
 app/components
 coverage/*
 Test Results - karma-coverage_conf_js.html
+.idea/workspace.xml
