@@ -34,11 +34,11 @@
         };
 
         $scope.calcMidPointX = function (shape) {
-          return shape ? shape.midPointX : 0;
+          return shape ? shape.midPointX + shape.borderWidth / 2 : 0;
         };
 
         $scope.calcMidPointY = function (shape) {
-          return shape ? shape.midPointY : 0;
+          return shape ? shape.midPointY + shape.borderWidth / 2 : 0;
         };
 
         $scope.$watch('shape', function (shape) {
@@ -141,8 +141,11 @@
             var rawElement = $scope.shape.svgElement[0];
             var newDim = getNewShapeLocationAndDimensions(draggedCorner, event, $scope);
             var translation = getTranslation(rawElement, newDim.deltaX, newDim.deltaY, true);
-            var scaleX = newDim.width / $scope.width;
-            var scaleY = newDim.height / $scope.height;
+              console.log('newDim', newDim);
+              console.log('$scope.width:' + $scope.width);
+
+              var scaleX = (newDim.width - $scope.shape.borderWidth) / ($scope.width - $scope.shape.borderWidth);
+            var scaleY = (newDim.height - $scope.shape.borderWidth) / ($scope.height - $scope.shape.borderWidth);
             var shapePath = $scope.shape.svgElement.find('.shape')[0];
             var newShapePath = rescaleElement(shapePath, scaleX, scaleY);
 
@@ -155,8 +158,8 @@
               $scope.shape.width = newDim.width;
               $scope.shape.height = newDim.height;
 
-              $scope.shape.midPointX = newDim.width / 2;
-              $scope.shape.midPointY = newDim.height / 2;
+              $scope.shape.midPointX = (newDim.width - $scope.shape.borderWidth) / 2;
+              $scope.shape.midPointY = (newDim.height - $scope.shape.borderWidth) / 2;
 
               $scope.shape.rotation = newDim.angle;
               $scope.shape.path = newShapePath;
