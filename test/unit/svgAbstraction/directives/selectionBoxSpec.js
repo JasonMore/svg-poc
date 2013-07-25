@@ -148,26 +148,19 @@ describe('selectionBoxSpec.js', function () {
           move = { x: 10, y: 10 };
           act();
         });
-        it('decreases outline width by 10', function () {
-          expect(scope.width).toEqual(90);
-        });
-
-        it('decreases outline height by 10', function () {
-          expect(scope.height).toEqual(90);
-        });
 
         it('decreases outline height and width by 10', function () {
           expect(selectionBoxLine.attr('d')).toEqual('M0,0L90,0L90,90L0,90z');
         });
 
-        it('decreases shape top', function() {
-          expect(scope.shapes[0].top).toEqual(90);
+        it('increases shape top', function() {
+          expect(scope.shapes[0].top).toEqual(110);
         });
 
-        it('decreases shape left', function() {
-          expect(scope.shapes[0].left).toEqual(90);
+        it('increases shape left', function() {
+          expect(scope.shapes[0].left).toEqual(110);
         });
-        
+
         it('decreases shape height and width by 10', function() {
           expect(scope.shapes[0].path).toEqual('M0,0L89.796,0L89.796,89.796L0,89.796z');
         });
