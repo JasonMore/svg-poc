@@ -61,8 +61,8 @@
         // shape needs to be rendered before we can calculate its midpoint
         $timeout(function() {
           var selectionBox = pathService.getSelectionBox(shape);
-          $scope.model.midPointX = selectionBox.width / 2;
-          $scope.model.midPointY = selectionBox.height / 2;
+          $scope.model.midPointX = (selectionBox.width - $scope.model.borderWidth) / 2;
+          $scope.model.midPointY = (selectionBox.height - $scope.model.borderWidth) / 2;
         });
       }
     });
