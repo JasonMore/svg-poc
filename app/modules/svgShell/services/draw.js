@@ -272,9 +272,20 @@
 
       }
       else if (self.shapeToDraw() == 'heart') {
+
+   //       var heart = 'M224.455832623421,50.7026488717678 C203.965351632301,36.6768858749254,169.430111824198,37.3575025744142,147.72116600199,52.1974586786422L,144.168117604357,54.6273231843932 Z';
         var heart = 'M24.132,7.971c-2.203-2.205-5.916-2.098-8.25,0.235L15.5,8.588l-0.382-0.382c-2.334-2.333-6.047-2.44-8.25-0.235c-2.204,2.203-2.098,5.916,0.235,8.249l8.396,8.396l8.396-8.396C26.229,13.887,26.336,10.174,24.132,7.971z';
-        var shape = surfaceService.svg.path(parentGroup, heart, settings);
-//          resizeService.rescaleElement(shape,1.5, 1.5);
+   //       var heart = 'M 379.14286,136.36218 C 599.14285,-120.78067 819.14286,159.21932 696.28571,304.93361 L 379.14286,627.79075 M 379.14285,136.36218 C 159.14286,-120.78067 -60.857149,159.21932 62.000001,304.93361 L 379.14285,627.79075';
+          var shape = surfaceService.svg.path(parentGroup, heart, settings);
+
+          // get the bounding box of this shape
+          var bbox = selectionService.getSelectionBox(shape);
+
+          var scaleX = width /  bbox.width  ;
+          var scaleY = height /  bbox.height  ;
+
+          resizeService.transformShape(shape,scaleX, scaleY, -scaleX * bbox.x, -scaleY*bbox.y);
+
       }
 
       var textSpans = surfaceService.svg.createText().string('');
