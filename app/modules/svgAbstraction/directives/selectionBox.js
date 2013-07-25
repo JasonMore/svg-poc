@@ -116,7 +116,7 @@
           id: 'rotatorLine',
           stroke: '#D90000',
           strokeWidth: 3,
-          transform: 'translate({{shape.midPointX}},0)'
+          transform: 'translate({{calcMidPointX(shape)}},0)'
         });
 
         var rotator = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
@@ -124,7 +124,7 @@
           fill: '#FFFFFF',
           stroke: '#D90000',
           strokeWidth: 1,
-          transform: 'translate({{shape.midPointX}},-20)'
+          transform: 'translate({{calcMidPointX(shape)}},-20)'
         }));
 
         return angular.element([cornerNW, cornerNE, cornerSE, cornerSW, rotator]);
