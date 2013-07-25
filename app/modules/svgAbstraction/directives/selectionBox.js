@@ -4,16 +4,16 @@
   angular.module('svgAbstraction.directives')
     .directive('selectionBox', function ($compile, pathService) {
       return {
-        restrict:'E',
-        require:'^ngSvg',
-        scope:{
-          shape:'='
+        restrict: 'E',
+        require: '^ngSvg',
+        scope: {
+          shape: '='
         },
-        controller:function ($scope) {
+        controller: function ($scope) {
           $scope.width = 0;
           $scope.height = 0;
         },
-        link:function ($scope, element, attr, ngSvgController) {
+        link: function ($scope, element, attr, ngSvgController) {
           var ngSvg = ngSvgController,
             selection = createSelectionBox(ngSvg);
 
@@ -57,8 +57,8 @@
           selectionCorners = drawSelectionCorners(ngSvg.svg, selectionBox);
 
         return {
-          box:selectionBox,
-          corners:selectionCorners
+          box: selectionBox,
+          corners: selectionCorners
         };
       }
 
@@ -69,62 +69,62 @@
         ];
 
         var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup, {
-          transform:transform.join(', '),
-          'ng-show':'shape'
+          transform: transform.join(', '),
+          'ng-show': 'shape'
         });
 
         ngSvg.svg.path(selectionBox, '', {
-          'ng-attr-d':'M0,0L{{width}},0L{{width}},{{height}}L0,{{height}}z',
-          fill:'none',
-          fillOpacity:'0.3',
-          'stroke-dasharray':'5,5',
-          stroke:'#D90000',
-          strokeWidth:2
+          'ng-attr-d': 'M0,0L{{width}},0L{{width}},{{height}}L0,{{height}}z',
+          fill: 'none',
+          fillOpacity: '0.3',
+          'stroke-dasharray': '5,5',
+          stroke: '#D90000',
+          strokeWidth: 2
         });
         return selectionBox;
       }
 
       function drawSelectionCorners(svg, selectionBox) {
         var defaultCircleSettings = {
-          class_:'resizable',
-          fill:'#D90000',
-          'stroke-width':1,
-          stroke:'white'
+          class_: 'resizable',
+          fill: '#D90000',
+          'stroke-width': 1,
+          stroke: 'white'
         };
 
         var cornerNW = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
-          id:'cornerNW',
-          transform:'translate(0,0)'
+          id: 'cornerNW',
+          transform: 'translate(0,0)'
         }));
 
         var cornerNE = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
-          id:'cornerNE',
-          transform:'translate({{width}},0)'
+          id: 'cornerNE',
+          transform: 'translate({{width}},0)'
         }));
 
         var cornerSE = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
-          id:'cornerSE',
-          transform:'translate({{width}},{{height}})'
+          id: 'cornerSE',
+          transform: 'translate({{width}},{{height}})'
         }));
 
         var cornerSW = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
-          id:'cornerSW',
-          transform:'translate(0,{{height}})'
+          id: 'cornerSW',
+          transform: 'translate(0,{{height}})'
         }));
 
         svg.line(selectionBox, 0, 0, 0, (-1 * rotatorLineLength), {
-          id:'rotatorLine',
-          stroke:'#D90000',
-          strokeWidth:3,
-          transform:'translate({{shape.midPointX}},0)'
+          id: 'rotatorLine',
+          stroke: '#D90000',
+          strokeWidth: 3,
+          transform: 'translate({{shape.midPointX}},0)'
         });
 
         var rotator = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
-          id:'rotator',
-          fill:'#FFFFFF',
-          stroke:'#D90000',
-          strokeWidth:1,
-          transform:'translate({{shape.midPointX}},-20)'
+          id: 'rotator',
+          fill: '#FFFFFF',
+          stroke: '#D90000',
+          strokeWidth: 1,
+          transform: 'translate({{shape.midPointX}},-20)'
         }));
 
         return angular.element([cornerNW, cornerNE, cornerSE, cornerSW, rotator]);
@@ -132,19 +132,19 @@
 
       function attachResizeBindings(selectionCorners, $scope, svg) {
         selectionCorners.draggable({
-          start:function () {
+          start: function () {
 //            self.resizeStarted();
           },
-          drag:function (event, ui) {
+          drag: function (event, ui) {
 
             var draggedCorner = $(this);
             var rawElement = $scope.shape.svgElement[0];
             var newDim = getNewShapeLocationAndDimensions(draggedCorner, event, $scope);
             var translation = getTranslation(rawElement, newDim.deltaX, newDim.deltaY, true);
-              console.log('newDim', newDim);
-              console.log('$scope.width:' + $scope.width);
+//              console.log('newDim', newDim);
+//              console.log('$scope.width:' + $scope.width);
 
-              var scaleX = (newDim.width - $scope.shape.borderWidth) / ($scope.width - $scope.shape.borderWidth);
+            var scaleX = (newDim.width - $scope.shape.borderWidth) / ($scope.width - $scope.shape.borderWidth);
             var scaleY = (newDim.height - $scope.shape.borderWidth) / ($scope.height - $scope.shape.borderWidth);
             var shapePath = $scope.shape.svgElement.find('.shape')[0];
             var newShapePath = rescaleElement(shapePath, scaleX, scaleY);
@@ -165,7 +165,7 @@
               $scope.shape.path = newShapePath;
             });
           },
-          stop:function () {
+          stop: function () {
           }
         });
 
@@ -200,9 +200,9 @@
             var cx = height / 2;
             var cy = height / 2;
 
-            var newAngle = getAngle({x:pt.x, y:pt.y},
-              {x:cx, y:-20},
-              {x:cx, y:cy});
+            var newAngle = getAngle({x: pt.x, y: pt.y},
+              {x: cx, y: -20},
+              {x: cx, y: cy});
 
             angle = (angle + newAngle) % 360;
 
@@ -214,11 +214,11 @@
           var conversion = convertDeltasToSVG(selectionBoxGroup, deltaX, deltaY);
 
           return {
-            deltaX:conversion.deltaX,
-            deltaY:conversion.deltaY,
-            width:width,
-            height:height,
-            angle:angle
+            deltaX: conversion.deltaX,
+            deltaY: conversion.deltaY,
+            width: width,
+            height: height,
+            angle: angle
           }
         }
 
@@ -251,8 +251,8 @@
           deltaY = ptB.y - pt2.y;
 
           return {
-            deltaX:deltaX,
-            deltaY:deltaY
+            deltaX: deltaX,
+            deltaY: deltaY
           };
         }
 
@@ -264,13 +264,13 @@
               var pt2 = pt.matrixTransform(trans.matrix);
 
               return {
-                angle:trans.angle,
-                offsetx:pt2.x,
-                offsety:pt2.y
+                angle: trans.angle,
+                offsetx: pt2.x,
+                offsety: pt2.y
               };
             }
           }
-          return {angle:0, offsetx:0, offsety:0};
+          return {angle: 0, offsetx: 0, offsety: 0};
         }
 
         function rescaleElement(element, scaleX, scaleY) {
@@ -279,6 +279,10 @@
 
         function translateElement(element, transX, transY) {
           return transformShape(element, 1.0, 1.0, 0, 0);
+        }
+
+        function round(value) {
+          return Math.roundPrecision(value, 3);
         }
 
         function transformShape(element, scaleX, scaleY, transX, transY) {
@@ -291,45 +295,7 @@
             return;
           }
 
-          var newPath = svg.createPath();
-
-          // create the new path element
-          for (var i = 0; i < element.pathSegList.numberOfItems; i++) {
-            var seg = element.pathSegList.getItem(i);
-
-            // Create the new segment, applying the transform matrix
-            switch (seg.pathSegType) {
-              case 2:
-                newPath = newPath.move(seg.x * scaleX + transX, seg.y * scaleY + transY);
-                break;
-              case 3:
-                newPath = newPath.move(seg.x * scaleX, seg.y * scaleY, true);
-                break;
-              case 4:
-                newPath = newPath.line(seg.x * scaleX + transX, seg.y * scaleY + transY);
-                break;
-              case 5:
-                newPath = newPath.line(seg.x * scaleX, seg.y * scaleY, true);
-                break;
-              case 6:
-                newPath = newPath.curveC(seg.x1 * scaleX + transX, seg.y1 * scaleY + transY, seg.x2 * scaleX + transX, seg.y2 * scaleY + transY, seg.x * scaleX + transX, seg.y * scaleY + transY);
-                break;
-              case 7:
-                newPath = newPath.curveC(seg.x1 * scaleX, seg.y1 * scaleY, seg.x2 * scaleX, seg.y2 * scaleY, seg.x * scaleX, seg.y * scaleY, true);
-                break;
-              case 8:
-                newPath = newPath.curveQ(seg.x1 * scaleX + tranX, seg.y1 * scaleY + transY, seg.x * scaleX + transX, seg.y * scaleY) + transY;
-                break;
-              case 9:
-                newPath = newPath.curveQ(seg.x1 * scaleX, seg.y1 * scaleY, seg.x * scaleX, seg.y * scaleY, true);
-                break;
-              case 10:
-                newPath = newPath.arc(scaleX * seg.r1 + transX, scaleY * seg.r2 + transY, seg.angle, seg.largeArcFlag, seg.sweepFlag, scaleX * seg.x + transX, scaleY * seg.y + transY);
-              case 11:
-                newPath = newPath.arc(scaleX * seg.r1, scaleY * seg.r2, seg.angle, seg.largeArcFlag, seg.sweepFlag, scaleX * seg.x, scaleY * seg.y, true);
-            }
-          }
-
+          var newPath = scale(element, scaleX, transX, scaleY, transY);
           return newPath.close().path();
         }
 
@@ -376,9 +342,108 @@
           }
 
           return {
-            x:x,
-            y:y
+            x: x,
+            y: y
           };
+        }
+
+        function scale(element, scaleX, transX, scaleY, transY) {
+          var newPath = svg.createPath();
+
+          // create the new path element
+          for (var i = 0; i < element.pathSegList.numberOfItems; i++) {
+            var seg = element.pathSegList.getItem(i);
+
+            // Create the new segment, applying the transform matrix
+            switch (seg.pathSegType) {
+              case 2:
+                newPath = newPath.move(
+                  round(seg.x * scaleX + transX),
+                  round(seg.y * scaleY + transY)
+                );
+                break;
+              case 3:
+                newPath = newPath.move(
+                  round(seg.x * scaleX),
+                  round(seg.y * scaleY),
+                  true
+                );
+                break;
+              case 4:
+                newPath = newPath.line(
+                  round(seg.x * scaleX + transX),
+                  round(seg.y * scaleY + transY)
+                );
+                break;
+              case 5:
+                newPath = newPath.line(
+                  round(seg.x * scaleX),
+                  round(seg.y * scaleY),
+                  true
+                );
+                break;
+              case 6:
+                newPath = newPath.curveC(
+                  round(seg.x1 * scaleX + transX),
+                  round(seg.y1 * scaleY + transY),
+                  round(seg.x2 * scaleX + transX),
+                  round(seg.y2 * scaleY + transY),
+                  round(seg.x * scaleX + transX),
+                  round(seg.y * scaleY + transY)
+                );
+                break;
+              case 7:
+                newPath = newPath.curveC(
+                  round(seg.x1 * scaleX),
+                  round(seg.y1 * scaleY),
+                  round(seg.x2 * scaleX),
+                  round(seg.y2 * scaleY),
+                  round(seg.x * scaleX),
+                  round(seg.y * scaleY),
+                  true
+                );
+                break;
+              case 8:
+                newPath = newPath.curveQ(
+                  round(seg.x1 * scaleX + transX),
+                  round(seg.y1 * scaleY + transY),
+                  round(seg.x * scaleX + transX),
+                  round(seg.y * scaleY + transY)
+                );
+                break;
+              case 9:
+                newPath = newPath.curveQ(
+                  round(seg.x1 * scaleX),
+                  round(seg.y1 * scaleY),
+                  round(seg.x * scaleX),
+                  round(seg.y * scaleY),
+                  true
+                );
+                break;
+              case 10:
+                newPath = newPath.arc(
+                  round(scaleX * seg.r1 + transX),
+                  round(scaleY * seg.r2 + transY),
+                  round(seg.angle),
+                  round(seg.largeArcFlag),
+                  round(seg.sweepFlag),
+                  round(scaleX * seg.x + transX),
+                  round(scaleY * seg.y + transY)
+                );
+              case 11:
+                newPath = newPath.arc(
+                  round(scaleX * seg.r1),
+                  round(scaleY * seg.r2),
+                  round(seg.angle),
+                  round(seg.largeArcFlag),
+                  round(seg.sweepFlag),
+                  round(scaleX * seg.x),
+                  round(scaleY * seg.y),
+                  true
+                );
+            }
+          }
+          return newPath;
         }
       }
     });

@@ -84,7 +84,7 @@ describe('shapeSpec.js', function () {
 
       it('parent group has correct transformation', function () {
         timeout.flush();
-        expect(parentGroup.attr('transform')).toEqual('translate(100,100), rotate(75,52,52)');
+        expect(parentGroup.attr('transform')).toEqual('translate(100,100), rotate(75,51,51)');
       });
 
       it('parent group has path', function () {

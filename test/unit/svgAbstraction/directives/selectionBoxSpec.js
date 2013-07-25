@@ -82,7 +82,7 @@ describe('selectionBoxSpec.js', function () {
     });
 
     it('draws a box around shape with 1px line width buffer for top and left', function () {
-      expect(selectionBoxGroup.attr('transform')).toEqual('translate(99,99), rotate(75,50,50)');
+      expect(selectionBoxGroup.attr('transform')).toEqual('translate(99,99), rotate(75,51,51)');
     });
 
     it('box width/height is 100 width + 4px line width', function () {
@@ -147,7 +147,7 @@ describe('selectionBoxSpec.js', function () {
           act();
         });
         it('decreases shape height and width by 10', function() {
-          expect(scope.shapes[0].path).toEqual('M0,0L90,0L90,90L0,90z');
+          expect(scope.shapes[0].path).toEqual('M0,0L89.796,0L89.796,89.796L0,89.796z');
         });
         it('decreases outline height and width by 10', function () {
           expect(selectionBoxLine.attr('d')).toEqual('M0,0L90,0L90,90L0,90z');
@@ -159,7 +159,7 @@ describe('selectionBoxSpec.js', function () {
           act();
         });
         it('increases shape height and width by 10', function() {
-          expect(scope.shapes[0].path).toEqual('M0,0L110.00000000000001,0L110.00000000000001,110.00000000000001L0,110.00000000000001z');
+          expect(scope.shapes[0].path).toEqual('M0,0L110.204,0L110.204,110.204L0,110.204z');
         });
         it('increases outline height and width by 10', function () {
           expect(selectionBoxLine.attr('d')).toEqual('M0,0L110,0L110,110L0,110z');
@@ -177,7 +177,7 @@ describe('selectionBoxSpec.js', function () {
           act();
         });
         it('decreases shape height and increases width by 10', function() {
-          expect(scope.shapes[0].path).toEqual('M0,0L110.00000000000001,0L110.00000000000001,90L0,90z');
+          expect(scope.shapes[0].path).toEqual('M0,0L110.204,0L110.204,89.796L0,89.796z');
         });
         it('decreases outline height and increases width by 10', function () {
           expect(selectionBoxLine.attr('d')).toEqual('M0,0L110,0L110,90L0,90z');
@@ -189,7 +189,7 @@ describe('selectionBoxSpec.js', function () {
           act();
         });
         it('increases height and decreases width by 10', function() {
-          expect(scope.shapes[0].path).toEqual('M0,0L90,0L90,110.00000000000001L0,110.00000000000001z');
+          expect(scope.shapes[0].path).toEqual('M0,0L89.796,0L89.796,110.204L0,110.204z');
         });
         it('increases outline height and decreases width by 10', function () {
           expect(selectionBoxLine.attr('d')).toEqual('M0,0L90,0L90,110L0,110z');
@@ -207,7 +207,7 @@ describe('selectionBoxSpec.js', function () {
           act();
         });
         it('increases shape height and width by 10', function() {
-          expect(scope.shapes[0].path).toEqual('M0,0L110.00000000000001,0L110.00000000000001,110.00000000000001L0,110.00000000000001z');
+          expect(scope.shapes[0].path).toEqual('M0,0L110.204,0L110.204,110.204L0,110.204z');
         });
         it('increases outline height and width by 10', function () {
           expect(selectionBoxLine.attr('d')).toEqual('M0,0L110,0L110,110L0,110z');
@@ -219,7 +219,7 @@ describe('selectionBoxSpec.js', function () {
           act();
         });
         it('decreases shape height and width by 10', function() {
-          expect(scope.shapes[0].path).toEqual('M0,0L90,0L90,90L0,90z');
+          expect(scope.shapes[0].path).toEqual('M0,0L89.796,0L89.796,89.796L0,89.796z');
         });
         it('decreases outline height and width by 10', function () {
           expect(selectionBoxLine.attr('d')).toEqual('M0,0L90,0L90,90L0,90z');
@@ -237,7 +237,7 @@ describe('selectionBoxSpec.js', function () {
           act();
         });
         it('increases shape height and decreases width by 10', function() {
-          expect(scope.shapes[0].path).toEqual('M0,0L90,0L90,110.00000000000001L0,110.00000000000001z');
+          expect(scope.shapes[0].path).toEqual('M0,0L89.796,0L89.796,110.204L0,110.204z');
         });
         it('increases outline height and decreases width by 10', function () {
           expect(selectionBoxLine.attr('d')).toEqual('M0,0L90,0L90,110L0,110z');
@@ -249,7 +249,7 @@ describe('selectionBoxSpec.js', function () {
           act();
         });
         it('decreases shape height and increases width by 10', function() {
-          expect(scope.shapes[0].path).toEqual('M0,0L110.00000000000001,0L110.00000000000001,90L0,90z');
+          expect(scope.shapes[0].path).toEqual('M0,0L110.204,0L110.204,89.796L0,89.796z');
         });
         it('decreases outline height and increases width by 10', function () {
           expect(selectionBoxLine.attr('d')).toEqual('M0,0L110,0L110,90L0,90z');
