@@ -161,6 +161,26 @@ describe('selectionBoxSpec.js', function () {
           expect(scope.shapes[0].left).toEqual(110);
         });
 
+        it('decreases shape width', function() {
+          expect(scope.shapes[0].width).toEqual(90);
+        });
+
+        it('decreases shape height', function() {
+          expect(scope.shapes[0].height).toEqual(90);
+        });
+
+        it('decreases shape midpointX including border width', function() {
+          expect(scope.shapes[0].midPointX).toEqual(44);
+        });
+
+        it('decreases shape midpointY including border width', function() {
+          expect(scope.shapes[0].midPointY).toEqual(44);
+        });
+
+        it('shape rotation stays the same', function() {
+          expect(scope.shapes[0].rotation).toEqual(0);
+        });
+
         it('decreases shape height and width by 10', function() {
           expect(scope.shapes[0].path).toEqual('M0,0L89.796,0L89.796,89.796L0,89.796z');
         });
@@ -170,12 +190,43 @@ describe('selectionBoxSpec.js', function () {
           move = { x: -10, y: -10 };
           act();
         });
-        it('increases shape height and width by 10', function() {
-          expect(scope.shapes[0].path).toEqual('M0,0L110.204,0L110.204,110.204L0,110.204z');
-        });
+
         it('increases outline height and width by 10', function () {
           expect(selectionBoxLine.attr('d')).toEqual('M0,0L110,0L110,110L0,110z');
         });
+
+        it('decreases shape top', function() {
+          expect(scope.shapes[0].top).toEqual(90);
+        });
+
+        it('decreases shape left', function() {
+          expect(scope.shapes[0].left).toEqual(90);
+        });
+
+        it('increases shape width', function() {
+          expect(scope.shapes[0].width).toEqual(110);
+        });
+
+        it('increases shape height', function() {
+          expect(scope.shapes[0].height).toEqual(110);
+        });
+
+        it('increases shape midpointX including border width', function() {
+          expect(scope.shapes[0].midPointX).toEqual(54);
+        });
+
+        it('increases shape midpointY including border width', function() {
+          expect(scope.shapes[0].midPointY).toEqual(54);
+        });
+
+        it('shape rotation stays the same', function() {
+          expect(scope.shapes[0].rotation).toEqual(0);
+        });
+
+        it('increases shape height and width by 10', function() {
+          expect(scope.shapes[0].path).toEqual('M0,0L110.204,0L110.204,110.204L0,110.204z');
+        });
+
       });
     });
 
@@ -188,24 +239,87 @@ describe('selectionBoxSpec.js', function () {
           move = { x: 10, y: 10 };
           act();
         });
-        it('decreases shape height and increases width by 10', function() {
-          expect(scope.shapes[0].path).toEqual('M0,0L110.204,0L110.204,89.796L0,89.796z');
-        });
+
         it('decreases outline height and increases width by 10', function () {
           expect(selectionBoxLine.attr('d')).toEqual('M0,0L110,0L110,90L0,90z');
         });
+
+        it('increases shape top', function() {
+          expect(scope.shapes[0].top).toEqual(110);
+        });
+
+        it('shape left stays the same', function() {
+          expect(scope.shapes[0].left).toEqual(100);
+        });
+
+        it('increases shape width', function() {
+          expect(scope.shapes[0].width).toEqual(110);
+        });
+
+        it('decreases shape height', function() {
+          expect(scope.shapes[0].height).toEqual(90);
+        });
+
+        it('increases shape midpointX including border width', function() {
+          expect(scope.shapes[0].midPointX).toEqual(54);
+        });
+
+        it('decreases shape midpointY including border width', function() {
+          expect(scope.shapes[0].midPointY).toEqual(44);
+        });
+
+        it('shape rotation stays the same', function() {
+          expect(scope.shapes[0].rotation).toEqual(0);
+        });
+
+        it('decreases shape height and increases width by 10', function() {
+          expect(scope.shapes[0].path).toEqual('M0,0L110.204,0L110.204,89.796L0,89.796z');
+        });
+
       });
       describe('up and left', function() {
         beforeEach(function () {
           move = { x: -10, y: -10 };
           act();
         });
-        it('increases height and decreases width by 10', function() {
-          expect(scope.shapes[0].path).toEqual('M0,0L89.796,0L89.796,110.204L0,110.204z');
-        });
+
         it('increases outline height and decreases width by 10', function () {
           expect(selectionBoxLine.attr('d')).toEqual('M0,0L90,0L90,110L0,110z');
         });
+
+        it('decreases shape top', function() {
+          expect(scope.shapes[0].top).toEqual(90);
+        });
+
+        it('shape left stays the same', function() {
+          expect(scope.shapes[0].left).toEqual(100);
+        });
+
+        it('decreases shape width', function() {
+          expect(scope.shapes[0].width).toEqual(90);
+        });
+
+        it('increases shape height', function() {
+          expect(scope.shapes[0].height).toEqual(110);
+        });
+
+        it('decreases shape midpointX including border width', function() {
+          expect(scope.shapes[0].midPointX).toEqual(44);
+        });
+
+        it('increases shape midpointY including border width', function() {
+          expect(scope.shapes[0].midPointY).toEqual(54);
+        });
+
+        it('shape rotation stays the same', function() {
+          expect(scope.shapes[0].rotation).toEqual(0);
+        });
+
+        it('increases height and decreases width by 10', function() {
+          expect(scope.shapes[0].path).toEqual('M0,0L89.796,0L89.796,110.204L0,110.204z');
+        });
+
+
       });
     });
 
@@ -218,23 +332,84 @@ describe('selectionBoxSpec.js', function () {
           move = { x: 10, y: 10 };
           act();
         });
-        it('increases shape height and width by 10', function() {
-          expect(scope.shapes[0].path).toEqual('M0,0L110.204,0L110.204,110.204L0,110.204z');
-        });
+
         it('increases outline height and width by 10', function () {
           expect(selectionBoxLine.attr('d')).toEqual('M0,0L110,0L110,110L0,110z');
         });
+
+        it('shape top stays the same', function() {
+          expect(scope.shapes[0].top).toEqual(100);
+        });
+
+        it('shape left stays the same', function() {
+          expect(scope.shapes[0].left).toEqual(100);
+        });
+
+        it('increases shape width', function() {
+          expect(scope.shapes[0].width).toEqual(110);
+        });
+
+        it('increases shape height', function() {
+          expect(scope.shapes[0].height).toEqual(110);
+        });
+
+        it('increases shape midpointX including border width', function() {
+          expect(scope.shapes[0].midPointX).toEqual(54);
+        });
+
+        it('increases shape midpointY including border width', function() {
+          expect(scope.shapes[0].midPointY).toEqual(54);
+        });
+
+        it('shape rotation stays the same', function() {
+          expect(scope.shapes[0].rotation).toEqual(0);
+        });
+
+        it('increases shape height and width by 10', function() {
+          expect(scope.shapes[0].path).toEqual('M0,0L110.204,0L110.204,110.204L0,110.204z');
+        });
+
       });
       describe('up and left', function() {
         beforeEach(function () {
           move = { x: -10, y: -10 };
           act();
         });
-        it('decreases shape height and width by 10', function() {
-          expect(scope.shapes[0].path).toEqual('M0,0L89.796,0L89.796,89.796L0,89.796z');
-        });
+
         it('decreases outline height and width by 10', function () {
           expect(selectionBoxLine.attr('d')).toEqual('M0,0L90,0L90,90L0,90z');
+        });
+
+        it('shape top stays the same', function() {
+          expect(scope.shapes[0].top).toEqual(100);
+        });
+
+        it('shape left stays the same', function() {
+          expect(scope.shapes[0].left).toEqual(100);
+        });
+
+        it('decreases shape width', function() {
+          expect(scope.shapes[0].width).toEqual(90);
+        });
+
+        it('decreases shape height', function() {
+          expect(scope.shapes[0].height).toEqual(90);
+        });
+
+        it('decreases shape midpointX including border width', function() {
+          expect(scope.shapes[0].midPointX).toEqual(44);
+        });
+
+        it('decreases shape midpointY including border width', function() {
+          expect(scope.shapes[0].midPointY).toEqual(44);
+        });
+
+        it('shape rotation stays the same', function() {
+          expect(scope.shapes[0].rotation).toEqual(0);
+        });
+
+        it('decreases shape height and width by 10', function() {
+          expect(scope.shapes[0].path).toEqual('M0,0L89.796,0L89.796,89.796L0,89.796z');
         });
       });
     });
@@ -248,11 +423,41 @@ describe('selectionBoxSpec.js', function () {
           move = { x: 10, y: 10 };
           act();
         });
-        it('increases shape height and decreases width by 10', function() {
-          expect(scope.shapes[0].path).toEqual('M0,0L89.796,0L89.796,110.204L0,110.204z');
-        });
+
         it('increases outline height and decreases width by 10', function () {
           expect(selectionBoxLine.attr('d')).toEqual('M0,0L90,0L90,110L0,110z');
+        });
+
+        it('shape top stays the same', function() {
+          expect(scope.shapes[0].top).toEqual(100);
+        });
+
+        it('increases shape left', function() {
+          expect(scope.shapes[0].left).toEqual(110);
+        });
+
+        it('decreases shape width', function() {
+          expect(scope.shapes[0].width).toEqual(90);
+        });
+
+        it('increases shape height', function() {
+          expect(scope.shapes[0].height).toEqual(110);
+        });
+
+        it('decreases shape midpointX including border width', function() {
+          expect(scope.shapes[0].midPointX).toEqual(44);
+        });
+
+        it('increases shape midpointY including border width', function() {
+          expect(scope.shapes[0].midPointY).toEqual(54);
+        });
+
+        it('shape rotation stays the same', function() {
+          expect(scope.shapes[0].rotation).toEqual(0);
+        });
+
+        it('increases shape height and decreases width by 10', function() {
+          expect(scope.shapes[0].path).toEqual('M0,0L89.796,0L89.796,110.204L0,110.204z');
         });
       });
       describe('up and left', function() {
@@ -260,11 +465,41 @@ describe('selectionBoxSpec.js', function () {
           move = { x: -10, y: -10 };
           act();
         });
-        it('decreases shape height and increases width by 10', function() {
-          expect(scope.shapes[0].path).toEqual('M0,0L110.204,0L110.204,89.796L0,89.796z');
-        });
+
         it('decreases outline height and increases width by 10', function () {
           expect(selectionBoxLine.attr('d')).toEqual('M0,0L110,0L110,90L0,90z');
+        });
+
+        it('shape top stays the same', function() {
+          expect(scope.shapes[0].top).toEqual(100);
+        });
+
+        it('decreases shape left', function() {
+          expect(scope.shapes[0].left).toEqual(90);
+        });
+
+        it('increases shape width', function() {
+          expect(scope.shapes[0].width).toEqual(110);
+        });
+
+        it('decreases shape height', function() {
+          expect(scope.shapes[0].height).toEqual(90);
+        });
+
+        it('increases shape midpointX including border width', function() {
+          expect(scope.shapes[0].midPointX).toEqual(54);
+        });
+
+        it('increases shape midpointY including border width', function() {
+          expect(scope.shapes[0].midPointY).toEqual(44);
+        });
+
+        it('shape rotation stays the same', function() {
+          expect(scope.shapes[0].rotation).toEqual(0);
+        });
+
+        it('decreases shape height and increases width by 10', function() {
+          expect(scope.shapes[0].path).toEqual('M0,0L110.204,0L110.204,89.796L0,89.796z');
         });
       });
     });
@@ -278,7 +513,32 @@ describe('selectionBoxSpec.js', function () {
           move = { x: 150, y: 100 };
           act();
         });
-        it('rotates box 105 degrees', function() {
+
+        it('shape top stays the same', function() {
+          expect(scope.shapes[0].top).toEqual(100);
+        });
+
+        it('shape left stays the same', function() {
+          expect(scope.shapes[0].left).toEqual(100);
+        });
+
+        it('shape width stays the same', function() {
+          expect(scope.shapes[0].width).toEqual(100);
+        });
+
+        it('shape height stays the same', function() {
+          expect(scope.shapes[0].height).toEqual(100);
+        });
+
+        it('shape midpointX stays the same', function() {
+          expect(scope.shapes[0].midPointX).toEqual(49);
+        });
+
+        it('shape midpointY stays the same', function() {
+          expect(scope.shapes[0].midPointY).toEqual(49);
+        });
+
+        it('shape rotates box 90 degrees', function() {
           expect(scope.shapes[0].rotation).toEqual(90);
         });
       });
