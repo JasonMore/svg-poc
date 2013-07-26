@@ -551,9 +551,9 @@ describe('selectionBoxSpec.js', function () {
       });
     });
 
-    describe('with rotation 90 degrees', function() {
+    describe('with rotation 45 degrees', function() {
       beforeEach(function () {
-        scope.shapes[0].rotation = 90;
+        scope.shapes[0].rotation = 45;
         scope.$digest();
       });
 
@@ -572,33 +572,33 @@ describe('selectionBoxSpec.js', function () {
           });
 
           it('increases outline height and width by 5', function () {
-            expect(selectionBoxLine.attr('d')).toEqual('M0,0L105,0L105,105L0,105z');
+            expect(selectionBoxLine.attr('d')).toEqual('M0,0L107.0710678100586,0L107.0710678100586,107.0710678100586L0,107.0710678100586z');
           });
 
           it('shape top stays the same', function() {
-            expect(scope.shapes[0].top).toEqual(105);
+            expect(scope.shapes[0].top).toEqual(100);
           });
 
           it('shape left stays the same', function() {
-            expect(scope.shapes[0].left).toEqual(105);
+            expect(scope.shapes[0].left).toEqual(100);
           });
 
           it('increases shape width', function() {
-            expect(scope.shapes[0].width).toEqual(105);
+            expect(scope.shapes[0].width).toEqual(107.0710678100586);
           });
 
           it('increases shape height', function() {
-            expect(scope.shapes[0].height).toEqual(105);
+            expect(scope.shapes[0].height).toEqual(107.0710678100586);
           });
 
-//          it('increases shape midpointX including border width', function() {
-//            expect(scope.shapes[0].midPointX).toEqual(54);
-//          });
-//
-//          it('increases shape midpointY including border width', function() {
-//            expect(scope.shapes[0].midPointY).toEqual(54);
-//          });
-//
+          it('increases shape midpointX including border width', function() {
+            expect(scope.shapes[0].midPointX).toEqual(52.5355339050293);
+          });
+
+          it('increases shape midpointY including border width', function() {
+            expect(scope.shapes[0].midPointY).toEqual(52.5355339050293);
+          });
+
 //          it('shape rotation stays the same', function() {
 //            expect(scope.shapes[0].rotation).toEqual(0);
 //          });
