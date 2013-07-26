@@ -9,10 +9,6 @@
         scope: {
           shape: '='
         },
-//        controller: function ($scope) {
-//          $scope.width = 0;
-//          $scope.height = 0;
-//        },
         link: function ($scope, element, attr, ngSvgController) {
           var ngSvg = ngSvgController,
             selection = createSelectionBox(ngSvg);
@@ -141,18 +137,12 @@
             var rawElement = $scope.shape.svgElement[0];
             var newDim = getNewShapeLocationAndDimensions(draggedCorner, event, $scope);
             var translation = getTranslation(rawElement, newDim.deltaX, newDim.deltaY, true);
-//              console.log('newDim', newDim);
-//              console.log('translation', translation);
-
             var scaleX = (newDim.width - $scope.shape.borderWidth) / ($scope.width - $scope.shape.borderWidth);
             var scaleY = (newDim.height - $scope.shape.borderWidth) / ($scope.height - $scope.shape.borderWidth);
             var shapePath = $scope.shape.svgElement.find('.shape')[0];
             var newShapePath = rescaleElement(shapePath, scaleX, scaleY);
 
             $scope.$apply(function () {
-//              $scope.top = translation.y;
-//              $scope.left = translation.x;
-
               $scope.width = newDim.width;
               $scope.height = newDim.height;
 
@@ -199,6 +189,7 @@
             width = width - pt.x;
             height = pt.y;
           } else if (cornerId == 'rotator') {
+
             // ref point is height/2, -20
             var cx = height / 2;
             var cy = height / 2;
@@ -258,23 +249,6 @@
           };
         }
 
-        function getRotation(pt, elt) {
-          if (elt.transform.baseVal.numberOfItems > 1) {
-            // make sure transform 1 is a translate transform
-            var trans = elt.transform.baseVal.getItem(1);
-            if (trans.type == 4) {
-              var pt2 = pt.matrixTransform(trans.matrix);
-
-              return {
-                angle: trans.angle,
-                offsetx: pt2.x,
-                offsety: pt2.y
-              };
-            }
-          }
-          return {angle: 0, offsetx: 0, offsety: 0};
-        }
-
         function rescaleElement(element, scaleX, scaleY) {
           return transformShape(element, scaleX, scaleY, 0, 0);
         }
@@ -324,7 +298,7 @@
           return Math.acos(t);
         }
 
-        function getTranslation(elt, x, y, isRelative) {
+          function getTranslation(elt, x, y, isRelative) {
           if (!elt.transform.baseVal.numberOfItems) {
             return;
           }
