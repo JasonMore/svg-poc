@@ -189,7 +189,6 @@
             width = width - pt.x;
             height = pt.y;
           } else if (cornerId == 'rotator') {
-
             // ref point is height/2, -20
             var cx = height / 2;
             var cy = height / 2;
@@ -224,7 +223,6 @@
           pt.x = event.pageX;
           pt.y = event.pageY;
           pt = pt.matrixTransform(matrix);
-
           return pt;
         }
 
@@ -294,7 +292,6 @@
 
         function getAngleABC(a, b, c) {
           var t = (a * a + b * b - c * c) / (2 * a * b);
-          //  //console.log('t', t);
           return Math.acos(t);
         }
 

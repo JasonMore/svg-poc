@@ -13,6 +13,7 @@
 
             //  //console.log('AdjustTranslate', x, y);
             trans.setTranslate(origX + x, origY + y);
+            console.log(origX + x, origY + y);
 
           } else {
             trans.setTranslate(x, y);

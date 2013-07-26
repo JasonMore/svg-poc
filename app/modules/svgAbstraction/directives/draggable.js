@@ -2,9 +2,9 @@
   angular.module('svgAbstraction.directives')
     .directive('draggable', function ($compile) {
       return {
-        restrict:'A',
-        require:'^ngSvg',
-        link:function (scope, element, attr, ngSvgController) {
+        restrict: 'A',
+        require: '^ngSvg',
+        link: function (scope, element, attr, ngSvgController) {
 //          var self = this;
           var ngSvg = ngSvgController;
 
@@ -17,7 +17,7 @@
 
           var orig,
             options = {
-              start:function (event) {
+              start: function (event) {
 //              if (self.isDrawing()) {
 //                return;
 //              }
@@ -29,9 +29,9 @@
                 var matrix = this.getScreenCTM().inverse();
                 pt = pt.matrixTransform(matrix);
 
-                orig = {x:pt.x, y:pt.y};
+                orig = {x: pt.x, y: pt.y};
               },
-              drag:function (event, ui) {
+              drag: function (event, ui) {
 //              if (self.isDrawing()) {
 //                return;
 //              }
@@ -62,7 +62,7 @@
 
                 adjustTranslate(this, deltax, deltay, true);
               },
-              stop:function () {
+              stop: function () {
 //              self.dragEnded();
               }
             };
