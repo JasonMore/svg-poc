@@ -135,6 +135,13 @@
 
             var draggedCorner = $(this);
             var rawElement = $scope.shape.svgElement[0];
+
+
+            var selectionBoxGroup = draggedCorner.parent()[0];
+
+
+            var baselineOrigin = convertBaselineToSVG(selectionBoxGroup);
+
             var newDim = getNewShapeLocationAndDimensions(draggedCorner, event, $scope);
 
             $scope.$apply(function () {
@@ -143,10 +150,11 @@
               $scope.shape.rotation = newDim.angle;
             });
 
+
+
             $timeout(function() {
 
-              var selectionBoxGroup = draggedCorner.parent()[0];
-              var conversion = convertDeltasToSVG(selectionBoxGroup, newDim.deltaX, newDim.deltaY);
+              var conversion = convertDeltasToSVG(selectionBoxGroup, baselineOrigin, newDim.deltaX, newDim.deltaY);
 
               var translation = getTranslation(rawElement, conversion.deltaX, conversion.deltaY, true);
               var scaleX = (newDim.width - $scope.shape.borderWidth) / ($scope.width - $scope.shape.borderWidth);
@@ -245,22 +253,29 @@
           return pt;
         }
 
-        function convertDeltasToSVG(selectionBoxGroup, deltaX, deltaY) {
+        function convertBaselineToSVG(selectionBoxGroup) {
           var ptA = svg._svg.createSVGPoint();
           ptA.x = 0;
           ptA.y = 0;
 
           var ptB = ptA.matrixTransform(selectionBoxGroup.getCTM());
 
+          return {
+              x: ptB.x,
+              y: ptB.y
+          };
+         }
+
+        function convertDeltasToSVG(selectionBoxGroup, baselineOrigin, deltaX, deltaY) {
+
           var pt2 = svg._svg.createSVGPoint();
           pt2.x = deltaX;
           pt2.y = deltaY;
           pt2 = pt2.matrixTransform(selectionBoxGroup.getCTM());
 
-          deltaX = ptB.x - pt2.x;
-          deltaY = ptB.y - pt2.y;
+          deltaX = baselineOrigin.x - pt2.x;
+          deltaY = baselineOrigin.y - pt2.y;
 
-          console.log(deltaX, deltaY);
 
           return {
             deltaX: deltaX,
