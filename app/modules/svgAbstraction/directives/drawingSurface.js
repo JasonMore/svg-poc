@@ -133,8 +133,8 @@
 
           $scope.$apply(function() {
             $scope.model.push({
-              top:  $scope.x,
-              left:  $scope.y,
+              top:  $scope.y,
+              left:  $scope.x,
               rotation: 0,
               path: 'M0,0L50,0L50,50L0,50z',
               backgroundColor: 'gray',
