@@ -135,16 +135,14 @@
         rotator.draggable({
           drag: function (event, ui) {
 
-            var width = $scope.width,
-              height = $scope.height,
-              angle = $scope.shape.rotation,
+            var angle = $scope.shape.rotation,
               parentGroup = rotator.parent()[0];
 
             var pt = convertScreenToElementCoordinates(parentGroup, event, svg);
 
             // ref point is height/2, -20
-            var cx = height / 2;
-            var cy = height / 2;
+            var cx = $scope.width / 2;
+            var cy = $scope.height / 2;
 
             var newAngle = getAngle({x: pt.x, y: pt.y},
               {x: cx, y: -20},
@@ -212,7 +210,6 @@
             $scope.$apply(function () {
               $scope.shape.midPointX = (newDim.width - $scope.shape.borderWidth) / 2;
               $scope.shape.midPointY = (newDim.height - $scope.shape.borderWidth) / 2;
-//              $scope.shape.rotation = newDim.angle;
             });
 
             var conversion = convertDeltasToSVG(selectionBoxGroup, baselineOrigin, newDim.deltaX, newDim.deltaY);
@@ -230,23 +227,10 @@
               $scope.shape.left = translation.x;
               $scope.shape.width = newDim.width;
               $scope.shape.height = newDim.height;
-
-//              $scope.shape.midPointX = (newDim.width - $scope.shape.borderWidth) / 2;
-//              $scope.shape.midPointY = (newDim.height - $scope.shape.borderWidth) / 2;
-
-//              $scope.shape.rotation = newDim.angle;
               $scope.shape.path = newShapePath;
             });
-//            });
-
-
           },
           stop: function () {
-
-//            $scope.$apply(function () {
-//              $scope.shape.midPointX = (newDim.width - $scope.shape.borderWidth) / 2;
-//              $scope.shape.midPointY = (newDim.height - $scope.shape.borderWidth) / 2;
-//            });
 
           }
         });
@@ -258,8 +242,7 @@
             deltaX = 0,
             deltaY = 0,
             width = $scope.width,
-            height = $scope.height,
-            angle = $scope.shape.rotation;
+            height = $scope.height;
 
           if (cornerId == 'cornerNW') {
             deltaX = -pt.x;
@@ -278,28 +261,12 @@
             width = width - pt.x;
             height = pt.y;
           }
-//          else if (cornerId == 'rotator') {
-//            // ref point is height/2, -20
-//            var cx = height / 2;
-//            var cy = height / 2;
-//
-//            var newAngle = getAngle({x: pt.x, y: pt.y},
-//              {x: cx, y: -20},
-//              {x: cx, y: cy});
-//
-//            angle = (angle + newAngle) % 360;
-//
-//            if (!event.shiftKey) {
-//              angle = Math.floor(angle / 15) * 15;
-//            }
-//          }
 
           return {
             deltaX: deltaX,
             deltaY: deltaY,
             width: width,
             height: height
-//            angle: angle
           }
         }
 
@@ -358,12 +325,6 @@
           var newPath = scale(element, scaleX, transX, scaleY, transY);
           return newPath.close().path();
         }
-
-
-
-
-
-
 
         function getTranslation(elt, x, y, isRelative) {
           if (!elt.transform.baseVal.numberOfItems) {
