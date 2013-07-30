@@ -152,7 +152,7 @@
 
 
 
-            $timeout(function() {
+//            $timeout(function() {
 
               var conversion = convertDeltasToSVG(selectionBoxGroup, baselineOrigin, newDim.deltaX, newDim.deltaY);
 
@@ -177,7 +177,7 @@
 //              $scope.shape.rotation = newDim.angle;
                 $scope.shape.path = newShapePath;
               });
-            });
+//            });
 
 
           },
