@@ -53,13 +53,13 @@
       }
 
       function createSelectionBox(ngSvg) {
-        var selectionBox = drawSelectionBox(ngSvg),
-          selectionCorners = drawSelectionCorners(ngSvg.svg, selectionBox);
+        var selectionBox = drawSelectionBox(ngSvg);
+        var handles = drawSelectionCorners(ngSvg.svg, selectionBox);
 
         return {
           box: selectionBox,
-          corners: selectionCorners,
-          rotator: angular.element('#rotator')
+          corners: handles.corners,
+          rotator: handles.rotator
         };
       }
 
@@ -87,7 +87,7 @@
 
       function drawSelectionCorners(svg, selectionBox) {
         var defaultCircleSettings = {
-          class_: 'resizable',
+          class_: 'corner',
           fill: '#D90000',
           'stroke-width': 1,
           stroke: 'white'
@@ -122,13 +122,18 @@
 
         var rotator = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
           id: 'rotator',
+          class_:'rotator',
           fill: '#FFFFFF',
           stroke: '#D90000',
           strokeWidth: 1,
           transform: 'translate({{calcMidPointX(shape)}},-20)'
         }));
 
-        return angular.element([cornerNW, cornerNE, cornerSE, cornerSW, rotator]);
+        return {
+          corners: angular.element([cornerNW, cornerNE, cornerSE, cornerSW]),
+          rotator: angular.element(rotator)
+        };
+
       }
 
       function attachRotateBindings(rotator, $scope, svg) {

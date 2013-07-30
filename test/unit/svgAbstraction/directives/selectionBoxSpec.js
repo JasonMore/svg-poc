@@ -520,20 +520,12 @@ describe('selectionBoxSpec.js', function () {
           expect(scope.shapes[0].left).toEqual(100);
         });
 
-        it('shape width stays the same', function() {
-          expect(scope.shapes[0].width).toEqual(100);
-        });
-
-        it('shape height stays the same', function() {
-          expect(scope.shapes[0].height).toEqual(100);
-        });
-
         it('shape midpointX stays the same', function() {
-          expect(scope.shapes[0].midPointX).toEqual(49);
+          expect(scope.shapes[0].midPointX).toEqual(50);
         });
 
         it('shape midpointY stays the same', function() {
-          expect(scope.shapes[0].midPointY).toEqual(49);
+          expect(scope.shapes[0].midPointY).toEqual(50);
         });
 
         it('shape rotates box 90 degrees', function() {
@@ -575,12 +567,12 @@ describe('selectionBoxSpec.js', function () {
             expect(selectionBoxLine.attr('d')).toEqual('M0,0L107.0710678100586,0L107.0710678100586,107.0710678100586L0,107.0710678100586z');
           });
 
-          it('shape top stays the same', function() {
-            expect(scope.shapes[0].top).toEqual(100);
+          it('shape top goes up a little', function() {
+            expect(scope.shapes[0].top).toEqual( 101.05025482177734);
           });
 
-          it('shape left stays the same', function() {
-            expect(scope.shapes[0].left).toEqual(100);
+          it('shape left goes down a little', function() {
+            expect(scope.shapes[0].left).toEqual( 97.46446228027344);
           });
 
           it('increases shape width', function() {
