@@ -28,6 +28,7 @@ describe('shapeSpec.js', function () {
 
   describe('renders', function () {
     var parentGroup,
+      path,
       shape,
       text;
 
@@ -74,7 +75,8 @@ describe('shapeSpec.js', function () {
 
         scope.$digest();
         parentGroup = element.find('g.shapes g:last');
-        shape = parentGroup.find('path');
+        path = element.find('defs path:last');
+        shape = parentGroup.find('.shape');
         text = parentGroup.find('text');
       });
 
@@ -88,27 +90,31 @@ describe('shapeSpec.js', function () {
       });
 
       it('parent group has path', function () {
-        expect(shape.length).toBe(1);
+        expect(shape.length).toBe(2);
       });
 
       it('shape has correct path', function () {
-        expect(shape.attr('d')).toEqual('M0,0L100,0L100,100L0,100z');
+        expect(path.attr('d')).toEqual('M0,0L100,0L100,100L0,100z');
       });
 
       it('shape has background color green', function () {
-        expect(shape.attr('fill')).toEqual('gray');
+        expect(shape.first().attr('fill')).toEqual('gray');
       });
 
       it('shape has border color blue', function () {
-        expect(shape.attr('stroke')).toEqual('black');
+        expect(shape.last().attr('stroke')).toEqual('black');
       });
 
       it('shape has border width of 12', function () {
-        expect(shape.attr('stroke-width')).toEqual('2');
+        expect(shape.last().attr('stroke-width')).toEqual('2');
       });
 
       it('svg element is set on shape', function () {
-        expect(scope.shapes[1].svgElement[0]).toEqual(parentGroup[0]);
+        expect(scope.shapes[1].svgElement).toEqual(parentGroup[0]);
+      });
+
+      it('path def is set on shape', function () {
+        expect(scope.shapes[1].svgElementPath).toEqual(path[0]);
       });
 
       describe('removing shape', function () {
