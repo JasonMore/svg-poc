@@ -1,6 +1,12 @@
 (function () {
   angular.module('svgAbstraction.controllers', [])
     .controller('svgAbstractionCtrl', function ($scope) {
+      $scope.shapesInfo = function() {
+        return _.map($scope.shapes, function(shape) {
+          return
+        });
+      };
+
       $scope.selectedShape = null;
 
       $scope.setSelectedShape = function(shape){
@@ -9,6 +15,8 @@
 
       $scope.shapes = [
         {
+          id: 'shape1',
+          type: 'shape',
           top: 25,
           left: 25,
           rotation: 0,
@@ -18,6 +26,8 @@
           borderWidth: '2'
         },
         {
+          id: 'shape2',
+          type: 'shape',
           top: 50,
           left: 50,
           rotation: 15,
@@ -27,6 +37,8 @@
           borderWidth: 12
         },
         {
+          id: 'shape3',
+          type: 'shape',
           top: 100,
           left: 100,
           rotation: 25,
@@ -36,15 +48,32 @@
           borderWidth: '2'
         },
         {
+          id: 'picture1',
+          type: 'image',
           top: 150,
           left: 150,
-          rotation: 45,
-          path: 'M0,0L1000,0L1000,1000L0,1000z',
-          backgroundColor: 'gray',
+          width: 500,
+          height: 300,
+          rotation: 0,
+          //path: 'M0,0L0,0L0,0L0,0z',
+          backgroundColor: '#C9C9C9',
           borderColor: 'black',
-          borderWidth: '2'
+          borderWidth: '1',
+          image: {
+            url: 'http://lorempixel.com/1000/600/nature'
+//            x: 0,
+//            y: 0,
+//            width: 161,
+//            height: 106
+          }
         }
+      ];
 
+      $scope.clips = [
+        {
+          id: 'clip1',
+          path: 'M0,0L100,0L100,100L0,100z'
+        }
       ];
 
       $scope.increaseX = function() {

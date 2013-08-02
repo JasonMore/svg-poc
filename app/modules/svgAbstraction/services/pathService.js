@@ -8,9 +8,9 @@
       var shapeRaw = shape;
 
       // check if its an angular shape
-      if (shape.svgElement) {
-        shapeRaw = shape.svgElement.find('.shape')[0];
-      }
+//      if (shape.svgElement) {
+//        shapeRaw = shape.svgElement.find('.shape')[0];
+//      }
 
       var strokeWidth = Number($(shapeRaw).attr('stroke-width')) || 0;
 

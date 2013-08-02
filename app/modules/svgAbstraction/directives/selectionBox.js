@@ -46,7 +46,7 @@
             return;
           }
 
-          var selectionBox = pathService.getSelectionBox(shape);
+          var selectionBox = pathService.getSelectionBox(shape.svgElementPath);
           $scope.width = selectionBox.width;
           $scope.height = selectionBox.height;
         });
@@ -207,7 +207,7 @@
           drag: function (event, ui) {
 
             var draggedCorner = $(this);
-            var rawElement = $scope.shape.svgElement[0];
+            var rawElement = $scope.shape.svgElement;
             var selectionBoxGroup = draggedCorner.parent()[0];
             var baselineOrigin = convertBaselineToSVG(selectionBoxGroup);
             var newDim = getNewShapeLocationAndDimensions(draggedCorner, event, $scope);
@@ -221,7 +221,7 @@
             var translation = getTranslation(rawElement, conversion.deltaX, conversion.deltaY, true);
             var scaleX = (newDim.width - $scope.shape.borderWidth) / ($scope.width - $scope.shape.borderWidth);
             var scaleY = (newDim.height - $scope.shape.borderWidth) / ($scope.height - $scope.shape.borderWidth);
-            var shapePath = $scope.shape.svgElement.find('.shape')[0];
+            var shapePath = $scope.shape.svgElementPath;
             var newShapePath = rescaleElement(shapePath, scaleX, scaleY);
 
             $scope.$apply(function () {

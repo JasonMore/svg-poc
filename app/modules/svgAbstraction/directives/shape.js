@@ -5,24 +5,26 @@
         restrict: 'E',
         require: '^ngSvg',
         scope: {
-          model:'=',
+          model: '=',
           draggable: '=',
           whenClick: '&'
         },
         link: function ($scope, element, attr, ngSvgController) {
           var ngSvg = ngSvgController;
 
-          var parentGroup = drawShape($scope, ngSvg);
-          $scope.model.svgElement = angular.element(parentGroup);
+          var pathDefinition = createPathDefinition($scope, ngSvg);
+          var parentGroup = drawShape(pathDefinition, $scope, ngSvg);
 
+          $compile(pathDefinition)($scope);
           $compile(parentGroup)($scope);
+
+          $scope.model.svgElementPath = pathDefinition;
+          $scope.model.svgElement = parentGroup;
+
+          setMidpointOfShape($scope, pathDefinition);
 
           // attach svg element to dom element so we can access it from other directives
           element.data('parentGroup', parentGroup);
-
-          $scope.isDragging = function(){
-            return ngSvg.isDragging && ngSvg.selectedShape === parentGroup;
-          };
 
           $scope.$on("$destroy", function () {
             ngSvg.svg.remove(parentGroup);
@@ -30,7 +32,60 @@
         }
       };
 
-      function drawShape($scope, ngSvg) {
+      function createPathDefinition($scope, ngSvg) {
+        var path = ngSvg.svg.path(ngSvg.paths, '', {
+          'id': '{{model.id}}',
+
+          // stroke width is needed on the def so other calculations work correctly
+          'stroke-width': '{{model.borderWidth}}',
+//          'class': 'shape',
+//          'fill': '{{model.backgroundColor}}',
+
+          // not sure why "d" is the only one that needs ng-attr
+          // jquery.svg throws error without "ng-attr"
+          'ng-attr-d': '{{model.path}}'
+        });
+
+        return path;
+      }
+
+      function drawShape(pathDefinition, $scope, ngSvg) {
+        // HACK
+
+//        $scope.model.midPointX = 0;
+//        $scope.model.midPointY = 0;
+
+        // if drawing image, calculate path
+        if ($scope.model.image) {
+
+          if (!$scope.model.width && !$scope.model.height) {
+            var width,
+              height,
+              img = new Image();
+
+            img.onload = function () {
+              width = this.width;
+              height = this.height;
+
+              $scope.$apply(function () {
+                $scope.model.path = _.template('M0,0L${width},0L${width},${height}L0,${height}z', {
+                  width: width,
+                  height: height
+                });
+              });
+            };
+
+            img.src = $scope.model.image.url;
+          } else {
+            $scope.model.path = _.template('M0,0L${width},0L${width},${height}L0,${height}z', {
+              width: $scope.model.width,
+              height: $scope.model.height
+            });
+          }
+
+
+        }
+
         var transform = [
           'translate({{model.left}},{{model.top}})',
           'rotate({{model.rotation}},{{model.midPointX}},{{model.midPointY}})'
@@ -40,26 +95,52 @@
           transform: transform.join(', ')
         });
 
-        var shape = ngSvg.svg.path(parentGroup, '', {
+        var shapeBackground = ngSvg.svg.use(parentGroup, '{{ "#" + model.id}}', {
           'class': 'shape',
-          'fill':'{{model.backgroundColor}}',
-          'stroke':'{{model.borderColor}}',
-          'stroke-width':'{{model.borderWidth}}',
-          'ng-mousedown': 'whenClick()',
+          'fill': '{{model.backgroundColor}}',
+          'ng-mousedown': 'whenClick()'
 
           // not sure why "d" is the only one that needs ng-attr
           // jquery.svg throws error without "ng-attr"
-          'ng-attr-d':'{{model.path}}'
+//          'ng-attr-d': '{{model.path}}'
         });
 
-        setMidpointOfShape($scope, shape);
+        var image = ngSvg.svg.image(parentGroup, 0, 0, 0, 0, '{{ model.image.url }}', {
+//          'ng-attr-x': '{{model.image ? model.image.x : 0}}'
+//          'ng-attr-y': '{{model.image ? model.image.y : 0}}',
+          'ng-attr-width': '{{model.image ? model.width : 0}}',
+          'ng-attr-height': '{{model.image ? model.height : 0}}',
+//          'xlink:href' : '{{model.image ? model.image.url : ""}}',
+//          'ng-show':'{{model.image}}'
+//          'x': '{{ model.image.x}}'
+//          'y': '{{ model.image.y }}',
+//          'width': '{{model.image.width }}',
+//          'height': '{{model.image.height }}',
+//          'href' : '{{ model.image.url }}',
+//          'ng-show':'{{model.image}}'
+          'ng-mousedown': 'whenClick()'
+        });
+
+        var shapeForeground = ngSvg.svg.use(parentGroup, '{{"#" + model.id}}', {
+          'class': 'shape',
+          'fill': 'none',
+          'stroke': '{{model.borderColor}}',
+          'stroke-width': '{{model.borderWidth}}',
+          'ng-mousedown': 'whenClick()'
+
+          // not sure why "d" is the only one that needs ng-attr
+          // jquery.svg throws error without "ng-attr"
+//          'ng-attr-d': '{{model.path}}'
+        });
+
+//        setMidpointOfShape($scope, shapeForeground);
 
         return parentGroup;
-      };
+      }
 
-      function setMidpointOfShape($scope, shape){
+      function setMidpointOfShape($scope, shape) {
         // shape needs to be rendered before we can calculate its midpoint
-        $timeout(function() {
+        $timeout(function () {
           var selectionBox = pathService.getSelectionBox(shape);
           $scope.model.midPointX = (selectionBox.width - $scope.model.borderWidth) / 2;
           $scope.model.midPointY = (selectionBox.height - $scope.model.borderWidth) / 2;

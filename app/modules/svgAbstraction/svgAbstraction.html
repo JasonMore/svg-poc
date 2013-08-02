@@ -1,4 +1,6 @@
 <ng-svg style="height: 600px">
+  <clip-path model="clip"
+             ng-repeat="clip in clips"></clip-path>
   <ng-shape model="shape"
             draggable="canDragShape(shape)"
             when-click="setSelectedShape(shape)"
@@ -7,3 +9,7 @@
   <selection-box shape="selectedShape"></selection-box>
   <!--<drawing-surface show="isDrawing" model="shapes"></drawing-surface>-->
 </ng-svg>
+
+<div>
+  <!--{{ shapes }}-->
+</div>

@@ -10,16 +10,18 @@
         controller: 'ngSvgController'
       };
     })
-    .controller('ngSvgController', function($element) {
+    .controller('ngSvgController', function ($element) {
       var self = this;
 
       // yes, belongs in link, but easier here
       $element.svg({onLoad: function (svg) {
         self.svg = svg;
 
-        self.shapeGroup = svg.group({class:'shapes'});
-        self.selectionGroup = svg.group({class:'selection'});
-        self.drawingGroup = svg.group({class:'drawing'});
+        self.paths = svg.defs('paths');
+
+        self.shapeGroup = svg.group({class: 'shapes'});
+        self.selectionGroup = svg.group({class: 'selection'});
+        self.drawingGroup = svg.group({class: 'drawing'});
       }});
     })
   ;
