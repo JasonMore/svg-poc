@@ -75,7 +75,7 @@ describe('shapeSpec.js', function () {
 
         scope.$digest();
         parentGroup = element.find('g.shapes g:last');
-        path = element.find('defs path:last');
+        path = element.find('#paths path:last');
         shape = parentGroup.find('.shape');
         text = parentGroup.find('text');
       });
