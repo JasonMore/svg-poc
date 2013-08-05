@@ -18,6 +18,7 @@
         self.svg = svg;
 
         self.paths = svg.defs('paths');
+        self.clipPaths = svg.defs('clipPaths');
 
         self.shapeGroup = svg.group({class: 'shapes'});
         self.selectionGroup = svg.group({class: 'selection'});

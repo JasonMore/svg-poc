@@ -1,15 +1,15 @@
 (function () {
   angular.module('svgAbstraction.controllers', [])
     .controller('svgAbstractionCtrl', function ($scope) {
-      $scope.shapesInfo = function() {
-        return _.map($scope.shapes, function(shape) {
+      $scope.shapesInfo = function () {
+        return _.map($scope.shapes, function (shape) {
           return
         });
       };
 
       $scope.selectedShape = null;
 
-      $scope.setSelectedShape = function(shape){
+      $scope.setSelectedShape = function (shape) {
         $scope.selectedShape = shape;
       };
 
@@ -52,13 +52,33 @@
           type: 'image',
           top: 150,
           left: 150,
+          width: 150,
+          height: 150,
+          rotation: 0,
+          backgroundColor: '#C9C9C9',
+          borderColor: 'black',
+          borderWidth: '5',
+          clipPath: 'M0,0L100,0L100,100L0,100z',
+          image: {
+            url: 'http://lorempixel.com/150/150/nature'
+//            x: 0,
+//            y: 0,
+//            width: 161,
+//            height: 106
+          }
+        },
+        {
+          id: 'picture2',
+          type: 'image',
+          top: 200,
+          left: 200,
           width: 500,
           height: 300,
           rotation: 0,
-          //path: 'M0,0L0,0L0,0L0,0z',
           backgroundColor: '#C9C9C9',
           borderColor: 'black',
-          borderWidth: '1',
+          borderWidth: '5',
+//          clipPath: 'M0,0L100,0L100,100L0,100z',
           image: {
             url: 'http://lorempixel.com/1000/600/nature'
 //            x: 0,
@@ -76,15 +96,15 @@
         }
       ];
 
-      $scope.increaseX = function() {
+      $scope.increaseX = function () {
         $scope.shapes[0].left += 1;
       }
 
-      $scope.increaseY = function() {
+      $scope.increaseY = function () {
         $scope.shapes[0].top += 1;
       }
 
-      $scope.addShape = function() {
+      $scope.addShape = function () {
         var next = ($scope.shapes.length + 1) * 50;
 
         $scope.shapes.push({
@@ -97,13 +117,13 @@
         });
       };
 
-      $scope.removeShape = function() {
+      $scope.removeShape = function () {
         $scope.shapes.splice($scope.shapes.length - 1, 1);
       };
 
-      $scope.canDragShape = function(shape) {
+      $scope.canDragShape = function (shape) {
         return true;
       };
 
     });
-  }());
+}());

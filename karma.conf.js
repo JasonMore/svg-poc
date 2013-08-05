@@ -22,7 +22,7 @@ module.exports = function(karma) {
       'app/components/jquery/jquery.js',
       'app/components/jquery-ui/ui/jquery-ui.js',
       'app/components/bootstrap-css/js/bootstrap.js',
-      'app/components/jquery.svg/jquery.svg.js',
+      'app/lib/jquery.svg.js',
       'app/components/lodash/dist/lodash.js',
       'app/components/angularjs-bower/angular.js',
       'app/components/angularjs-bower/angular-resource.js',

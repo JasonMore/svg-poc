@@ -13,9 +13,11 @@
           var ngSvg = ngSvgController;
 
           var pathDefinition = createPathDefinition($scope, ngSvg);
-          var parentGroup = drawShape(pathDefinition, $scope, ngSvg);
+          var clipPath = createClipPath($scope, ngSvg);
+          var parentGroup = drawShape($scope, ngSvg);
 
           $compile(pathDefinition)($scope);
+          $compile(clipPath)($scope);
           $compile(parentGroup)($scope);
 
           $scope.model.svgElementPath = pathDefinition;
@@ -26,7 +28,10 @@
           // attach svg element to dom element so we can access it from other directives
           element.data('parentGroup', parentGroup);
 
+          $scope.makeClipPath = makeClipPathUrl;
+
           $scope.$on("$destroy", function () {
+            ngSvg.svg.remove(pathDefinition);
             ngSvg.svg.remove(parentGroup);
           });
         }
@@ -47,7 +52,18 @@
         return path;
       }
 
-      function drawShape(pathDefinition, $scope, ngSvg) {
+      function createClipPath($scope, ngSvg) {
+        var id = $scope.model.id + '_clipPath';
+
+        var clipPathParent = ngSvg.svg.clipPath(ngSvg.clipPaths, id);
+        var clipPath = ngSvg.svg.path(clipPathParent, '',{
+          'ng-attr-d': '{{model.clipPath}}'
+        });
+
+        return clipPathParent;
+      }
+
+      function drawShape($scope, ngSvg) {
         calculateImagePath($scope);
 
         var transform = [
@@ -56,7 +72,9 @@
         ];
 
         var parentGroup = ngSvg.svg.group(ngSvg.shapeGroup, {
-          transform: transform.join(', ')
+          transform: transform.join(', '),
+//          'clip-path': 'url({{"#" + model.id + "_clipPath"}})',
+          'clip-path': 'url({{makeClipPath(model)}})'
         });
 
         var shapeBackground = ngSvg.svg.use(parentGroup, '{{ "#" + model.id}}', {
@@ -130,6 +148,14 @@
           $scope.model.midPointX = (selectionBox.width - $scope.model.borderWidth) / 2;
           $scope.model.midPointY = (selectionBox.height - $scope.model.borderWidth) / 2;
         });
+      }
+
+      function makeClipPathUrl(model){
+        if(!model.clipPath){
+          return '';
+        }
+
+        return '#' + model.id + '_clipPath';
       }
     });
 })();
