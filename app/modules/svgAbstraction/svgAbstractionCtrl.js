@@ -77,8 +77,8 @@
           borderWidth: '10',
           image: {
             url: 'http://lorempixel.com/1000/600/nature',
-            x: 0,
-            y: 0,
+            x: -250,
+            y: -150,
             width: 1000,
             height: 600
           }
