@@ -54,17 +54,14 @@
 
       function createClipPath($scope, ngSvg) {
         var id = $scope.model.id + '_clipPath';
-
         var clipPathParent = ngSvg.svg.clipPath(ngSvg.clipPaths, id);
-        var clipPath = ngSvg.svg.path(clipPathParent, '',{
-          'ng-attr-d': '{{model.clipPath}}'
-        });
+        var clipPath = ngSvg.svg.use(clipPathParent, '{{ "#" + model.id}}');
 
         return clipPathParent;
       }
 
       function drawShape($scope, ngSvg) {
-        calculateImagePath($scope);
+//        calculateImagePath($scope);
 
         var transform = [
           'translate({{model.left}},{{model.top}})',
@@ -73,8 +70,7 @@
 
         var parentGroup = ngSvg.svg.group(ngSvg.shapeGroup, {
           transform: transform.join(', '),
-//          'clip-path': 'url({{"#" + model.id + "_clipPath"}})',
-          'clip-path': 'url({{makeClipPath(model)}})'
+          'clip-path': 'url({{"#" + model.id + "_clipPath"}})'
         });
 
         var shapeBackground = ngSvg.svg.use(parentGroup, '{{ "#" + model.id}}', {
@@ -84,10 +80,10 @@
         });
 
         var image = ngSvg.svg.image(parentGroup, 0, 0, 0, 0, '{{ model.image.url }}', {
-//          'ng-attr-x': '{{model.image ? model.image.x : 0}}'
-//          'ng-attr-y': '{{model.image ? model.image.y : 0}}',
-          'ng-attr-width': '{{model.image ? model.width : 0}}',
-          'ng-attr-height': '{{model.image ? model.height : 0}}',
+          'ng-attr-x': '{{model.image ? model.image.x : 0}}',
+          'ng-attr-y': '{{model.image ? model.image.y : 0}}',
+          'ng-attr-width': '{{model.image ? model.image.width : 0}}',
+          'ng-attr-height': '{{model.image ? model.image.height : 0}}',
 //          'xlink:href' : '{{model.image ? model.image.url : ""}}',
 //          'ng-show':'{{model.image}}'
 //          'x': '{{ model.image.x}}'
