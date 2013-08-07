@@ -49,7 +49,6 @@
           'ng-attr-height': '{{height}}'
         });
 
-
         return angular.element(drawingSurfaceGroup);
       }
 

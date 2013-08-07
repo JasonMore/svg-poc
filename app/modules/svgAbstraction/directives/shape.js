@@ -13,11 +13,9 @@
           var ngSvg = ngSvgController;
 
           var pathDefinition = createPathDefinition($scope, ngSvg);
-          var clipPath = createClipPath($scope, ngSvg);
           var parentGroup = drawShape($scope, ngSvg);
 
           $compile(pathDefinition)($scope);
-          $compile(clipPath)($scope);
           $compile(parentGroup)($scope);
 
           $scope.model.svgElementPath = pathDefinition;
@@ -36,7 +34,10 @@
       };
 
       function createPathDefinition($scope, ngSvg) {
-        var path = ngSvg.svg.path(ngSvg.paths, '', {
+        var id = $scope.model.id + '_clipPath';
+        var clipPathParent = ngSvg.svg.clipPath(ngSvg.paths, id);
+
+        var path = ngSvg.svg.path(clipPathParent, '', {
           'id': '{{model.id}}',
 
           // stroke width is needed on the def so other calculations work correctly
@@ -50,17 +51,7 @@
         return path;
       }
 
-      function createClipPath($scope, ngSvg) {
-        var id = $scope.model.id + '_clipPath';
-        var clipPathParent = ngSvg.svg.clipPath(ngSvg.clipPaths, id);
-        var clipPath = ngSvg.svg.use(clipPathParent, '{{ "#" + model.id}}');
-
-        return clipPathParent;
-      }
-
       function drawShape($scope, ngSvg) {
-//        calculateImagePath($scope);
-
         var transform = [
           'translate({{model.left}},{{model.top}})',
           'rotate({{model.rotation}},{{model.midPointX}},{{model.midPointY}})'
