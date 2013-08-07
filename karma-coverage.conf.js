@@ -22,7 +22,7 @@ module.exports = function(karma) {
       'app/components/jquery/jquery.js',
       'app/components/jquery-ui/ui/jquery-ui.js',
       'app/components/bootstrap-css/js/bootstrap.js',
-      'app/components/jquery.svg/jquery.svg.js',
+      'app/lib/jquery.svg.js',
       'app/components/lodash/dist/lodash.js',
       'app/components/angularjs-bower/angular.js',
       'app/components/angularjs-bower/angular-resource.js',
@@ -30,8 +30,6 @@ module.exports = function(karma) {
       'app/components/angularjs-bower/angular-sanitize.js',
       'app/components/angular-ui-router/release/angular-ui-router.js',
       'app/components/angular-bootstrap/ui-bootstrap-tpls.js',
-      'app/components/svg.js/dist/svg.js',
-      'app/components/svg.draggable.js/svg.draggable.js',
       // end of libraries
 
       'app/components/angularjs-bower/angular-mocks.js',

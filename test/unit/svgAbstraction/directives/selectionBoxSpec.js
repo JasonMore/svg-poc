@@ -549,10 +549,6 @@ describe('selectionBoxSpec.js', function () {
         scope.$digest();
       });
 
-      it('sanity check', function() {
-        console.log(selectionBoxGroup.attr('transform'));
-      });
-
       describe('se corner', function() {
         beforeEach(function () {
           corner = selectionBoxGroup.find('#cornerSE');

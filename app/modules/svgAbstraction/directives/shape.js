@@ -28,8 +28,6 @@
           // attach svg element to dom element so we can access it from other directives
           element.data('parentGroup', parentGroup);
 
-          $scope.makeClipPath = makeClipPathUrl;
-
           $scope.$on("$destroy", function () {
             ngSvg.svg.remove(pathDefinition);
             ngSvg.svg.remove(parentGroup);
@@ -144,14 +142,6 @@
           $scope.model.midPointX = (selectionBox.width - $scope.model.borderWidth) / 2;
           $scope.model.midPointY = (selectionBox.height - $scope.model.borderWidth) / 2;
         });
-      }
-
-      function makeClipPathUrl(model){
-        if(!model.clipPath){
-          return '';
-        }
-
-        return '#' + model.id + '_clipPath';
       }
     });
 })();

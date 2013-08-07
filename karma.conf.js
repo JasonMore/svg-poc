@@ -30,8 +30,6 @@ module.exports = function(karma) {
       'app/components/angularjs-bower/angular-sanitize.js',
       'app/components/angular-ui-router/release/angular-ui-router.js',
       'app/components/angular-bootstrap/ui-bootstrap-tpls.js',
-      'app/components/svg.js/dist/svg.js',
-      'app/components/svg.draggable.js/svg.draggable.js',
       // end of libraries
 
       'app/components/angularjs-bower/angular-mocks.js',
