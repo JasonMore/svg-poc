@@ -705,9 +705,5 @@ describe('selectionBoxSpec.js', function () {
         });
       });
     });
-
-
   });
-
-
 });

@@ -1,4 +1,5 @@
 (function () {
+  // wrap jquery svg draw methods which produce errors with angular
   angular.module('svgAbstraction.directives')
     .directive('ngShape', function ($compile, $timeout, pathService) {
       return {
@@ -62,13 +63,15 @@
           'clip-path': 'url({{"#" + model.id + "_clipPath"}})'
         });
 
-        var shapeBackground = ngSvg.svg.use(parentGroup, '{{ "#" + model.id}}', {
+        var shapeBackground = ngSvg.svg.use(parentGroup, '', {
+          'ng-href': '{{ "#" + model.id}}',
           'class': 'shape',
           'fill': '{{model.backgroundColor}}',
           'ng-mousedown': 'whenClick()'
         });
 
-        var image = ngSvg.svg.image(parentGroup, 0, 0, 0, 0, '{{ model.image.url }}', {
+        var image = ngSvg.svg.image(parentGroup, 0, 0, 0, 0, '', {
+          'ng-href': '{{ model.image.url }}',
           'ng-attr-x': '{{model.image ? model.image.x : 0}}',
           'ng-attr-y': '{{model.image ? model.image.y : 0}}',
           'ng-attr-width': '{{model.image ? model.image.width : 0}}',
@@ -84,7 +87,8 @@
           'ng-mousedown': 'whenClick()'
         });
 
-        var shapeForeground = ngSvg.svg.use(parentGroup, '{{"#" + model.id}}', {
+        var shapeForeground = ngSvg.svg.use(parentGroup, '', {
+          'ng-href': '{{ "#" + model.id}}',
           'class': 'shape',
           'fill': 'none',
           'stroke': '{{model.borderColor}}',
