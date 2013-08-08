@@ -76,14 +76,6 @@
           'ng-attr-y': '{{model.image ? model.image.y : 0}}',
           'ng-attr-width': '{{model.image ? model.image.width : 0}}',
           'ng-attr-height': '{{model.image ? model.image.height : 0}}',
-//          'xlink:href' : '{{model.image ? model.image.url : ""}}',
-//          'ng-show':'{{model.image}}'
-//          'x': '{{ model.image.x}}'
-//          'y': '{{ model.image.y }}',
-//          'width': '{{model.image.width }}',
-//          'height': '{{model.image.height }}',
-//          'href' : '{{ model.image.url }}',
-//          'ng-show':'{{model.image}}'
           'ng-mousedown': 'whenClick()'
         });
 

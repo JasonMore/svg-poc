@@ -30,6 +30,7 @@ describe('shapeSpec.js', function () {
     var parentGroup,
       path,
       shape,
+      picture,
       text;
 
     describe('array of shapes', function () {
@@ -62,7 +63,14 @@ describe('shapeSpec.js', function () {
             path: 'M0,0L100,0L100,100L0,100z',
             backgroundColor: 'gray',
             borderColor: 'black',
-            borderWidth: 2
+            borderWidth: 2,
+            image: {
+              url: 'someurl',
+              x: 10,
+              y: 15,
+              width: 100,
+              height: 150
+            }
           }
         ];
 
@@ -77,6 +85,7 @@ describe('shapeSpec.js', function () {
         parentGroup = element.find('g.shapes g:last');
         path = element.find('#paths path:last');
         shape = parentGroup.find('.shape');
+        picture = parentGroup.find('image');
         text = parentGroup.find('text');
       });
 
@@ -115,6 +124,30 @@ describe('shapeSpec.js', function () {
 
       it('path def is set on shape', function () {
         expect(scope.shapes[1].svgElementPath).toEqual(path[0]);
+      });
+
+      it('renders a picture', function() {
+        expect(picture[0]).toBeDefined();
+      });
+
+      it('picture has correct href', function() {
+        expect(picture.attr('href')).toContain('someurl');
+      });
+
+      it('picture x is 10', function() {
+        expect(picture.attr('x')).toEqual('10');
+      });
+
+      it('picture y is 15', function() {
+        expect(picture.attr('y')).toEqual('15');
+      });
+
+      it('picture width 100', function() {
+        expect(picture.attr('width')).toEqual('100');
+      });
+
+      it('picture height 150', function() {
+        expect(picture.attr('height')).toEqual('150');
       });
 
       describe('removing shape', function () {
