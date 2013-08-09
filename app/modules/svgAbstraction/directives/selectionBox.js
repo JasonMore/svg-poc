@@ -133,7 +133,6 @@
           corners: angular.element([cornerNW, cornerNE, cornerSE, cornerSW]),
           rotator: angular.element(rotator)
         };
-
       }
 
       function attachRotateBindings(rotator, $scope, svg) {
@@ -313,24 +312,6 @@
           return pathService.transformShape(svg, element, 1.0, 1.0, 0, 0);
         }
 
-//        function round(value) {
-//          return Math.roundPrecision(value, 3);
-//        }
-
-//        function transformShape(element, scaleX, scaleY, transX, transY) {
-//          if (typeof(element.instanceRoot) != "undefined") {
-//            element = element.instanceRoot.correspondingElement;
-//          }
-//
-//          // can't resize text
-//          if (!element.pathSegList) {
-//            return;
-//          }
-//
-//          var newPath = scale(element, scaleX, transX, scaleY, transY);
-//          return newPath.close().path();
-//        }
-
         function getTranslation(elt, x, y, isRelative) {
           if (!elt.transform.baseVal.numberOfItems) {
             return;
@@ -355,105 +336,6 @@
             y: y
           };
         }
-
-//        function scale(element, scaleX, transX, scaleY, transY) {
-//          var newPath = svg.createPath();
-//
-//          // create the new path element
-//          for (var i = 0; i < element.pathSegList.numberOfItems; i++) {
-//            var seg = element.pathSegList.getItem(i);
-//
-//            // Create the new segment, applying the transform matrix
-//            switch (seg.pathSegType) {
-//              case 2:
-//                newPath = newPath.move(
-//                  round(seg.x * scaleX + transX),
-//                  round(seg.y * scaleY + transY)
-//                );
-//                break;
-//              case 3:
-//                newPath = newPath.move(
-//                  round(seg.x * scaleX),
-//                  round(seg.y * scaleY),
-//                  true
-//                );
-//                break;
-//              case 4:
-//                newPath = newPath.line(
-//                  round(seg.x * scaleX + transX),
-//                  round(seg.y * scaleY + transY)
-//                );
-//                break;
-//              case 5:
-//                newPath = newPath.line(
-//                  round(seg.x * scaleX),
-//                  round(seg.y * scaleY),
-//                  true
-//                );
-//                break;
-//              case 6:
-//                newPath = newPath.curveC(
-//                  round(seg.x1 * scaleX + transX),
-//                  round(seg.y1 * scaleY + transY),
-//                  round(seg.x2 * scaleX + transX),
-//                  round(seg.y2 * scaleY + transY),
-//                  round(seg.x * scaleX + transX),
-//                  round(seg.y * scaleY + transY)
-//                );
-//                break;
-//              case 7:
-//                newPath = newPath.curveC(
-//                  round(seg.x1 * scaleX),
-//                  round(seg.y1 * scaleY),
-//                  round(seg.x2 * scaleX),
-//                  round(seg.y2 * scaleY),
-//                  round(seg.x * scaleX),
-//                  round(seg.y * scaleY),
-//                  true
-//                );
-//                break;
-//              case 8:
-//                newPath = newPath.curveQ(
-//                  round(seg.x1 * scaleX + transX),
-//                  round(seg.y1 * scaleY + transY),
-//                  round(seg.x * scaleX + transX),
-//                  round(seg.y * scaleY + transY)
-//                );
-//                break;
-//              case 9:
-//                newPath = newPath.curveQ(
-//                  round(seg.x1 * scaleX),
-//                  round(seg.y1 * scaleY),
-//                  round(seg.x * scaleX),
-//                  round(seg.y * scaleY),
-//                  true
-//                );
-//                break;
-//              case 10:
-//                newPath = newPath.arc(
-//                  round(scaleX * seg.r1 + transX),
-//                  round(scaleY * seg.r2 + transY),
-//                  round(seg.angle),
-//                  round(seg.largeArcFlag),
-//                  round(seg.sweepFlag),
-//                  round(scaleX * seg.x + transX),
-//                  round(scaleY * seg.y + transY)
-//                );
-//              case 11:
-//                newPath = newPath.arc(
-//                  round(scaleX * seg.r1),
-//                  round(scaleY * seg.r2),
-//                  round(seg.angle),
-//                  round(seg.largeArcFlag),
-//                  round(seg.sweepFlag),
-//                  round(scaleX * seg.x),
-//                  round(scaleY * seg.y),
-//                  true
-//                );
-//            }
-//          }
-//          return newPath;
-//        }
       }
     });
 })();

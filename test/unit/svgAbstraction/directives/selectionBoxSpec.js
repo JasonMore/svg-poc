@@ -1,5 +1,6 @@
 describe('selectionBoxSpec.js', function () {
-  var element,
+  var mock,
+    element,
     scope,
     selectionBox,
     selectionBoxGroup,
@@ -8,12 +9,15 @@ describe('selectionBoxSpec.js', function () {
   beforeEach(module('svgAbstraction'));
 
   beforeEach(module('svgAbstraction', function ($provide) {
-    $provide.service('pathService', function () {
-      this.getSelectionBox = function (shape) {
+    $provide.decorator('pathService', function ($delegate) {
+      $delegate.getSelectionBox = function (shape) {
         return selectionBox;
-      }
+      };
+
+      return $delegate;
     });
   }));
+
 
   beforeEach(inject(function ($rootScope, $compile) {
     element = angular.element(
