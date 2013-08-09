@@ -284,7 +284,7 @@
           var scaleX = width /  bbox.width  ;
           var scaleY = height /  bbox.height  ;
 
-          resizeService.transformShape(shape,scaleX, scaleY, -scaleX * bbox.x, -scaleY*bbox.y);
+          resizeService.transformShape(shape, scaleX, scaleY, -scaleX * bbox.x, -scaleY*bbox.y);
       }
 
       var textSpans = surfaceService.svg.createText().string('');

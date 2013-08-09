@@ -1,6 +1,6 @@
 (function () {
   angular.module('svgAbstraction.directives')
-    .directive('drawingSurface', function ($compile) {
+    .directive('drawingSurface', function ($compile, pathService, uuidService) {
       return {
         restrict: 'E',
         require: '^ngSvg',
@@ -21,7 +21,7 @@
 
           $compile(surfaceGroup)($scope);
 
-          setupDrawMouseBindings(surfaceGroup, $scope);
+          setupDrawMouseBindings(surfaceGroup, $scope, ngSvg);
         }
       };
 
@@ -52,7 +52,7 @@
         return angular.element(drawingSurfaceGroup);
       }
 
-      function setupDrawMouseBindings(surfaceGroup, $scope) {
+      function setupDrawMouseBindings(surfaceGroup, $scope, ngSvg) {
         surfaceGroup
           .on('mousedown', startDrag)
           .on('mousemove', dragging)
@@ -63,10 +63,6 @@
           start;
 
         function startDrag(event) {
-//        if (!self.isDrawing()) {
-//          return;
-//        }
-
           offset = surfaceGroup.offset();
 //
           offset.left -= document.documentElement.scrollLeft || document.body.scrollLeft;
@@ -82,10 +78,6 @@
 
         /* Provide feedback as we drag */
         function dragging(event) {
-//          if (!self.isDrawing()) {
-//            return;
-//          }
-
           if (!start) {
             return;
           }
@@ -97,45 +89,27 @@
             $scope.height = Math.abs(event.clientY - offset.top - start.y);
           });
 
-
           event.preventDefault();
         }
 
         function endDrag(event) {
-//          if (!self.isDrawing()) {
-//            return;
-//          }
-//
-//          if (!start) {
-//            return;
-//          }
+          var heart = 'M190.95184190571857,18.67034584574202c-22.323836384105082,-25.959966259055825 -59.94907374597721,-24.70023237340574 -83.60038330843584,2.7667085108788574L103.48050782485348,25.934428571291733l-3.870951376425747,-4.497373337497029c-23.651309562458632,-27.466939656241248 -61.27654692433076,-28.726676348847562 -83.60038330843584,-2.7667085108788574c-22.333969029440297,25.936421510213755 -21.2598313123552,69.65041398214339 2.381344245776086,97.11735083142841l85.07985583076164,98.8480189913071l85.07985583076164,-98.8480189913071C212.20154057273854,88.32075982788542 213.28581576713086,44.60676174204332 190.95184190571857,18.67034584574202z';
+          var shape = ngSvg.svg.path(heart);
 
-//          $(outline).remove();
-//          outline = null;
+          var selectionBox = pathService.getSelectionBox(shape);
+          var scaleX = $scope.width / selectionBox.width;
+          var scaleY = $scope.height / selectionBox.height;
+          var path = pathService.transformShape(ngSvg.svg, shape, scaleX, scaleY, -scaleX * selectionBox.x, -scaleY * selectionBox.y);
 
-//          var shapeGroup = drawShape({
-//            startX: start.X,
-//            startY: start.Y,
-//            endX: event.clientX - offset.left,
-//            endY: event.clientY - offset.top
-//          });
-//
-//          self.shapesOnScreen[self.shapesOnScreen.length] = shapeGroup;
-
-//          $(shapeGroup)
-//            .on('mousedown', startDrag)
-//            .on('mousemove', dragging)
-//            .on('mouseup', endDrag)
-//            .on('click', function () {
-//              editShape(shapeGroup);
-//            });
+          ngSvg.svg.remove(shape);
 
           $scope.$apply(function() {
             $scope.model.push({
+              id: uuidService.generateUUID(),
               top:  $scope.y,
               left:  $scope.x,
               rotation: 0,
-              path: 'M0,0L50,0L50,50L0,50z',
+              path: path,
               backgroundColor: 'gray',
               borderColor: 'black',
               borderWidth: '2'

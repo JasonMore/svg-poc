@@ -16,7 +16,6 @@
       $scope.shapes = [
         {
           id: 'shape1',
-          type: 'shape',
           top: 25,
           left: 25,
           rotation: 0,
@@ -27,7 +26,6 @@
         },
         {
           id: 'shape2',
-          type: 'shape',
           top: 50,
           left: 50,
           rotation: 15,
@@ -38,7 +36,6 @@
         },
         {
           id: 'shape3',
-          type: 'shape',
           top: 100,
           left: 100,
           rotation: 25,
@@ -49,7 +46,6 @@
         },
         {
           id: 'picture1',
-          type: 'image',
           top: 150,
           left: 150,
           rotation: 0,
@@ -67,7 +63,6 @@
         },
         {
           id: 'picture2',
-          type: 'image',
           top: 200,
           left: 200,
           rotation: 0,
