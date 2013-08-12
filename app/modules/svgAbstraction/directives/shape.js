@@ -22,7 +22,9 @@
           $scope.model.svgElementPath = pathDefinition;
           $scope.model.svgElement = parentGroup;
 
-          setMidpointOfShape($scope, pathDefinition);
+          if (!$scope.model.midPointX || !$scope.model.midPointY) {
+            setMidpointOfShape($scope, pathDefinition);
+          }
 
           // attach svg element to dom element so we can access it from other directives
           element.data('parentGroup', parentGroup);
@@ -93,33 +95,35 @@
 
       function calculateImagePath($scope) {
         // if drawing image, calculate path
-        if ($scope.model.image) {
-
-          if (!$scope.model.width && !$scope.model.height) {
-            var width,
-              height,
-              img = new Image();
-
-            img.onload = function () {
-              width = this.width;
-              height = this.height;
-
-              $scope.$apply(function () {
-                $scope.model.path = _.template('M0,0L${width},0L${width},${height}L0,${height}z', {
-                  width: width,
-                  height: height
-                });
-              });
-            };
-
-            img.src = $scope.model.image.url;
-          } else {
-            $scope.model.path = _.template('M0,0L${width},0L${width},${height}L0,${height}z', {
-              width: $scope.model.width,
-              height: $scope.model.height
-            });
-          }
+        if (!$scope.model.image) {
+          return;
         }
+
+        if (!$scope.model.width && !$scope.model.height) {
+          var width,
+            height,
+            img = new Image();
+
+          img.onload = function () {
+            width = this.width;
+            height = this.height;
+
+            $scope.$apply(function () {
+              $scope.model.path = _.template('M0,0L${width},0L${width},${height}L0,${height}z', {
+                width: width,
+                height: height
+              });
+            });
+          };
+
+          img.src = $scope.model.image.url;
+        } else {
+          $scope.model.path = _.template('M0,0L${width},0L${width},${height}L0,${height}z', {
+            width: $scope.model.width,
+            height: $scope.model.height
+          });
+        }
+
       }
 
       function setMidpointOfShape($scope, shape) {

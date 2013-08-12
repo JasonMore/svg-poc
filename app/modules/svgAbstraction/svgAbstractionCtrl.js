@@ -108,5 +108,9 @@
         return true;
       };
 
+      $scope.drawingDone = function(shape) {
+        console.log('done!')
+      };
+
     });
 }());

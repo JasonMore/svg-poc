@@ -5,6 +5,7 @@
     // Gets all the points on a path, and calculates the x/y min/max
     ///
     this.getSelectionBox = function getSelectionBox(shape) {
+      console.time("getSelectionBox");
       var shapeRaw = shape;
 
       // check if its an angular shape
@@ -29,6 +30,8 @@
         minY = Math.min(minY, pt.y);
         maxY = Math.max(maxY, pt.y);
       }
+
+      console.timeEnd('getSelectionBox');
 
       return {
         x: minX - (strokeWidth / 2),

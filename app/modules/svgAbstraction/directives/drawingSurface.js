@@ -6,7 +6,8 @@
         require: '^ngSvg',
         scope: {
           show: '=',
-          model: '='
+          model: '=',
+          whenDone: '&'
         },
         controller: function($scope){
           $scope.x = 0;
@@ -103,22 +104,29 @@
 
           ngSvg.svg.remove(shape);
 
+          var defaultBorder = 2;
+          var newShape = {
+            id: uuidService.generateUUID(),
+            top:  $scope.y,
+            left:  $scope.x,
+            midPointX: (selectionBox.width - defaultBorder) / 2,
+            midPointY: (selectionBox.height - defaultBorder) / 2,
+            rotation: 0,
+            path: path,
+            backgroundColor: 'gray',
+            borderColor: 'black',
+            borderWidth: defaultBorder
+          };
+
           $scope.$apply(function() {
-            $scope.model.push({
-              id: uuidService.generateUUID(),
-              top:  $scope.y,
-              left:  $scope.x,
-              rotation: 0,
-              path: path,
-              backgroundColor: 'gray',
-              borderColor: 'black',
-              borderWidth: '2'
-            });
+            $scope.model.push(newShape);
           });
 
           start = null;
 //
 //          editShape(shapeGroup);
+
+          $scope.whenDone(newShape);
 
           event.preventDefault();
         }
