@@ -60,28 +60,12 @@
           .on('mousedown', startDrag)
           .on('mousemove', dragging)
           .on('mouseup', endDrag)
-//          .on('click', selectionService.clearSelection);
-
-//        $scope.$watch('active', function(val) {
-//          if(val){
-//            surfaceGroup
-//              .on('mousedown', startDrag)
-//              .on('mousemove', dragging)
-//              .on('mouseup', endDrag);
-//          } else {
-//            surfaceGroup
-//              .off('mousedown', startDrag)
-//              .off('mousemove', dragging)
-//              .off('mouseup', endDrag);
-//          }
-//        });
 
         var offset,
           start;
 
         function startDrag(event) {
           offset = surfaceGroup.offset();
-//
           offset.left -= document.documentElement.scrollLeft || document.body.scrollLeft;
           offset.top -= document.documentElement.scrollTop || document.body.scrollTop;
 
@@ -125,8 +109,8 @@
             id: uuidService.generateUUID(),
             top:  $scope.y,
             left:  $scope.x,
-            midPointX: (selectionBox.width - defaultBorder) / 2,
-            midPointY: (selectionBox.height - defaultBorder) / 2,
+            midPointX: ($scope.width - defaultBorder) / 2,
+            midPointY: ($scope.height - defaultBorder) / 2,
             rotation: 0,
             path: path,
             backgroundColor: 'gray',

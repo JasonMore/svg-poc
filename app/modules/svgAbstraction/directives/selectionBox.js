@@ -308,10 +308,6 @@
           return pathService.transformShape(svg, element, scaleX, scaleY, 0, 0);
         }
 
-        function translateElement(element, transX, transY) {
-          return pathService.transformShape(svg, element, 1.0, 1.0, 0, 0);
-        }
-
         function getTranslation(elt, x, y, isRelative) {
           if (!elt.transform.baseVal.numberOfItems) {
             return;

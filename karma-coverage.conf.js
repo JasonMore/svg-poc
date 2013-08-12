@@ -38,29 +38,23 @@ module.exports = function(karma) {
 //      'test/unit/**/*.html'
     ],
 
-
     // list of files to exclude
     exclude: [
       
     ],
 
-
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
     reporters: ['progress', 'coverage'],
 
-
     // web server port
     port: 9886,
-
 
     // cli runner port
     runnerPort: 9100,
 
-
     // enable / disable colors in the output (reporters and logs)
     colors: true,
-
 
     // level of logging
     // possible values: karma.LOG_DISABLE || karma.LOG_ERROR || karma.LOG_WARN || karma.LOG_INFO || karma.LOG_DEBUG
@@ -68,7 +62,7 @@ module.exports = function(karma) {
 
 
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: true,
+    autoWatch: false,
 
 
     // Start these browsers, currently available:

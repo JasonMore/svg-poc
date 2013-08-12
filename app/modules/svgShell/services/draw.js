@@ -281,8 +281,8 @@
           // get the bounding box of this shape
           var bbox = selectionService.getSelectionBox(shape);
 
-          var scaleX = width /  bbox.width  ;
-          var scaleY = height /  bbox.height  ;
+          var scaleX = width /  bbox.width;
+          var scaleY = height /  bbox.height;
 
           resizeService.transformShape(shape, scaleX, scaleY, -scaleX * bbox.x, -scaleY*bbox.y);
       }
