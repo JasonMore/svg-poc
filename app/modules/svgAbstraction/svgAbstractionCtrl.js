@@ -1,6 +1,6 @@
 (function () {
   angular.module('svgAbstraction.controllers', [])
-    .controller('svgAbstractionCtrl', function ($scope) {
+    .controller('svgAbstractionCtrl', function ($scope, $timeout) {
       $scope.shapesInfo = function () {
         return _.map($scope.shapes, function (shape) {
           return
@@ -8,9 +8,15 @@
       };
 
       $scope.selectedShape = null;
+      $scope.isDrawing = true;
 
       $scope.setSelectedShape = function (shape) {
-        $scope.selectedShape = shape;
+
+        // when creating a new shape, its not always drawn yet
+        $timeout(function() {
+          $scope.selectedShape = shape;
+          $scope.isDrawing = false;
+        })
       };
 
       $scope.shapes = [
@@ -106,10 +112,6 @@
 
       $scope.canDragShape = function (shape) {
         return true;
-      };
-
-      $scope.drawingDone = function(shape) {
-        console.log('done!')
       };
 
     });

@@ -1,11 +1,11 @@
 (function () {
   angular.module('svgAbstraction.directives')
-    .directive('drawingSurface', function ($compile, pathService, uuidService) {
+    .directive('drawingSurface', function ($compile, pathService, uuidService, $timeout) {
       return {
         restrict: 'E',
         require: '^ngSvg',
         scope: {
-          show: '=',
+          active: '=',
           model: '=',
           whenDone: '&'
         },
@@ -27,13 +27,15 @@
       };
 
       function drawSurface(ngSvg) {
-        var drawingSurfaceGroup = ngSvg.svg.group(ngSvg.drawingGroup);
+        var drawingSurfaceGroup = ngSvg.svg.group(ngSvg.drawingGroup,{
+          'ng-show': 'active'
+        });
 
         // drawSurface
         ngSvg.svg.rect(drawingSurfaceGroup, 0, 0, '100%', '100%', {
 //          id: 'surface',
           fill: 'white',
-          'fill-opacity': 0
+          'fill-opacity': 0,
 //          stroke: 'black'
 //          'stroke-width': 4
         });
@@ -59,6 +61,20 @@
           .on('mousemove', dragging)
           .on('mouseup', endDrag)
 //          .on('click', selectionService.clearSelection);
+
+//        $scope.$watch('active', function(val) {
+//          if(val){
+//            surfaceGroup
+//              .on('mousedown', startDrag)
+//              .on('mousemove', dragging)
+//              .on('mouseup', endDrag);
+//          } else {
+//            surfaceGroup
+//              .off('mousedown', startDrag)
+//              .off('mousemove', dragging)
+//              .off('mouseup', endDrag);
+//          }
+//        });
 
         var offset,
           start;
@@ -120,13 +136,10 @@
 
           $scope.$apply(function() {
             $scope.model.push(newShape);
+            $scope.whenDone({shape: newShape});
           });
 
           start = null;
-//
-//          editShape(shapeGroup);
-
-          $scope.whenDone(newShape);
 
           event.preventDefault();
         }
