@@ -34,7 +34,7 @@ module.exports = function(karma) {
 
       'app/components/angularjs-bower/angular-mocks.js',
       'app/modules/**/*.js',
-      'test/unit/**/*.js',
+      'test/unit/**/*.js'
 //      'test/unit/**/*.html'
     ],
 

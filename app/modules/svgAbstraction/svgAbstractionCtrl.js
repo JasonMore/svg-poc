@@ -1,23 +1,15 @@
 (function () {
   angular.module('svgAbstraction.controllers', [])
-    .controller('svgAbstractionCtrl', function ($scope, $timeout) {
+    .controller('svgAbstractionCtrl', function ($scope, $timeout, shapePaths) {
       $scope.shapesInfo = function () {
         return _.map($scope.shapes, function (shape) {
           return;
         });
       };
 
+      // properties
       $scope.selectedShape = null;
-      $scope.isDrawing = true;
-
-      $scope.setSelectedShape = function (shape) {
-
-        // when creating a new shape, its not always drawn yet
-        $timeout(function() {
-          $scope.selectedShape = shape;
-          $scope.isDrawing = false;
-        })
-      };
+      $scope.shapeToDraw = null;
 
       $scope.shapes = [
         {
@@ -86,12 +78,17 @@
         }
       ];
 
-      $scope.clips = [
-        {
-          id: 'clip1',
-          path: 'M0,0L100,0L100,100L0,100z'
-        }
-      ];
+      $scope.shapePaths = shapePaths.list;
+
+      // actions
+      $scope.setSelectedShape = function (shape) {
+
+        // when creating a new shape, its not always drawn yet
+        $timeout(function () {
+          $scope.selectedShape = shape;
+          $scope.shapeToDraw = null;
+        })
+      };
 
       $scope.addShape = function () {
         var next = ($scope.shapes.length + 1) * 50;
@@ -112,6 +109,32 @@
 
       $scope.canDragShape = function (shape) {
         return true;
+      };
+
+      $scope.drawShape = function (shape) {
+        $scope.selectedShape = null;
+
+        // if they click the button twice, undo
+        if($scope.shapeToDraw === shape){
+          $scope.shapeToDraw = null;
+        } else {
+          $scope.shapeToDraw = shape;
+        }
+      };
+
+      // computed
+      $scope.shapeType = function () {
+        if($scope.shapeToDraw){
+          return $scope.shapeToDraw.key;
+        }
+      };
+
+      $scope.isDrawing = function () {
+        return _.isObject($scope.shapeToDraw);
+      };
+
+      $scope.isActiveShape = function(shape){
+        return $scope.shapeToDraw === shape;
       };
 
     });

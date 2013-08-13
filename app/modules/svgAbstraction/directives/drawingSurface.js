@@ -11,10 +11,7 @@
           shape: '='
         },
         controller: function($scope){
-          $scope.x = 0;
-          $scope.y = 0;
-          $scope.width = 0;
-          $scope.height = 0;
+          resetSelectionBox($scope);
         },
         link: function drawingSurfaceLink($scope, element, attr, ngSvgController) {
           var ngSvg = ngSvgController;
@@ -53,6 +50,13 @@
         return angular.element(drawingSurfaceGroup);
       }
 
+      function resetSelectionBox($scope){
+        $scope.x = 0;
+        $scope.y = 0;
+        $scope.width = 0;
+        $scope.height = 0;
+      }
+
       function setupDrawMouseBindings(surfaceGroup, $scope, ngSvg) {
         surfaceGroup
           .on('mousedown', startDrag)
@@ -71,8 +75,6 @@
             x: event.clientX - offset.left,
             y: event.clientY - offset.top
           };
-
-          event.preventDefault();
         }
 
         /* Provide feedback as we drag */
@@ -87,12 +89,10 @@
             $scope.width = Math.abs(event.clientX - offset.left - start.x);
             $scope.height = Math.abs(event.clientY - offset.top - start.y);
           });
-
-          event.preventDefault();
         }
 
         function endDrag(event) {
-          var shape = ngSvg.svg.path(shapePaths['arrow']);
+          var shape = ngSvg.svg.path(shapePaths.keyValues[$scope.shape]);
 
           var selectionBox = pathService.getSelectionBox(shape);
           var scaleX = $scope.width / selectionBox.width;
@@ -118,11 +118,10 @@
           $scope.$apply(function() {
             $scope.model.push(newShape);
             $scope.whenDone({shape: newShape});
+            resetSelectionBox($scope);
           });
 
           start = null;
-
-          event.preventDefault();
         }
       }
     }

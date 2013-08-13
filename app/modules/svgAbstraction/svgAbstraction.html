@@ -1,3 +1,15 @@
+<div>
+  <a class="btn"
+     ng-class="{active: isActiveShape(shape)}"
+     ng-click="drawShape(shape)"
+     ng-repeat="shape in shapePaths">
+      <svg style="height:50px; width:50px">
+        <path ng-attr-d="{{shape.path}}"></path>
+      </svg>
+      <div>{{shape.name}}</div>
+  </a>
+</div>
+
 <ng-svg style="height: 600px">
   <clip-path model="clip"
              ng-repeat="clip in clips"></clip-path>
@@ -7,7 +19,10 @@
             ng-repeat="shape in shapes"
       ></ng-shape>
   <selection-box shape="selectedShape"></selection-box>
-  <drawing-surface active="isDrawing" model="shapes" when-done="setSelectedShape(shape)"></drawing-surface>
+  <drawing-surface active="isDrawing()"
+                   shape="shapeType()"
+                   model="shapes"
+                   when-done="setSelectedShape(shape)"></drawing-surface>
 </ng-svg>
 
 <div>
