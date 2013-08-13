@@ -79,7 +79,7 @@
           fill: 'none',
           fillOpacity: '0.3',
           'stroke-dasharray': '5,5',
-          stroke: '#D90000',
+          stroke: '#0096fd',
           strokeWidth: 2
         });
         return selectionBox;
@@ -88,7 +88,7 @@
       function drawSelectionCorners(svg, selectionBox) {
         var defaultCircleSettings = {
           class_: 'corner',
-          fill: '#D90000',
+          fill: '#0096fd',
           'stroke-width': 1,
           stroke: 'white'
         };
@@ -115,7 +115,7 @@
 
         svg.line(selectionBox, 0, 0, 0, (-1 * rotatorLineLength), {
           id: 'rotatorLine',
-          stroke: '#D90000',
+          stroke: '#0096fd',
           strokeWidth: 3,
           transform: 'translate({{calcMidPointX(shape)}},0)'
         });
@@ -124,7 +124,7 @@
           id: 'rotator',
           class_:'rotator',
           fill: '#FFFFFF',
-          stroke: '#D90000',
+          stroke: '#0096fd',
           strokeWidth: 1,
           transform: 'translate({{calcMidPointX(shape)}},-20)'
         }));

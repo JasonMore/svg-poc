@@ -3,7 +3,7 @@
     .controller('svgAbstractionCtrl', function ($scope, $timeout) {
       $scope.shapesInfo = function () {
         return _.map($scope.shapes, function (shape) {
-          return
+          return;
         });
       };
 
