@@ -157,8 +157,9 @@
         });
       };
 
-      $scope.removeShape = function () {
-        $scope.shapes.splice($scope.shapes.length - 1, 1);
+      $scope.deleteShape = function () {
+        $scope.shapes.remove($scope.selectedShape);
+        $scope.selectedShape = null;
       };
 
       $scope.canDragShape = function (shape) {
