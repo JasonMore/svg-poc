@@ -3,9 +3,9 @@
      ng-class="{active: isActiveShape(shape)}"
      ng-click="drawShape(shape)"
      ng-repeat="shape in shapePaths">
-      <ng-svg style="height:50px; width:50px">
+      <svg style="height:50px; width:50px">
         <path ng-attr-d="{{shape.path}}"></path>
-      </ng-svg>
+      </svg>
       <div>{{shape.name}}</div>
   </a>
 </div>
