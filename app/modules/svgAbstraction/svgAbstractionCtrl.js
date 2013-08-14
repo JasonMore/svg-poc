@@ -2,9 +2,15 @@
   angular.module('svgAbstraction.controllers', [])
     .controller('svgAbstractionCtrl', function ($scope, $timeout, shapePaths) {
       $scope.shapesInfo = function () {
-        return _.map($scope.shapes, function (shape) {
-          return;
-        });
+//        var cleanAttr = _.omit(attrs, function(value, name){
+//          // skip anything starting with $
+//          if(/^\$/.test(name)) {
+//            return true;
+//          }
+//          return false;
+//        });
+
+
       };
 
       // properties

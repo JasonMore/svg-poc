@@ -5,7 +5,8 @@
     'svgAbstraction.controllers',
     'svgAbstraction.directives',
     'svgAbstraction.services',
-    'ui.bootstrap'
+    'ui.bootstrap',
+//    'ngSvg'
   ];
 
   angular.module('svgAbstraction', using)
