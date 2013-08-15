@@ -1,7 +1,7 @@
 (function () {
   // wrap jquery svg draw methods which produce errors with angular
   angular.module('svgAbstraction.directives')
-    .directive('ngShape', function ($compile, $timeout, pathService) {
+    .directive('ngShape', function ($compile, $timeout, pathService, elementLookup) {
       return {
         restrict: 'E',
         require: '^ngSvg',
@@ -18,6 +18,11 @@
 
           $compile(pathDefinition)($scope);
           $compile(parentGroup)($scope);
+
+//          elementLookup[$scope.model] = {
+//            svgElementPath: pathDefinition,
+//            svgElement: parentGroup
+//          }
 
           $scope.model.svgElementPath = pathDefinition;
           $scope.model.svgElement = parentGroup;

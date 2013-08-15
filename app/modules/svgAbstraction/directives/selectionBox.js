@@ -46,6 +46,10 @@
             return;
           }
 
+
+
+
+
           var selectionBox = pathService.getSelectionBox(shape.svgElementPath);
           $scope.width = selectionBox.width;
           $scope.height = selectionBox.height;
