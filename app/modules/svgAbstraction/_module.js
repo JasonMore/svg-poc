@@ -6,6 +6,7 @@
     'svgAbstraction.directives',
     'svgAbstraction.services',
     'ui.bootstrap',
+    'menuAim'
 //    'ngSvg'
   ];
 

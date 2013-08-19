@@ -14,6 +14,7 @@
       // properties
       $scope.selectedShape = null;
       $scope.shapeToDraw = null;
+      $scope.shapePaths = shapePaths.list;
 
       $scope.shapes = [
         {
@@ -130,7 +131,6 @@
         {id: 'Verdana', name: 'Verdana'}
       ];
 
-      $scope.shapePaths = shapePaths.list;
 
       // actions
       $scope.setSelectedShape = function (shape) {
@@ -188,6 +188,14 @@
 
       $scope.isActiveShape = function(shape){
         return $scope.shapeToDraw === shape;
+      };
+
+
+      $scope.menuTop = function() {
+        return $scope.selectedShape.top + 25;
+      };
+      $scope.menuLeft = function() {
+        return $scope.selectedShape.left + 25;
       };
 
     });

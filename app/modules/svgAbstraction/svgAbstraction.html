@@ -3,54 +3,89 @@
      ng-class="{active: isActiveShape(shape)}"
      ng-click="drawShape(shape)"
      ng-repeat="shape in shapePaths">
-      <svg style="height:50px; width:50px">
-        <path ng-attr-d="{{shape.path}}"></path>
-      </svg>
-      <div>{{shape.name}}</div>
+    <svg style="height:50px; width:50px">
+      <path ng-attr-d="{{shape.path}}"></path>
+    </svg>
+    <div>{{shape.name}}</div>
   </a>
 </div>
 
-<div class="row-fluid">
-  <div class="span12">
-    <div class="well">
-      <div class="btn-toolbar" style="margin: 0;">
+
+<div ng-show="selectedShape"
+     ng-style="{top: menuTop(), left: menuLeft()}"
+     style="position: absolute;"
+     >
+
+  <menu-aim class="dropdown-menu" style="display:block;">
+    <submenu-aim>
+      <title-aim>Background</title-aim>
+      <content-aim class="popover">
+        <!--<h3 class="popover-title">Backgro</h3>-->
         <shape-options name="Background Color"
-                      visible="selectedShape"
-                      options="colorOptions"
-                      selection="selectedShape.backgroundColor"></shape-options>
+                       visible="selectedShape"
+                       options="colorOptions"
+                       selection="selectedShape.backgroundColor"></shape-options>
 
-        <shape-options name="Border Size"
-                      visible="selectedShape"
-                      options="strokeWidthOptions"
-                      selection="selectedShape.borderWidth"></shape-options>
+        <!--<shape-options name="Border Size"-->
+                       <!--visible="selectedShape"-->
+                       <!--options="strokeWidthOptions"-->
+                       <!--selection="selectedShape.borderWidth"></shape-options>-->
 
+        <label>Border Size
+        <input type="range" ng-model="selectedShape.borderWidth">
+        </label>
+      </content-aim>
+    </submenu-aim>
+    <submenu-aim>
+      <title-aim>Border</title-aim>
+      <content-aim class="popover">
         <shape-options name="Border Color"
-                      visible="selectedShape"
-                      options="colorOptions"
-                      selection="selectedShape.borderColor"></shape-options>
+                       visible="selectedShape"
+                       options="colorOptions"
+                       selection="selectedShape.borderColor"></shape-options>
+      </content-aim>
+    </submenu-aim>
+    <submenu-aim>
+      <title-aim>hij</title-aim>
+      <content-aim class="popover">hij there</content-aim>
+    </submenu-aim>
+  </menu-aim>
 
-        <!--<shape-options name="Font Color"-->
-                      <!--visible="selectedShape"-->
-                      <!--options="colorOptions"-->
-                      <!--selection="selectedShape.fontColor"></shape-options>-->
+  <!--<shape-options name="Background Color"-->
+                 <!--visible="selectedShape"-->
+                 <!--options="colorOptions"-->
+                 <!--selection="selectedShape.backgroundColor"></shape-options>-->
 
-        <!--<shape-options name="Font Size"-->
-                      <!--visible="selectedShape"-->
-                      <!--options="fontSizeOptions"-->
-                      <!--selection="selectedShape.fontSize"></shape-options>-->
+  <!--<shape-options name="Border Size"-->
+                 <!--visible="selectedShape"-->
+                 <!--options="strokeWidthOptions"-->
+                 <!--selection="selectedShape.borderWidth"></shape-options>-->
 
-        <!--<shape-options name="Font Family"-->
-                      <!--visible="selectedShape"-->
-                      <!--options="fontFamilyOptions"-->
-                      <!--selection="selectedFontFamily"></shape-options>-->
+  <!--<shape-options name="Border Color"-->
+                 <!--visible="selectedShape"-->
+                 <!--options="colorOptions"-->
+                 <!--selection="selectedShape.borderColor"></shape-options>-->
 
-        <a ng-show="selectedShape" ng-click="deleteShape()" class="btn btn-warning">
-          Delete
-        </a>
-      </div>
-    </div>
-  </div>
+  <!--<shape-options name="Font Color"-->
+  <!--visible="selectedShape"-->
+  <!--options="colorOptions"-->
+  <!--selection="selectedShape.fontColor"></shape-options>-->
+
+  <!--<shape-options name="Font Size"-->
+  <!--visible="selectedShape"-->
+  <!--options="fontSizeOptions"-->
+  <!--selection="selectedShape.fontSize"></shape-options>-->
+
+  <!--<shape-options name="Font Family"-->
+  <!--visible="selectedShape"-->
+  <!--options="fontFamilyOptions"-->
+  <!--selection="selectedFontFamily"></shape-options>-->
+
+  <!--<a ng-show="selectedShape" ng-click="deleteShape()" class="btn btn-warning">-->
+    <!--Delete-->
+  <!--</a>-->
 </div>
+
 
 <ng-svg style="height: 600px">
   <clip-path model="clip"
