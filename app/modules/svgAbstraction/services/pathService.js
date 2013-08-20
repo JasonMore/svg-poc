@@ -141,6 +141,7 @@
                 round(scaleX * seg.x + transX),
                 round(scaleY * seg.y + transY)
               );
+              break;
             case 11:
               newPath = newPath.arc(
                 round(scaleX * seg.r1),
@@ -152,6 +153,60 @@
                 round(scaleY * seg.y),
                 true
               );
+              break
+            case 12:
+              newPath = newPath.horiz(
+                round(scaleX * seg.x + transX)
+              );
+              break;
+            case 13:
+              newPath = newPath.horiz(
+                round(scaleX * seg.x),
+                true
+              );
+              break;
+            case 14:
+              newPath = newPath.vert(
+                round(scaleX * seg.y + transY)
+              );
+              break;
+            case 15:
+              newPath = newPath.vert(
+                round(scaleX * seg.y),
+                true
+              );
+              break;
+            case 16:
+              newPath = newPath.smoothC(
+                round(seg.x2 * scaleX),
+                round(seg.y2 * scaleY),
+                round(seg.x * scaleX),
+                round(seg.y * scaleY),
+                false
+              );
+              break;
+            case 17:
+              newPath = newPath.smoothC(
+                round(seg.x2 * scaleX),
+                round(seg.y2 * scaleY),
+                round(seg.x * scaleX),
+                round(seg.y * scaleY),
+                true
+              );
+              break;
+            case 18:
+              newPath = newPath.smoothQ(
+                round(seg.x * scaleX + transX),
+                round(seg.y * scaleY + transY)
+              );
+              break;
+            case 19:
+              newPath = newPath.smoothQ(
+                round(seg.x * scaleX),
+                round(seg.y * scaleY),
+                true
+              );
+              break;
           }
         }
         return newPath;
