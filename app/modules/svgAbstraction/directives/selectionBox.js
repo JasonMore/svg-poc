@@ -26,28 +26,31 @@
 
       function addScopeMethods($scope) {
         $scope.calcLeft = function (shape) {
-          return shape ? shape.left - shape.borderWidth / 2 : 0;
+//          return shape ? shape.left - shape.borderWidth / 2 : 0;
+          return shape ? shape.left : 0;
+
         };
 
         $scope.calcTop = function (shape) {
-          return shape ? shape.top - shape.borderWidth / 2 : 0;
+//          return shape ? shape.top - shape.borderWidth / 2 : 0;
+          return shape ? shape.top : 0;
         };
 
         $scope.calcMidPointX = function (shape) {
-          return shape ? shape.midPointX + shape.borderWidth / 2 : 0;
+//          return shape ? shape.midPointX + shape.borderWidth / 2 : 0;
+          return shape ? shape.midPointX : 0;
+
         };
 
         $scope.calcMidPointY = function (shape) {
-          return shape ? shape.midPointY + shape.borderWidth / 2 : 0;
+//          return shape ? shape.midPointY + shape.borderWidth / 2 : 0;
+          return shape ? shape.midPointY : 0;
         };
 
         $scope.$watch('shape', function (shape) {
           if (!shape) {
             return;
           }
-
-
-
 
 
           var selectionBox = pathService.getSelectionBox(shape.svgElementPath);
@@ -126,7 +129,7 @@
 
         var rotator = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
           id: 'rotator',
-          class_:'rotator',
+          class_: 'rotator',
           fill: '#FFFFFF',
           stroke: '#0096fd',
           strokeWidth: 1,
