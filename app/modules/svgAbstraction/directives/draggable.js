@@ -4,11 +4,11 @@
       return {
         restrict: 'A',
         require: '^ngSvg',
-        link: function (scope, element, attr, ngSvgController) {
+        link: function ($scope, element, attr, ngSvgController) {
 //          var self = this;
           var ngSvg = ngSvgController;
 
-          scope.$watch('draggable', function (isDraggable) {
+          $scope.$watch('draggable', function (isDraggable) {
             if (isDraggable) {
               var parentGroup = element.data('parentGroup');
               $(parentGroup).draggable(options);
@@ -60,10 +60,18 @@
                 deltax = pt2.x - pt3.x;
                 deltay = pt2.y - pt3.y;
 
-                adjustTranslate(this, deltax, deltay, true);
+                var adjustment = adjustTranslate(this, deltax, deltay, true);
+
+                $scope.$apply(function () {
+                  $scope.viewModel.isDragging = true;
+                  $scope.viewModel.model.left = adjustment.x;
+                  $scope.viewModel.model.top = adjustment.y;
+                });
               },
               stop: function () {
-//              self.dragEnded();
+                $scope.$apply(function () {
+                  $scope.viewModel.isDragging = false;
+                });
               }
             };
 
@@ -86,10 +94,10 @@
               y += origY;
             }
 
-            scope.$apply(function () {
-              scope.viewModel.model.left = x;
-              scope.viewModel.model.top = y;
-            });
+            return {
+              x: x,
+              y: y
+            };
           }
         }
       };

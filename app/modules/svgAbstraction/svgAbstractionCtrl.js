@@ -206,5 +206,20 @@
         return cleanShapes;
       };
 
+      $scope.showShapeMenu = function() {
+        if(!$scope.selectedShape) {
+          return false;
+        }
+
+        if($scope.selectedShape.isDragging){
+          return false;
+        }
+
+        if($scope.selectedShape.isResizing){
+          return false;
+        }
+
+        return true;
+      };
     });
 }());

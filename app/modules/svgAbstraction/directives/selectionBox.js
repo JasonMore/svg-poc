@@ -171,7 +171,13 @@
             }
 
             $scope.$apply(function () {
+              $scope.shape.isResizing = true;
               $scope.shape.model.rotation = angle;
+            });
+          },
+          stop: function () {
+            $scope.$apply(function () {
+              $scope.shape.isResizing = false;
             });
           }
         });
@@ -236,6 +242,8 @@
             var newShapePath = rescaleElement(shapePath, scaleX, scaleY);
 
             $scope.$apply(function () {
+              $scope.shape.isResizing = true;
+
               $scope.width = newDim.width;
               $scope.height = newDim.height;
 
@@ -247,7 +255,9 @@
             });
           },
           stop: function () {
-
+            $scope.$apply(function () {
+              $scope.shape.isResizing = false;
+          });
           }
         });
 
