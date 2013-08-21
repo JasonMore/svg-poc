@@ -103,16 +103,18 @@
 
           var defaultBorder = 2;
           var newShape = {
-            id: uuidService.generateUUID(),
-            top:  $scope.y,
-            left:  $scope.x,
             midPointX: ($scope.width - defaultBorder) / 2,
             midPointY: ($scope.height - defaultBorder) / 2,
-            rotation: 0,
-            path: path,
-            backgroundColor: 'gray',
-            borderColor: 'black',
-            borderWidth: defaultBorder
+            model:{
+              id: uuidService.generateUUID(),
+              top:  $scope.y,
+              left:  $scope.x,
+              rotation: 0,
+              path: path,
+              backgroundColor: 'gray',
+              borderColor: 'black',
+              borderWidth: defaultBorder
+            }
           };
 
           $scope.$apply(function() {

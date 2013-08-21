@@ -6,7 +6,7 @@
         restrict: 'E',
         require: '^ngSvg',
         scope: {
-          model: '=',
+          viewModel: '=',
           draggable: '=',
           whenClick: '&'
         },
@@ -24,10 +24,10 @@
 //            svgElement: parentGroup
 //          }
 
-          $scope.model.svgElementPath = pathDefinition;
-          $scope.model.svgElement = parentGroup;
+          $scope.viewModel.svgElementPath = pathDefinition;
+          $scope.viewModel.svgElement = parentGroup;
 
-          if (!$scope.model.midPointX || !$scope.model.midPointY) {
+          if (!$scope.viewModel.midPointX || !$scope.viewModel.midPointY) {
             setMidpointOfShape($scope, pathDefinition);
           }
 
@@ -42,18 +42,18 @@
       };
 
       function createPathDefinition($scope, ngSvg) {
-        var id = $scope.model.id + '_clipPath';
+        var id = $scope.viewModel.model.id + '_clipPath';
         var clipPathParent = ngSvg.svg.clipPath(ngSvg.paths, id);
 
         var path = ngSvg.svg.path(clipPathParent, '', {
-          'id': '{{model.id}}',
+          'id': '{{viewModel.model.id}}',
 
           // stroke width is needed on the def so other calculations work correctly
-          'stroke-width': '{{model.borderWidth}}',
+          'stroke-width': '{{viewModel.model.borderWidth}}',
 
           // not sure why "d" is the only one that needs ng-attr
           // jquery.svg throws error without "ng-attr"
-          'ng-attr-d': '{{model.path}}'
+          'ng-attr-d': '{{viewModel.model.path}}'
         });
 
         return path;
@@ -61,37 +61,37 @@
 
       function drawShape($scope, ngSvg) {
         var transform = [
-          'translate({{model.left}},{{model.top}})',
-          'rotate({{model.rotation}},{{model.midPointX}},{{model.midPointY}})'
+          'translate({{viewModel.model.left}},{{viewModel.model.top}})',
+          'rotate({{viewModel.model.rotation}},{{viewModel.midPointX}},{{viewModel.midPointY}})'
         ];
 
         var parentGroup = ngSvg.svg.group(ngSvg.shapeGroup, {
           transform: transform.join(', '),
-          'clip-path': 'url({{"#" + model.id + "_clipPath"}})'
+          'clip-path': 'url({{"#" + viewModel.model.id + "_clipPath"}})'
         });
 
         var shapeBackground = ngSvg.svg.use(parentGroup, '', {
-          'ng-href': '{{ "#" + model.id}}',
+          'ng-href': '{{ "#" + viewModel.model.id}}',
           'class': 'shape',
-          'fill': '{{model.backgroundColor}}',
+          'fill': '{{viewModel.model.backgroundColor}}',
           'ng-mousedown': 'whenClick()'
         });
 
         var image = ngSvg.svg.image(parentGroup, 0, 0, 0, 0, '', {
-          'ng-href': '{{ model.image.url }}',
-          'ng-attr-x': '{{model.image ? model.image.x : 0}}',
-          'ng-attr-y': '{{model.image ? model.image.y : 0}}',
-          'ng-attr-width': '{{model.image ? model.image.width : 0}}',
-          'ng-attr-height': '{{model.image ? model.image.height : 0}}',
+          'ng-href': '{{ viewModel.model.image.url }}',
+          'ng-attr-x': '{{viewModel.model.image ? viewModel.model.image.x : 0}}',
+          'ng-attr-y': '{{viewModel.model.image ? viewModel.model.image.y : 0}}',
+          'ng-attr-width': '{{viewModel.model.image ? viewModel.model.image.width : 0}}',
+          'ng-attr-height': '{{viewModel.model.image ? viewModel.model.image.height : 0}}',
           'ng-mousedown': 'whenClick()'
         });
 
         var shapeForeground = ngSvg.svg.use(parentGroup, '', {
-          'ng-href': '{{ "#" + model.id}}',
+          'ng-href': '{{ "#" + viewModel.model.id}}',
           'class': 'shape',
           'fill': 'none',
-          'stroke': '{{model.borderColor}}',
-          'stroke-width': '{{model.borderWidth}}',
+          'stroke': '{{viewModel.model.borderColor}}',
+          'stroke-width': '{{viewModel.model.borderWidth}}',
           'ng-mousedown': 'whenClick()'
         });
 
@@ -100,11 +100,11 @@
 
       function calculateImagePath($scope) {
         // if drawing image, calculate path
-        if (!$scope.model.image) {
+        if (!$scope.viewModel.model.image) {
           return;
         }
 
-        if (!$scope.model.width && !$scope.model.height) {
+        if (!$scope.viewModel.width && !$scope.viewModel.height) {
           var width,
             height,
             img = new Image();
@@ -114,18 +114,18 @@
             height = this.height;
 
             $scope.$apply(function () {
-              $scope.model.path = _.template('M0,0L${width},0L${width},${height}L0,${height}z', {
+              $scope.viewModel.model.path = _.template('M0,0L${width},0L${width},${height}L0,${height}z', {
                 width: width,
                 height: height
               });
             });
           };
 
-          img.src = $scope.model.image.url;
+          img.src = $scope.viewModel.model.image.url;
         } else {
-          $scope.model.path = _.template('M0,0L${width},0L${width},${height}L0,${height}z', {
-            width: $scope.model.width,
-            height: $scope.model.height
+          $scope.viewModel.model.path = _.template('M0,0L${width},0L${width},${height}L0,${height}z', {
+            width: $scope.viewModel.width,
+            height: $scope.height
           });
         }
 
@@ -135,8 +135,10 @@
         // shape needs to be rendered before we can calculate its midpoint
         $timeout(function () {
           var selectionBox = pathService.getSelectionBox(shape);
-          $scope.model.midPointX = (selectionBox.width - $scope.model.borderWidth) / 2;
-          $scope.model.midPointY = (selectionBox.height - $scope.model.borderWidth) / 2;
+          $scope.viewModel.width = selectionBox.width;
+          $scope.viewModel.height = selectionBox.height;
+          $scope.viewModel.midPointX = (selectionBox.width - $scope.viewModel.model.borderWidth) / 2;
+          $scope.viewModel.midPointY = (selectionBox.height - $scope.viewModel.model.borderWidth) / 2;
         });
       }
     });

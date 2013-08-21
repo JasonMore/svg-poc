@@ -21,7 +21,7 @@ describe('draggableSpec.js', function () {
     beforeEach(function () {
       htmlToRender =
         '<ng-svg style="height: 600px">' +
-          '<ng-shape model="shape"' +
+          '<ng-shape view-model="shape"' +
           ' draggable="true"' +
           ' when-click="setSelectedShape(shape)"' +
           ' ng-repeat="shape in shapes"'+
@@ -30,7 +30,7 @@ describe('draggableSpec.js', function () {
 
       act();
 
-      scope.shapes = [{
+      scope.shapes = [{model:{
         top:0,
         left:0,
         rotation: 0,
@@ -38,7 +38,7 @@ describe('draggableSpec.js', function () {
         backgroundColor:'green',
         borderColor:'blue',
         borderWidth:12
-      }];
+      }}];
 
       scope.$digest();
       timeout.flush();
@@ -68,18 +68,18 @@ describe('draggableSpec.js', function () {
     });
 
     it('moves shape top', function () {
-      expect(scope.shapes[0].top).toEqual(10);
+      expect(scope.shapes[0].model.top).toEqual(10);
     });
 
     it('moves shape left', function () {
-      expect(scope.shapes[0].left).toEqual(10);
+      expect(scope.shapes[0].model.left).toEqual(10);
     });
   });
 
   beforeEach(function () {
     htmlToRender =
       '<ng-svg style="height: 600px">' +
-        '<ng-shape model="shape"' +
+        '<ng-shape view-model="shape"' +
         ' draggable="false"' +
         ' when-click="setSelectedShape(shape)"' +
         ' ng-repeat="shape in shapes"'+
@@ -88,7 +88,7 @@ describe('draggableSpec.js', function () {
 
     act();
 
-    scope.shapes = [{
+    scope.shapes = [{model:{
       top:0,
       left:0,
       rotation: 0,
@@ -96,7 +96,7 @@ describe('draggableSpec.js', function () {
       backgroundColor:'green',
       borderColor:'blue',
       borderWidth:12
-    }];
+    }}];
 
     scope.$digest();
 
@@ -125,10 +125,10 @@ describe('draggableSpec.js', function () {
   });
 
   it('moves shape top', function () {
-    expect(scope.shapes[0].top).toEqual(0);
+    expect(scope.shapes[0].model.top).toEqual(0);
   });
 
   it('moves shape left', function () {
-    expect(scope.shapes[0].left).toEqual(0);
+    expect(scope.shapes[0].model.left).toEqual(0);
   });
 });

@@ -27,13 +27,13 @@
       function addScopeMethods($scope) {
         $scope.calcLeft = function (shape) {
 //          return shape ? shape.left - shape.borderWidth / 2 : 0;
-          return shape ? shape.left : 0;
+          return shape ? shape.model.left : 0;
 
         };
 
         $scope.calcTop = function (shape) {
 //          return shape ? shape.top - shape.borderWidth / 2 : 0;
-          return shape ? shape.top : 0;
+          return shape ? shape.model.top : 0;
         };
 
         $scope.calcMidPointX = function (shape) {
@@ -51,7 +51,6 @@
           if (!shape) {
             return;
           }
-
 
           var selectionBox = pathService.getSelectionBox(shape.svgElementPath);
           $scope.width = selectionBox.width;
@@ -73,7 +72,7 @@
       function drawSelectionBox(ngSvg) {
         var transform = [
           'translate({{calcLeft(shape)}},{{calcTop(shape)}})',
-          'rotate({{shape.rotation}},{{calcMidPointX(shape)}},{{calcMidPointY(shape)}})'
+          'rotate({{shape.model.rotation}},{{calcMidPointX(shape)}},{{calcMidPointY(shape)}})'
         ];
 
         var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup, {
@@ -146,7 +145,7 @@
         rotator.draggable({
           drag: function (event, ui) {
 
-            var angle = $scope.shape.rotation,
+            var angle = $scope.shape.model.rotation,
               parentGroup = rotator.parent()[0];
 
             var pt = convertScreenToElementCoordinates(parentGroup, event, svg);
@@ -166,7 +165,7 @@
             }
 
             $scope.$apply(function () {
-              $scope.shape.rotation = angle;
+              $scope.shape.model.rotation = angle;
             });
           }
         });
@@ -219,14 +218,14 @@
             var newDim = getNewShapeLocationAndDimensions(draggedCorner, event, $scope);
 
             $scope.$apply(function () {
-              $scope.shape.midPointX = (newDim.width - $scope.shape.borderWidth) / 2;
-              $scope.shape.midPointY = (newDim.height - $scope.shape.borderWidth) / 2;
+              $scope.shape.midPointX = (newDim.width - $scope.shape.model.borderWidth) / 2;
+              $scope.shape.midPointY = (newDim.height - $scope.shape.model.borderWidth) / 2;
             });
 
             var conversion = convertDeltasToSVG(selectionBoxGroup, baselineOrigin, newDim.deltaX, newDim.deltaY);
             var translation = getTranslation(rawElement, conversion.deltaX, conversion.deltaY, true);
-            var scaleX = (newDim.width - $scope.shape.borderWidth) / ($scope.width - $scope.shape.borderWidth);
-            var scaleY = (newDim.height - $scope.shape.borderWidth) / ($scope.height - $scope.shape.borderWidth);
+            var scaleX = (newDim.width - $scope.shape.model.borderWidth) / ($scope.width - $scope.shape.model.borderWidth);
+            var scaleY = (newDim.height - $scope.shape.model.borderWidth) / ($scope.height - $scope.shape.model.borderWidth);
             var shapePath = $scope.shape.svgElementPath;
             var newShapePath = rescaleElement(shapePath, scaleX, scaleY);
 
@@ -234,11 +233,11 @@
               $scope.width = newDim.width;
               $scope.height = newDim.height;
 
-              $scope.shape.top = translation.y;
-              $scope.shape.left = translation.x;
+              $scope.shape.model.top = translation.y;
+              $scope.shape.model.left = translation.x;
               $scope.shape.width = newDim.width;
               $scope.shape.height = newDim.height;
-              $scope.shape.path = newShapePath;
+              $scope.shape.model.path = newShapePath;
             });
           },
           stop: function () {

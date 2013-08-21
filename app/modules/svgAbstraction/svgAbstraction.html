@@ -24,7 +24,7 @@
         <shape-options name="Background Color"
                        visible="selectedShape"
                        options="colorOptions"
-                       selection="selectedShape.backgroundColor"></shape-options>
+                       selection="selectedShape.model.backgroundColor"></shape-options>
 
         <!--<shape-options name="Border Size"-->
                        <!--visible="selectedShape"-->
@@ -32,7 +32,7 @@
                        <!--selection="selectedShape.borderWidth"></shape-options>-->
 
         <label>Border Size
-        <input type="range" ng-model="selectedShape.borderWidth">
+        <input type="range" ng-model="selectedShape.model.borderWidth">
         </label>
       </content-aim>
     </submenu-aim>
@@ -42,7 +42,7 @@
         <shape-options name="Border Color"
                        visible="selectedShape"
                        options="colorOptions"
-                       selection="selectedShape.borderColor"></shape-options>
+                       selection="selectedShape.model.borderColor"></shape-options>
       </content-aim>
     </submenu-aim>
     <submenu-aim>
@@ -90,7 +90,7 @@
 <ng-svg style="height: 600px">
   <clip-path model="clip"
              ng-repeat="clip in clips"></clip-path>
-  <ng-shape model="shape"
+  <ng-shape view-model="shape"
             draggable="canDragShape(shape)"
             when-click="setSelectedShape(shape)"
             ng-repeat="shape in shapes"

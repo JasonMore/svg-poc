@@ -1,4 +1,4 @@
-describe('drawingSurface.js', function() {
+describe('drawingSurfaceSpec.js', function() {
   var element,
     scope,
     controller,
@@ -81,11 +81,11 @@ describe('drawingSurface.js', function() {
     });
 
     it('sets shape top to 50', function() {
-      expect(shape.top).toEqual(50);
+      expect(shape.model.top).toEqual(50);
     });
 
     it('sets shape left to 50', function() {
-      expect(shape.left).toEqual(50);
+      expect(shape.model.left).toEqual(50);
     });
 
     it('sets shape midpoint x to 24', function() {
@@ -97,11 +97,11 @@ describe('drawingSurface.js', function() {
     });
 
     it('sets shape rotation to 0', function() {
-      expect(shape.rotation).toEqual(0);
+      expect(shape.model.rotation).toEqual(0);
     });
 
     it('creates shape path of a 50 x 50 box', function() {
-      expect(shape.path).toEqual('M0,0L50,0L50,50L0,50z');
+      expect(shape.model.path).toEqual('M0,0L50,0L50,50L0,50z');
     });
 
     it('returns the shape from the binding expression', function() {

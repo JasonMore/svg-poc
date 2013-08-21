@@ -87,8 +87,8 @@
             }
 
             scope.$apply(function () {
-              scope.model.left = x;
-              scope.model.top = y;
+              scope.viewModel.model.left = x;
+              scope.viewModel.model.top = y;
             });
           }
         }

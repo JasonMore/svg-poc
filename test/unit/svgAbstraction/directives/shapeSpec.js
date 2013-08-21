@@ -37,7 +37,7 @@ describe('shapeSpec.js', function () {
       beforeEach(function () {
         htmlToRender =
           '<ng-svg style="height: 600px">' +
-            '<ng-shape model="shape"' +
+            '<ng-shape view-model="shape"' +
             ' draggable="canDragShape(shape)"' +
             ' when-click="setSelectedShape(shape)"' +
             ' ng-repeat="shape in shapes"' +
@@ -47,7 +47,7 @@ describe('shapeSpec.js', function () {
         act();
 
         scope.shapes = [
-          {
+          {model: {
             top: 50,
             left: 50,
             rotation: 45,
@@ -55,8 +55,8 @@ describe('shapeSpec.js', function () {
             backgroundColor: 'green',
             borderColor: 'blue',
             borderWidth: 12
-          },
-          {
+          }},
+          {model: {
             top: 100,
             left: 100,
             rotation: 75,
@@ -71,14 +71,14 @@ describe('shapeSpec.js', function () {
               width: 100,
               height: 150
             }
-          }
+          }}
         ];
 
         selectionBox = {
-          x:99,
-          y:99,
-          width:104,
-          height:104
+          x: 99,
+          y: 99,
+          width: 104,
+          height: 104
         };
 
         scope.$digest();
@@ -126,27 +126,27 @@ describe('shapeSpec.js', function () {
         expect(scope.shapes[1].svgElementPath).toEqual(path[0]);
       });
 
-      it('renders a picture', function() {
+      it('renders a picture', function () {
         expect(picture[0]).toBeDefined();
       });
 
-      it('picture has correct href', function() {
+      it('picture has correct href', function () {
         expect(picture.attr('href')).toContain('someurl');
       });
 
-      it('picture x is 10', function() {
+      it('picture x is 10', function () {
         expect(picture.attr('x')).toEqual('10');
       });
 
-      it('picture y is 15', function() {
+      it('picture y is 15', function () {
         expect(picture.attr('y')).toEqual('15');
       });
 
-      it('picture width 100', function() {
+      it('picture width 100', function () {
         expect(picture.attr('width')).toEqual('100');
       });
 
-      it('picture height 150', function() {
+      it('picture height 150', function () {
         expect(picture.attr('height')).toEqual('150');
       });
 
@@ -161,73 +161,5 @@ describe('shapeSpec.js', function () {
         });
       });
     });
-
-//    describe('single shape', function () {
-//      beforeEach(function () {
-//        htmlToRender =
-//          '<ng-svg style="height: 600px">' +
-//            '<ng-shape model="shape"' +
-//            ' draggable="canDragShape(shape)"' +
-//            ' when-click="setSelectedShape(shape)"' +
-//            '></ng-shape>' +
-//            '</ng-svg>';
-//
-//        scope.shape = {
-//          top: 25,
-//          left: 25,
-//          path: 'M0,0L100,0L100,100L0,100z',
-//          backgroundColor: 'red',
-//          borderColor: 'orange',
-//          borderWidth: 15
-//        };
-//
-//        selectionBox = {
-//          x:99,
-//          y:99,
-//          width:104,
-//          height:104
-//        };
-//
-//        act();
-//
-//        scope.$digest();
-//        parentGroup = element.find('g.shapes g');
-//        shape = parentGroup.find('path');
-//        text = parentGroup.find('text');
-//      });
-//
-//      it('is on screen', function () {
-//        expect(parentGroup.length).toBe(1);
-//      });
-//
-//      it('parent group has correct transformation', function () {
-//        timeout.flush();
-//        expect(parentGroup.attr('transform')).toEqual('translate(25,25), rotate(0,52,52)');
-//      });
-//
-//      it('parent group has path', function () {
-//        expect(shape.length).toBe(1);
-//      });
-//
-//      it('shape has correct path', function () {
-//        expect(shape.attr('d')).toEqual('M0,0L100,0L100,100L0,100z');
-//      });
-//
-//      it('shape has background color red', function () {
-//        expect(shape.attr('fill')).toEqual('red');
-//      });
-//
-//      it('shape has border color orange', function () {
-//        expect(shape.attr('stroke')).toEqual('orange');
-//      });
-//
-//      it('shape has border width of 15', function () {
-//        expect(shape.attr('stroke-width')).toEqual('15');
-//      });
-//
-//      it('svg element is set on shape', function () {
-//        expect(scope.shape.svgElement[0]).toEqual(parentGroup[0]);
-//      });
-//    });
   });
 });
