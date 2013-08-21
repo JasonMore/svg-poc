@@ -166,6 +166,10 @@
         }
       };
 
+      $scope.unSelectShape = function() {
+        $scope.selectedShape = null;
+      };
+
       // computed
       $scope.shapeType = function() {
         if($scope.shapeToDraw){
@@ -197,13 +201,9 @@
       };
 
       $scope.shapesInfo = function () {
-        var cleanShapes = _($scope.shapes)
-          .map(function(shape){
-            return _.omit(shape, ['svgElementPath', 'svgElement', '$$hashKey']);
-          })
-          .value();
-
-        return cleanShapes;
+        return _.map($scope.shapes, function(shapeViewmodel){
+          return shapeViewmodel.model;
+        })
       };
 
       $scope.showShapeMenu = function() {
