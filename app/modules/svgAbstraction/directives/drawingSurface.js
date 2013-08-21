@@ -105,6 +105,8 @@
           var newShape = {
             midPointX: ($scope.width - defaultBorder) / 2,
             midPointY: ($scope.height - defaultBorder) / 2,
+            width: $scope.width + 1,
+            height: $scope.height + 1,
             model:{
               id: uuidService.generateUUID(),
               top:  $scope.y,

@@ -26,25 +26,25 @@
 
       function addScopeMethods($scope) {
         $scope.calcLeft = function (shape) {
-//          return shape ? shape.left - shape.borderWidth / 2 : 0;
-          return shape ? shape.model.left : 0;
+          return shape ? shape.model.left - shape.model.borderWidth / 2 : 0;
+//          return shape ? shape.model.left : 0;
 
         };
 
         $scope.calcTop = function (shape) {
-//          return shape ? shape.top - shape.borderWidth / 2 : 0;
-          return shape ? shape.model.top : 0;
+          return shape ? shape.model.top - shape.model.borderWidth / 2 : 0;
+//          return shape ? shape.model.top : 0;
         };
 
         $scope.calcMidPointX = function (shape) {
-//          return shape ? shape.midPointX + shape.borderWidth / 2 : 0;
-          return shape ? shape.midPointX : 0;
+          return shape ? shape.midPointX + shape.model.borderWidth / 2 : 0;
+//          return shape ? shape.midPointX : 0;
 
         };
 
         $scope.calcMidPointY = function (shape) {
-//          return shape ? shape.midPointY + shape.borderWidth / 2 : 0;
-          return shape ? shape.midPointY : 0;
+          return shape ? shape.midPointY + shape.model.borderWidth / 2 : 0;
+//          return shape ? shape.midPointY : 0;
         };
 
         $scope.$watch('shape', function (shape) {
@@ -52,9 +52,15 @@
             return;
           }
 
-          var selectionBox = pathService.getSelectionBox(shape.svgElementPath);
-          $scope.width = selectionBox.width;
-          $scope.height = selectionBox.height;
+          if (!shape.width || !shape.height) {
+            var selectionBox = pathService.getSelectionBox(shape.svgElementPath);
+            shape.width = selectionBox.width;
+            shape.height = selectionBox.height;
+          }
+
+//          var selectionBox = pathService.getSelectionBox(shape.svgElementPath);
+          $scope.width = shape.width;
+          $scope.height = shape.height;
         });
       }
 

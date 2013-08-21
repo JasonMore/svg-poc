@@ -30,10 +30,6 @@
                        <!--visible="selectedShape"-->
                        <!--options="strokeWidthOptions"-->
                        <!--selection="selectedShape.borderWidth"></shape-options>-->
-
-        <label>Border Size
-        <input type="range" ng-model="selectedShape.model.borderWidth">
-        </label>
       </content-aim>
     </submenu-aim>
     <submenu-aim>
@@ -43,6 +39,9 @@
                        visible="selectedShape"
                        options="colorOptions"
                        selection="selectedShape.model.borderColor"></shape-options>
+        <label>Border Size
+          <input type="range" ng-model="selectedShape.model.borderWidth" max="25">
+        </label>
       </content-aim>
     </submenu-aim>
     <submenu-aim>

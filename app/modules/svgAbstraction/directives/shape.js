@@ -66,8 +66,8 @@
         ];
 
         var parentGroup = ngSvg.svg.group(ngSvg.shapeGroup, {
-          transform: transform.join(', '),
-          'clip-path': 'url({{"#" + viewModel.model.id + "_clipPath"}})'
+          transform: transform.join(', ')
+//          'clip-path': 'url({{"#" + viewModel.model.id + "_clipPath"}})'
         });
 
         var shapeBackground = ngSvg.svg.use(parentGroup, '', {
@@ -83,7 +83,8 @@
           'ng-attr-y': '{{viewModel.model.image ? viewModel.model.image.y : 0}}',
           'ng-attr-width': '{{viewModel.model.image ? viewModel.model.image.width : 0}}',
           'ng-attr-height': '{{viewModel.model.image ? viewModel.model.image.height : 0}}',
-          'ng-mousedown': 'whenClick()'
+          'ng-mousedown': 'whenClick()',
+          'clip-path': 'url({{"#" + viewModel.model.id + "_clipPath"}})'
         });
 
         var shapeForeground = ngSvg.svg.use(parentGroup, '', {
@@ -91,7 +92,7 @@
           'class': 'shape',
           'fill': 'none',
           'stroke': '{{viewModel.model.borderColor}}',
-          'stroke-width': '{{viewModel.model.borderWidth}}',
+          'stroke-width': '{{viewModel.model.borderWidth + 0.001}}',
           'ng-mousedown': 'whenClick()'
         });
 
