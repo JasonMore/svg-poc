@@ -8,7 +8,7 @@ describe('ngSvgSpec.js', function() {
   beforeEach(inject(function($rootScope, $compile, $controller){
     element = angular.element('<ng-svg></ng-svg>');
     scope = $rootScope;
-    controller = $controller('ngSvgController', {$element: element});
+    controller = $controller('ngSvgController', {$scope: scope, $element: element});
 
     $compile(element)(scope);
   }));

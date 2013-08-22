@@ -89,7 +89,7 @@ describe('selectionBoxSpec.js', function () {
     });
 
     it('draws a box around shape with 1px line width buffer for top and left', function () {
-      expect(selectionBoxGroup.attr('transform')).toEqual('translate(100,100), rotate(75,50,50)');
+      expect(selectionBoxGroup.attr('transform')).toEqual('translate(99,99), rotate(75,51,51)');
     });
 
     it('box width/height is 100 width + 4px line width', function () {

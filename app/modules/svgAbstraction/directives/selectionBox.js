@@ -379,7 +379,7 @@
       }
 
       var offset, start;
-      
+
       function getDragOffset(event){
         return {
           x: event.pageX - offset.left,

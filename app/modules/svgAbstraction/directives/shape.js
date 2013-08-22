@@ -92,7 +92,7 @@
           'class': 'shape',
           'fill': 'none',
           'stroke': '{{viewModel.model.borderColor}}',
-          'stroke-width': '{{viewModel.model.borderWidth + 0.001}}',
+          'stroke-width': '{{viewModel.model.borderWidth}}',
           'ng-mousedown': 'whenClick()'
         });
 
