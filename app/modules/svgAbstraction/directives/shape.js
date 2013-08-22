@@ -117,14 +117,14 @@
             width = this.width;
             height = this.height;
 
-//            $scope.$apply(function () {
+            $scope.$apply(function () {
 //              $scope.viewModel.model.path = _.template('M0,0L${width},0L${width},${height}L0,${height}z', {
 //                width: width,
 //                height: height
 //              });
               $scope.viewModel.model.image.width = width;
               $scope.viewModel.model.image.height = height;
-//            });
+            });
           };
 
           img.src = $scope.viewModel.model.image.url;
