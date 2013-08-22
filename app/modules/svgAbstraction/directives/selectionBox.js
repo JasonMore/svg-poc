@@ -183,13 +183,13 @@
         });
       }
 
-      function convertScreenToElementCoordinates(selectionBoxGroup, event, svg) {
+      function convertScreenToElementCoordinates(selectionBoxGroup, drag, svg) {
         var matrix = selectionBoxGroup.getScreenCTM().inverse();
 
         // convert screen to element coordinates
         var pt = svg._svg.createSVGPoint();
-        pt.x = event.pageX;
-        pt.y = event.pageY;
+        pt.x = drag.x;
+        pt.y = drag.y;
         pt = pt.matrixTransform(matrix);
         return pt;
       }
@@ -217,9 +217,22 @@
       }
 
       function attachResizeBindings(selectionCorners, $scope, svg) {
+        var offset, start;
+
         selectionCorners.draggable({
-          start: function () {
-//            self.resizeStarted();
+          start: function (event) {
+//            offset = angular.element(event.currentTarget).offset();
+            offset = {
+              left:  document.documentElement.scrollLeft || document.body.scrollLeft,
+                top:document.documentElement.scrollTop || document.body.scrollTop
+            };
+//            var offsetLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
+//            var offsetTop = document.documentElement.scrollTop || document.body.scrollTop;
+
+            start = {
+              x: event.pageX - offset.left,
+              y: event.pageY - offset.top
+            };
           },
           drag: function (event, ui) {
 
@@ -227,17 +240,19 @@
             var rawElement = $scope.shape.svgElement;
             var selectionBoxGroup = draggedCorner.parent()[0];
             var baselineOrigin = convertBaselineToSVG(selectionBoxGroup);
-            var newDim = getNewShapeLocationAndDimensions(draggedCorner, event, $scope);
+            var drag = getDragOffset(event);
+            var newDim = getNewShapeLocationAndDimensions(draggedCorner, drag, $scope);
+            var borderWidth = $scope.shape.model.borderWidth;
 
             $scope.$apply(function () {
-              $scope.shape.midPointX = (newDim.width - $scope.shape.model.borderWidth) / 2;
-              $scope.shape.midPointY = (newDim.height - $scope.shape.model.borderWidth) / 2;
+              $scope.shape.midPointX = (newDim.width - borderWidth) / 2;
+              $scope.shape.midPointY = (newDim.height - borderWidth) / 2;
             });
 
             var conversion = convertDeltasToSVG(selectionBoxGroup, baselineOrigin, newDim.deltaX, newDim.deltaY);
             var translation = getTranslation(rawElement, conversion.deltaX, conversion.deltaY, true);
-            var scaleX = (newDim.width - $scope.shape.model.borderWidth) / ($scope.width - $scope.shape.model.borderWidth);
-            var scaleY = (newDim.height - $scope.shape.model.borderWidth) / ($scope.height - $scope.shape.model.borderWidth);
+            var scaleX = (newDim.width - borderWidth) / ($scope.width - borderWidth);
+            var scaleY = (newDim.height - borderWidth) / ($scope.height - borderWidth);
             var shapePath = $scope.shape.svgElementPath;
             var newShapePath = rescaleElement(shapePath, scaleX, scaleY);
 
@@ -261,9 +276,20 @@
           }
         });
 
-        function getNewShapeLocationAndDimensions(draggedCorner, event, $scope) {
+        function getDragOffset(event){
+          return {
+            x: event.pageX - offset.left,
+            y: event.pageY - offset.top
+//            x: Math.min(event.pageX - offset.left, start.x),
+//            y: Math.min(event.pageY - offset.top, start.y)
+//          width = Math.abs(event.clientX - offset.left - start.x);
+//          height = Math.abs(event.clientY - offset.top - start.y);
+          };
+        }
+
+        function getNewShapeLocationAndDimensions(draggedCorner, drag, $scope) {
           var selectionBoxGroup = draggedCorner.parent()[0];
-          var pt = convertScreenToElementCoordinates(selectionBoxGroup, event, svg);
+          var pt = convertScreenToElementCoordinates(selectionBoxGroup, drag, svg);
           var cornerId = draggedCorner.attr('id'),
             deltaX = 0,
             deltaY = 0,

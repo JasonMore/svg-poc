@@ -31,7 +31,6 @@
         self.selectionGroup = svg.group({class: 'selection'});
         self.drawingGroup = svg.group({class: 'drawing'});
 
-
         $compile(svg._svg)($scope);
       }});
     })
