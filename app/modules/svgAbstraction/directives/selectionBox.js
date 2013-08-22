@@ -149,12 +149,24 @@
 
       function attachRotateBindings(rotator, $scope, svg) {
         rotator.draggable({
+          start: function (event) {
+            offset = {
+              left:  document.documentElement.scrollLeft || document.body.scrollLeft,
+              top:document.documentElement.scrollTop || document.body.scrollTop
+            };
+
+            start = {
+              x: event.pageX - offset.left,
+              y: event.pageY - offset.top
+            };
+          },
           drag: function (event, ui) {
 
             var angle = $scope.shape.model.rotation,
               parentGroup = rotator.parent()[0];
 
-            var pt = convertScreenToElementCoordinates(parentGroup, event, svg);
+            var drag = getDragOffset(event);
+            var pt = convertScreenToElementCoordinates(parentGroup, drag, svg);
 
             // ref point is height/2, -20
             var cx = $scope.width / 2;
@@ -217,17 +229,12 @@
       }
 
       function attachResizeBindings(selectionCorners, $scope, svg) {
-        var offset, start;
-
         selectionCorners.draggable({
           start: function (event) {
-//            offset = angular.element(event.currentTarget).offset();
             offset = {
               left:  document.documentElement.scrollLeft || document.body.scrollLeft,
                 top:document.documentElement.scrollTop || document.body.scrollTop
             };
-//            var offsetLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
-//            var offsetTop = document.documentElement.scrollTop || document.body.scrollTop;
 
             start = {
               x: event.pageX - offset.left,
@@ -275,17 +282,6 @@
           });
           }
         });
-
-        function getDragOffset(event){
-          return {
-            x: event.pageX - offset.left,
-            y: event.pageY - offset.top
-//            x: Math.min(event.pageX - offset.left, start.x),
-//            y: Math.min(event.pageY - offset.top, start.y)
-//          width = Math.abs(event.clientX - offset.left - start.x);
-//          height = Math.abs(event.clientY - offset.top - start.y);
-          };
-        }
 
         function getNewShapeLocationAndDimensions(draggedCorner, drag, $scope) {
           var selectionBoxGroup = draggedCorner.parent()[0];
@@ -380,6 +376,15 @@
             y: y
           };
         }
+      }
+
+      var offset, start;
+      
+      function getDragOffset(event){
+        return {
+          x: event.pageX - offset.left,
+          y: event.pageY - offset.top
+        };
       }
     });
 })();
