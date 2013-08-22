@@ -26,6 +26,20 @@
                        options="colorOptions"
                        selection="selectedShape.model.backgroundColor"></shape-options>
 
+        <label>
+          Image Url
+          <input ng-model="selectedShape.model.image.url" throttle>
+        </label>
+
+        <label>
+          Image Width
+          <input ng-model="selectedShape.model.image.width">
+        </label>
+
+        <label>
+          Image Height
+          <input ng-model="selectedShape.model.image.height">
+        </label>
         <!--<shape-options name="Border Size"-->
                        <!--visible="selectedShape"-->
                        <!--options="strokeWidthOptions"-->

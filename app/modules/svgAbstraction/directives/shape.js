@@ -19,11 +19,6 @@
           $compile(pathDefinition)($scope);
           $compile(parentGroup)($scope);
 
-//          elementLookup[$scope.model] = {
-//            svgElementPath: pathDefinition,
-//            svgElement: parentGroup
-//          }
-
           $scope.viewModel.svgElementPath = pathDefinition;
           $scope.viewModel.svgElement = parentGroup;
 
@@ -33,6 +28,14 @@
 
           // attach svg element to dom element so we can access it from other directives
           element.data('parentGroup', parentGroup);
+
+          $scope.$watch('viewModel.model.image.url', function(url, oldVal){
+            if(url === oldVal){
+              return;
+            }
+
+            calculateImageHeightWidth($scope);
+          });
 
           $scope.$on("$destroy", function () {
             ngSvg.svg.remove(pathDefinition);
@@ -99,13 +102,13 @@
         return parentGroup;
       }
 
-      function calculateImagePath($scope) {
+      function calculateImageHeightWidth($scope) {
         // if drawing image, calculate path
-        if (!$scope.viewModel.model.image) {
+        if (!$scope.viewModel.model.image.url) {
           return;
         }
 
-        if (!$scope.viewModel.width && !$scope.viewModel.height) {
+//        if (!$scope.viewModel.width && !$scope.viewModel.height) {
           var width,
             height,
             img = new Image();
@@ -114,21 +117,23 @@
             width = this.width;
             height = this.height;
 
-            $scope.$apply(function () {
-              $scope.viewModel.model.path = _.template('M0,0L${width},0L${width},${height}L0,${height}z', {
-                width: width,
-                height: height
-              });
-            });
+//            $scope.$apply(function () {
+//              $scope.viewModel.model.path = _.template('M0,0L${width},0L${width},${height}L0,${height}z', {
+//                width: width,
+//                height: height
+//              });
+              $scope.viewModel.model.image.width = width;
+              $scope.viewModel.model.image.height = height;
+//            });
           };
 
           img.src = $scope.viewModel.model.image.url;
-        } else {
-          $scope.viewModel.model.path = _.template('M0,0L${width},0L${width},${height}L0,${height}z', {
-            width: $scope.viewModel.width,
-            height: $scope.height
-          });
-        }
+//        } else {
+//          $scope.viewModel.model.path = _.template('M0,0L${width},0L${width},${height}L0,${height}z', {
+//            width: $scope.viewModel.width,
+//            height: $scope.height
+//          });
+//        }
 
       }
 
