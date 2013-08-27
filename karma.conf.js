@@ -19,21 +19,25 @@ module.exports = function(karma) {
     // list of files / patterns to load in the browser
     files: [
       // -- add libraries here as they are added to index.html
-      'app/components/jquery/jquery.js',
-      'app/components/jquery-ui/ui/jquery-ui.js',
-      'app/components/bootstrap-css/js/bootstrap.js',
+      'http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js',
+      'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js',
+      'http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js',
+      'http://cdnjs.cloudflare.com/ajax/libs/lodash.js/1.3.1/lodash.min.js',
+      'app/lib/jquery.menu-aim.js',
       'app/lib/jquery.svg.js',
-      'app/components/lodash/dist/lodash.js',
-      'app/components/angularjs-bower/angular.js',
-      'app/components/angularjs-bower/angular-resource.js',
-      'app/components/angularjs-bower/angular-cookies.js',
-      'app/components/angularjs-bower/angular-sanitize.js',
-      'app/components/angular-ui-router/release/angular-ui-router.js',
-      'app/components/angular-bootstrap/ui-bootstrap-tpls.js',
+      'http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.1.5/angular.js',
+      'http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.1.5/angular-resource.js',
+      'http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.0.1/angular-ui-router.js',
+      'http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.5.0/ui-bootstrap-tpls.min.js',
       // end of libraries
 
-      'app/components/angularjs-bower/angular-mocks.js',
+      // testing libraries
+      'http://code.angularjs.org/1.1.5/angular-mocks.js',
+
+      // app code
       'app/modules/**/*.js',
+
+      // app tests
       'test/unit/**/*.js',
 //      'test/unit/**/*.html'
     ],
