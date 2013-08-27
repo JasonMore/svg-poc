@@ -146,7 +146,7 @@ describe('selectionBoxSpec.js', function () {
 
     describe('nw corner', function () {
       beforeEach(function () {
-        corner = selectionBoxGroup.find('#cornerNW');
+        corner = selectionBoxGroup.find('[data-cornerid=cornerNW]');
       });
       describe('down and right', function () {
         beforeEach(function () {
@@ -237,7 +237,7 @@ describe('selectionBoxSpec.js', function () {
 
     describe('ne corner', function () {
       beforeEach(function () {
-        corner = selectionBoxGroup.find('#cornerNE');
+        corner = selectionBoxGroup.find('[data-cornerid=cornerNE]');
       });
       describe('down and right', function () {
         beforeEach(function () {
@@ -330,7 +330,7 @@ describe('selectionBoxSpec.js', function () {
 
     describe('se corner', function () {
       beforeEach(function () {
-        corner = selectionBoxGroup.find('#cornerSE');
+        corner = selectionBoxGroup.find('[data-cornerid=cornerSE]');
       });
       describe('down and right', function () {
         beforeEach(function () {
@@ -421,7 +421,7 @@ describe('selectionBoxSpec.js', function () {
 
     describe('sw corner', function () {
       beforeEach(function () {
-        corner = selectionBoxGroup.find('#cornerSW');
+        corner = selectionBoxGroup.find('[data-cornerid=cornerSW]');
       });
       describe('down and right', function () {
         beforeEach(function () {
@@ -511,7 +511,7 @@ describe('selectionBoxSpec.js', function () {
 
     describe('rotation', function () {
       beforeEach(function () {
-        corner = selectionBoxGroup.find('#rotator');
+        corner = selectionBoxGroup.find('[data-cornerid=rotator]');
       });
       describe('down and right', function () {
         beforeEach(function () {
@@ -558,7 +558,7 @@ describe('selectionBoxSpec.js', function () {
 
       describe('se corner', function () {
         beforeEach(function () {
-          corner = selectionBoxGroup.find('#cornerSE');
+          corner = selectionBoxGroup.find('[data-cornerid=cornerSE]');
         });
         describe('down', function () {
           beforeEach(function () {
@@ -608,7 +608,7 @@ describe('selectionBoxSpec.js', function () {
 
       describe('nw corner', function () {
         beforeEach(function () {
-          corner = selectionBoxGroup.find('#cornerNW');
+          corner = selectionBoxGroup.find('[data-cornerid=cornerNW]');
         });
         describe('down and right', function () {
           beforeEach(function () {
@@ -634,7 +634,7 @@ describe('selectionBoxSpec.js', function () {
 
       describe('ne corner', function () {
         beforeEach(function () {
-          corner = selectionBoxGroup.find('#cornerNE');
+          corner = selectionBoxGroup.find('[data-cornerid=cornerNE]');
         });
         describe('down and right', function () {
           beforeEach(function () {
@@ -661,7 +661,7 @@ describe('selectionBoxSpec.js', function () {
 
       describe('se corner', function () {
         beforeEach(function () {
-          corner = selectionBoxGroup.find('#cornerSE');
+          corner = selectionBoxGroup.find('[data-cornerid=cornerSE]');
         });
         describe('down and right', function () {
           beforeEach(function () {
@@ -688,7 +688,7 @@ describe('selectionBoxSpec.js', function () {
 
       describe('sw corner', function () {
         beforeEach(function () {
-          corner = selectionBoxGroup.find('#cornerSW');
+          corner = selectionBoxGroup.find('[data-cornerid=cornerSW]');
         });
         describe('down and right', function () {
           beforeEach(function () {

@@ -12,6 +12,8 @@
         link: function ($scope, element, attr, ngSvgController) {
           $scope.width = 0;
           $scope.height = 0;
+          $scope.imageWidth = 0;
+          $scope.imageHeight = 0;
 
           var ngSvg = ngSvgController,
             selection = createSelectionBox(ngSvg);
@@ -20,6 +22,7 @@
           attachRotateBindings(selection.rotator, $scope, ngSvg.svg);
 
           $compile(selection.box)($scope);
+          $compile(selection.imageBox)($scope);
           addScopeMethods($scope);
         }
       };
@@ -27,24 +30,50 @@
       function addScopeMethods($scope) {
         $scope.calcLeft = function (shape) {
           return shape ? shape.model.left - shape.model.borderWidth / 2 : 0;
-//          return shape ? shape.model.left : 0;
 
         };
 
         $scope.calcTop = function (shape) {
           return shape ? shape.model.top - shape.model.borderWidth / 2 : 0;
-//          return shape ? shape.model.top : 0;
         };
 
         $scope.calcMidPointX = function (shape) {
           return shape ? shape.midPointX + shape.model.borderWidth / 2 : 0;
-//          return shape ? shape.midPointX : 0;
 
         };
 
         $scope.calcMidPointY = function (shape) {
           return shape ? shape.midPointY + shape.model.borderWidth / 2 : 0;
-//          return shape ? shape.midPointY : 0;
+        };
+
+        $scope.calcImageLeft = function (shape) {
+          if(!shape || !shape.model.image){
+            return 0;
+          }
+
+          return shape.model.image.left + $scope.calcLeft(shape);
+        };
+
+        $scope.calcImageTop = function (shape) {
+          if(!shape || !shape.model.image){
+            return 0;
+          }
+          return shape.model.image.top + $scope.calcTop(shape);
+        };
+
+        $scope.calcImageMidPointX = function (shape) {
+          if(!shape || !shape.model.image){
+            return 0;
+          }
+
+          return (shape.model.image.width / 2);
+        };
+
+        $scope.calcImageMidPointY = function (shape) {
+          if(!shape || !shape.model.image){
+            return 0;
+          }
+          return (shape.model.image.height / 2);
         };
 
         $scope.$watch('shape', function (shape) {
@@ -58,20 +87,38 @@
             shape.height = selectionBox.height;
           }
 
-//          var selectionBox = pathService.getSelectionBox(shape.svgElementPath);
           $scope.width = shape.width;
           $scope.height = shape.height;
         });
+
+        $scope.$watch('shape.model.image.width + shape.model.image.height', function() {
+          if(!$scope.shape || !$scope.shape.model.image){
+            $scope.imageWidth = 0;
+            $scope.imageHeight = 0;
+
+            return;
+          }
+
+          $scope.imageWidth = $scope.shape.model.image.width;
+          $scope.imageHeight = $scope.shape.model.image.height;
+        });
+
       }
 
       function createSelectionBox(ngSvg) {
         var selectionBox = drawSelectionBox(ngSvg);
         var handles = drawSelectionCorners(ngSvg.svg, selectionBox);
 
+        var imageSelectionBox = drawImageSelectionBox(ngSvg);
+        var imageHandles = drawImageSelectionCorners(ngSvg.svg, imageSelectionBox);
+
         return {
           box: selectionBox,
           corners: handles.corners,
-          rotator: handles.rotator
+          rotator: handles.rotator,
+          imageBox: imageSelectionBox,
+          imageCorners: imageHandles.corners,
+          imageRotator: imageHandles.rotator
         };
       }
 
@@ -94,6 +141,30 @@
           stroke: '#0096fd',
           strokeWidth: 2
         });
+
+        return selectionBox;
+      }
+
+      function drawImageSelectionBox(ngSvg) {
+        var transform = [
+          'translate({{calcImageLeft(shape)}},{{calcImageTop(shape)}})',
+          'rotate({{shape.model.image.rotation || 0}},{{calcImageMidPointX(shape)}},{{calcImageMidPointY(shape)}})'
+        ];
+
+        var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup, {
+          transform: transform.join(', '),
+          'ng-show': 'shape'
+        });
+
+        ngSvg.svg.path(selectionBox, '', {
+          'ng-attr-d': 'M0,0L{{imageWidth}},0L{{imageWidth}},{{imageHeight}}L0,{{imageHeight}}z',
+          fill: 'none',
+          fillOpacity: '0.3',
+          'stroke-dasharray': '5,5',
+          stroke: '#0096fd',
+          strokeWidth: 2
+        });
+
         return selectionBox;
       }
 
@@ -106,39 +177,87 @@
         };
 
         var cornerNW = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
-          id: 'cornerNW',
+          'data-cornerid': 'cornerNW',
           transform: 'translate(0,0)'
         }));
 
         var cornerNE = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
-          id: 'cornerNE',
+          'data-cornerid': 'cornerNE',
           transform: 'translate({{width}},0)'
         }));
 
         var cornerSE = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
-          id: 'cornerSE',
+          'data-cornerid': 'cornerSE',
           transform: 'translate({{width}},{{height}})'
         }));
 
         var cornerSW = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
-          id: 'cornerSW',
+          'data-cornerid': 'cornerSW',
           transform: 'translate(0,{{height}})'
         }));
 
         svg.line(selectionBox, 0, 0, 0, (-1 * rotatorLineLength), {
-          id: 'rotatorLine',
           stroke: '#0096fd',
           strokeWidth: 3,
           transform: 'translate({{calcMidPointX(shape)}},0)'
         });
 
         var rotator = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
-          id: 'rotator',
+          'data-cornerid': 'rotator',
           class_: 'rotator',
           fill: '#FFFFFF',
           stroke: '#0096fd',
           strokeWidth: 1,
           transform: 'translate({{calcMidPointX(shape)}},-20)'
+        }));
+
+        return {
+          corners: angular.element([cornerNW, cornerNE, cornerSE, cornerSW]),
+          rotator: angular.element(rotator)
+        };
+      }
+
+      function drawImageSelectionCorners(svg, selectionBox){
+        var defaultCircleSettings = {
+          class_: 'corner',
+          fill: '#0096fd',
+          'stroke-width': 1,
+          stroke: 'white'
+        };
+
+        var cornerNW = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
+          'data-cornerid': 'cornerNW',
+          transform: 'translate(0,0)'
+        }));
+
+        var cornerNE = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
+          'data-cornerid': 'cornerNE',
+          transform: 'translate({{imageWidth}},0)'
+        }));
+
+        var cornerSE = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
+          'data-cornerid': 'cornerSE',
+          transform: 'translate({{imageWidth}},{{imageHeight}})'
+        }));
+
+        var cornerSW = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
+          'data-cornerid': 'cornerSW',
+          transform: 'translate(0,{{imageHeight}})'
+        }));
+
+        svg.line(selectionBox, 0, 0, 0, (-1 * rotatorLineLength), {
+          stroke: '#0096fd',
+          strokeWidth: 3,
+          transform: 'translate({{calcImageMidPointX(shape)}},0)'
+        });
+
+        var rotator = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
+          'data-cornerid': 'rotator',
+          class_: 'rotator',
+          fill: '#FFFFFF',
+          stroke: '#0096fd',
+          strokeWidth: 1,
+          transform: 'translate({{calcImageMidPointX(shape)}},-20)'
         }));
 
         return {
@@ -286,7 +405,7 @@
         function getNewShapeLocationAndDimensions(draggedCorner, drag, $scope) {
           var selectionBoxGroup = draggedCorner.parent()[0];
           var pt = convertScreenToElementCoordinates(selectionBoxGroup, drag, svg);
-          var cornerId = draggedCorner.attr('id'),
+          var cornerId = draggedCorner.data('cornerid'),
             deltaX = 0,
             deltaY = 0,
             width = $scope.width,

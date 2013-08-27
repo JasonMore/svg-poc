@@ -41,8 +41,8 @@
       path: 'M0,0L150,0L150,150L0,150z',
       image: {
         url: 'http://lorempixel.com/150/150/nature',
-        x: 0,
-        y: 0,
+        top: 0,
+        left: 0,
         width: 150,
         height: 150
       }
@@ -58,8 +58,8 @@
       borderWidth: 10,
       image: {
         url: 'http://lorempixel.com/1000/600/nature',
-        x: -250,
-        y: -150,
+        top: -250,
+        left: -150,
         width: 1000,
         height: 600
       }

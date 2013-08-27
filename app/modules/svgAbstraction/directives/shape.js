@@ -82,8 +82,8 @@
 
         var image = ngSvg.svg.image(parentGroup, 0, 0, 0, 0, '', {
           'ng-href': '{{ viewModel.model.image.url }}',
-          'ng-attr-x': '{{viewModel.model.image ? viewModel.model.image.x : 0}}',
-          'ng-attr-y': '{{viewModel.model.image ? viewModel.model.image.y : 0}}',
+          'ng-attr-x': '{{viewModel.model.image ? viewModel.model.image.left : 0}}',
+          'ng-attr-y': '{{viewModel.model.image ? viewModel.model.image.top : 0}}',
           'ng-attr-width': '{{viewModel.model.image ? viewModel.model.image.width : 0}}',
           'ng-attr-height': '{{viewModel.model.image ? viewModel.model.image.height : 0}}',
           'ng-mousedown': 'whenClick()',
