@@ -65,7 +65,7 @@
       function drawShape($scope, ngSvg) {
         var transform = [
           'translate({{viewModel.model.left}},{{viewModel.model.top}})',
-          'rotate({{viewModel.model.rotation}},{{viewModel.midPointX}},{{viewModel.midPointY}})'
+          'rotate({{viewModel.model.rotation}},{{viewModel.midPointX()}},{{viewModel.midPointY()}})'
         ];
 
         var parentGroup = ngSvg.svg.group(ngSvg.shapeGroup, {
@@ -97,7 +97,8 @@
 
         var previewImage = ngSvg.svg.image(parentGroup, 0, 0, 0, 0, '', _.extend({
           'ng-href': '{{ viewModel.model.image.url }}',
-          'ng-attr-mask': 'url({{"#" + viewModel.model.id + "_previewImageMask"}})'
+          'ng-attr-mask': 'url({{"#" + viewModel.model.id + "_previewImageMask"}})',
+          'ng-show': 'viewModel.showPreviewImage'
         }, imageBindings));
 
         var image = ngSvg.svg.image(parentGroup, 0, 0, 0, 0, '', _.extend({
@@ -144,6 +145,7 @@
         if (!viewModelImage.top || !viewModelImage.left) {
           viewModelImage.top = 0;
           viewModelImage.left = 0;
+          viewModelImage.rotation = 0;
         }
       }
 
@@ -153,8 +155,8 @@
           var selectionBox = pathService.getSelectionBox(shape);
           $scope.viewModel.width = selectionBox.width;
           $scope.viewModel.height = selectionBox.height;
-          $scope.viewModel.midPointX = (selectionBox.width - $scope.viewModel.model.borderWidth) / 2;
-          $scope.viewModel.midPointY = (selectionBox.height - $scope.viewModel.model.borderWidth) / 2;
+//          $scope.viewModel.midPointX = (selectionBox.width - $scope.viewModel.model.borderWidth) / 2;
+//          $scope.viewModel.midPointY = (selectionBox.height - $scope.viewModel.model.borderWidth) / 2;
         });
       }
     });

@@ -61,7 +61,7 @@
         surfaceGroup
           .on('mousedown', startDrag)
           .on('mousemove', dragging)
-          .on('mouseup', endDrag)
+          .on('mouseup', endDrag);
 
         var offset,
           start;
@@ -103,8 +103,8 @@
 
           var defaultBorder = 2;
           var newShape = {
-            midPointX: ($scope.width - defaultBorder) / 2,
-            midPointY: ($scope.height - defaultBorder) / 2,
+//            midPointX: ($scope.width - defaultBorder) / 2,
+//            midPointY: ($scope.height - defaultBorder) / 2,
             width: $scope.width + 1,
             height: $scope.height + 1,
             model:{

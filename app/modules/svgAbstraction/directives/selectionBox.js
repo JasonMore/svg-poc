@@ -29,36 +29,36 @@
 
       function addScopeMethods($scope) {
         $scope.calcLeft = function (shape) {
-          return shape ? shape.model.left - shape.model.borderWidth / 2 : 0;
+          return shape ? shape.model.left - shape.borderOffset() : 0;
 
         };
 
         $scope.calcTop = function (shape) {
-          return shape ? shape.model.top - shape.model.borderWidth / 2 : 0;
+          return shape ? shape.model.top - shape.borderOffset() : 0;
         };
 
-        $scope.calcMidPointX = function (shape) {
-          return shape ? shape.midPointX + shape.model.borderWidth / 2 : 0;
+//        $scope.calcMidPointX = function (shape) {
+//          return shape ? shape.midPointX + shape.borderOffset() : 0;
+//
+//        };
 
-        };
-
-        $scope.calcMidPointY = function (shape) {
-          return shape ? shape.midPointY + shape.model.borderWidth / 2 : 0;
-        };
+//        $scope.calcMidPointY = function (shape) {
+//          return shape ? shape.midPointY + shape.borderOffset() : 0;
+//        };
 
         $scope.calcImageLeft = function (shape) {
           if(!shape || !shape.model.image){
             return 0;
           }
 
-          return shape.model.image.left + $scope.calcLeft(shape);
+          return shape.model.image.left + $scope.calcLeft(shape) + shape.model.borderWidth / 2;
         };
 
         $scope.calcImageTop = function (shape) {
           if(!shape || !shape.model.image){
             return 0;
           }
-          return shape.model.image.top + $scope.calcTop(shape);
+          return shape.model.image.top + $scope.calcTop(shape) + shape.model.borderWidth / 2;
         };
 
         $scope.calcImageMidPointX = function (shape) {
@@ -74,6 +74,14 @@
             return 0;
           }
           return (shape.model.image.height / 2);
+        };
+
+        $scope.calcImageRotation = function(shape){
+          if(!shape || !shape.model.image){
+            return 0;
+          }
+
+          return shape.model.image.rotation + shape.model.rotation;
         };
 
         $scope.$watch('shape', function (shape) {
@@ -125,7 +133,7 @@
       function drawSelectionBox(ngSvg) {
         var transform = [
           'translate({{calcLeft(shape)}},{{calcTop(shape)}})',
-          'rotate({{shape.model.rotation}},{{calcMidPointX(shape)}},{{calcMidPointY(shape)}})'
+          'rotate({{shape.model.rotation}},{{shape.midPointX()}},{{shape.midPointY()}})'
         ];
 
         var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup, {
@@ -148,7 +156,7 @@
       function drawImageSelectionBox(ngSvg) {
         var transform = [
           'translate({{calcImageLeft(shape)}},{{calcImageTop(shape)}})',
-          'rotate({{shape.model.image.rotation || 0}},{{calcImageMidPointX(shape)}},{{calcImageMidPointY(shape)}})'
+          'rotate({{calcImageRotation(shape)}},{{calcImageMidPointX(shape)}},{{calcImageMidPointY(shape)}})'
         ];
 
         var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup, {
@@ -176,40 +184,40 @@
           stroke: 'white'
         };
 
-        var cornerNW = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
+        var cornerNW = svg.circle(selectionBox, 0, 0, 5, _.extend({
           'data-cornerid': 'cornerNW',
           transform: 'translate(0,0)'
-        }));
+        }, defaultCircleSettings));
 
-        var cornerNE = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
+        var cornerNE = svg.circle(selectionBox, 0, 0, 5, _.extend({
           'data-cornerid': 'cornerNE',
           transform: 'translate({{width}},0)'
-        }));
+        }, defaultCircleSettings));
 
-        var cornerSE = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
+        var cornerSE = svg.circle(selectionBox, 0, 0, 5, _.extend({
           'data-cornerid': 'cornerSE',
           transform: 'translate({{width}},{{height}})'
-        }));
+        }, defaultCircleSettings));
 
-        var cornerSW = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
+        var cornerSW = svg.circle(selectionBox, 0, 0, 5, _.extend({
           'data-cornerid': 'cornerSW',
           transform: 'translate(0,{{height}})'
-        }));
+        }, defaultCircleSettings));
 
         svg.line(selectionBox, 0, 0, 0, (-1 * rotatorLineLength), {
           stroke: '#0096fd',
           strokeWidth: 3,
-          transform: 'translate({{calcMidPointX(shape)}},0)'
+          transform: 'translate({{shape.midPointX()}},0)'
         });
 
-        var rotator = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
+        var rotator = svg.circle(selectionBox, 0, 0, 5, _.extend({
           'data-cornerid': 'rotator',
           class_: 'rotator',
           fill: '#FFFFFF',
           stroke: '#0096fd',
           strokeWidth: 1,
-          transform: 'translate({{calcMidPointX(shape)}},-20)'
-        }));
+          transform: 'translate({{shape.midPointX()}},-20)'
+        }, defaultCircleSettings));
 
         return {
           corners: angular.element([cornerNW, cornerNE, cornerSE, cornerSW]),
@@ -371,8 +379,11 @@
             var borderWidth = $scope.shape.model.borderWidth;
 
             $scope.$apply(function () {
-              $scope.shape.midPointX = (newDim.width - borderWidth) / 2;
-              $scope.shape.midPointY = (newDim.height - borderWidth) / 2;
+//              $scope.shape.midPointX = (newDim.width - borderWidth) / 2;
+//              $scope.shape.midPointY = (newDim.height - borderWidth) / 2;
+
+              $scope.shape.width = newDim.width;
+              $scope.shape.height = newDim.height;
             });
 
             var conversion = convertDeltasToSVG(selectionBoxGroup, baselineOrigin, newDim.deltaX, newDim.deltaY);

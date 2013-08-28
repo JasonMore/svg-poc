@@ -32,18 +32,9 @@
         </label>
 
         <label>
-          Image Width
-          <input ng-model="selectedShape.model.image.width">
-        </label>
-
-        <label>
-          Image Height
-          <input ng-model="selectedShape.model.image.height">
-        </label>
-
-
-        <label>
-          <a class="btn" ng-click="">edit shape</a>
+          <a class="btn" ng-click="selectedShape.showPreviewImage = !selectedShape.showPreviewImage">
+            edit image
+          </a>
         </label>
         <!--<shape-options name="Border Size"-->
                        <!--visible="selectedShape"-->
@@ -68,21 +59,6 @@
       <content-aim class="popover">hij there</content-aim>
     </submenu-aim>
   </menu-aim>
-
-  <!--<shape-options name="Background Color"-->
-                 <!--visible="selectedShape"-->
-                 <!--options="colorOptions"-->
-                 <!--selection="selectedShape.backgroundColor"></shape-options>-->
-
-  <!--<shape-options name="Border Size"-->
-                 <!--visible="selectedShape"-->
-                 <!--options="strokeWidthOptions"-->
-                 <!--selection="selectedShape.borderWidth"></shape-options>-->
-
-  <!--<shape-options name="Border Color"-->
-                 <!--visible="selectedShape"-->
-                 <!--options="colorOptions"-->
-                 <!--selection="selectedShape.borderColor"></shape-options>-->
 
   <!--<shape-options name="Font Color"-->
   <!--visible="selectedShape"-->

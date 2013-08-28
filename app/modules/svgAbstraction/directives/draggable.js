@@ -32,40 +32,22 @@
                 orig = {x: pt.x, y: pt.y};
               },
               drag: function (event, ui) {
-//              if (self.isDrawing()) {
-//                return;
-//              }
+                var draggedElement = this;
+                var delta = getTranslatedDragDeltas(draggedElement);
 
-                // convert screen to element coordinates
-                var pt = this.ownerSVGElement.createSVGPoint();
-                pt.x = event.pageX;
-                pt.y = event.pageY;
-
-                var matrix = this.getScreenCTM().inverse();
-                pt = pt.matrixTransform(matrix);
-
-                var deltax = pt.x - orig.x;
-                var deltay = pt.y - orig.y;
-
-                var pt2 = this.ownerSVGElement.createSVGPoint();
-                pt2.x = deltax;
-                pt2.y = deltay;
-                pt2 = pt2.matrixTransform(this.getCTM());
-
-                var pt3 = this.ownerSVGElement.createSVGPoint();
-                pt3.x = 0;
-                pt3.y = 0;
-                pt3 = pt3.matrixTransform(this.getCTM());
-
-                deltax = pt2.x - pt3.x;
-                deltay = pt2.y - pt3.y;
-
-                var adjustment = adjustTranslate(this, deltax, deltay, true);
+                var adjustment = adjustTranslate(draggedElement, delta.x, delta.y, true);
 
                 $scope.$apply(function () {
                   $scope.viewModel.isDragging = true;
-                  $scope.viewModel.model.left = adjustment.x;
-                  $scope.viewModel.model.top = adjustment.y;
+
+                  if($scope.viewModel.showPreviewImage){
+                    $scope.viewModel.model.image.left = adjustment.x;
+                    $scope.viewModel.model.image.top = adjustment.y;
+                  } else {
+                    $scope.viewModel.model.left = adjustment.x;
+                    $scope.viewModel.model.top = adjustment.y;
+                  }
+
                 });
               },
               stop: function () {
@@ -74,6 +56,36 @@
                 });
               }
             };
+
+          // convert screen to element coordinates
+          function getTranslatedDragDeltas(draggedElement) {
+            var pt = draggedElement.ownerSVGElement.createSVGPoint();
+            pt.x = event.pageX;
+            pt.y = event.pageY;
+
+            var matrix = draggedElement.getScreenCTM().inverse();
+            pt = pt.matrixTransform(matrix);
+            var deltax = pt.x - orig.x;
+            var deltay = pt.y - orig.y;
+
+            var pt2 = draggedElement.ownerSVGElement.createSVGPoint();
+            pt2.x = deltax;
+            pt2.y = deltay;
+            pt2 = pt2.matrixTransform(draggedElement.getCTM());
+
+            var pt3 = draggedElement.ownerSVGElement.createSVGPoint();
+            pt3.x = 0;
+            pt3.y = 0;
+            pt3 = pt3.matrixTransform(draggedElement.getCTM());
+
+            deltax = pt2.x - pt3.x;
+            deltay = pt2.y - pt3.y;
+
+            return {
+              x: deltax,
+              y: deltay
+            };
+          }
 
           function adjustTranslate(elt, x, y, isRelative) {
             if (!elt.transform.baseVal.numberOfItems) {

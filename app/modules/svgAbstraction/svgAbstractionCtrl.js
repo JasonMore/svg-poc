@@ -44,7 +44,8 @@
         top: 0,
         left: 0,
         width: 150,
-        height: 150
+        height: 150,
+        rotation: 0
       }
     },
     {
@@ -61,23 +62,32 @@
         top: -250,
         left: -150,
         width: 1000,
-        height: 600
+        height: 600,
+        rotation: 0
       }
     }
   ];
 
   angular.module('svgAbstraction.controllers', [])
     .controller('svgAbstractionCtrl', function ($scope, $timeout, shapePaths) {
-
+window.debugScope = $scope;
       // import
       function createShapeViewModels(shapeDTOs){
         return _.map(shapeDTOs, function(shape){
           return {
             height: 0,
             width: 0,
-            midPointX: 0,
-            midPointY: 0,
-            model: shape
+            showPreviewImage: false,
+            model: shape,
+            borderOffset: function() {
+              return this.model.borderWidth / 2;
+            },
+            midPointX: function() {
+              return this.width - this.borderOffset();
+            },
+            midPointY: function() {
+              return this.height - this.borderOffset();
+            }
           }
         });
       }
