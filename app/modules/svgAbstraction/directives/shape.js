@@ -29,8 +29,8 @@
           // attach svg element to dom element so we can access it from other directives
           element.data('parentGroup', parentGroup);
 
-          $scope.$watch('viewModel.model.image.url', function(url, oldVal){
-            if(url === oldVal){
+          $scope.$watch('viewModel.model.image.url', function (url, oldVal) {
+            if (url === oldVal) {
               return;
             }
 
@@ -70,7 +70,6 @@
 
         var parentGroup = ngSvg.svg.group(ngSvg.shapeGroup, {
           transform: transform.join(', ')
-//          'clip-path': 'url({{"#" + viewModel.model.id + "_clipPath"}})'
         });
 
         var shapeBackground = ngSvg.svg.use(parentGroup, '', {
@@ -80,15 +79,32 @@
           'ng-mousedown': 'whenClick()'
         });
 
-        var image = ngSvg.svg.image(parentGroup, 0, 0, 0, 0, '', {
-          'ng-href': '{{ viewModel.model.image.url }}',
+        var imageBindings = {
           'ng-attr-x': '{{viewModel.model.image ? viewModel.model.image.left : 0}}',
           'ng-attr-y': '{{viewModel.model.image ? viewModel.model.image.top : 0}}',
           'ng-attr-width': '{{viewModel.model.image ? viewModel.model.image.width : 0}}',
-          'ng-attr-height': '{{viewModel.model.image ? viewModel.model.image.height : 0}}',
+          'ng-attr-height': '{{viewModel.model.image ? viewModel.model.image.height : 0}}'
+        };
+
+        var previewImageMaskId = $scope.viewModel.model.id + '_previewImageMask';
+
+        var previewImageMask = ngSvg.svg.mask(parentGroup, previewImageMaskId, 0, 0, 0, 0, imageBindings);
+
+        var previewImageMaskRect = ngSvg.svg.rect(previewImageMask, 0, 0, 0, 0, _.extend({
+          'fill': 'white',
+          'opacity': '.4'
+        }, imageBindings));
+
+        var previewImage = ngSvg.svg.image(parentGroup, 0, 0, 0, 0, '', _.extend({
+          'ng-href': '{{ viewModel.model.image.url }}',
+          'ng-attr-mask': 'url({{"#" + viewModel.model.id + "_previewImageMask"}})'
+        }, imageBindings));
+
+        var image = ngSvg.svg.image(parentGroup, 0, 0, 0, 0, '', _.extend({
+          'ng-href': '{{ viewModel.model.image.url }}',
           'ng-mousedown': 'whenClick()',
           'clip-path': 'url({{"#" + viewModel.model.id + "_clipPath"}})'
-        });
+        }, imageBindings));
 
         var shapeForeground = ngSvg.svg.use(parentGroup, '', {
           'ng-href': '{{ "#" + viewModel.model.id}}',
@@ -108,33 +124,27 @@
           return;
         }
 
-//        if (!$scope.viewModel.width && !$scope.viewModel.height) {
-          var width,
-            height,
-            img = new Image();
+        var width,
+          height,
+          img = new Image(),
+          viewModelImage = $scope.viewModel.model.image;
 
-          img.onload = function () {
-            width = this.width;
-            height = this.height;
+        img.onload = function () {
+          width = this.width;
+          height = this.height;
 
-            $scope.$apply(function () {
-//              $scope.viewModel.model.path = _.template('M0,0L${width},0L${width},${height}L0,${height}z', {
-//                width: width,
-//                height: height
-//              });
-              $scope.viewModel.model.image.width = width;
-              $scope.viewModel.model.image.height = height;
-            });
-          };
+          $scope.$apply(function () {
+            viewModelImage.width = width;
+            viewModelImage.height = height;
+          });
+        };
 
-          img.src = $scope.viewModel.model.image.url;
-//        } else {
-//          $scope.viewModel.model.path = _.template('M0,0L${width},0L${width},${height}L0,${height}z', {
-//            width: $scope.viewModel.width,
-//            height: $scope.height
-//          });
-//        }
+        img.src = $scope.viewModel.model.image.url;
 
+        if (!viewModelImage.top || !viewModelImage.left) {
+          viewModelImage.top = 0;
+          viewModelImage.left = 0;
+        }
       }
 
       function setMidpointOfShape($scope, shape) {
