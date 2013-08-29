@@ -15,15 +15,9 @@
             }
           });
 
-          var debugCounter = 0;
-
           var orig,
             options = {
               start: function (event) {
-//              if (self.isDrawing()) {
-//                return;
-//              }
-
                 var parentGroup = this;
 
                 var pt = parentGroup.ownerSVGElement.createSVGPoint();
@@ -39,12 +33,8 @@
                   orig.x = orig.x - $scope.viewModel.model.image.left;
                   orig.y = orig.y - $scope.viewModel.model.image.top;
                 }
-
-                console.log('orig', orig.x, orig.y);
               },
               drag: function (event, ui) {
-                debugCounter = debugCounter + 1;
-
                 var parentGroup = this;
                 var delta = getTranslatedDragDeltas(parentGroup);
 
@@ -74,8 +64,6 @@
             var pt = draggedElement.ownerSVGElement.createSVGPoint();
             pt.x = event.pageX;
             pt.y = event.pageY;
-
-//            console.log('pt', debugCounter, pt);
 
             var matrix = draggedElement.getScreenCTM().inverse();
             pt = pt.matrixTransform(matrix);
