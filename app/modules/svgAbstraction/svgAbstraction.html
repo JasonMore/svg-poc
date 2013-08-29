@@ -14,7 +14,7 @@
 <div ng-show="showShapeMenu()"
      ng-style="{top: menuTop(), left: menuLeft()}"
      style="position: absolute;"
-     >
+    >
 
   <menu-aim class="dropdown-menu" style="display:block;">
     <submenu-aim>
@@ -39,9 +39,9 @@
           </a>
         </label>
         <!--<shape-options name="Border Size"-->
-                       <!--visible="selectedShape"-->
-                       <!--options="strokeWidthOptions"-->
-                       <!--selection="selectedShape.borderWidth"></shape-options>-->
+        <!--visible="selectedShape"-->
+        <!--options="strokeWidthOptions"-->
+        <!--selection="selectedShape.borderWidth"></shape-options>-->
       </content-aim>
     </submenu-aim>
     <submenu-aim>
@@ -57,8 +57,16 @@
       </content-aim>
     </submenu-aim>
     <submenu-aim>
-      <title-aim>hij</title-aim>
-      <content-aim class="popover">hij there</content-aim>
+      <title-aim>Delete Shape</title-aim>
+      <content-aim class="popover">
+        <label>
+          Click to Delete this shape
+          <a ng-show="selectedShape" ng-click="deleteShape()" class="btn btn-warning">
+            Delete
+          </a>
+        </label>
+
+      </content-aim>
     </submenu-aim>
   </menu-aim>
 
@@ -78,7 +86,7 @@
   <!--selection="selectedFontFamily"></shape-options>-->
 
   <!--<a ng-show="selectedShape" ng-click="deleteShape()" class="btn btn-warning">-->
-    <!--Delete-->
+  <!--Delete-->
   <!--</a>-->
 </div>
 

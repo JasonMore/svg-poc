@@ -198,7 +198,7 @@
 
       $scope.deleteShape = function () {
         $scope.shapes.remove($scope.selectedShape);
-        $scope.selectedShape = null;
+        $scope.unSelectShape();
       };
 
       $scope.canDragShape = function (shape) {
