@@ -73,7 +73,6 @@
       window.debugScope = $scope;
       // import
 
-      // TODO: move this to createShapeViewModelService
       function createShapeViewModels(shapeDTOs) {
         return _.map(shapeDTOs, function (shape) {
           return shapeViewModelService.create(shape);
@@ -136,6 +135,10 @@
 
       // actions
       $scope.setSelectedShape = function (shape) {
+        if($scope.selectedShape === shape){
+          return;
+        }
+
         $scope.unSelectShape();
 
         // when creating a new shape, its not always drawn yet

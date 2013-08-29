@@ -15,6 +15,8 @@
             }
           });
 
+          var debugCounter = 0;
+
           var orig,
             options = {
               start: function (event) {
@@ -22,33 +24,38 @@
 //                return;
 //              }
 
-                var pt = this.ownerSVGElement.createSVGPoint();
+                var parentGroup = this;
+
+                var pt = parentGroup.ownerSVGElement.createSVGPoint();
                 pt.x = event.pageX;
                 pt.y = event.pageY;
 
-                var matrix = this.getScreenCTM().inverse();
+                var matrix = parentGroup.getScreenCTM().inverse();
                 pt = pt.matrixTransform(matrix);
 
                 orig = {x: pt.x, y: pt.y};
-//                console.log('orig', orig.x, orig.y);
+
+                if($scope.viewModel.showPreviewImage){
+                  orig.x = orig.x - $scope.viewModel.model.image.left;
+                  orig.y = orig.y - $scope.viewModel.model.image.top;
+                }
+
+                console.log('orig', orig.x, orig.y);
               },
               drag: function (event, ui) {
-                var draggedElement = this;
-                var delta = getTranslatedDragDeltas(draggedElement);
+                debugCounter = debugCounter + 1;
 
-//                console.log('delta', delta.x, delta.y);
-
-                var adjustment = adjustTranslate(draggedElement, delta.x, delta.y, true);
-
+                var parentGroup = this;
+                var delta = getTranslatedDragDeltas(parentGroup);
 
                 $scope.$apply(function () {
                   $scope.viewModel.isDragging = true;
 
                   if($scope.viewModel.showPreviewImage){
-//                    console.log(adjustment);
-                    $scope.viewModel.model.image.left = adjustment.x;
-                    $scope.viewModel.model.image.top = adjustment.y;
+                    $scope.viewModel.model.image.left = delta.x;
+                    $scope.viewModel.model.image.top = delta.y;
                   } else {
+                    var adjustment = adjustTranslate(parentGroup, delta.x, delta.y, true);
                     $scope.viewModel.model.left = adjustment.x;
                     $scope.viewModel.model.top = adjustment.y;
                   }
@@ -67,6 +74,8 @@
             var pt = draggedElement.ownerSVGElement.createSVGPoint();
             pt.x = event.pageX;
             pt.y = event.pageY;
+
+//            console.log('pt', debugCounter, pt);
 
             var matrix = draggedElement.getScreenCTM().inverse();
             pt = pt.matrixTransform(matrix);
