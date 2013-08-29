@@ -22,8 +22,8 @@
           $scope.viewModel.svgElementPath = pathDefinition;
           $scope.viewModel.svgElement = parentGroup;
 
-          if (!$scope.viewModel.midPointX || !$scope.viewModel.midPointY) {
-            setMidpointOfShape($scope, pathDefinition);
+          if (!$scope.viewModel.width || !$scope.viewModel.height) {
+            setShapeWidthHeight($scope, pathDefinition);
           }
 
           // attach svg element to dom element so we can access it from other directives
@@ -149,14 +149,12 @@
         }
       }
 
-      function setMidpointOfShape($scope, shape) {
+      function setShapeWidthHeight($scope, shape) {
         // shape needs to be rendered before we can calculate its midpoint
         $timeout(function () {
           var selectionBox = pathService.getSelectionBox(shape);
           $scope.viewModel.width = selectionBox.width;
           $scope.viewModel.height = selectionBox.height;
-//          $scope.viewModel.midPointX = (selectionBox.width - $scope.viewModel.model.borderWidth) / 2;
-//          $scope.viewModel.midPointY = (selectionBox.height - $scope.viewModel.model.borderWidth) / 2;
         });
       }
     });

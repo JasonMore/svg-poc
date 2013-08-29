@@ -83,10 +83,10 @@ window.debugScope = $scope;
               return this.model.borderWidth / 2;
             },
             midPointX: function() {
-              return this.width - this.borderOffset();
+              return (this.width - this.borderOffset()) / 2;
             },
             midPointY: function() {
-              return this.height - this.borderOffset();
+              return (this.height - this.borderOffset()) / 2;
             }
           }
         });

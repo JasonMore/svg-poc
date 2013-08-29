@@ -37,15 +37,6 @@
           return shape ? shape.model.top - shape.borderOffset() : 0;
         };
 
-//        $scope.calcMidPointX = function (shape) {
-//          return shape ? shape.midPointX + shape.borderOffset() : 0;
-//
-//        };
-
-//        $scope.calcMidPointY = function (shape) {
-//          return shape ? shape.midPointY + shape.borderOffset() : 0;
-//        };
-
         $scope.calcImageLeft = function (shape) {
           if(!shape || !shape.model.image){
             return 0;
@@ -138,7 +129,7 @@
 
         var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup, {
           transform: transform.join(', '),
-          'ng-show': 'shape'
+          'ng-show': 'shape && !shape.showPreviewImage'
         });
 
         ngSvg.svg.path(selectionBox, '', {
@@ -161,7 +152,7 @@
 
         var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup, {
           transform: transform.join(', '),
-          'ng-show': 'shape'
+          'ng-show': 'shape.showPreviewImage'
         });
 
         ngSvg.svg.path(selectionBox, '', {
@@ -379,9 +370,6 @@
             var borderWidth = $scope.shape.model.borderWidth;
 
             $scope.$apply(function () {
-//              $scope.shape.midPointX = (newDim.width - borderWidth) / 2;
-//              $scope.shape.midPointY = (newDim.height - borderWidth) / 2;
-
               $scope.shape.width = newDim.width;
               $scope.shape.height = newDim.height;
             });
