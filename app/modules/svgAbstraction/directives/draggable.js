@@ -30,13 +30,13 @@
                 pt = pt.matrixTransform(matrix);
 
                 orig = {x: pt.x, y: pt.y};
-                console.log('orig', orig.x, orig.y);
+//                console.log('orig', orig.x, orig.y);
               },
               drag: function (event, ui) {
                 var draggedElement = this;
                 var delta = getTranslatedDragDeltas(draggedElement);
 
-                console.log('delta', delta.x, delta.y);
+//                console.log('delta', delta.x, delta.y);
 
                 var adjustment = adjustTranslate(draggedElement, delta.x, delta.y, true);
 

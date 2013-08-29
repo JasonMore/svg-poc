@@ -32,7 +32,9 @@
         </label>
 
         <label>
-          <a class="btn" ng-click="selectedShape.showPreviewImage = !selectedShape.showPreviewImage">
+          <a class="btn"
+             ng-show="selectedShape.model.image.url"
+             ng-click="selectedShape.showPreviewImage = !selectedShape.showPreviewImage">
             edit image
           </a>
         </label>

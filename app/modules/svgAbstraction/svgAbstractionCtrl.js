@@ -53,7 +53,7 @@
       top: 200,
       left: 200,
       rotation: 0,
-      path: 'M190.95184190571857,18.67034584574202c-22.323836384105082,-25.959966259055825 -59.94907374597721,-24.70023237340574 -83.60038330843584,2.7667085108788574L103.48050782485348,25.934428571291733l-3.870951376425747,-4.497373337497029c-23.651309562458632,-27.466939656241248 -61.27654692433076,-28.726676348847562 -83.60038330843584,-2.7667085108788574c-22.333969029440297,25.936421510213755 -21.2598313123552,69.65041398214339 2.381344245776086,97.11735083142841l85.07985583076164,98.8480189913071l85.07985583076164,-98.8480189913071C212.20154057273854,88.32075982788542 213.28581576713086,44.60676174204332 190.95184190571857,18.67034584574202z',
+      path: 'M124.476,65.714c0.632,-0.291 1.317,-0.462 2.037,-0.462h106.302c-22.534,-39.297 -61.723,-65.305 -106.302,-65.305c-44.633,0 -83.875,26.078 -106.391,65.465l38.174,74.59C59.532,99.481 88.499,66.909 124.476,65.714M239.043,77.388h-76.322c19.261,13.621 32.071,37.772 32.071,65.305c0,13.26 -2.971,25.736 -8.194,36.627c-0.107,0.713 -0.311,1.425 -0.649,2.098l-53.138,103.859c66.954,-3.694 120.225,-66.118 120.225,-142.585C253.045,119.165 247.983,96.971 239.043,77.388M126.513,219.742c-24.563,0 -46.092,-14.635 -58.12,-36.597c-0.516,-0.462 -0.97,-1.034 -1.326,-1.716L13.912,77.539c-8.896,19.533 -13.923,41.686 -13.923,65.164c0,76.527 53.369,138.981 120.403,142.585l38.139,-74.529C148.985,216.49 138.087,219.742 126.513,219.742M68.98,142.703c0,17.947 6.432,34.138 16.85,45.902c10.427,11.764 24.776,19.021 40.683,19.021c15.907,0 30.256,-7.257 40.683,-19.021s16.859,-27.955 16.859,-45.902c0,-17.947 -6.432,-34.128 -16.859,-45.902c-10.427,-11.754 -24.776,-19.011 -40.683,-19.011c-15.907,0 -30.256,7.257 -40.683,19.011C75.412,108.565 68.989,124.756 68.98,142.703z',
       backgroundColor: '#C9C9C9',
       borderColor: 'black',
       borderWidth: 10,
@@ -69,24 +69,64 @@
   ];
 
   angular.module('svgAbstraction.controllers', [])
-    .controller('svgAbstractionCtrl', function ($scope, $timeout, shapePaths) {
-window.debugScope = $scope;
+    .controller('svgAbstractionCtrl', function ($scope, $timeout, shapePaths, pathService) {
+      window.debugScope = $scope;
       // import
-      function createShapeViewModels(shapeDTOs){
-        return _.map(shapeDTOs, function(shape){
+
+      // TODO: move this to createShapeViewModelService
+      function createShapeViewModels(shapeDTOs) {
+        return _.map(shapeDTOs, function (shape) {
+          var selectionBox,
+            width = 0,
+            height = 0;
+
           return {
-            height: 0,
-            width: 0,
-            showPreviewImage: false,
             model: shape,
-            borderOffset: function() {
+            showPreviewImage: false,
+            selectionBox: function () {
+              if (!selectionBox) {
+                selectionBox = pathService.getSelectionBox(this.svgElementPath);
+              }
+
+              if(!selectionBox){
+                return {
+                  width: 0,
+                  height: 0
+                }
+              }
+
+              return selectionBox;
+            },
+            borderOffset: function () {
               return this.model.borderWidth / 2;
             },
-            midPointX: function() {
-              return (this.width - this.borderOffset()) / 2;
+            height: function (newValue) {
+              if(newValue){
+                height = newValue;
+              }
+
+              if(!height){
+                height = this.selectionBox().height;
+              }
+
+              return height + this.borderOffset();
             },
-            midPointY: function() {
-              return (this.height - this.borderOffset()) / 2;
+            width: function (newValue) {
+              if(newValue){
+                width = newValue;
+              }
+
+              if(!width){
+                width = this.selectionBox().width;
+              }
+
+              return width + this.borderOffset();
+            },
+            midPointX: function () {
+              return (this.width() - this.borderOffset()) / 2;
+            },
+            midPointY: function () {
+              return (this.height() - this.borderOffset()) / 2;
             }
           }
         });
@@ -169,15 +209,15 @@ window.debugScope = $scope;
         $scope.selectedShape = null;
 
         // if they click the button twice, undo
-        if($scope.shapeToDraw === shape){
+        if ($scope.shapeToDraw === shape) {
           $scope.shapeToDraw = null;
         } else {
           $scope.shapeToDraw = shape;
         }
       };
 
-      $scope.unSelectShape = function() {
-        if(!$scope.selectedShape){
+      $scope.unSelectShape = function () {
+        if (!$scope.selectedShape) {
           return;
         }
 
@@ -186,8 +226,8 @@ window.debugScope = $scope;
       };
 
       // computed
-      $scope.shapeType = function() {
-        if($scope.shapeToDraw){
+      $scope.shapeType = function () {
+        if ($scope.shapeToDraw) {
           return $scope.shapeToDraw.key;
         }
       };
@@ -196,41 +236,41 @@ window.debugScope = $scope;
         return _.isObject($scope.shapeToDraw);
       };
 
-      $scope.isActiveShape = function(shape){
+      $scope.isActiveShape = function (shape) {
         return $scope.shapeToDraw === shape;
       };
 
-      $scope.menuTop = function() {
-        if(!$scope.selectedShape){
+      $scope.menuTop = function () {
+        if (!$scope.selectedShape) {
           return 0;
         }
         return $scope.selectedShape.model.top + 30;
       };
 
-      $scope.menuLeft = function() {
-        if(!$scope.selectedShape){
+      $scope.menuLeft = function () {
+        if (!$scope.selectedShape) {
           return 0;
         }
 
-        return $scope.selectedShape.model.left + $scope.selectedShape.width - 120;
+        return $scope.selectedShape.model.left + $scope.selectedShape.width() - 120;
       };
 
       $scope.shapesInfo = function () {
-        return _.map($scope.shapes, function(shapeViewmodel){
+        return _.map($scope.shapes, function (shapeViewmodel) {
           return shapeViewmodel.model;
         });
       };
 
-      $scope.showShapeMenu = function() {
-        if(!$scope.selectedShape) {
+      $scope.showShapeMenu = function () {
+        if (!$scope.selectedShape) {
           return false;
         }
 
-        if($scope.selectedShape.isDragging){
+        if ($scope.selectedShape.isDragging) {
           return false;
         }
 
-        if($scope.selectedShape.isResizing){
+        if ($scope.selectedShape.isResizing) {
           return false;
         }
 

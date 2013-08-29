@@ -22,9 +22,9 @@
           $scope.viewModel.svgElementPath = pathDefinition;
           $scope.viewModel.svgElement = parentGroup;
 
-          if (!$scope.viewModel.width || !$scope.viewModel.height) {
-            setShapeWidthHeight($scope, pathDefinition);
-          }
+//          if (!$scope.viewModel.width || !$scope.viewModel.height) {
+//            setShapeWidthHeight($scope, pathDefinition);
+//          }
 
           // attach svg element to dom element so we can access it from other directives
           element.data('parentGroup', parentGroup);
@@ -104,7 +104,8 @@
         var image = ngSvg.svg.image(parentGroup, 0, 0, 0, 0, '', _.extend({
           'ng-href': '{{ viewModel.model.image.url }}',
           'ng-mousedown': 'whenClick()',
-          'clip-path': 'url({{"#" + viewModel.model.id + "_clipPath"}})'
+          'clip-path': 'url({{"#" + viewModel.model.id + "_clipPath"}})',
+          'ng-show':  'viewModel.model.image.url'
         }, imageBindings));
 
         var shapeForeground = ngSvg.svg.use(parentGroup, '', {

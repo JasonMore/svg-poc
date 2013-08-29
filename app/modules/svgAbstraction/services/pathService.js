@@ -5,6 +5,9 @@
     // Gets all the points on a path, and calculates the x/y min/max
     ///
     this.getSelectionBox = function getSelectionBox(shape) {
+      if(!shape){
+        return;
+      }
       console.time("getSelectionBox");
       var shapeRaw = shape;
 
