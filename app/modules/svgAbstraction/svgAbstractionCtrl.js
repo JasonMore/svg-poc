@@ -204,7 +204,7 @@ window.debugScope = $scope;
         if(!$scope.selectedShape){
           return 0;
         }
-        return $scope.selectedShape.model.top + 25;
+        return $scope.selectedShape.model.top + 30;
       };
 
       $scope.menuLeft = function() {

@@ -83,7 +83,8 @@
           return shape.model.image.rotation + shape.model.rotation;
         };
 
-        $scope.$watch('shape', function (shape) {
+        $scope.$watch('shape + shape.model.borderWidth', function () {
+          var shape = $scope.shape;
           if (!shape) {
             return;
           }
@@ -94,8 +95,8 @@
             shape.height = selectionBox.height;
           }
 
-          $scope.width = shape.width;
-          $scope.height = shape.height;
+          $scope.width = shape.width + shape.borderOffset() ;
+          $scope.height = shape.height + shape.borderOffset() ;
         });
 
         $scope.$watch('shape.model.image.width + shape.model.image.height', function() {
@@ -109,7 +110,6 @@
           $scope.imageWidth = $scope.shape.model.image.width;
           $scope.imageHeight = $scope.shape.model.image.height;
         });
-
       }
 
       function createSelectionBox(ngSvg) {
@@ -458,7 +458,6 @@
         }
 
         function convertDeltasToSVG(selectionBoxGroup, baselineOrigin, deltaX, deltaY) {
-
           var pt2 = svg._svg.createSVGPoint();
           pt2.x = deltaX;
           pt2.y = deltaY;
@@ -466,7 +465,6 @@
 
           deltaX = baselineOrigin.x - pt2.x;
           deltaY = baselineOrigin.y - pt2.y;
-
 
           return {
             deltaX: deltaX,
