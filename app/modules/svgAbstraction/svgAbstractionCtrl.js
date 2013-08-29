@@ -218,7 +218,7 @@ window.debugScope = $scope;
       $scope.shapesInfo = function () {
         return _.map($scope.shapes, function(shapeViewmodel){
           return shapeViewmodel.model;
-        })
+        });
       };
 
       $scope.showShapeMenu = function() {

@@ -21,6 +21,9 @@
           attachResizeBindings(selection.corners, $scope, ngSvg.svg);
           attachRotateBindings(selection.rotator, $scope, ngSvg.svg);
 
+          attachImageResizeBindings(selection.imageCorners, $scope, ngSvg.svg);
+//          attachRotateBindings(selection.imageRotator, $scope, ngSvg.svg);
+
           $compile(selection.box)($scope);
           $compile(selection.imageBox)($scope);
           addScopeMethods($scope);
@@ -46,7 +49,7 @@
         };
 
         $scope.calcImageLeft = function (shape) {
-          if(!shape || !shape.model.image){
+          if (!shape || !shape.model.image) {
             return 0;
           }
 
@@ -54,14 +57,14 @@
         };
 
         $scope.calcImageTop = function (shape) {
-          if(!shape || !shape.model.image){
+          if (!shape || !shape.model.image) {
             return 0;
           }
           return shape.model.image.top + $scope.calcTop(shape) + shape.model.borderWidth / 2;
         };
 
         $scope.calcImageMidPointX = function (shape) {
-          if(!shape || !shape.model.image){
+          if (!shape || !shape.model.image) {
             return 0;
           }
 
@@ -69,14 +72,14 @@
         };
 
         $scope.calcImageMidPointY = function (shape) {
-          if(!shape || !shape.model.image){
+          if (!shape || !shape.model.image) {
             return 0;
           }
           return (shape.model.image.height / 2);
         };
 
-        $scope.calcImageRotation = function(shape){
-          if(!shape || !shape.model.image){
+        $scope.calcImageRotation = function (shape) {
+          if (!shape || !shape.model.image) {
             return 0;
           }
 
@@ -95,12 +98,12 @@
             shape.height = selectionBox.height;
           }
 
-          $scope.width = shape.width + shape.borderOffset() ;
-          $scope.height = shape.height + shape.borderOffset() ;
+          $scope.width = shape.width + shape.borderOffset();
+          $scope.height = shape.height + shape.borderOffset();
         });
 
-        $scope.$watch('shape.model.image.width + shape.model.image.height', function() {
-          if(!$scope.shape || !$scope.shape.model.image){
+        $scope.$watch('shape.model.image.width + shape.model.image.height', function () {
+          if (!$scope.shape || !$scope.shape.model.image) {
             $scope.imageWidth = 0;
             $scope.imageHeight = 0;
 
@@ -224,7 +227,7 @@
         };
       }
 
-      function drawImageSelectionCorners(svg, selectionBox){
+      function drawImageSelectionCorners(svg, selectionBox) {
         var defaultCircleSettings = {
           class_: 'corner',
           fill: '#0096fd',
@@ -277,8 +280,8 @@
         rotator.draggable({
           start: function (event) {
             offset = {
-              left:  document.documentElement.scrollLeft || document.body.scrollLeft,
-              top:document.documentElement.scrollTop || document.body.scrollTop
+              left: document.documentElement.scrollLeft || document.body.scrollLeft,
+              top: document.documentElement.scrollTop || document.body.scrollTop
             };
 
             start = {
@@ -358,8 +361,8 @@
         selectionCorners.draggable({
           start: function (event) {
             offset = {
-              left:  document.documentElement.scrollLeft || document.body.scrollLeft,
-                top:document.documentElement.scrollTop || document.body.scrollTop
+              left: document.documentElement.scrollLeft || document.body.scrollLeft,
+              top: document.documentElement.scrollTop || document.body.scrollTop
             };
 
             start = {
@@ -374,7 +377,8 @@
             var selectionBoxGroup = draggedCorner.parent()[0];
             var baselineOrigin = convertBaselineToSVG(selectionBoxGroup);
             var drag = getDragOffset(event);
-            var newDim = getNewShapeLocationAndDimensions(draggedCorner, drag, $scope);
+            var currentDimensions = {width: $scope.width, height: $scope.height};
+            var newDim = getNewShapeLocationAndDimensions(svg, draggedCorner, drag, currentDimensions);
             var borderWidth = $scope.shape.model.borderWidth;
 
             $scope.$apply(function () {
@@ -397,52 +401,15 @@
 
               $scope.shape.model.top = translation.y;
               $scope.shape.model.left = translation.x;
-              $scope.shape.width = newDim.width;
-              $scope.shape.height = newDim.height;
               $scope.shape.model.path = newShapePath;
             });
           },
           stop: function () {
             $scope.$apply(function () {
               $scope.shape.isResizing = false;
-          });
+            });
           }
         });
-
-        function getNewShapeLocationAndDimensions(draggedCorner, drag, $scope) {
-          var selectionBoxGroup = draggedCorner.parent()[0];
-          var pt = convertScreenToElementCoordinates(selectionBoxGroup, drag, svg);
-          var cornerId = draggedCorner.data('cornerid'),
-            deltaX = 0,
-            deltaY = 0,
-            width = $scope.width,
-            height = $scope.height;
-
-          if (cornerId == 'cornerNW') {
-            deltaX = -pt.x;
-            deltaY = -pt.y;
-            width = width - pt.x;
-            height = height - pt.y;
-          } else if (cornerId == 'cornerNE') {
-            deltaY = -pt.y;
-            width = pt.x;
-            height = height - pt.y;
-          } else if (cornerId == 'cornerSE') {
-            width = pt.x;
-            height = pt.y;
-          } else if (cornerId == 'cornerSW') {
-            deltaX = -pt.x;
-            width = width - pt.x;
-            height = pt.y;
-          }
-
-          return {
-            deltaX: deltaX,
-            deltaY: deltaY,
-            width: width,
-            height: height
-          }
-        }
 
         function convertBaselineToSVG(selectionBoxGroup) {
           var ptA = svg._svg.createSVGPoint();
@@ -502,9 +469,102 @@
         }
       }
 
+      function attachImageResizeBindings(selectionCorners, $scope, svg) {
+        selectionCorners.draggable({
+          start: function (event) {
+            offset = {
+              left: document.documentElement.scrollLeft || document.body.scrollLeft,
+              top: document.documentElement.scrollTop || document.body.scrollTop
+            };
+
+            start = {
+              x: event.pageX - offset.left,
+              y: event.pageY - offset.top
+            };
+          },
+          drag: function (event, ui) {
+
+            var draggedCorner = $(this);
+//            var rawElement = $scope.shape.svgElement;
+//            var selectionBoxGroup = draggedCorner.parent()[0];
+//            var baselineOrigin = convertBaselineToSVG(selectionBoxGroup);
+            var drag = getDragOffset(event);
+            var currentDimensions = {width: $scope.imageWidth, height: $scope.imageHeight};
+            var newDim = getNewShapeLocationAndDimensions(svg, draggedCorner, drag, currentDimensions);
+//            var borderWidth = $scope.shape.model.borderWidth;
+
+            $scope.$apply(function () {
+              $scope.shape.model.image.width = newDim.width;
+              $scope.shape.model.image.height = newDim.height;
+
+              $scope.imageWidth = newDim.width;
+              $scope.imageHeight = newDim.height;
+            });
+
+//            var conversion = convertDeltasToSVG(selectionBoxGroup, baselineOrigin, newDim.deltaX, newDim.deltaY);
+//            var translation = getTranslation(rawElement, conversion.deltaX, conversion.deltaY, true);
+//            var scaleX = (newDim.width - borderWidth) / ($scope.width - borderWidth);
+//            var scaleY = (newDim.height - borderWidth) / ($scope.height - borderWidth);
+//            var shapePath = $scope.shape.svgElementPath;
+//            var newShapePath = rescaleElement(shapePath, scaleX, scaleY);
+
+//            $scope.$apply(function () {
+//              $scope.shape.isResizing = true;
+//
+//              $scope.width = newDim.width;
+//              $scope.height = newDim.height;
+//
+//              $scope.shape.model.top = translation.y;
+//              $scope.shape.model.left = translation.x;
+////              $scope.shape.model.path = newShapePath;
+//            });
+          },
+          stop: function () {
+            $scope.$apply(function () {
+              $scope.shape.isResizing = false;
+            });
+          }
+        });
+      }
+
+      function getNewShapeLocationAndDimensions(svg, draggedCorner, drag, currentDimensions) {
+        var selectionBoxGroup = draggedCorner.parent()[0];
+        var pt = convertScreenToElementCoordinates(selectionBoxGroup, drag, svg);
+        var cornerId = draggedCorner.data('cornerid'),
+          deltaX = 0,
+          deltaY = 0,
+          width = currentDimensions.width,
+          height = currentDimensions.height;
+
+        if (cornerId == 'cornerNW') {
+          deltaX = -pt.x;
+          deltaY = -pt.y;
+          width = width - pt.x;
+          height = height - pt.y;
+        } else if (cornerId == 'cornerNE') {
+          deltaY = -pt.y;
+          width = pt.x;
+          height = height - pt.y;
+        } else if (cornerId == 'cornerSE') {
+          width = pt.x;
+          height = pt.y;
+        } else if (cornerId == 'cornerSW') {
+          deltaX = -pt.x;
+          width = width - pt.x;
+          height = pt.y;
+        }
+
+        return {
+          deltaX: deltaX,
+          deltaY: deltaY,
+          width: width,
+          height: height
+        }
+      }
+
       var offset, start;
 
-      function getDragOffset(event){
+      function getDragOffset(event) {
         return {
           x: event.pageX - offset.left,
           y: event.pageY - offset.top
