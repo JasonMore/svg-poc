@@ -29,12 +29,20 @@
 
       function addScopeMethods($scope) {
         $scope.calcLeft = function (shape) {
-          return shape ? shape.model.left - shape.borderOffset() : 0;
+          return shape ? shape.model.left - shape.model.borderWidth / 2 : 0;
 
         };
 
         $scope.calcTop = function (shape) {
-          return shape ? shape.model.top - shape.borderOffset() : 0;
+          return shape ? shape.model.top - shape.model.borderWidth / 2 : 0;
+        };
+
+        $scope.calcMidPointX = function (shape) {
+          return shape ? shape.midPointX() + shape.borderOffset() : 0;
+        };
+
+        $scope.calcMidPointY = function (shape) {
+          return shape ? shape.midPointY() + shape.borderOffset() : 0;
         };
 
         $scope.calcImageLeft = function (shape) {
@@ -124,7 +132,7 @@
       function drawSelectionBox(ngSvg) {
         var transform = [
           'translate({{calcLeft(shape)}},{{calcTop(shape)}})',
-          'rotate({{shape.model.rotation}},{{shape.midPointX()}},{{shape.midPointY()}})'
+          'rotate({{shape.model.rotation}},{{calcMidPointX(shape)}},{{calcMidPointY(shape)}})'
         ];
 
         var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup, {

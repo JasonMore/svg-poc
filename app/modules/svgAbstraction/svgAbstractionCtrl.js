@@ -177,6 +177,11 @@ window.debugScope = $scope;
       };
 
       $scope.unSelectShape = function() {
+        if(!$scope.selectedShape){
+          return;
+        }
+
+        $scope.selectedShape.showPreviewImage = false;
         $scope.selectedShape = null;
       };
 

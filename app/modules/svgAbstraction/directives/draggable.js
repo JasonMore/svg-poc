@@ -30,17 +30,22 @@
                 pt = pt.matrixTransform(matrix);
 
                 orig = {x: pt.x, y: pt.y};
+                console.log('orig', orig.x, orig.y);
               },
               drag: function (event, ui) {
                 var draggedElement = this;
                 var delta = getTranslatedDragDeltas(draggedElement);
 
+                console.log('delta', delta.x, delta.y);
+
                 var adjustment = adjustTranslate(draggedElement, delta.x, delta.y, true);
+
 
                 $scope.$apply(function () {
                   $scope.viewModel.isDragging = true;
 
                   if($scope.viewModel.showPreviewImage){
+//                    console.log(adjustment);
                     $scope.viewModel.model.image.left = adjustment.x;
                     $scope.viewModel.model.image.top = adjustment.y;
                   } else {
