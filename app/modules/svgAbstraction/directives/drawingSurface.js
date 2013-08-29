@@ -1,6 +1,6 @@
 (function () {
   angular.module('svgAbstraction.directives')
-    .directive('drawingSurface', function ($compile, pathService, uuidService, shapePaths) {
+    .directive('drawingSurface', function ($compile, pathService, uuidService, shapePaths, shapeViewModelService) {
       return {
         restrict: 'E',
         require: '^ngSvg',
@@ -102,12 +102,7 @@
           ngSvg.svg.remove(shape);
 
           var defaultBorder = 2;
-          var newShape = {
-//            midPointX: ($scope.width - defaultBorder) / 2,
-//            midPointY: ($scope.height - defaultBorder) / 2,
-            width: $scope.width + 1,
-            height: $scope.height + 1,
-            model:{
+          var newShape = shapeViewModelService.create({
               id: uuidService.generateUUID(),
               top:  $scope.y,
               left:  $scope.x,
@@ -116,8 +111,10 @@
               backgroundColor: 'gray',
               borderColor: 'black',
               borderWidth: defaultBorder
-            }
-          };
+          });
+
+          newShape.width($scope.width);
+          newShape.height($scope.height);
 
           $scope.$apply(function() {
             $scope.model.push(newShape);

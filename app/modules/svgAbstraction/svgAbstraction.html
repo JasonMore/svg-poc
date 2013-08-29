@@ -31,13 +31,18 @@
           <input ng-model="selectedShape.model.image.url" debounce>
         </label>
 
-        <label>
+
           <a class="btn"
              ng-show="selectedShape.model.image.url"
              ng-click="selectedShape.showPreviewImage = !selectedShape.showPreviewImage">
-            edit image
+            Edit Image
           </a>
-        </label>
+
+        <a class="btn"
+           ng-show="selectedShape.model.image.url"
+           ng-click="selectedShape.model.image.url = null">
+          Remove Image
+        </a>
         <!--<shape-options name="Border Size"-->
         <!--visible="selectedShape"-->
         <!--options="strokeWidthOptions"-->

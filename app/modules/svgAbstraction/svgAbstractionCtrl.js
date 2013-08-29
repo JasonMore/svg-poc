@@ -69,66 +69,14 @@
   ];
 
   angular.module('svgAbstraction.controllers', [])
-    .controller('svgAbstractionCtrl', function ($scope, $timeout, shapePaths, pathService) {
+    .controller('svgAbstractionCtrl', function ($scope, $timeout, shapePaths, shapeViewModelService) {
       window.debugScope = $scope;
       // import
 
       // TODO: move this to createShapeViewModelService
       function createShapeViewModels(shapeDTOs) {
         return _.map(shapeDTOs, function (shape) {
-          var selectionBox,
-            width = 0,
-            height = 0;
-
-          return {
-            model: shape,
-            showPreviewImage: false,
-            selectionBox: function () {
-              if (!selectionBox) {
-                selectionBox = pathService.getSelectionBox(this.svgElementPath);
-              }
-
-              if(!selectionBox){
-                return {
-                  width: 0,
-                  height: 0
-                }
-              }
-
-              return selectionBox;
-            },
-            borderOffset: function () {
-              return this.model.borderWidth / 2;
-            },
-            height: function (newValue) {
-              if(newValue){
-                height = newValue;
-              }
-
-              if(!height){
-                height = this.selectionBox().height;
-              }
-
-              return height + this.borderOffset();
-            },
-            width: function (newValue) {
-              if(newValue){
-                width = newValue;
-              }
-
-              if(!width){
-                width = this.selectionBox().width;
-              }
-
-              return width + this.borderOffset();
-            },
-            midPointX: function () {
-              return (this.width() - this.borderOffset()) / 2;
-            },
-            midPointY: function () {
-              return (this.height() - this.borderOffset()) / 2;
-            }
-          }
+          return shapeViewModelService.create(shape);
         });
       }
 
@@ -188,6 +136,7 @@
 
       // actions
       $scope.setSelectedShape = function (shape) {
+        $scope.unSelectShape();
 
         // when creating a new shape, its not always drawn yet
         $timeout(function () {
@@ -206,7 +155,7 @@
       };
 
       $scope.drawShape = function (shape) {
-        $scope.selectedShape = null;
+        $scope.unSelectShape();
 
         // if they click the button twice, undo
         if ($scope.shapeToDraw === shape) {
