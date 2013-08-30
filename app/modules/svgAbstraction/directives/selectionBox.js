@@ -9,10 +9,7 @@
         scope: {
           shape: '='
         },
-        link: function ($scope, element, attr, ngSvgController) {
-//          $scope.width = 0;
-//          $scope.height = 0;
-
+        link: function ($scope, element, attr, ngSvgController) {;
           var ngSvg = ngSvgController,
             selection = createSelectionBox(ngSvg);
 
@@ -20,7 +17,7 @@
           attachRotateBindings(selection.rotator, $scope, ngSvg.svg);
 
           attachImageResizeBindings(selection.imageCorners, $scope, ngSvg.svg);
-//          attachRotateBindings(selection.imageRotator, $scope, ngSvg.svg);
+          attachRotateBindings(selection.imageRotator, $scope, ngSvg.svg);
 
           $compile(selection.box)($scope);
           $compile(selection.imageBox)($scope);
@@ -83,26 +80,6 @@
 
           return shape.model.image.rotation + shape.model.rotation;
         };
-
-//        $scope.$watch('shape + shape.model.borderWidth', function () {
-//          var shape = $scope.shape;
-//          if (!shape) {
-//            return;
-//          }
-//
-//          if (!shape.width || !shape.height) {
-//            var selectionBox = pathService.getSelectionBox(shape.svgElementPath);
-//            shape.width = selectionBox.width;
-//            shape.height = selectionBox.height;
-//          }
-//
-//          $scope.width = shape.width + shape.borderOffset();
-//          $scope.height = shape.height + shape.borderOffset();
-//        });
-
-//        $scope.width = function() {
-//
-//        }
 
         $scope.imageWidth = function () {
           if (!$scope.shape || !$scope.shape.model.image) {
@@ -282,19 +259,23 @@
         };
       }
 
+      var offset, start;
+
+      function draggableStart(event) {
+        offset = {
+          left: document.documentElement.scrollLeft || document.body.scrollLeft,
+          top: document.documentElement.scrollTop || document.body.scrollTop
+        };
+
+        start = {
+          x: event.pageX - offset.left,
+          y: event.pageY - offset.top
+        };
+      }
+
       function attachRotateBindings(rotator, $scope, svg) {
         rotator.draggable({
-          start: function (event) {
-            offset = {
-              left: document.documentElement.scrollLeft || document.body.scrollLeft,
-              top: document.documentElement.scrollTop || document.body.scrollTop
-            };
-
-            start = {
-              x: event.pageX - offset.left,
-              y: event.pageY - offset.top
-            };
-          },
+          start: draggableStart,
           drag: function (event, ui) {
 
             var angle = $scope.shape.model.rotation,
@@ -319,7 +300,7 @@
 
             $scope.$apply(function () {
               $scope.shape.isResizing = true;
-              $scope.shape.model.rotation = angle;
+              $scope.shape.model.image.rotation = angle;
             });
           },
           stop: function () {
@@ -365,17 +346,7 @@
 
       function attachResizeBindings(selectionCorners, $scope, svg) {
         selectionCorners.draggable({
-          start: function (event) {
-            offset = {
-              left: document.documentElement.scrollLeft || document.body.scrollLeft,
-              top: document.documentElement.scrollTop || document.body.scrollTop
-            };
-
-            start = {
-              x: event.pageX - offset.left,
-              y: event.pageY - offset.top
-            };
-          },
+          start: draggableStart,
           drag: function (event, ui) {
 
             var draggedCorner = $(this);
@@ -409,7 +380,7 @@
               if (shape.model.image.url) {
                 var image = shape.model.image;
                 image.left = image.left * scaleX;
-                image.top = image.top *scaleY;
+                image.top = image.top * scaleY;
                 image.width = image.width * scaleX;
                 image.height = image.height * scaleY;
               }
@@ -482,53 +453,20 @@
 
       function attachImageResizeBindings(selectionCorners, $scope, svg) {
         selectionCorners.draggable({
-          start: function (event) {
-            offset = {
-              left: document.documentElement.scrollLeft || document.body.scrollLeft,
-              top: document.documentElement.scrollTop || document.body.scrollTop
-            };
-
-            start = {
-              x: event.pageX - offset.left,
-              y: event.pageY - offset.top
-            };
-          },
+          start: draggableStart,
           drag: function (event, ui) {
 
             var draggedCorner = $(this);
-//            var rawElement = $scope.shape.svgElement;
-//            var selectionBoxGroup = draggedCorner.parent()[0];
-//            var baselineOrigin = convertBaselineToSVG(selectionBoxGroup);
             var drag = getDragOffset(event);
             var currentDimensions = {width: $scope.imageWidth(), height: $scope.imageHeight()};
             var newDim = getNewShapeLocationAndDimensions(svg, draggedCorner, drag, currentDimensions);
-//            var borderWidth = $scope.shape.model.borderWidth;
 
             $scope.$apply(function () {
               $scope.shape.model.image.width = newDim.width;
               $scope.shape.model.image.height = newDim.height;
-
-//              $scope.imageWidth = newDim.width;
-//              $scope.imageHeight = newDim.height;
+              $scope.shape.model.image.top = $scope.shape.model.image.top - newDim.deltaY;
+              $scope.shape.model.image.left = $scope.shape.model.image.left - newDim.deltaX;
             });
-
-//            var conversion = convertDeltasToSVG(selectionBoxGroup, baselineOrigin, newDim.deltaX, newDim.deltaY);
-//            var translation = getTranslation(rawElement, conversion.deltaX, conversion.deltaY, true);
-//            var scaleX = (newDim.width - borderWidth) / ($scope.width - borderWidth);
-//            var scaleY = (newDim.height - borderWidth) / ($scope.height - borderWidth);
-//            var shapePath = $scope.shape.svgElementPath;
-//            var newShapePath = rescaleElement(shapePath, scaleX, scaleY);
-
-//            $scope.$apply(function () {
-//              $scope.shape.isResizing = true;
-//
-//              $scope.width = newDim.width;
-//              $scope.height = newDim.height;
-//
-//              $scope.shape.model.top = translation.y;
-//              $scope.shape.model.left = translation.x;
-////              $scope.shape.model.path = newShapePath;
-//            });
           },
           stop: function () {
             $scope.$apply(function () {
@@ -572,8 +510,6 @@
           height: height
         }
       }
-
-      var offset, start;
 
       function getDragOffset(event) {
         return {
