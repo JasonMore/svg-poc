@@ -379,6 +379,7 @@
           drag: function (event, ui) {
 
             var draggedCorner = $(this);
+            var shape = $scope.shape;
             var rawElement = $scope.shape.svgElement;
             var selectionBoxGroup = draggedCorner.parent()[0];
             var baselineOrigin = convertBaselineToSVG(selectionBoxGroup);
@@ -388,8 +389,8 @@
             var borderWidth = $scope.shape.model.borderWidth;
 
             $scope.$apply(function () {
-              $scope.shape.width(newDim.width - $scope.shape.borderOffset());
-              $scope.shape.height(newDim.height - $scope.shape.borderOffset());
+              shape.width(newDim.width - shape.borderOffset());
+              shape.height(newDim.height - shape.borderOffset());
             });
 
             var conversion = convertDeltasToSVG(selectionBoxGroup, baselineOrigin, newDim.deltaX, newDim.deltaY);
@@ -400,10 +401,18 @@
             var newShapePath = rescaleElement(shapePath, scaleX, scaleY);
 
             $scope.$apply(function () {
-              $scope.shape.isResizing = true;
-              $scope.shape.model.top = translation.y;
-              $scope.shape.model.left = translation.x;
-              $scope.shape.model.path = newShapePath;
+              shape.isResizing = true;
+              shape.model.top = translation.y;
+              shape.model.left = translation.x;
+              shape.model.path = newShapePath;
+
+              if (shape.model.image.url) {
+                var image = shape.model.image;
+                image.left = image.left * scaleX;
+                image.top = image.top *scaleY;
+                image.width = image.width * scaleX;
+                image.height = image.height * scaleY;
+              }
             });
           },
           stop: function () {

@@ -83,7 +83,8 @@
           'ng-attr-x': '{{viewModel.model.image ? viewModel.model.image.left : 0}}',
           'ng-attr-y': '{{viewModel.model.image ? viewModel.model.image.top : 0}}',
           'ng-attr-width': '{{viewModel.model.image ? viewModel.model.image.width : 0}}',
-          'ng-attr-height': '{{viewModel.model.image ? viewModel.model.image.height : 0}}'
+          'ng-attr-height': '{{viewModel.model.image ? viewModel.model.image.height : 0}}',
+          'preserveAspectRatio' : 'none'
         };
 
         var previewImageMaskId = $scope.viewModel.model.id + '_previewImageMask';
