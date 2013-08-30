@@ -45,7 +45,7 @@
         "left": 1,
         "width": 150,
         "height": 150,
-        "rotation": 0
+        "rotation": 45
       }
     },
     {
@@ -63,7 +63,7 @@
         "left": -288,
         "width": 557,
         "height": 365,
-        "rotation": 0
+        "rotation": 45
       }
     },
     {
@@ -79,7 +79,7 @@
         "url": "http://lorempixel.com/999/599",
         "top": -42,
         "left": -39,
-        "rotation": 0,
+        "rotation": 45,
         "width": 494,
         "height": 364
       }

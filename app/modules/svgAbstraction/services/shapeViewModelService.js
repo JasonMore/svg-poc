@@ -92,6 +92,22 @@
           return this.hasImage() ? getSetValue(this.model.image.height, value) : 0;
         },
 
+        imageMidpointX: function() {
+          if(!this.hasImage()){
+            return 0;
+          }
+
+          return this.imageWidth() / 2 + this.imageLeft();
+        },
+
+        imageMidpointY: function() {
+          if(!this.hasImage()){
+            return 0;
+          }
+
+          return this.imageHeight() / 2 + this.imageTop();
+        },
+
         makeUrlRef: function(key) {
           return this.model.id + '_' + key;
         },

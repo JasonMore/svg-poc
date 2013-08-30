@@ -95,6 +95,7 @@
         var previewImage = ngSvg.svg.image(parentGroup, 0, 0, 0, 0, '', _.extend({
           'ng-href': '{{ viewModel.model.image.url }}',
           'ng-attr-mask': 'url({{viewModel.urlRef("previewImageMask")}})',
+          'transform': 'rotate({{viewModel.model.image.rotation}},{{viewModel.imageMidpointX()}},{{viewModel.imageMidpointY()}})',
           'ng-show': 'viewModel.showPreviewImage'
         }, imageBindings));
 
@@ -102,6 +103,7 @@
           'ng-href': '{{ viewModel.model.image.url }}',
           'ng-mousedown': 'whenClick()',
           'clip-path': 'url({{viewModel.urlRef("clipPath")}})',
+          'transform': 'rotate({{viewModel.model.image.rotation}},{{viewModel.imageMidpointX()}},{{viewModel.imageMidpointY()}})',
           'ng-show':  'viewModel.model.image.url'
         }, imageBindings));
 
