@@ -45,7 +45,7 @@
         "left": 1,
         "width": 150,
         "height": 150,
-        "rotation": 45
+        "rotation": 0
       }
     },
     {
@@ -63,7 +63,7 @@
         "left": -288,
         "width": 557,
         "height": 365,
-        "rotation": 45
+        "rotation": 0
       }
     },
     {
@@ -79,9 +79,9 @@
         "url": "http://lorempixel.com/999/599",
         "top": -42,
         "left": -39,
-        "rotation": 45,
         "width": 494,
-        "height": 364
+        "height": 364,
+        "rotation": 0
       }
     }
   ];
@@ -96,6 +96,10 @@
           return shapeViewModelService.create(shape);
         });
       }
+
+      $scope.$on('$routeChangeSuccess', function (event, routeData) {
+        console.log('done!');
+      });
 
       // properties
       $scope.selectedShape = null;

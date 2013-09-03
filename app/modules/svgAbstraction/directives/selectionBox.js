@@ -17,7 +17,7 @@
           attachRotateBindings(selection.rotator, $scope, ngSvg.svg);
 
           attachImageResizeBindings(selection.imageCorners, $scope, ngSvg.svg);
-          attachRotateBindings(selection.imageRotator, $scope, ngSvg.svg);
+          attachImageRotateBindings(selection.imageRotator, $scope, ngSvg.svg);
 
           $compile(selection.box)($scope);
           $compile(selection.imageBox)($scope);
@@ -27,7 +27,7 @@
 
       function addScopeMethods($scope) {
         $scope.calcLeft = function (shape) {
-          return shape ? shape.model.left - shape.model.borderWidth / 2 : 0;
+          return shape ? shape.model.left - shape.borderOffset() / 2 : 0;
 
         };
 
@@ -287,6 +287,44 @@
             // ref point is height/2, -20
             var cx = $scope.shape.width() / 2;
             var cy = $scope.shape.height() / 2;
+
+            var newAngle = getAngle({x: pt.x, y: pt.y},
+              {x: cx, y: -20},
+              {x: cx, y: cy});
+
+            angle = (angle + newAngle) % 360;
+
+            if (!event.shiftKey) {
+              angle = Math.floor(angle / 15) * 15;
+            }
+
+            $scope.$apply(function () {
+              $scope.shape.isResizing = true;
+              $scope.shape.model.rotation = angle;
+            });
+          },
+          stop: function () {
+            $scope.$apply(function () {
+              $scope.shape.isResizing = false;
+            });
+          }
+        });
+      }
+
+      function attachImageRotateBindings(rotator, $scope, svg) {
+        rotator.draggable({
+          start: draggableStart,
+          drag: function (event, ui) {
+
+            var angle = $scope.shape.model.image.rotation,
+              parentGroup = rotator.parent()[0];
+
+            var drag = getDragOffset(event);
+            var pt = convertScreenToElementCoordinates(parentGroup, drag, svg);
+
+            // ref point is height/2, -20
+            var cx = $scope.imageWidth() / 2;
+            var cy = $scope.imageHeight() / 2;
 
             var newAngle = getAngle({x: pt.x, y: pt.y},
               {x: cx, y: -20},

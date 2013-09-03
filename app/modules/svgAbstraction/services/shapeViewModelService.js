@@ -40,6 +40,14 @@
           return this.model.borderWidth / 2;
         },
 
+        left: function() {
+
+        },
+
+        top: function() {
+
+        },
+
         height: function (newValue) {
           if(newValue){
             height = newValue;

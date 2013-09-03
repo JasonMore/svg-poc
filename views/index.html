@@ -9,26 +9,29 @@
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   <!-- build:css styles/main.css -->
   <link rel="stylesheet" href="css/animate.css">
-  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css"
+        rel="stylesheet">
   <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
   <link rel="stylesheet" href="css/main.css">
   <!-- endbuild -->
 </head>
 <body class="container-fluid">
 
-<div class="navbar">
-  <div class="navbar-inner">
-    <a class="brand" href="#">SVG Javascript Demo</a>
-    <ul class="nav">
-      <li><a href="#/">Home</a></li>
-      <li><a href="#/svgShell">Jquery Svg</a></li>
-      <li><a href="#/svgAbstraction">Svg Abstraction</a></li>
-    </ul>
+<div style="display: none;" ng-show="{{ true }}">
+  <div class="navbar">
+    <div class="navbar-inner">
+      <a class="brand" href="#">SVG Javascript Demo</a>
+      <ul class="nav">
+        <li><a href="#/">Home</a></li>
+        <li><a href="#/svgShell">Jquery Svg</a></li>
+        <li><a href="#/svgAbstraction">Svg Abstraction</a></li>
+      </ul>
+    </div>
   </div>
+
+  <ng-view/>
 </div>
 
-<!-- Add your site or application content here -->
-<ng-view/>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
