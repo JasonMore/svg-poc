@@ -9,7 +9,8 @@
         scope: {
           viewModel: '='
         },
-        link: function ($scope, element, attr, ngSvgController) {;
+        link: function ($scope, element, attr, ngSvgController) {
+          ;
           var ngSvg = ngSvgController,
             selection = createSelectionBox(ngSvg);
 
@@ -26,70 +27,24 @@
       };
 
       function addScopeMethods($scope) {
-        $scope.calcLeft = function (viewModel) {
-          return viewModel ? viewModel.model.left - viewModel.borderOffset() / 2 : 0;
-
+        $scope.calcImageLeft = function () {
+          var vm = $scope.viewModel;
+          return vm ? vm.imageLeft() + vm.left() + vm.borderOffset() : 0;
         };
 
-        $scope.calcTop = function (viewModel) {
-          return viewModel ? viewModel.model.top - viewModel.model.borderWidth / 2 : 0;
+        $scope.calcImageTop = function () {
+          var vm = $scope.viewModel;
+          return vm ? vm.imageTop() + vm.top() + vm.borderOffset() : 0;
         };
 
-        $scope.calcMidPointX = function (viewModel) {
-          return viewModel ? viewModel.midPointX() + viewModel.borderOffset() : 0;
-        };
-
-        $scope.calcMidPointY = function (viewModel) {
-          return viewModel ? viewModel.midPointY() + viewModel.borderOffset() : 0;
-        };
-
-        $scope.calcImageLeft = function (viewModel) {
-          if (!viewModel || !viewModel.model.image) {
-            return 0;
-          }
-
-          return viewModel.model.image.left + $scope.calcLeft(viewModel) + viewModel.model.borderWidth / 2;
-        };
-
-        $scope.calcImageTop = function (viewModel) {
-          if (!viewModel || !viewModel.model.image) {
-            return 0;
-          }
-          return viewModel.model.image.top + $scope.calcTop(viewModel) + viewModel.model.borderWidth / 2;
-        };
-
-        $scope.calcImageMidPointX = function (viewModel) {
-          if (!viewModel || !viewModel.model.image) {
-            return 0;
-          }
-
-          return (viewModel.model.image.width / 2);
-        };
-
-        $scope.calcImageMidPointY = function (viewModel) {
-          if (!viewModel || !viewModel.model.image) {
-            return 0;
-          }
-          return (viewModel.model.image.height / 2);
-        };
-
-        $scope.calcImageRotation = function (viewModel) {
-          if (!viewModel || !viewModel.model.image) {
-            return 0;
-          }
-
-          return viewModel.model.image.rotation + viewModel.model.rotation;
-        };
-
-        $scope.imageWidth = function () {
-          if (!$scope.viewModel || !$scope.viewModel.model.image) {
-            return 0;
-          }
-
-          return $scope.viewModel.model.image.width;
+        $scope.calcImageRotation = function () {
+          var vm = $scope.viewModel;
+          return vm ? vm.model.image.rotation + vm.model.rotation : 0;
         };
 
         $scope.imageHeight = function () {
+          var vm = $scope.viewModel;
+
           if (!$scope.viewModel || !$scope.viewModel.model.image) {
             return 0;
           }
@@ -117,8 +72,8 @@
 
       function drawSelectionBox(ngSvg) {
         var transform = [
-          'translate({{calcLeft(viewModel)}},{{calcTop(viewModel)}})',
-          'rotate({{viewModel.model.rotation}},{{calcMidPointX(viewModel)}},{{calcMidPointY(viewModel)}})'
+          'translate({{viewModel.left()}},{{viewModel.top()}})',
+          'rotate({{viewModel.model.rotation}},{{viewModel.midPointX()}},{{viewModel.midPointY()}})'
         ];
 
         var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup, {
@@ -140,8 +95,8 @@
 
       function drawImageSelectionBox(ngSvg) {
         var transform = [
-          'translate({{calcImageLeft(viewModel)}},{{calcImageTop(viewModel)}})',
-          'rotate({{calcImageRotation(viewModel)}},{{calcImageMidPointX(viewModel)}},{{calcImageMidPointY(viewModel)}})'
+          'translate({{calcImageLeft()}},{{calcImageTop()}})',
+          'rotate({{calcImageRotation()}},{{viewModel.imageMidPointX()}},{{viewModel.imageMidPointY()}})'
         ];
 
         var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup, {
@@ -149,8 +104,16 @@
           'ng-show': 'viewModel.showPreviewImage'
         });
 
+        var imageSelectionPath = [
+          'M0,0',
+          'L{{viewModel.imageWidth()}},0',
+          'L{{viewModel.imageWidth()}},{{viewModel.imageHeight()}}',
+          'L0,{{viewModel.imageHeight()}}',
+          'z'
+        ];
+
         ngSvg.svg.path(selectionBox, '', {
-          'ng-attr-d': 'M0,0L{{imageWidth()}},0L{{imageWidth()}},{{imageHeight()}}L0,{{imageHeight()}}z',
+          'ng-attr-d': imageSelectionPath.join(''),
           fill: 'none',
           fillOpacity: '0.3',
           'stroke-dasharray': '5,5',
@@ -225,23 +188,23 @@
 
         var cornerNE = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
           'data-cornerid': 'cornerNE',
-          transform: 'translate({{imageWidth()}},0)'
+          transform: 'translate({{viewModel.imageWidth()}},0)'
         }));
 
         var cornerSE = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
           'data-cornerid': 'cornerSE',
-          transform: 'translate({{imageWidth()}},{{imageHeight()}})'
+          transform: 'translate({{viewModel.imageWidth()}},{{viewModel.imageHeight()}})'
         }));
 
         var cornerSW = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
           'data-cornerid': 'cornerSW',
-          transform: 'translate(0,{{imageHeight()}})'
+          transform: 'translate(0,{{viewModel.imageHeight()}})'
         }));
 
         svg.line(selectionBox, 0, 0, 0, (-1 * rotatorLineLength), {
           stroke: '#0096fd',
           strokeWidth: 3,
-          transform: 'translate({{calcImageMidPointX(viewModel)}},0)'
+          transform: 'translate({{viewModel.imageMidPointX()}},0)'
         });
 
         var rotator = svg.circle(selectionBox, 0, 0, 5, _.extend(defaultCircleSettings, {
@@ -250,7 +213,7 @@
           fill: '#FFFFFF',
           stroke: '#0096fd',
           strokeWidth: 1,
-          transform: 'translate({{calcImageMidPointX(viewModel)}},-20)'
+          transform: 'translate({{viewModel.imageMidPointX()}},-20)'
         }));
 
         return {
@@ -323,8 +286,8 @@
             var pt = convertScreenToElementCoordinates(parentGroup, drag, svg);
 
             // ref point is height/2, -20
-            var cx = $scope.imageWidth() / 2;
-            var cy = $scope.imageHeight() / 2;
+            var cx = $scope.viewModel.imageWidth() / 2;
+            var cy = $scope.viewModel.imageHeight() / 2;
 
             var newAngle = getAngle({x: pt.x, y: pt.y},
               {x: cx, y: -20},
@@ -495,20 +458,21 @@
           drag: function (event, ui) {
 
             var draggedCorner = $(this);
+            var vm = $scope.viewModel;
             var drag = getDragOffset(event);
-            var currentDimensions = {width: $scope.imageWidth(), height: $scope.imageHeight()};
+            var currentDimensions = {width: vm.imageWidth(), height: vm.imageHeight()};
             var newDim = getNewShapeLocationAndDimensions(svg, draggedCorner, drag, currentDimensions);
 
             $scope.$apply(function () {
-              $scope.viewModel.model.image.width = newDim.width;
-              $scope.viewModel.model.image.height = newDim.height;
-              $scope.viewModel.model.image.top = $scope.viewModel.model.image.top - newDim.deltaY;
-              $scope.viewModel.model.image.left = $scope.viewModel.model.image.left - newDim.deltaX;
+              vm.model.image.width = newDim.width;
+              vm.model.image.height = newDim.height;
+              vm.model.image.top = vm.model.image.top - newDim.deltaY;
+              vm.model.image.left = vm.model.image.left - newDim.deltaX;
             });
           },
           stop: function () {
             $scope.$apply(function () {
-              $scope.viewModel.isResizing = false;
+              vm.isResizing = false;
             });
           }
         });

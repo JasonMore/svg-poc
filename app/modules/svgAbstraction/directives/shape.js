@@ -92,10 +92,18 @@
           'opacity': '.4'
         }, imageBindings));
 
+        var imageTransform = [
+          'rotate(',
+          '{{viewModel.model.image.rotation}},',
+          '{{viewModel.imageMidPointX() + viewModel.imageLeft()}},',
+          '{{viewModel.imageMidPointY() + viewModel.imageTop()}}',
+          ')'
+        ];
+
         var previewImage = ngSvg.svg.image(parentGroup, 0, 0, 0, 0, '', _.extend({
           'ng-href': '{{ viewModel.model.image.url }}',
           'ng-attr-mask': 'url({{viewModel.urlRef("previewImageMask")}})',
-          'transform': 'rotate({{viewModel.model.image.rotation}},{{viewModel.midPointX()}},{{viewModel.midPointY()}})',
+          'transform': imageTransform.join(''),
           'ng-show': 'viewModel.showPreviewImage'
         }, imageBindings));
 
@@ -103,7 +111,7 @@
           'ng-href': '{{ viewModel.model.image.url }}',
           'ng-mousedown': 'whenClick()',
           'clip-path': 'url({{viewModel.urlRef("clipPath")}})',
-          'transform': 'rotate({{viewModel.model.image.rotation}},{{viewModel.midPointX()}},{{viewModel.midPointY()}})',
+          'transform': imageTransform.join(''),
           'ng-show':  'viewModel.model.image.url'
         }, imageBindings));
 

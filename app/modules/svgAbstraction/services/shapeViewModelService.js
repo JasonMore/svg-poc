@@ -41,11 +41,11 @@
         },
 
         left: function() {
-
+          return this.model.left - this.borderOffset();
         },
 
         top: function() {
-
+          return this.model.top - this.borderOffset();
         },
 
         height: function (newValue) {
@@ -100,20 +100,12 @@
           return this.hasImage() ? getSetValue(this.model.image.height, value) : 0;
         },
 
-        imageMidpointX: function() {
-          if(!this.hasImage()){
-            return 0;
-          }
-
-          return this.imageWidth() / 2 + this.imageLeft();
+        imageMidPointX: function() {
+          return this.hasImage() ? this.imageWidth() / 2 : 0;
         },
 
-        imageMidpointY: function() {
-          if(!this.hasImage()){
-            return 0;
-          }
-
-          return this.imageHeight() / 2 + this.imageTop();
+        imageMidPointY: function() {
+          return this.hasImage() ? this.imageHeight() / 2 : 0;
         },
 
         makeUrlRef: function(key) {
