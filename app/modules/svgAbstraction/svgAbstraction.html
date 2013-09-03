@@ -104,7 +104,7 @@
             when-click="setSelectedShape(shape)"
             ng-repeat="shape in shapes"
       ></ng-shape>
-  <selection-box shape="selectedShape"></selection-box>
+  <selection-box view-model="selectedShape"></selection-box>
   <drawing-surface active="isDrawing()"
                    shape="shapeType()"
                    model="shapes"
