@@ -40,7 +40,7 @@
       "borderWidth": 5,
       "path": "M0,0L150,0L150,150L0,150z",
       "image": {
-        "url": "http://lorempixel.com/150/150/nature",
+        "url": "http://lorempixel.com/150/150/nature/1",
         "top": 1,
         "left": 1,
         "width": 150,
@@ -58,7 +58,7 @@
       "borderColor": "black",
       "borderWidth": 10,
       "image": {
-        "url": "http://lorempixel.com/1000/600",
+        "url": "http://lorempixel.com/1000/600/abstract/3",
         "top": -28,
         "left": -288,
         "width": 557,
@@ -76,7 +76,7 @@
       "borderColor": "black",
       "borderWidth": 2,
       "image": {
-        "url": "http://lorempixel.com/999/599",
+        "url": "http://lorempixel.com/999/599/food/9",
         "top": -42,
         "left": -39,
         "width": 494,
@@ -255,7 +255,7 @@
 
       // hack
       $scope.$watch('selectedShape.model | json ', function(newVal, oldVal) {
-        if(newVal === oldVal) {
+        if(newVal === oldVal || !$scope.selectedShape) {
           return;
         }
 
