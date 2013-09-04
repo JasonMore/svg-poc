@@ -1,17 +1,17 @@
-
 /**
  * Module dependencies.
  */
 
-var express = require('express')
-  , routes = require('./server/routes')
-  , http = require('http')
-  , path = require('path');
+var express = require('express'),
+  routes = require('./server/routes'),
+  http = require('http'),
+  path = require('path'),
+  socketService = require('./server/socket_service');
 
 var app = express();
 
 //noinspection JSCheckFunctionSignatures,JSValidateTypes
-app.configure(function(){
+app.configure(function () {
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.engine('html', require('ejs').renderFile);
@@ -23,12 +23,41 @@ app.configure(function(){
   app.use(express.static(path.join(__dirname, 'app')));
 });
 
-app.configure('development', function(){
+app.configure('development', function () {
   app.use(express.errorHandler());
 });
 var congoServer = require("./server/mongoapi_server")(app);
 app.get('/', routes.index);
 
-http.createServer(app).listen(app.get('port'), function(){
+var server = http.createServer(app).listen(app.get('port'), function () {
   console.log("Express server listening on port " + app.get('port'));
+});
+
+socketService.start(server);
+
+//// socket io -- todo move to another file
+//io = io.listen(3001);
+//
+//io.sockets.on('connection', function (socket) {
+//  socket.emit('news', { hello: 'world' });
+//  socket.on('my other event', function (data) {
+//    console.log(data);
+//  });
+//});
+
+var app = require('express')()
+  , server = require('http').createServer(app)
+  , io = require('socket.io').listen(server);
+
+server.listen(80);
+
+app.get('/', function (req, res) {
+  res.sendfile(__dirname + '/index.html');
+});
+
+io.sockets.on('connection', function (socket) {
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
 });

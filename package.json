@@ -20,7 +20,8 @@
     "karma-script-launcher": "0.0.1",
     "karma-ng-scenario": "0.0.1",
     "karma": "~0.9.4",
-    "karma-coverage": "0.0.3"
+    "karma-coverage": "0.0.3",
+    "socket.io": "~0.9.16"
   },
   "repository": {
     "type": "git",

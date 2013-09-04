@@ -84,6 +84,16 @@
 <script src="modules/svgAbstraction/directives/selectionBox.js"></script>
 <script src="modules/svgAbstraction/directives/shapeOptions.js"></script>
 
+<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<script>
+  // hacks :-(
+  window.socket = io.connect("http://localhost:3000");
+//  socket.on('news', function(data){
+//    console.log(data);
+//    socket.emit('my other event', { my: 'data'});
+//  });
+</script>
+
 <!--<script src="modules/ngSvg/_module.js"></script>-->
 <!--<script src="modules/ngSvg/directives/svg.js"></script>-->
 <!--<script src="modules/ngSvg/directives/path.js"></script>-->
