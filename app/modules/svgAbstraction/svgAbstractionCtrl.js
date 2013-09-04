@@ -250,5 +250,33 @@
 
         return true;
       };
+
+      // watches
+
+      // hack
+      $scope.$watch('selectedShape.model | json ', function(newVal, oldVal) {
+        if(newVal === oldVal) {
+          return;
+        }
+
+//        window.socket.emit('pageSave', {shapes: $scope.shapesInfo()}); 
+        update($scope.selectedShape.model);
+      });
+
+      var update = _.throttle(function(selectedShapeModel) {
+        window.socket.emit('pageSave', {selectedShapeModel: selectedShapeModel});
+      }, 0, {leading:false});
+
+      window.socket.on('pageUpdated', function(infos){
+        console.log(Date(), infos);
+
+        var indexToUpdate = _.findIndex($scope.shapes, function(shape) {
+          return shape.model.id === infos.selectedShapeModel.id;
+        });
+
+        $scope.$apply(function() {
+          $scope.shapes[indexToUpdate].updateModel(infos.selectedShapeModel);
+        });
+      })
     });
 }());

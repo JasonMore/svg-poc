@@ -22,8 +22,8 @@ var socketService = function() {
 
   function connectionEvents(socket){
     socket.on('pageSave', function (page) {
-      socket.emit('pageUpdated', page);
-      db.collection('pages').save(page);
+      socket.broadcast.emit('pageUpdated', page);
+//      db.collection('pages').save(page);
     });
   }
 

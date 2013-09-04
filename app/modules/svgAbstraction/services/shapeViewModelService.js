@@ -21,6 +21,11 @@
         model: shape,
         showPreviewImage: false,
 
+        updateModel: function(newModel){
+          this.model = newModel;
+          selectionBox = null;
+        },
+
         selectionBox: function () {
           if (!selectionBox) {
             selectionBox = pathService.getSelectionBox(this.svgElementPath);
