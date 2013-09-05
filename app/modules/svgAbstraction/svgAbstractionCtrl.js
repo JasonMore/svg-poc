@@ -288,7 +288,9 @@
 
       $scope.$watch('debugThrottle', function (throttleAmount) {
         update = _.throttle(function (selectedShapeModel) {
-          socket.emit('pageSave', {selectedShapeModel: selectedShapeModel});
+          socket.emit('pageSave', {selectedShapeModel: selectedShapeModel}, function(savedPage) {
+            console.log(savedPage);
+          });
         }, throttleAmount, {leading: false});
       });
 

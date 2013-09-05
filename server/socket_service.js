@@ -2,21 +2,10 @@ var io = require('socket.io'),
   mongo = require('mongoskin');
 
 var socketService = function() {
-  var db;
-
   this.start = function(server) {
     checkIfMongoIsSetup();
 
-    io = io.listen(server, {
-      'flash policy port': -1
-    });
-
-//    var io = require('socket.io').listen(3000, {
-//      'flash policy port': -1
-//  });
-
-    io.set('transports', ['flashsocket']);
-
+    io = io.listen(server);
     io.sockets.on('connection', connectionEvents);
   }
 
@@ -25,14 +14,19 @@ var socketService = function() {
   }
 
   function connect(next) {
-    db = mongo.db("localhost/svgPoc", {safe: true});
+    var db = mongo.db("localhost/svgPoc", {safe: true});
     next(db);
   }
 
   function connectionEvents(socket){
-    socket.on('pageSave', function (page) {
+    socket.on('pageSave', function (page, doneFn) {
       socket.broadcast.emit('pageUpdated', page);
-//      db.collection('pages').save(page);
+      connect(function(db) {
+        db.collection('pages').save(page, function(err, savedPage){
+          doneFn(savedPage);
+        });
+      });
+
     });
   }
 
