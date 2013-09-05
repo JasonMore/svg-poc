@@ -7,7 +7,16 @@ var socketService = function() {
   this.start = function(server) {
     checkIfMongoIsSetup();
 
-    io = io.listen(server);
+    io = io.listen(server, {
+      'flash policy port': -1
+    });
+
+//    var io = require('socket.io').listen(3000, {
+//      'flash policy port': -1
+//  });
+
+    io.set('transports', ['flashsocket']);
+
     io.sockets.on('connection', connectionEvents);
   }
 

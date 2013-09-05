@@ -32,11 +32,11 @@
         </label>
 
 
-          <a class="btn"
-             ng-show="selectedShape.model.image.url"
-             ng-click="selectedShape.showPreviewImage = !selectedShape.showPreviewImage">
-            Edit Image
-          </a>
+        <a class="btn"
+           ng-show="selectedShape.model.image.url"
+           ng-click="selectedShape.showPreviewImage = !selectedShape.showPreviewImage">
+          Edit Image
+        </a>
 
         <a class="btn"
            ng-show="selectedShape.model.image.url"
@@ -111,4 +111,12 @@
                    when-done="setSelectedShape(shape)"></drawing-surface>
 </ng-svg>
 
-<pre>{{ shapesInfo() | json }}</pre>
+<a ng-href="" ng-click="debug = !debug">debug</a>
+<div ng-show="debug">
+  <label>
+    Live Update Throttle -
+    <input type="text" class="input-small" ng-model="debugThrottle">
+    <input type="range" min="0" max="1000" step="25" ng-model="debugThrottle">
+  </label>
+  <pre>{{ shapesInfo() | json }}</pre>
+</div>

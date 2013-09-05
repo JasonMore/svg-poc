@@ -1,6 +1,10 @@
 <!doctype html>
 <html ng-app="app"></html>
 <head>
+  <script>
+    //hack!
+    WebSocket = undefined;
+  </script>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <title></title>
@@ -87,7 +91,8 @@
 <script src="http://localhost:3000/socket.io/socket.io.js"></script>
 <script>
   // hacks :-(
-  window.socket = io.connect();
+//  debugger;
+//  window.socket = io.connect();
 //  socket.on('news', function(data){
 //    console.log(data);
 //    socket.emit('my other event', { my: 'data'});

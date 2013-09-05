@@ -157,7 +157,7 @@
 
       // actions
       $scope.setSelectedShape = function (shape) {
-        if($scope.selectedShape === shape){
+        if ($scope.selectedShape === shape) {
           return;
         }
 
@@ -254,29 +254,43 @@
       // watches
 
       // hack
-      $scope.$watch('selectedShape.model | json ', function(newVal, oldVal) {
-        if(newVal === oldVal || !$scope.selectedShape) {
+
+//      debugger;
+      var socket = io.connect();
+
+      $scope.$watch('selectedShape.model | json ', function (newVal, oldVal) {
+        if (newVal === oldVal || !$scope.selectedShape) {
           return;
         }
 
-//        window.socket.emit('pageSave', {shapes: $scope.shapesInfo()}); 
         update($scope.selectedShape.model);
       });
 
-      var update = _.throttle(function(selectedShapeModel) {
-        window.socket.emit('pageSave', {selectedShapeModel: selectedShapeModel});
-      }, 0, {leading:false});
+      var update;
 
-      window.socket.on('pageUpdated', function(infos){
+      socket.on('pageUpdated', function (infos) {
         console.log(Date(), infos);
 
-        var indexToUpdate = _.findIndex($scope.shapes, function(shape) {
+        var indexToUpdate = _.findIndex($scope.shapes, function (shape) {
           return shape.model.id === infos.selectedShapeModel.id;
         });
 
-        $scope.$apply(function() {
+        $scope.$apply(function () {
           $scope.shapes[indexToUpdate].updateModel(infos.selectedShapeModel);
         });
       })
+
+
+
+      // debug
+      $scope.debug = false;
+      $scope.debugThrottle = 500;
+
+      $scope.$watch('debugThrottle', function (throttleAmount) {
+        update = _.throttle(function (selectedShapeModel) {
+          socket.emit('pageSave', {selectedShapeModel: selectedShapeModel});
+        }, throttleAmount, {leading: false});
+      });
+
     });
 }());
