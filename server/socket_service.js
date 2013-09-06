@@ -19,14 +19,22 @@ var socketService = function() {
   }
 
   function connectionEvents(socket){
-    socket.on('pageSave', function (page, doneFn) {
-      socket.broadcast.emit('pageUpdated', page);
+    socket.on('shapeUpdate', function (shape, doneFn) {
+      socket.broadcast.emit('shapeUpdated', shape);
 //      connect(function(db) {
 //        db.collection('pages').save(page, function(err, savedPage){
 //          doneFn(savedPage);
 //        });
 //      });
 
+    });
+
+    socket.on('shapeAdd', function(shape){
+      socket.broadcast.emit('shapeAdded', shape);
+    });
+
+    socket.on('shapeDelete', function(shapeId) {
+      socket.broadcast.emit('shapeDeleted', shapeId);
     });
   }
 

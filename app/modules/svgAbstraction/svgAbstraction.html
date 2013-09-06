@@ -4,7 +4,7 @@
       <a class="btn dropdown-toggle"
          ng-class="{active: shapeToDraw}"
          tooltip-placement="bottom"
-         tooltip="Shapes">
+         tooltip="Draw a Shape">
         <svg style="height:31px; width:31px">
           <path ng-attr-d="{{shapeKeyValues['draw']}}"></path>
         </svg>
@@ -13,8 +13,7 @@
         <li ng-repeat="shape in shapePaths">
           <a class="btn"
              ng-class="{active: isActiveShape(shape)}"
-             ng-click="drawShape(shape)"
-             tooltip-placement="bottom" tooltip="{{shape.name}}">
+             ng-click="drawShape(shape)">
             <svg class="toolbar-icon">
               <path ng-attr-d="{{shape.path}}"></path>
             </svg>
@@ -131,7 +130,7 @@
   <drawing-surface active="isDrawing()"
                    shape="shapeType()"
                    model="shapes"
-                   when-done="setSelectedShape(shape)"></drawing-surface>
+                   when-done="shapeAdded(shape);"></drawing-surface>
 </ng-svg>
 
 <a style="color:lightgrey" ng-href="" ng-click="debug = !debug">debug</a>

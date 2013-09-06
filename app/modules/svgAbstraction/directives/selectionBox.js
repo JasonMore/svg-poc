@@ -472,7 +472,7 @@
           },
           stop: function () {
             $scope.$apply(function () {
-              vm.isResizing = false;
+              $scope.viewModel.isResizing = false;
             });
           }
         });

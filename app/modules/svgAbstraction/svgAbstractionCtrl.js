@@ -172,6 +172,7 @@
       };
 
       $scope.deleteShape = function () {
+        deleteShape($scope.selectedShape.model.id);
         $scope.shapes.remove($scope.selectedShape);
         $scope.unSelectShape();
       };
@@ -252,11 +253,9 @@
         return true;
       };
 
-      // watches
 
-      // hack
+      // socket io hacks
 
-//      debugger;
       var socket = io.connect();
 
       $scope.$watch('selectedShape.model | json ', function (newVal, oldVal) {
@@ -264,34 +263,78 @@
           return;
         }
 
-        update($scope.selectedShape.model);
+        updateShape($scope.selectedShape.model);
       });
 
-      var update;
+//      $scope.$watchCollection('shapes', function(newShapes, oldShapes) {
+//        // TODO: check for shapes re-order
+//
+//        var shapeAdded = _.difference(newShapes, oldShapes);
+//        if(shapeAdded.length){
+//          addShape(shapeAdded[0].model);
+//          return;
+//        }
+//
+//        var shapeRemoved = _.difference(oldShapes, newShapes);
+//        if(shapeRemoved.length){
+//          deleteShape(shapeRemoved[0].model.id);
+//          return;
+//        }
+//
+//      });
 
-      socket.on('pageUpdated', function (infos) {
-        console.log(Date(), infos);
+
+      $scope.shapeAdded = function(shape){
+        $scope.setSelectedShape(shape);
+        addShape(shape.model);
+      }
+
+      socket.on('shapeUpdated', function (updatedShapeModel) {
 
         var indexToUpdate = _.findIndex($scope.shapes, function (shape) {
-          return shape.model.id === infos.selectedShapeModel.id;
+          return shape.model.id === updatedShapeModel.id;
         });
 
         $scope.$apply(function () {
-          $scope.shapes[indexToUpdate].updateModel(infos.selectedShapeModel);
+          $scope.shapes[indexToUpdate].updateModel(updatedShapeModel);
         });
-      })
+      });
 
+      socket.on('shapeAdded', function (newShapeModel) {
+        var newShape = shapeViewModelService.create(newShapeModel);
+        $scope.$apply(function() {
+          $scope.shapes.push(newShape);
+        })
+      });
 
+      socket.on('shapeDeleted', function (deletedShapeId) {
+        $scope.$apply(function() {
+          $scope.shapes.remove(function (shape) {
+            return shape.model.id === deletedShapeId;
+          });
+        });
+      });
 
       // debug
       $scope.debug = false;
-      $scope.debugThrottle = 500;
+      $scope.debugThrottle = 25;
 
+      var updateShape, addShape, deleteShape;
       $scope.$watch('debugThrottle', function (throttleAmount) {
-        update = _.throttle(function (selectedShapeModel) {
-          socket.emit('pageSave', {selectedShapeModel: selectedShapeModel}, function(savedPage) {
-            console.log(savedPage);
+
+        // move these to function wraps
+        updateShape = _.throttle(function (selectedShapeModel) {
+          socket.emit('shapeUpdate', selectedShapeModel, function (savedShape) {
+            console.log(savedShape);
           });
+        }, throttleAmount, {leading: false});
+
+        addShape = _.throttle(function (newShapeModel) {
+          socket.emit('shapeAdd', newShapeModel);
+        }, throttleAmount, {leading: false});
+
+        deleteShape = _.throttle(function (deletedShapeId) {
+          socket.emit('shapeDelete', deletedShapeId);
         }, throttleAmount, {leading: false});
       });
 
