@@ -12,7 +12,8 @@ var app = express();
 
 //noinspection JSCheckFunctionSignatures,JSValidateTypes
 app.configure(function () {
-  app.set('port', process.env.PORT || 3000);
+//  app.set('port', process.env.PORT || 3000);
+  app.set('port', process.env.VMC_APP_PORT || 3000);
   app.set('views', __dirname + '/views');
   app.engine('html', require('ejs').renderFile);
   app.use(express.favicon());
@@ -26,7 +27,7 @@ app.configure(function () {
 app.configure('development', function () {
   app.use(express.errorHandler());
 });
-var congoServer = require("./server/mongoapi_server")(app);
+//var congoServer = require("./server/mongoapi_server")(app);
 app.get('/', routes.index);
 
 var server = http.createServer(app).listen(app.get('port'), function () {
@@ -34,13 +35,3 @@ var server = http.createServer(app).listen(app.get('port'), function () {
 });
 
 socketService.start(server);
-
-var app = require('express')()
-  , server = require('http').createServer(app)
-  , io = require('socket.io').listen(server);
-
-server.listen(80);
-
-app.get('/', function (req, res) {
-  res.sendfile(__dirname + '/index.html');
-});

@@ -21,11 +21,11 @@ var socketService = function() {
   function connectionEvents(socket){
     socket.on('pageSave', function (page, doneFn) {
       socket.broadcast.emit('pageUpdated', page);
-      connect(function(db) {
-        db.collection('pages').save(page, function(err, savedPage){
-          doneFn(savedPage);
-        });
-      });
+//      connect(function(db) {
+//        db.collection('pages').save(page, function(err, savedPage){
+//          doneFn(savedPage);
+//        });
+//      });
 
     });
   }

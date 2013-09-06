@@ -105,6 +105,7 @@
       $scope.selectedShape = null;
       $scope.shapeToDraw = null;
       $scope.shapePaths = shapePaths.list;
+      $scope.shapeKeyValues = shapePaths.keyValues;
       $scope.shapes = createShapeViewModels(importShapes);
 
       $scope.colorOptions = [
