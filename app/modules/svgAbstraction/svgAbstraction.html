@@ -1,28 +1,37 @@
 <div class="well">
-  <div class="dropdown">
-    <a class="btn dropdown-toggle"
-       ng-class="{active: shapeToDraw}"
-       tooltip-placement="bottom"
-       tooltip="Shapes">
-      <svg style="height:31px; width:31px">
-        <path ng-attr-d="{{shapeKeyValues['draw']}}"></path>
-      </svg>
-    </a>
-    <ul class="dropdown-menu inline">
-      <li ng-repeat="shape in shapePaths">
-        <a class="btn"
-           ng-class="{active: isActiveShape(shape)}"
-           ng-click="drawShape(shape)"
-           tooltip-placement="bottom" tooltip="{{shape.name}}">
-          <svg style="height:31px; width:31px">
-            <path ng-attr-d="{{shape.path}}"></path>
-          </svg>
-        </a>
-      </li>
-    </ul>
+  <div class="toolbar">
+    <div class="dropdown">
+      <a class="btn dropdown-toggle"
+         ng-class="{active: shapeToDraw}"
+         tooltip-placement="bottom"
+         tooltip="Shapes">
+        <svg style="height:31px; width:31px">
+          <path ng-attr-d="{{shapeKeyValues['draw']}}"></path>
+        </svg>
+      </a>
+      <ul class="dropdown-menu inline toolbar-submenu">
+        <li ng-repeat="shape in shapePaths">
+          <a class="btn"
+             ng-class="{active: isActiveShape(shape)}"
+             ng-click="drawShape(shape)"
+             tooltip-placement="bottom" tooltip="{{shape.name}}">
+            <svg class="toolbar-icon">
+              <path ng-attr-d="{{shape.path}}"></path>
+            </svg>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <a class="btn"
+         ng-class="{active: !shapeToDraw}"
+         tooltip-placement="bottom"
+         tooltip="Select">
+        <img class="toolbar-icon" src="img/cursor_arrow.png">
+      </a>
+    </div>
   </div>
 </div>
-
 
 
 <div ng-show="showShapeMenu()"
