@@ -75,12 +75,27 @@
           'ng-mousedown': 'whenClick()'
         });
 
+        drawImage($scope, ngSvg, parentGroup);
+
+        var shapeForeground = ngSvg.svg.use(parentGroup, '', {
+          'ng-href': '{{ "#" + viewModel.model.id}}',
+          'class': 'shape',
+          'fill': 'none',
+          'stroke': '{{viewModel.model.borderColor}}',
+          'stroke-width': '{{viewModel.model.borderWidth}}',
+          'ng-mousedown': 'whenClick()'
+        });
+
+        return parentGroup;
+      }
+
+      function drawImage($scope, ngSvg, parentGroup) {
         var imageBindings = {
           'ng-attr-x': '{{viewModel.imageLeft()}}',
           'ng-attr-y': '{{viewModel.imageTop()}}',
           'ng-attr-width': '{{viewModel.imageWidth()}}',
           'ng-attr-height': '{{viewModel.imageHeight()}}',
-          'preserveAspectRatio' : 'none'
+          'preserveAspectRatio': 'none'
         };
 
         var previewImageMaskId = $scope.viewModel.makeUrlRef('previewImageMask');
@@ -100,6 +115,10 @@
           ')'
         ];
 
+        var imageGroup = ngSvg.svg.group(parentGroup, {
+          'clip-path': 'url({{viewModel.urlRef("clipPath")}})'
+        });
+
         var previewImage = ngSvg.svg.image(parentGroup, 0, 0, 0, 0, '', _.extend({
           'ng-href': '{{ viewModel.model.image.url }}',
           'ng-attr-mask': 'url({{viewModel.urlRef("previewImageMask")}})',
@@ -107,24 +126,12 @@
           'ng-show': 'viewModel.showPreviewImage'
         }, imageBindings));
 
-        var image = ngSvg.svg.image(parentGroup, 0, 0, 0, 0, '', _.extend({
+        var image = ngSvg.svg.image(imageGroup, 0, 0, 0, 0, '', _.extend({
           'ng-href': '{{ viewModel.model.image.url }}',
           'ng-mousedown': 'whenClick()',
-          'clip-path': 'url({{viewModel.urlRef("clipPath")}})',
           'transform': imageTransform.join(''),
-          'ng-show':  'viewModel.model.image.url'
+          'ng-show': 'viewModel.model.image.url'
         }, imageBindings));
-
-        var shapeForeground = ngSvg.svg.use(parentGroup, '', {
-          'ng-href': '{{ "#" + viewModel.model.id}}',
-          'class': 'shape',
-          'fill': 'none',
-          'stroke': '{{viewModel.model.borderColor}}',
-          'stroke-width': '{{viewModel.model.borderWidth}}',
-          'ng-mousedown': 'whenClick()'
-        });
-
-        return parentGroup;
       }
 
       function calculateImageHeightWidth($scope) {
