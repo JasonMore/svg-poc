@@ -87,7 +87,7 @@
   ];
 
   angular.module('svgAbstraction.controllers', [])
-    .controller('svgAbstractionCtrl', function ($scope, $timeout, shapePaths, shapeViewModelService) {
+    .controller('svgAbstractionCtrl', function ($scope, $timeout, shapePaths, shapeViewModelService, socket) {
       window.debugScope = $scope;
       // import
 
@@ -256,7 +256,7 @@
 
       // socket io hacks
 
-      var socket = io.connect();
+//      var socket = io.connect();
 
       $scope.$watch('selectedShape.model | json ', function (newVal, oldVal) {
         if (newVal === oldVal || !$scope.selectedShape) {

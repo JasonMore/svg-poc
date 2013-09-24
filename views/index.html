@@ -25,6 +25,7 @@
         <li><a href="#/">Home</a></li>
         <li><a href="#/svgShell">Jquery Svg</a></li>
         <li><a href="#/svgAbstraction">Svg Abstraction</a></li>
+        <li><a href="#/templates">Templates</a></li>
       </ul>
     </div>
   </div>
@@ -46,6 +47,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.0.1/angular-ui-router.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.5.0/ui-bootstrap-tpls.min.js"></script>
 
+<script src="socket.io/socket.io.js"></script>
 
 <!-- build:js scripts/scripts.js -->
 <script src="modules/app.js"></script>
@@ -84,21 +86,11 @@
 <script src="modules/svgAbstraction/directives/selectionBox.js"></script>
 <script src="modules/svgAbstraction/directives/shapeOptions.js"></script>
 
-<script src="socket.io/socket.io.js"></script>
-<script>
-  // hacks :-(
-//  debugger;
-//  window.socket = io.connect();
-//  socket.on('news', function(data){
-//    console.log(data);
-//    socket.emit('my other event', { my: 'data'});
-//  });
-</script>
+<script src="modules/templateList/_module.js"></script>
+<script src="modules/templateList/templateListCtrl.js"></script>
 
-<!--<script src="modules/ngSvg/_module.js"></script>-->
-<!--<script src="modules/ngSvg/directives/svg.js"></script>-->
-<!--<script src="modules/ngSvg/directives/path.js"></script>-->
-<!--<script src="modules/svgAbstraction/services/.js"></script>-->
+<script src="modules/realTime/_module.js"></script>
+<script src="modules/realTime/socket.js"></script>
 
 <!-- endbuild -->
 </body>

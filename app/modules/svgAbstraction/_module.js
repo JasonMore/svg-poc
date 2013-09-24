@@ -6,7 +6,8 @@
     'svgAbstraction.directives',
     'svgAbstraction.services',
     'ui.bootstrap',
-    'menuAim'
+    'menuAim',
+    'realTime'
 //    'ngSvg'
   ];
 

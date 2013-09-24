@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  angular.module('app', ['main', 'svgShell', 'svgAbstraction'])
+  angular.module('app', ['main', 'svgShell', 'svgAbstraction', 'templateList'])
     .config(function ($routeProvider, $injector) {
       $routeProvider
         .otherwise({
