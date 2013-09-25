@@ -7,7 +7,7 @@
     'svgAbstraction.services',
     'ui.bootstrap',
     'menuAim',
-    'realTime'
+    'liveResource'
 //    'ngSvg'
   ];
 
@@ -15,7 +15,12 @@
     .config(function ($routeProvider) {
       $routeProvider.when('/svgAbstraction', {
         templateUrl:'modules/svgAbstraction/svgAbstraction.html',
-        controller:'svgAbstractionCtrl'
+        controller:'svgAbstractionCtrl',
+        resolve: {
+          liveResource: function (liveResourceProvider) {
+            return liveResourceProvider.createLiveResource;
+          }
+        }
       });
     });
 

@@ -4,7 +4,7 @@
   var using = [
 //    'realTime.controllers',
 //    'svgAbstraction.directives',
-    'realTime.services'
+    'liveResource.services'
 //    'ui.bootstrap',
 //    'menuAim'
 //    'ngSvg'
@@ -15,6 +15,6 @@
 //      var socket = io.connect();
 //    });
 
-  angular.module('realTime.services',[]);
+  angular.module('liveResource.liveResource',[]);
 //  angular.module('svgAbstraction.directives', []);
 }());

@@ -87,9 +87,11 @@
   ];
 
   angular.module('svgAbstraction.controllers', [])
-    .controller('svgAbstractionCtrl', function ($scope, $timeout, shapePaths, shapeViewModelService, socket) {
+    .controller('svgAbstractionCtrl', function ($scope, $timeout, shapePaths, shapeViewModelService, liveResource) {
       window.debugScope = $scope;
       // import
+
+      console.log(liveResource);
 
       function createShapeViewModels(shapeDTOs) {
         return _.map(shapeDTOs, function (shape) {
@@ -289,54 +291,54 @@
         addShape(shape.model);
       }
 
-      socket.on('shapeUpdated', function (updatedShapeModel) {
+//      socket.on('shapeUpdated', function (updatedShapeModel) {
 
-        var indexToUpdate = _.findIndex($scope.shapes, function (shape) {
-          return shape.model.id === updatedShapeModel.id;
-        });
+//        var indexToUpdate = _.findIndex($scope.shapes, function (shape) {
+//          return shape.model.id === updatedShapeModel.id;
+//        });
+//
+//        $scope.$apply(function () {
+//          $scope.shapes[indexToUpdate].updateModel(updatedShapeModel);
+//        });
+//      });
 
-        $scope.$apply(function () {
-          $scope.shapes[indexToUpdate].updateModel(updatedShapeModel);
-        });
-      });
-
-      socket.on('shapeAdded', function (newShapeModel) {
-        var newShape = shapeViewModelService.create(newShapeModel);
-        $scope.$apply(function() {
-          $scope.shapes.push(newShape);
-        })
-      });
-
-      socket.on('shapeDeleted', function (deletedShapeId) {
-        $scope.$apply(function() {
-          $scope.shapes.remove(function (shape) {
-            return shape.model.id === deletedShapeId;
-          });
-        });
-      });
+//      socket.on('shapeAdded', function (newShapeModel) {
+//        var newShape = shapeViewModelService.create(newShapeModel);
+//        $scope.$apply(function() {
+//          $scope.shapes.push(newShape);
+//        })
+//      });
+//
+//      socket.on('shapeDeleted', function (deletedShapeId) {
+//        $scope.$apply(function() {
+//          $scope.shapes.remove(function (shape) {
+//            return shape.model.id === deletedShapeId;
+//          });
+//        });
+//      });
 
       // debug
-      $scope.debug = false;
-      $scope.debugThrottle = 25;
-
-      var updateShape, addShape, deleteShape;
-      $scope.$watch('debugThrottle', function (throttleAmount) {
-
-        // move these to function wraps
-        updateShape = _.throttle(function (selectedShapeModel) {
-          socket.emit('shapeUpdate', selectedShapeModel, function (savedShape) {
-            console.log(savedShape);
-          });
-        }, throttleAmount, {leading: false});
-
-        addShape = _.throttle(function (newShapeModel) {
-          socket.emit('shapeAdd', newShapeModel);
-        }, throttleAmount, {leading: false});
-
-        deleteShape = _.throttle(function (deletedShapeId) {
-          socket.emit('shapeDelete', deletedShapeId);
-        }, throttleAmount, {leading: false});
-      });
+//      $scope.debug = false;
+//      $scope.debugThrottle = 25;
+//
+//      var updateShape, addShape, deleteShape;
+//      $scope.$watch('debugThrottle', function (throttleAmount) {
+//
+//        // move these to function wraps
+//        updateShape = _.throttle(function (selectedShapeModel) {
+//          socket.emit('shapeUpdate', selectedShapeModel, function (savedShape) {
+//            console.log(savedShape);
+//          });
+//        }, throttleAmount, {leading: false});
+//
+//        addShape = _.throttle(function (newShapeModel) {
+//          socket.emit('shapeAdd', newShapeModel);
+//        }, throttleAmount, {leading: false});
+//
+//        deleteShape = _.throttle(function (deletedShapeId) {
+//          socket.emit('shapeDelete', deletedShapeId);
+//        }, throttleAmount, {leading: false});
+//      });
 
     });
 }());
