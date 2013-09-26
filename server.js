@@ -59,7 +59,7 @@ if (process.env.REDIS_HOST) {
 
 // configure mongo
 var mongoUrl = process.env.MONGO_URL || process.env.MONGOHQ_URL ||
-  'mongodb://localhost:27017/project';
+  'mongodb://localhost:27017/svgPoc';
 
 // configure racer.js store
 var store = racer.createStore({
@@ -70,7 +70,6 @@ var store = racer.createStore({
 
 app.use(require('racer-browserchannel')(store));
 app.use(store.modelMiddleware());
-
 
 app.get('/racerInit', function (req, res) {
   var model = store.createModel({fetchOnly: true}, req);
@@ -84,7 +83,7 @@ app.get('/racerInit', function (req, res) {
   });
 });
 
-// TODO: figure out how to have more than one of these
+// TODO: figure out how to have more than one of these with browserify
 store.bundle(__dirname + '/server/modules/liveResource.js', function (err, js) {
   app.get('/serverModules-script.js', function (req, res) {
     res.type('js');

@@ -1,5 +1,13 @@
-<ul>
-  <li> template </li>
-</ul>
 
-<a href="#" ng-click="newTemplate()">new template</a>
+<lable>
+  New template:
+  <input ng-model="newName">
+</lable>
+
+<button ng-click="add()">new template</button>
+
+<ul>
+  <li ng-repeat="template in templates">
+    <a ng-href="#/svgAbstraction/{{template.id}}">{{ template.name }} </a>
+  </li>
+</ul>

@@ -4,17 +4,20 @@
   var using = [
     'templateList.controllers',
     'templateList.directives',
-    'templateList.services'
-//    'ui.bootstrap',
-//    'menuAim'
-//    'ngSvg'
+    'templateList.services',
+    'liveResource'
   ];
 
   angular.module('templateList', using)
     .config(function ($routeProvider) {
       $routeProvider.when('/templates', {
         templateUrl:'modules/templateList/templateList.html',
-        controller:'templateListCtrl'
+        controller:'templateListCtrl',
+        resolve: {
+          liveResource: function (liveResourceProvider) {
+            return liveResourceProvider.createLiveResource;
+          }
+        }
       });
     });
 

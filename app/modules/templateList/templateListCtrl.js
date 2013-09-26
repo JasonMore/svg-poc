@@ -2,15 +2,18 @@
 
 
   angular.module('templateList.controllers', [])
-    .controller('templateListCtrl', function ($scope, socket) {
-      $scope.templates = [];
+    .controller('templateListCtrl', function ($scope, liveResource) {
 
-//      socket.on('')
+      var templatesLive = liveResource('templates');
+      var allTemplatesQuery = templatesLive.query({});
+      $scope.templates = templatesLive.subscribe(allTemplatesQuery);
 
-      $scope.newTemplate = function() {
-        socket.emit('newTemplate', function(id){
-          $scope.templates.add()
-        });
+      $scope.add = function () {
+        templatesLive.add({ name: $scope.newName});
+      };
+
+      $scope.delete = function (template) {
+        templatesLive.delete(template);
       };
 
     });

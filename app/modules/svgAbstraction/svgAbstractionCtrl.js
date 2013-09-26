@@ -87,21 +87,19 @@
   ];
 
   angular.module('svgAbstraction.controllers', [])
-    .controller('svgAbstractionCtrl', function ($scope, $timeout, shapePaths, shapeViewModelService, liveResource) {
+    .controller('svgAbstractionCtrl', function ($scope, $routeParams, $timeout, shapePaths, shapeViewModelService, liveResource) {
       window.debugScope = $scope;
-      // import
 
-      console.log(liveResource);
-
+      // load data
       function createShapeViewModels(shapeDTOs) {
         return _.map(shapeDTOs, function (shape) {
           return shapeViewModelService.create(shape);
         });
       }
 
-      $scope.$on('$routeChangeSuccess', function (event, routeData) {
-        console.log('done!');
-      });
+      // load data
+      var live = liveResource()
+      $scope.dataShapes =
 
       // properties
       $scope.selectedShape = null;

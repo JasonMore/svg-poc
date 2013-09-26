@@ -13,7 +13,7 @@
 
   angular.module('svgAbstraction', using)
     .config(function ($routeProvider) {
-      $routeProvider.when('/svgAbstraction', {
+      $routeProvider.when('/svgAbstraction/:templateId', {
         templateUrl:'modules/svgAbstraction/svgAbstraction.html',
         controller:'svgAbstractionCtrl',
         resolve: {
