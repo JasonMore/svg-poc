@@ -19,11 +19,16 @@
 
       return {
         model: shape,
+
         showPreviewImage: false,
 
-        updateModel: function(newModel){
+        updateModel: function (newModel) {
           this.model = newModel;
           selectionBox = null;
+        },
+
+        id: function () {
+          return this.model.id;
         },
 
         selectionBox: function () {
@@ -31,7 +36,7 @@
             selectionBox = pathService.getSelectionBox(this.svgElementPath);
           }
 
-          if(!selectionBox){
+          if (!selectionBox) {
             return {
               width: 0,
               height: 0
@@ -45,20 +50,20 @@
           return this.model.borderWidth / 2;
         },
 
-        left: function() {
+        left: function () {
           return this.model.left - this.borderOffset();
         },
 
-        top: function() {
+        top: function () {
           return this.model.top - this.borderOffset();
         },
 
         height: function (newValue) {
-          if(newValue){
+          if (newValue) {
             height = newValue;
           }
 
-          if(!height && this.selectionBox().height){
+          if (!height && this.selectionBox().height) {
             height = this.selectionBox().height - this.borderOffset();
           }
 
@@ -66,11 +71,11 @@
         },
 
         width: function (newValue) {
-          if(newValue){
+          if (newValue) {
             width = newValue;
           }
 
-          if(!width && this.selectionBox().width){
+          if (!width && this.selectionBox().width) {
             width = this.selectionBox().width - this.borderOffset();
           }
 
@@ -85,45 +90,45 @@
           return (this.height() - this.borderOffset()) / 2;
         },
 
-        hasImage: function() {
+        hasImage: function () {
           return this.model.image.url ? true : false;
         },
 
-        imageLeft: function(value) {
+        imageLeft: function (value) {
           return this.hasImage() ? getSetValue(this.model.image.left, value) : 0;
         },
 
-        imageTop: function(value) {
+        imageTop: function (value) {
           return this.hasImage() ? getSetValue(this.model.image.top, value) : 0;
         },
 
-        imageWidth: function(value) {
+        imageWidth: function (value) {
           return this.hasImage() ? getSetValue(this.model.image.width, value) : 0;
         },
 
-        imageHeight: function(value) {
+        imageHeight: function (value) {
           return this.hasImage() ? getSetValue(this.model.image.height, value) : 0;
         },
 
-        imageMidPointX: function() {
+        imageMidPointX: function () {
           return this.hasImage() ? this.imageWidth() / 2 : 0;
         },
 
-        imageMidPointY: function() {
+        imageMidPointY: function () {
           return this.hasImage() ? this.imageHeight() / 2 : 0;
         },
 
-        makeUrlRef: function(key) {
+        makeUrlRef: function (key) {
           return this.model.id + '_' + key;
         },
 
-        urlRef: function(key){
+        urlRef: function (key) {
           return "#" + this.model.id + "_" + key;
         }
       };
 
       function getSetValue(property, value) {
-        if(value){
+        if (value) {
           property = value
         }
 

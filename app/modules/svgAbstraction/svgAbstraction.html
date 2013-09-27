@@ -1,3 +1,11 @@
+<div>
+  <h1 ng-show="!editTemplateName" ng-click="editTemplateName = true">{{template.name}}</h1>
+  <div ng-show="editTemplateName" class="input-append">
+    <input type="text" ng-show="editTemplateName" ng-model="template.name" >
+    <button class="btn" type="button" ng-click="editTemplateName = false">Done</button>
+  </div>
+</div>
+
 <div class="well">
   <div class="toolbar">
     <div class="dropdown">
@@ -130,7 +138,7 @@
   <drawing-surface active="isDrawing()"
                    shape="shapeType()"
                    model="shapes"
-                   when-done="shapeAdded(shape);"></drawing-surface>
+                   when-done="shapeDrawn(shape);"></drawing-surface>
 </ng-svg>
 
 <a style="color:lightgrey" ng-href="" ng-click="debug = !debug">debug</a>

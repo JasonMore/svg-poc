@@ -6,7 +6,7 @@
         require: '^ngSvg',
         scope: {
           active: '=',
-          model: '=',
+//          model: '=',
           whenDone: '&',
           shape: '='
         },
@@ -117,7 +117,7 @@
           newShape.height($scope.height);
 
           $scope.$apply(function() {
-            $scope.model.push(newShape);
+//            $scope.model.push(newShape);
             $scope.whenDone({shape: newShape});
             resetSelectionBox($scope);
           });
