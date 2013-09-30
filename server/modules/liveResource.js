@@ -107,12 +107,18 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
         var newModelJson = JSON.stringify(newModel);
         var oldModelJson = JSON.stringify(oldModel);
 
-        if (!oldModelJson || (newModelJson === oldModelJson)) {
+//        if (!oldModelJson || (newModelJson === oldModelJson)) {
+        if ((newModelJson === oldModelJson)) {
+          return;
+        }
+
+        if(!oldModel){
+          racerModel.set(childPath, newModel);
           return;
         }
 
         for (var propertyKey in newModel) {
-          if (oldModel[propertyKey] === newModel[propertyKey]) {
+          if (oldModel && oldModel[propertyKey] && oldModel[propertyKey] === newModel[propertyKey]) {
             continue;
           }
 
@@ -131,12 +137,12 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
           setPath += '.' + propertyKey;
 
           if (_.isArray(newModel[propertyKey])) {
-            updateArrayModel(newModel[propertyKey], oldModel[propertyKey], setPath);
+            updateArrayModel(newModel[propertyKey], oldModel ? oldModel[propertyKey] : null, setPath);
             return;
           }
 
           if (_.isObject(newModel[propertyKey])) {
-            updateModel(newModel[propertyKey], oldModel[propertyKey], setPath);
+            updateModel(newModel[propertyKey], oldModel ? oldModel[propertyKey] : null, setPath);
             return;
           }
 
@@ -146,12 +152,19 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
 
       function updateArrayModel(newModelArray, oldModelArray, childPath) {
         for (i = 0; i < newModelArray.length; i++) {
-          updateModel(newModelArray[i], oldModelArray[i], childPath + "." + i);
+
+            updateModel(newModelArray[i], oldModelArray[i], childPath + "." + i);
+
+
         }
       }
 
       // when server modificaitons are made, update the local model
-      racerModel.on('all', path + '**', function () {
+      racerModel.on('all', path + '**', function (property, type, newVal, oldVal, passed) {
+
+//        if(!passed.$remote){
+//          return;
+//        }
 
         // this $timeout is needed to avoid $$hashkey being added
         // to the op insert payload when new items are being created.
