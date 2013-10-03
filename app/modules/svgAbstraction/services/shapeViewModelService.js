@@ -6,26 +6,41 @@
         height = 0;
 
       // add image properties if they don't exist
-      _.defaults(shape, {
-        "image": {
-          "url": null,
-          "top": 0,
-          "left": 0,
-          "width": 0,
-          "height": 0,
-          "rotation": 0
-        }
+
+      function shapeViewModel(getModelFn){
+//        this.model = model;
+        this.getModel = getModelFn;
+        this.showPreviewImage = false;
+
+        _.defaults(this.model, {
+          "image": {
+            "url": null,
+            "top": 0,
+            "left": 0,
+            "width": 0,
+            "height": 0,
+            "rotation": 0
+          }
+        });
+
+      }
+
+      Object.defineProperty(shapeViewModel.prototype, "model", {
+        get : function(){ return this.getModel(); },
+        //set : function(newValue){ bValue = newValue; },
+        enumerable : true,
+        configurable : true
       });
 
-      return {
-        model: shape,
+      _.extend(shapeViewModel.prototype, {
+//        model: shape,
 
-        showPreviewImage: false,
+//        showPreviewImage: false,
 
-        updateModel: function (newModel) {
-          this.model = newModel;
-          selectionBox = null;
-        },
+//        updateModel: function (newModel) {
+//          this.model = newModel;
+//          selectionBox = null;
+//        },
 
         id: function () {
           return this.model.id;
@@ -125,7 +140,7 @@
         urlRef: function (key) {
           return "#" + this.model.id + "_" + key;
         }
-      };
+      });
 
       function getSetValue(property, value) {
         if (value) {
@@ -134,6 +149,8 @@
 
         return property;
       }
+
+      return new shapeViewModel(shape);
     };
   });
 })();

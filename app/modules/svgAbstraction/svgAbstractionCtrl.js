@@ -4,15 +4,18 @@
       window.debugScope = $scope;
 
       // load data
-      var liveTemplate = liveResource('templates.' + $routeParams.id);
+      var templateKey = 'templates.' + $routeParams.id;
+      var liveTemplate = liveResource(templateKey);
       $scope.template = liveTemplate.subscribe();
+
+//      var liveShapes = liveTemplate.scoped('.shapes');
 
       // properties
       $scope.selectedShape = null;
       $scope.shapeToDraw = null;
       $scope.shapePaths = shapePaths.list;
       $scope.shapeKeyValues = shapePaths.keyValues;
-      $scope.shapes = [];
+      $scope.shapes = {};
 
       $scope.colorOptions = [
         {id: 'red', name: 'Red'},
@@ -63,67 +66,47 @@
       ];
 
       // watches
-      $scope.$watchCollection('template.shapes', function() {
+      $scope.$watch('template.shapes', function () {
         // find shapes that were removed remotely
-        var viewModelIds = _.map($scope.shapes, function(shape){
-          return shape.model.id;
-        });
-
-        var modelIds = _.pluck($scope.template.shapes, 'id');
+        var viewModelIds = _.keys($scope.shapes);
+        var modelIds = _.keys($scope.template.shapes);
 
         var idsToRemove = _.difference(viewModelIds, modelIds);
 
-        _.remove($scope.shapes, function(shape) {
-          return _.contains(idsToRemove, shape.model.id);
-        })
+        for (var property in $scope.shapes) {
+          if (_.contains(idsToRemove, property)) {
+            delete $scope.shapes[property];
+          }
+        }
 
         // find shapes that were added
-        viewModelIds = _.map($scope.shapes, function(shape){
-          return shape.model.id;
-        });
-
+        viewModelIds = _.keys($scope.shapes);
         var idsToAdd = _.difference(modelIds, viewModelIds);
 
-        var shapeModelsToAdd = _.filter($scope.template.shapes, function(model) {
-          return _.contains(idsToAdd, model.id);
-        })
+        _.each(idsToAdd, function (id) {
+          //wtf?
+          if(id == 'undefined') return;
 
-        _.each(shapeModelsToAdd, function(model) {
-          $scope.shapes.push(shapeViewModelService.create(model));
-        })
+          $scope.shapes[id] = shapeViewModelService.create(
+            function () {
+              return $scope.template.shapes[id];
+            });
+        });
 
       });
 
-      $scope.$watchCollection('shapes', function() {
+      $scope.$watch('shapes', function () {
         // find shapes that were removed locally
-        var viewModelIds = _.map($scope.shapes, function(shape){
-          return shape.model.id;
-        });
-
-        var modelIds = _.pluck($scope.template.shapes, 'id');
+        var viewModelIds = _.keys($scope.shapes);
+        var modelIds = _.keys($scope.template.shapes);
 
         var idsToRemove = _.difference(modelIds, viewModelIds);
 
-        _.remove($scope.template.shapes, function(model) {
-          return _.contains(idsToRemove, model.id);
-        })
-
-        // find shapes that were added
-        modelIds = _.pluck($scope.template.shapes, 'id');
-
-        var idsToAdd = _.difference(viewModelIds, modelIds);
-
-        var shapeViewModelsToAdd = _.filter($scope.shapes, function(shape) {
-          return _.contains(idsToAdd, shape.model.id);
-        })
-
-        if(!$scope.template.shapes){
-          $scope.template.shapes = [];
+        for (var property in $scope.template.shapes) {
+          if (_.contains(idsToRemove, property)) {
+            liveShapes.delete($scope.template.shapes[property]);
+          }
         }
-
-        _.each(shapeViewModelsToAdd, function(shape) {
-          $scope.template.shapes.push(shape.model);
-        });
       });
 
 
@@ -143,7 +126,8 @@
       };
 
       $scope.deleteShape = function () {
-        $scope.shapes.remove($scope.selectedShape);
+        liveShapes.delete($scope.selectedShape.model);
+//        $scope.shapes.remove($scope.selectedShape);
         $scope.unSelectShape();
       };
 
@@ -171,8 +155,10 @@
         $scope.selectedShape = null;
       };
 
-      $scope.shapeDrawn = function(shape){
-        $scope.shapes.push(shape);
+      $scope.shapeDrawn = function (shape) {
+        liveShapes.add(shape);
+        // TODO: figure out some way to get the viewmodel perf optimization back
+//        $scope.shapes.push(shape);
         $scope.setSelectedShape(shape);
       }
 
@@ -203,13 +189,7 @@
           return 0;
         }
 
-        return $scope.selectedShape.model.left + $scope.selectedShape.width() - 120;
-      };
-
-      $scope.shapesInfo = function () {
-        return _.map($scope.shapes, function (shapeViewmodel) {
-          return shapeViewmodel.model;
-        });
+        return $scope.selectedShape.left() + $scope.selectedShape.width() - 120;
       };
 
       $scope.showShapeMenu = function () {
@@ -227,6 +207,5 @@
 
         return true;
       };
-
     });
 }());

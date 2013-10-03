@@ -9,7 +9,7 @@
       $scope.templates = templatesLive.subscribe(allTemplatesQuery);
 
       $scope.add = function () {
-        templatesLive.add({ name: $scope.newName});
+        templatesLive.add({ name: $scope.newName });
       };
 
       $scope.delete = function (template) {

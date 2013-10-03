@@ -10,7 +10,7 @@
           whenDone: '&',
           shape: '='
         },
-        controller: function($scope){
+        controller: function ($scope) {
           resetSelectionBox($scope);
         },
         link: function drawingSurfaceLink($scope, element, attr, ngSvgController) {
@@ -25,7 +25,7 @@
       };
 
       function drawSurface(ngSvg) {
-        var drawingSurfaceGroup = ngSvg.svg.group(ngSvg.drawingGroup,{
+        var drawingSurfaceGroup = ngSvg.svg.group(ngSvg.drawingGroup, {
           'ng-show': 'active'
         });
 
@@ -50,7 +50,7 @@
         return angular.element(drawingSurfaceGroup);
       }
 
-      function resetSelectionBox($scope){
+      function resetSelectionBox($scope) {
         $scope.x = 0;
         $scope.y = 0;
         $scope.width = 0;
@@ -83,7 +83,7 @@
             return;
           }
 
-          $scope.$apply(function() {
+          $scope.$apply(function () {
             $scope.x = Math.min(event.clientX - offset.left, start.x);
             $scope.y = Math.min(event.clientY - offset.top, start.y);
             $scope.width = Math.abs(event.clientX - offset.left - start.x);
@@ -102,21 +102,30 @@
           ngSvg.svg.remove(shape);
 
           var defaultBorder = 2;
-          var newShape = shapeViewModelService.create({
-              id: uuidService.generateUUID(),
-              top:  $scope.y,
-              left:  $scope.x,
-              rotation: 0,
-              path: path,
-              backgroundColor: 'gray',
-              borderColor: 'black',
-              borderWidth: defaultBorder
-          });
+//          var newShape = shapeViewModelService.create({
+          var newShape = {
+//              id: uuidService.generateUUID(),
+            top: $scope.y,
+            left: $scope.x,
+            rotation: 0,
+            path: path,
+            backgroundColor: 'gray',
+            borderColor: 'black',
+            borderWidth: defaultBorder,
+            "image": {
+              "url": null,
+              "top": 0,
+              "left": 0,
+              "width": 0,
+              "height": 0,
+              "rotation": 0
+            }
+          };
 
-          newShape.width($scope.width);
-          newShape.height($scope.height);
+//          newShape.width($scope.width);
+//          newShape.height($scope.height);
 
-          $scope.$apply(function() {
+          $scope.$apply(function () {
 //            $scope.model.push(newShape);
             $scope.whenDone({shape: newShape});
             resetSelectionBox($scope);
