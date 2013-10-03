@@ -8,7 +8,8 @@
       var liveTemplate = liveResource(templateKey);
       $scope.template = liveTemplate.subscribe();
 
-//      var liveShapes = liveTemplate.scoped('.shapes');
+      // lets you do crud on templates.[id].shapes directly
+      var liveShapes = liveTemplate.scope('shapes');
 
       // properties
       $scope.selectedShape = null;
@@ -84,9 +85,6 @@
         var idsToAdd = _.difference(modelIds, viewModelIds);
 
         _.each(idsToAdd, function (id) {
-          //wtf?
-          if(id == 'undefined') return;
-
           $scope.shapes[id] = shapeViewModelService.create(
             function () {
               return $scope.template.shapes[id];
@@ -95,19 +93,19 @@
 
       });
 
-      $scope.$watch('shapes', function () {
-        // find shapes that were removed locally
-        var viewModelIds = _.keys($scope.shapes);
-        var modelIds = _.keys($scope.template.shapes);
-
-        var idsToRemove = _.difference(modelIds, viewModelIds);
-
-        for (var property in $scope.template.shapes) {
-          if (_.contains(idsToRemove, property)) {
-            liveShapes.delete($scope.template.shapes[property]);
-          }
-        }
-      });
+//      $scope.$watch('shapes', function () {
+//        // find shapes that were removed locally
+//        var viewModelIds = _.keys($scope.shapes);
+//        var modelIds = _.keys($scope.template.shapes);
+//
+//        var idsToRemove = _.difference(modelIds, viewModelIds);
+//
+//        for (var property in $scope.template.shapes) {
+//          if (_.contains(idsToRemove, property)) {
+//            liveShapes.delete($scope.template.shapes[property]);
+//          }
+//        }
+//      });
 
 
       // actions
@@ -126,7 +124,7 @@
       };
 
       $scope.deleteShape = function () {
-        liveShapes.delete($scope.selectedShape.model);
+        liveShapes.del($scope.selectedShape.model.id);
 //        $scope.shapes.remove($scope.selectedShape);
         $scope.unSelectShape();
       };

@@ -70,17 +70,23 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
         return liveData;
       };
 
-      this.fn = function(name, fn){
-        return racerModel.fn(path + "_" + name, fn);
-      };
+      this.scope = function(subPath){
+        return racerModel.scope(path + '.' + subPath);
+      }
 
-      this.evaluate = function(name){
-        return racerModel.evaluate(path + "_" + name, path);
-      };
-
-      this.start = function() {
-
-      };
+      // these don't work yet
+//
+//      this.fn = function(name, fn){
+//        return racerModel.fn(path + "_" + name, fn);
+//      };
+//
+//      this.evaluate = function(name){
+//        return racerModel.evaluate(path + "_" + name, path);
+//      };
+//
+//      this.start = function() {
+//
+//      };
 
       // when local modifications are made, update the server model
       $rootScope.$watch(function () {
