@@ -86,6 +86,16 @@
           'ng-mousedown': 'whenClick()'
         });
 
+        var textSpans = ngSvg.svg.createText().string('{{viewModel.model.text}}');
+
+        ngSvg.svg.text(parentGroup, 10, 10, textSpans, {
+//          class: 'text',
+          opacity: 1,
+          'font-family': '{{viewModel.model.font}}',
+          'font-size': '{{viewModel.model.fontSize}}',
+          fill: '{{viewModel.model.fontColor}}'
+        });
+
         return parentGroup;
       }
 

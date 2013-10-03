@@ -141,6 +141,15 @@
                    when-done="shapeDrawn(shape);"></drawing-surface>
 </ng-svg>
 
+<shape-text-editor text-value="selectedShape.model.text"
+                      is-editing="true"
+                      font-family="selectedShape.model.fontFamily"
+                      font-size="selectedShape.model.fontSize"
+                      top="{{selectedShape.top() + 190 || 0}}"
+                      left="{{selectedShape.left() || 0}}"
+                      width="{{selectedShape.width() || 0}}"
+                      height="{{selectedShape.width() || 0}}"></shape-text-editor>
+
 <a style="color:lightgrey" ng-href="" ng-click="debug = !debug">debug</a>
 <div ng-show="debug">
   <label>
