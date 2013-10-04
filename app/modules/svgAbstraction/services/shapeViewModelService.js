@@ -109,20 +109,20 @@
           return this.model.image.url ? true : false;
         },
 
-        imageLeft: function (value) {
-          return this.hasImage() ? getSetValue(this.model.image.left, value) : 0;
+        imageLeft: function () {
+          return this.hasImage() ? this.model.image.left : 0;
         },
 
-        imageTop: function (value) {
-          return this.hasImage() ? getSetValue(this.model.image.top, value) : 0;
+        imageTop: function () {
+          return this.hasImage() ? this.model.image.top : 0;
         },
 
-        imageWidth: function (value) {
-          return this.hasImage() ? getSetValue(this.model.image.width, value) : 0;
+        imageWidth: function () {
+          return this.hasImage() ? this.model.image.width : 0;
         },
 
-        imageHeight: function (value) {
-          return this.hasImage() ? getSetValue(this.model.image.height, value) : 0;
+        imageHeight: function () {
+          return this.hasImage() ? this.model.image.height : 0;
         },
 
         imageMidPointX: function () {
@@ -141,14 +141,6 @@
           return "#" + this.model.id + "_" + key;
         }
       });
-
-      function getSetValue(property, value) {
-        if (value) {
-          property = value
-        }
-
-        return property;
-      }
 
       return new shapeViewModel(shape);
     };

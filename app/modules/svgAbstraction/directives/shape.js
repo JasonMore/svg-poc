@@ -165,26 +165,20 @@
 
         var width,
           height,
-          img = new Image(),
-          viewModelImage = $scope.viewModel.model.image;
+          img = new Image();
+//          viewModelImage = $scope.viewModel.model.image;
 
         img.onload = function () {
           width = this.width;
           height = this.height;
 
           $scope.$apply(function () {
-            viewModelImage.width = width;
-            viewModelImage.height = height;
+            $scope.viewModel.model.image.width = width;
+            $scope.viewModel.model.image.height = height;
           });
         };
 
         img.src = $scope.viewModel.model.image.url;
-
-//        if (!viewModelImage.top || !viewModelImage.left) {
-//          viewModelImage.top = 0;
-//          viewModelImage.left = 0;
-//          viewModelImage.rotation = 0;
-//        }
       }
 
       function setShapeWidthHeight($scope, shape) {

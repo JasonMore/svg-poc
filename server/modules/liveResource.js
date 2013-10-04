@@ -137,7 +137,7 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
         }
 
         for (var propertyKey in newModel) {
-          if (oldModel && oldModel[propertyKey] && oldModel[propertyKey] === newModel[propertyKey]) {
+          if (oldModel && (propertyKey in oldModel) && oldModel[propertyKey] === newModel[propertyKey]) {
             continue;
           }
 
