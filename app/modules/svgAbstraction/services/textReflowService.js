@@ -1,39 +1,39 @@
 (function () {
-  angular.module('svgAbstraction.services').service('textFlowService', function (surfaceService) {
+  angular.module('svgAbstraction.services').service('textReflowService', function () {
     var self = this;
 
     // hooked up elsewhere
-    self.currentShape;
+//    self.currentShape;
+//
+//    self.updateTextFlowForCurrentShape = function(newTextVal) {
+//      var shape = self.currentShape();
+//
+//      var text = $(shape).find('.text');
+//
+//      if(_.isUndefined(text)){
+//        return;
+//      }
+//
+//      if(!_.isUndefined(newTextVal)) {
+////        text.firstChild.nodeValue = newTextVal || '';
+//        text.text(newTextVal || '');
+//      }
+//
+//      updateTextFlowForShape(shape);
+//    }
 
-    self.updateTextFlowForCurrentShape = function(newTextVal) {
-      var shape = self.currentShape();
+//    self.updateTextFlowForAllShapes = function(shapes){
+//      _.each(shapes, function(shape) {
+//        updateTextFlowForShape(shape);
+//      })
+//    }
 
-      var text = $(shape).find('.text');
-
-      if(_.isUndefined(text)){
-        return;
-      }
-
-      if(!_.isUndefined(newTextVal)) {
-//        text.firstChild.nodeValue = newTextVal || '';
-        text.text(newTextVal || '');
-      }
-
-      updateTextFlowForShape(shape);
-    }
-
-    self.updateTextFlowForAllShapes = function(shapes){
-      _.each(shapes, function(shape) {
-        updateTextFlowForShape(shape);
-      })
-    }
-
-    var updateTextFlowForShape = function(shape){
-      var text = $(shape).find('.text')[0];
-      var container = $(shape).find('.shape')[0];
-
-      self.recalcText(text, container);
-    };
+//    self.updateTextFlowForShape = function(text, container, svg ){
+//      var text = $(shape).find('.text')[0];
+//      var container = $(shape).find('.shape')[0];
+//
+//      self.recalcText(text, container);
+//    };
 
 
     self.checkWordFits = checkWordFits;
@@ -45,7 +45,7 @@
     //isn't perfect, since there could be shapes that do not cover
     //any of the 4 corners, but still block the letter. However, the rectangles
     //are fairly small, and checking all the points isn't efficient.
-    function checkWordFits(svg, container, margin, currentWord) {
+    function checkWordFits(svg, container, itemsToHitCheck, margin, currentWord) {
       var matrix = container.getScreenCTM();
 
 //        var svg = $('#svgDiv').svg('get').root();
@@ -88,7 +88,7 @@
           // If the hit is null, then the points are off the screen
           // If the hit doesn't match the container, the container
           // is not on top.
-          if (hit == null || hit !== container) {
+          if (hit == null || !_.contains(itemsToHitCheck, hit)) {
             //var pt3 = pt1.matrixTransform(matrix2);
             //$('#svgDiv').svg('get').circle(pt3.x, pt3.y, 1, {id: 'circle2', class: 'svgdrag', fillOpacity: 0.9, fill: 'white', stroke: 'red', strokeWidth: 2});
             return false;
@@ -101,8 +101,7 @@
     }
 
     // Recalculate the text positioning for a text node.
-    function recalcText(svgText, container) {
-      var svg = surfaceService.svg;
+    function recalcText(svgText, container, svg) {
 
       // get the next sibling. We'll be removing the text node, and this keeps
       // track of where to put it back.
@@ -113,6 +112,9 @@
 
       // Get Bounding box of the container
       var bbox = container.getBBox();
+
+      // check hittest against all items in container
+      var itemsToHitCheck = $(container).find('g, use, image').toArray();
 
       // Total number of characters in the text block
       var numberofChars = svgText.getNumberOfChars();
@@ -199,7 +201,7 @@
         currentWord.x = xPos;
         currentWord.y = yPos;
         // Does the word fit?
-        while (!checkWordFits(svg, container, margin, currentWord)) {
+        while (!checkWordFits(svg, container, itemsToHitCheck, margin, currentWord)) {
 
           // This may be too low, or create a
           // better heuristic check like a binary search such as

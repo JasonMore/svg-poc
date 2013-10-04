@@ -50,7 +50,6 @@
     <submenu-aim>
       <title-aim>Background</title-aim>
       <content-aim class="popover">
-        <!--<h3 class="popover-title">Backgro</h3>-->
         <shape-options name="Background Color"
                        visible="selectedShape"
                        options="colorOptions"
@@ -73,10 +72,6 @@
            ng-click="selectedShape.model.image.url = null">
           Remove Image
         </a>
-        <!--<shape-options name="Border Size"-->
-        <!--visible="selectedShape"-->
-        <!--options="strokeWidthOptions"-->
-        <!--selection="selectedShape.borderWidth"></shape-options>-->
       </content-aim>
     </submenu-aim>
     <submenu-aim>
@@ -91,6 +86,24 @@
         </label>
       </content-aim>
     </submenu-aim>
+    <submenu-aim>
+    <title-aim>Text</title-aim>
+    <content-aim class="popover">
+      <shape-options name="Font"
+                     visible="selectedShape"
+                     options="fontFamilyOptions"
+                     selection="selectedShape.model.font"></shape-options>
+      <shape-options name="Font Size"
+                     visible="selectedShape"
+                     options="fontSizeOptions"
+                     selection="selectedShape.model.fontSize"></shape-options>
+      <shape-options name="Font Color"
+                     visible="selectedShape"
+                     options="colorOptions"
+                     selection="selectedShape.model.fontColor"></shape-options>
+
+    </content-aim>
+  </submenu-aim>
     <submenu-aim>
       <title-aim>Delete Shape</title-aim>
       <content-aim class="popover">
@@ -132,6 +145,7 @@
   <ng-shape view-model="shape"
             draggable="canDragShape(shape)"
             when-click="setSelectedShape(shape)"
+            when-double-clicked="setEditingText(true)"
             ng-repeat="shape in shapes"
       ></ng-shape>
   <selection-box view-model="selectedShape"></selection-box>
@@ -142,7 +156,7 @@
 </ng-svg>
 
 <shape-text-editor text-value="selectedShape.model.text"
-                      is-editing="true"
+                      is-editing="isEditingText"
                       font-family="selectedShape.model.fontFamily"
                       font-size="selectedShape.model.fontSize"
                       top="{{selectedShape.top() + 190 || 0}}"

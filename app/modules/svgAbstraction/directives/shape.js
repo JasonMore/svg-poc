@@ -1,14 +1,15 @@
 (function () {
   // wrap jquery svg draw methods which produce errors with angular
   angular.module('svgAbstraction.directives')
-    .directive('ngShape', function ($compile, $timeout, pathService, elementLookup) {
+    .directive('ngShape', function ($compile, $timeout, pathService, textReflowService) {
       return {
         restrict: 'E',
         require: '^ngSvg',
         scope: {
           viewModel: '=',
           draggable: '=',
-          whenClick: '&'
+          whenClick: '&',
+          whenDoubleClicked: '&'
         },
         link: function ($scope, element, attr, ngSvgController) {
           var ngSvg = ngSvgController;
@@ -37,6 +38,15 @@
             ngSvg.svg.remove(pathDefinition);
             ngSvg.svg.remove(parentGroup);
           });
+
+
+          // DEBUG
+          window.debugTriggerTextReflow = function () {
+            var text = $(parentGroup).find('.text')[0];
+//            var container = $(parentGroup).find('.shape')[0];
+
+            textReflowService.recalcText(text, parentGroup, ngSvg.svg);
+          }
         }
       };
 
@@ -72,7 +82,8 @@
           'ng-href': '{{"#" + viewModel.model.id}}',
           'class': 'shape',
           'fill': '{{viewModel.model.backgroundColor}}',
-          'ng-mousedown': 'whenClick()'
+          'ng-mousedown': 'whenClick()',
+          'ng-dblclick': 'whenDoubleClicked()'
         });
 
         drawImage($scope, ngSvg, parentGroup);
@@ -83,13 +94,14 @@
           'fill': 'none',
           'stroke': '{{viewModel.model.borderColor}}',
           'stroke-width': '{{viewModel.model.borderWidth}}',
-          'ng-mousedown': 'whenClick()'
+          'ng-mousedown': 'whenClick()',
+          'ng-dblclick': 'whenDoubleClicked()'
         });
 
         var textSpans = ngSvg.svg.createText().string('{{viewModel.model.text}}');
 
         ngSvg.svg.text(parentGroup, 10, 10, textSpans, {
-//          class: 'text',
+          class: 'text',
           opacity: 1,
           'font-family': '{{viewModel.model.font}}',
           'font-size': '{{viewModel.model.fontSize}}',
@@ -139,6 +151,7 @@
         var image = ngSvg.svg.image(imageGroup, 0, 0, 0, 0, '', _.extend({
           'ng-href': '{{ viewModel.model.image.url }}',
           'ng-mousedown': 'whenClick()',
+          'ng-dblclick': 'whenDoubleClicked()',
           'transform': imageTransform.join(''),
           'ng-show': 'viewModel.model.image.url'
         }, imageBindings));
@@ -167,11 +180,11 @@
 
         img.src = $scope.viewModel.model.image.url;
 
-        if (!viewModelImage.top || !viewModelImage.left) {
-          viewModelImage.top = 0;
-          viewModelImage.left = 0;
-          viewModelImage.rotation = 0;
-        }
+//        if (!viewModelImage.top || !viewModelImage.left) {
+//          viewModelImage.top = 0;
+//          viewModelImage.left = 0;
+//          viewModelImage.rotation = 0;
+//        }
       }
 
       function setShapeWidthHeight($scope, shape) {
