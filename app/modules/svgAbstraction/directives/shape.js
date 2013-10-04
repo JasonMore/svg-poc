@@ -101,7 +101,7 @@
           'font-family': '{{viewModel.model.font}}',
           'font-size': '{{viewModel.model.fontSize}}',
           fill: '{{viewModel.model.fontColor}}',
-          'ng-show': 'viewModel.isEditingText'
+          'ng-show': '!viewModel.isEditingText'
         });
 
         return parentGroup;
