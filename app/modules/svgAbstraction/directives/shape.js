@@ -78,7 +78,7 @@
           'class': 'shape',
           'fill': '{{viewModel.model.backgroundColor}}',
           'ng-mousedown': 'whenClick()',
-          'ng-dblclick': 'whenDoubleClicked()'
+          'ng-dblclick': 'viewModel.isEditingText = true'
         });
 
         drawImage($scope, ngSvg, parentGroup);
@@ -90,7 +90,7 @@
           'stroke': '{{viewModel.model.borderColor}}',
           'stroke-width': '{{viewModel.model.borderWidth}}',
           'ng-mousedown': 'whenClick()',
-          'ng-dblclick': 'whenDoubleClicked()'
+          'ng-dblclick': 'viewModel.isEditingText = true'
         });
 
         var textSpans = ngSvg.svg.createText().string('{{viewModel.model.text}}');
@@ -147,7 +147,7 @@
         var image = ngSvg.svg.image(imageGroup, 0, 0, 0, 0, '', _.extend({
           'ng-href': '{{ viewModel.model.image.url }}',
           'ng-mousedown': 'whenClick()',
-          'ng-dblclick': 'whenDoubleClicked()',
+          'ng-dblclick': 'viewModel.isEditingText = true',
           'transform': imageTransform.join(''),
           'ng-show': 'viewModel.model.image.url'
         }, imageBindings));

@@ -63,7 +63,7 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
           }
 
           $timeout(function () {
-            angular.extend(liveData, angular.copy(racerModel.get(path)));
+            _.extend(liveData, angular.copy(racerModel.get(path)));
           });
         });
 
@@ -131,7 +131,8 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
           return;
         }
 
-        if (!oldModel) {
+        // path must have an id in it, which we check with a .
+        if (!oldModel && _.contains(path, '.')) {
           racerModel.setDiff(childPath, newModel);
           return;
         }
@@ -204,7 +205,7 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
             });
           }
 
-          angular.extend(liveData, newServerModel);
+          _.extend(liveData, newServerModel);
         });
       });
     };

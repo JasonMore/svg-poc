@@ -101,7 +101,7 @@
       },200);
 
       $scope.$watch('template.shapes', function() {
-        if(!$scope.selectedShape && $scope.selectedShape.isEditingText){
+        if($scope.selectedShape && $scope.selectedShape.isEditingText){
           return;
         }
 
@@ -161,6 +161,7 @@
           return;
         }
 
+        $scope.selectedShape.isEditingText = false;
         $scope.selectedShape.showPreviewImage = false;
         $scope.selectedShape = null;
       };
