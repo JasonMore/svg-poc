@@ -116,15 +116,15 @@
         }
 
         // sent a model instead of viewmodel
-//        if(shape.id){
-//          $timeout(function() {
-//            var viewModel = _.find($scope.shapes, function(viewModel){
-//              return viewModel.model.id === shape.id;
-//            });
-//            $scope.setSelectedShape(viewModel);
-//          });
-//          return;
-//        }
+        if(!shape.model){
+          $timeout(function() {
+            var viewModel = _.find($scope.shapes, function(viewModel){
+              return viewModel.model.id === shape.id;
+            });
+            $scope.setSelectedShape(viewModel);
+          });
+          return;
+        }
 
         $scope.unSelectShape();
 
