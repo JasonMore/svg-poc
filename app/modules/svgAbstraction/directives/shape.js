@@ -8,8 +8,7 @@
         scope: {
           viewModel: '=',
           draggable: '=',
-          whenClick: '&',
-          whenDoubleClicked: '&'
+          whenClick: '&'
         },
         link: function ($scope, element, attr, ngSvgController) {
           var ngSvg = ngSvgController;
@@ -39,14 +38,10 @@
             ngSvg.svg.remove(parentGroup);
           });
 
-
-          // DEBUG
-          window.debugTriggerTextReflow = function () {
-            var text = $(parentGroup).find('.text')[0];
-//            var container = $(parentGroup).find('.shape')[0];
-
+          $scope.$on('recalculateTextFlow', function(){
+            var text = angular.element(parentGroup).find('.text')[0];
             textReflowService.recalcText(text, parentGroup, ngSvg.svg);
-          }
+          });
         }
       };
 
@@ -105,7 +100,8 @@
           opacity: 1,
           'font-family': '{{viewModel.model.font}}',
           'font-size': '{{viewModel.model.fontSize}}',
-          fill: '{{viewModel.model.fontColor}}'
+          fill: '{{viewModel.model.fontColor}}',
+          'ng-show': 'viewModel.isEditingText'
         });
 
         return parentGroup;

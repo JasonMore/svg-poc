@@ -11,6 +11,7 @@
 //        this.model = model;
         this.getModel = getModelFn;
         this.showPreviewImage = false;
+        this.isEditingText = false;
 
         _.defaults(this.model, {
           "image": {

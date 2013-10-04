@@ -17,7 +17,7 @@
       $scope.shapePaths = shapePaths.list;
       $scope.shapeKeyValues = shapePaths.keyValues;
       $scope.shapes = {};
-      $scope.isEditingText = false;
+//      $scope.isEditingText = false;
 
       $scope.colorOptions = [
         {id: 'red', name: 'Red'},
@@ -68,7 +68,9 @@
       ];
 
       // watches
-      $scope.$watch('template.shapes', function () {
+      $scope.$watch(function() {
+        return _.keys($scope.template.shapes).length;
+      }, function (newVals, oldVals) {
         // find shapes that were removed remotely
         var viewModelIds = _.keys($scope.shapes);
         var modelIds = _.keys($scope.template.shapes);
@@ -93,6 +95,19 @@
         });
 
       });
+
+      var updateAllTextReflows = _.debounce(function(){
+        $scope.$broadcast('recalculateTextFlow');
+      },200);
+
+      $scope.$watch('template.shapes', function() {
+        if(!$scope.selectedShape && $scope.selectedShape.isEditingText){
+          return;
+        }
+
+        updateAllTextReflows();
+      });
+
 
       // actions
       $scope.setSelectedShape = function (shape) {
@@ -148,7 +163,6 @@
 
         $scope.selectedShape.showPreviewImage = false;
         $scope.selectedShape = null;
-        $scope.setEditingText(false);
       };
 
       $scope.shapeDrawn = function (shape) {
@@ -156,11 +170,7 @@
         // TODO: figure out some way to get the viewmodel perf optimization back
 //        $scope.shapes.push(shape);
         $scope.setSelectedShape(shape);
-      }
-
-      $scope.setEditingText = function(isEditing){
-        $scope.isEditingText = isEditing;
-      }
+      };
 
       // computed
       $scope.shapeType = function () {

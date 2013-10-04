@@ -145,7 +145,6 @@
   <ng-shape view-model="shape"
             draggable="canDragShape(shape)"
             when-click="setSelectedShape(shape)"
-            when-double-clicked="setEditingText(true)"
             ng-repeat="shape in shapes"
       ></ng-shape>
   <selection-box view-model="selectedShape"></selection-box>
@@ -156,7 +155,7 @@
 </ng-svg>
 
 <shape-text-editor text-value="selectedShape.model.text"
-                      is-editing="isEditingText"
+                      is-editing="selectedShape.isEditingText"
                       font-family="selectedShape.model.fontFamily"
                       font-size="selectedShape.model.fontSize"
                       top="{{selectedShape.top() + 190 || 0}}"
