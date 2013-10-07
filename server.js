@@ -16,8 +16,8 @@ var app = express();
 
 //noinspection JSCheckFunctionSignatures,JSValidateTypes
 app.configure(function () {
-//  app.set('port', process.env.PORT || 3000);
-  app.set('port', process.env.VMC_APP_PORT || 3000);
+  app.set('port', process.env.VMC_APP_PORT || process.env.PORT || 3000);
+//  app.set('port', process.env.VMC_APP_PORT || 3000);
   app.set('views', __dirname + '/views');
   app.engine('html', require('ejs').renderFile);
   app.use(express.favicon());
