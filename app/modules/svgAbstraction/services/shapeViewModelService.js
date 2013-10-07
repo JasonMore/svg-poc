@@ -14,6 +14,10 @@
         this.isEditingText = false;
 
         _.defaults(this.model, {
+          text: '',
+          font: 'Verdana',
+          fontSize: '12.0',
+          fontColor: 'black',
           "image": {
             "url": null,
             "top": 0,
