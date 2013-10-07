@@ -1,9 +1,9 @@
 (function () {
   angular.module('svgAbstraction.services').service('shapeViewModelService', function (pathService) {
     this.create = function create(shape) {
-      var selectionBox,
-        width = 0,
-        height = 0;
+      var selectionBox;
+//        width = 0,
+//        height = 0;
 
       // add image properties if they don't exist
 
@@ -80,26 +80,26 @@
 
         height: function (newValue) {
           if (newValue) {
-            height = newValue;
+            this.model.height = newValue;
           }
 
-          if (!height && this.selectionBox().height) {
-            height = this.selectionBox().height - this.borderOffset();
+          if (!this.model.height && this.selectionBox().height) {
+            this.model.height = this.selectionBox().height - this.borderOffset();
           }
 
-          return height + this.borderOffset();
+          return this.model.height + this.borderOffset();
         },
 
         width: function (newValue) {
           if (newValue) {
-            width = newValue;
+            this.model.width = newValue;
           }
 
-          if (!width && this.selectionBox().width) {
-            width = this.selectionBox().width - this.borderOffset();
+          if (!this.model.width && this.selectionBox().width) {
+            this.model.width = this.selectionBox().width - this.borderOffset();
           }
 
-          return width + this.borderOffset();
+          return this.model.width + this.borderOffset();
         },
 
         midPointX: function () {
