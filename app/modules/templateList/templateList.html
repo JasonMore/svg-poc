@@ -7,7 +7,10 @@
 <button ng-click="add()">new template</button>
 
 <ul>
-  <li ng-repeat="template in templates">
-    <a ng-href="#/svgAbstraction/{{template.id}}">{{ template.name }} </a>
+  <li ng-repeat="template in templates"
+      ng-mouseenter="showDelete = true"
+      ng-mouseleave="showDelete = false">
+    <a ng-href="#/svgAbstraction/{{template.id}}">{{ template.name }}</a>
+    <a class="btn" ng-show="showDelete" ng-click="delete(template)"> Delete</a>
   </li>
 </ul>
