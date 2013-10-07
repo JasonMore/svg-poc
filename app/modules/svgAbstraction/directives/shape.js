@@ -103,7 +103,8 @@
           fill: '{{viewModel.model.fontColor}}',
           'ng-show': '!viewModel.isEditingText',
           'ng-mousedown': 'whenClick()',
-          'ng-dblclick': 'viewModel.isEditingText = true'
+          'ng-dblclick': 'viewModel.isEditingText = true',
+          'ng-style':'{cursor:"default"}'
         });
 
         return parentGroup;
