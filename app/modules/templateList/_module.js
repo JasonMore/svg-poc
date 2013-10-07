@@ -5,7 +5,8 @@
     'templateList.controllers',
     'templateList.directives',
     'templateList.services',
-    'liveResource'
+    'liveResource',
+    'ui.bootstrap'
   ];
 
   angular.module('templateList', using)
