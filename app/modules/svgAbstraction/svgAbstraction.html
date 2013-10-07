@@ -93,10 +93,14 @@
                      visible="selectedShape"
                      options="fontFamilyOptions"
                      selection="selectedShape.model.font"></shape-options>
-      <shape-options name="Font Size"
-                     visible="selectedShape"
-                     options="fontSizeOptions"
-                     selection="selectedShape.model.fontSize"></shape-options>
+      <!--<shape-options name="Font Size"-->
+                     <!--visible="selectedShape"-->
+                     <!--options="fontSizeOptions"-->
+                     <!--selection="selectedShape.model.fontSize"></shape-options>-->
+      <label>
+        Font Size
+        <input type="range" ng-model="selectedShape.model.fontSize" min="5.0" max="100" step="1"/>
+      </label>
       <shape-options name="Font Color"
                      visible="selectedShape"
                      options="colorOptions"
