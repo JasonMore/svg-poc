@@ -68,7 +68,7 @@
       ];
 
       // watches
-      $scope.$watch(function() {
+      $scope.$watch(function () {
         return _.keys($scope.template.shapes).length;
       }, function (newVals, oldVals) {
         // find shapes that were removed remotely
@@ -96,18 +96,17 @@
 
       });
 
-      var updateAllTextReflows = _.debounce(function(){
-        $scope.$broadcast('recalculateTextFlow');
-      },200);
+      var updateAllTextReflows = _.debounce(function () {
+          $scope.$broadcast('recalculateTextFlow');
+        },200);
 
-      $scope.$watch('template.shapes', function() {
-        if($scope.selectedShape && $scope.selectedShape.isEditingText){
+      $scope.$watch('template.shapes', function () {
+        if ($scope.selectedShape && $scope.selectedShape.isEditingText) {
           return;
         }
 
         updateAllTextReflows();
       });
-
 
       // actions
       $scope.setSelectedShape = function (shape) {
@@ -116,9 +115,9 @@
         }
 
         // sent a model instead of viewmodel
-        if(!shape.model){
-          $timeout(function() {
-            var viewModel = _.find($scope.shapes, function(viewModel){
+        if (!shape.model) {
+          $timeout(function () {
+            var viewModel = _.find($scope.shapes, function (viewModel) {
               return viewModel.model.id === shape.id;
             });
             $scope.setSelectedShape(viewModel);
@@ -159,6 +158,10 @@
       $scope.unSelectShape = function () {
         if (!$scope.selectedShape) {
           return;
+        }
+
+        if($scope.selectedShape.isEditingText){
+          updateAllTextReflows()
         }
 
         $scope.selectedShape.isEditingText = false;
