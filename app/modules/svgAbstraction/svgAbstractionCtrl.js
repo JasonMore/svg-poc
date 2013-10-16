@@ -227,5 +227,49 @@
 
         return true;
       };
+
+      // keyboard shortcuts
+
+      kDown.whenShortcut("esc",function(){
+        $scope.$apply(function() {
+          $scope.unse();
+        });
+      });
+
+      function copyCurrentShape(){
+        if(!$scope.selectedShape) return;
+        $scope.copiedShapeModel = angular.copy($scope.selectedShape.model);
+        delete $scope.copiedShapeModel.id;
+      }
+
+      kDown.whenShortcut("cmd+c",function(){
+        $scope.$apply(function() {
+          copyCurrentShape();
+        });
+      });
+
+      kDown.whenShortcut("cmd+v",function(){
+        if(!$scope.copiedShapeModel) return;
+
+        $scope.$apply(function() {
+          // offset new shape
+          $scope.copiedShapeModel.top += 25;
+          $scope.copiedShapeModel.left += 25;
+
+          liveShapes.add($scope.copiedShapeModel);
+          $scope.setSelectedShape($scope.copiedShapeModel);
+          copyCurrentShape();
+        });
+      });
+
+      kDown.whenDown('backspace', function(e) {
+        console.log(e)
+        if(!$scope.selectedShape) return;
+
+        $scope.$apply(function() {
+          $scope.deleteShape();
+        });
+
+      })
     });
 }());

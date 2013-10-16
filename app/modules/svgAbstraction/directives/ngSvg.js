@@ -4,8 +4,7 @@
       return {
         restrict: 'E',
         scope: {
-          click: '&',
-          onEsc: '&'
+          click: '&'
         },
         transclude: true,
         replace: true,
@@ -15,12 +14,6 @@
     })
     .controller('ngSvgController', function ($scope, $element, $compile) {
       var self = this;
-
-      angular.element(document).bind('keyup', 'esc', function() {
-        $scope.$apply(function() {
-          $scope.onEsc();
-        });
-      });
 
       // yes, belongs in link, but easier here
       $element.svg({onLoad: function (svg) {
