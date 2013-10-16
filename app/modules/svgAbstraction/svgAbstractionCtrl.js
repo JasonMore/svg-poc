@@ -176,6 +176,12 @@
         $scope.setSelectedShape(shape);
       };
 
+      $scope.fontSize = function(addHowMuch) {
+        addHowMuch = parseInt(addHowMuch);
+        oldValue = parseInt($scope.selectedShape.model.fontSize)
+        $scope.selectedShape.model.fontSize = oldValue + addHowMuch;
+      }
+
       // computed
       $scope.shapeType = function () {
         if ($scope.shapeToDraw) {
