@@ -142,7 +142,7 @@
 </div>
 
 
-<ng-svg style="height: 600px" click="unSelectShape()">
+<ng-svg style="height: 600px" click="unSelectShape()" on-esc="unSelectShape()">
   <clip-path model="clip"
              ng-repeat="clip in clips"></clip-path>
   <ng-shape view-model="shape"
