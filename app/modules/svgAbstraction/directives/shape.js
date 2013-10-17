@@ -14,16 +14,18 @@
           var ngSvg = ngSvgController;
 
           var pathDefinition = createPathDefinition($scope, ngSvg);
-          var parentGroup = drawShape($scope, ngSvg);
+          var shape = drawShape($scope, ngSvg);
 
           $compile(pathDefinition)($scope);
-          $compile(parentGroup)($scope);
+          $compile(shape.parentGroup)($scope);
 
+          $scope.viewModel.svg = ngSvg.svg;
           $scope.viewModel.svgElementPath = pathDefinition;
-          $scope.viewModel.svgElement = parentGroup;
+          $scope.viewModel.svgElement = shape.parentGroup;
+          $scope.viewModel.svgText = shape.text;
 
           // attach svg element to dom element so we can access it from other directives
-          element.data('parentGroup', parentGroup);
+          element.data('parentGroup', shape.parentGroup);
 
           $scope.$watch('viewModel.model.image.url', function (url, oldVal) {
             if (url === oldVal) {
@@ -35,13 +37,13 @@
 
           $scope.$on("$destroy", function () {
             ngSvg.svg.remove(pathDefinition);
-            ngSvg.svg.remove(parentGroup);
+            ngSvg.svg.remove(shape.parentGroup);
           });
 
-          $scope.$on('recalculateTextFlow', function(){
-            var text = angular.element(parentGroup).find('.text')[0];
-            textReflowService.recalcText(text, parentGroup, ngSvg.svg);
-          });
+//          $scope.$on('recalculateTextFlow', function(){
+//            var text = angular.element(parentGroup).find('.text')[0];
+//            textReflowService.recalcText(text, parentGroup, ngSvg.svg);
+//          });
         }
       };
 
@@ -75,28 +77,29 @@
 
         var shapeBackground = ngSvg.svg.use(parentGroup, '', {
           'ng-href': '{{"#" + viewModel.model.id}}',
-          'class': 'shape',
+//          'class': 'shape',
           'fill': '{{viewModel.model.backgroundColor}}',
           'ng-mousedown': 'whenClick()',
-          'ng-dblclick': 'viewModel.isEditingText = true'
+          'ng-dblclick': 'viewModel.isEditingText = true',
+          'class': '{{viewModel.model.wrapTextAround ? "" : "noTextWrap"}}'
         });
 
         drawImage($scope, ngSvg, parentGroup);
 
         var shapeForeground = ngSvg.svg.use(parentGroup, '', {
           'ng-href': '{{ "#" + viewModel.model.id}}',
-          'class': 'shape',
           'fill': 'none',
           'stroke': '{{viewModel.model.borderColor}}',
           'stroke-width': '{{viewModel.model.borderWidth}}',
           'ng-mousedown': 'whenClick()',
-          'ng-dblclick': 'viewModel.isEditingText = true'
+          'ng-dblclick': 'viewModel.isEditingText = true',
+          'class': '{{viewModel.model.wrapTextAround ? "" : "noTextWrap"}}'
         });
 
         var textSpans = ngSvg.svg.createText().string('{{viewModel.model.text}}');
 
-        ngSvg.svg.text(parentGroup, 10, 10, textSpans, {
-          class: 'text',
+        var text = ngSvg.svg.text(parentGroup, 10, 10, textSpans, {
+//          class: 'text',
           opacity: 1,
           'font-family': '{{viewModel.model.font}}',
           'font-size': '{{viewModel.model.fontSize}}',
@@ -104,10 +107,14 @@
           'ng-show': '!viewModel.isEditingText',
           'ng-mousedown': 'whenClick()',
           'ng-dblclick': 'viewModel.isEditingText = true',
-          'ng-style':'{cursor:"default"}'
+          'ng-style':'{cursor:"default"}',
+          'class': '{{viewModel.model.wrapTextAround ? "" : "noTextWrap"}}'
         });
 
-        return parentGroup;
+        return {
+          parentGroup : parentGroup,
+          text: text
+        };
       }
 
       function drawImage($scope, ngSvg, parentGroup) {
@@ -116,7 +123,8 @@
           'ng-attr-y': '{{viewModel.imageTop()}}',
           'ng-attr-width': '{{viewModel.imageWidth()}}',
           'ng-attr-height': '{{viewModel.imageHeight()}}',
-          'preserveAspectRatio': 'none'
+          'preserveAspectRatio': 'none',
+          'class': '{{viewModel.model.wrapTextAround ? "" : "noTextWrap"}}'
         };
 
         var previewImageMaskId = $scope.viewModel.makeUrlRef('previewImageMask');

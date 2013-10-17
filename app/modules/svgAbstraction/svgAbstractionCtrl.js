@@ -1,6 +1,6 @@
 (function () {
   angular.module('svgAbstraction.controllers', [])
-    .controller('svgAbstractionCtrl', function ($scope, $routeParams, $timeout, shapePaths, shapeViewModelService, liveResource) {
+    .controller('svgAbstractionCtrl', function ($scope, $routeParams, $timeout, shapePaths, shapeViewModelService, liveResource, textReflowService) {
       window.debugScope = $scope;
 
       // load data
@@ -97,8 +97,9 @@
       });
 
       var updateAllTextReflows = _.debounce(function () {
-          $scope.$broadcast('recalculateTextFlow');
-        },200);
+//          $scope.$broadcast('recalculateTextFlow');
+        textReflowService.recalculateAllText($scope.shapes);
+      }, 200);
 
       $scope.$watch('template.shapes', function () {
         if ($scope.selectedShape && $scope.selectedShape.isEditingText) {
@@ -160,13 +161,16 @@
           return;
         }
 
-        if($scope.selectedShape.isEditingText){
-          updateAllTextReflows()
+        if ($scope.selectedShape.isEditingText) {
+          updateAllTextReflows();
         }
 
         $scope.selectedShape.isEditingText = false;
         $scope.selectedShape.showPreviewImage = false;
         $scope.selectedShape = null;
+
+        // HACK
+//        updateAllTextReflows();
       };
 
       $scope.shapeDrawn = function (shape) {
@@ -176,7 +180,7 @@
         $scope.setSelectedShape(shape);
       };
 
-      $scope.fontSize = function(addHowMuch) {
+      $scope.fontSize = function (addHowMuch) {
         addHowMuch = parseInt(addHowMuch);
         oldValue = parseInt($scope.selectedShape.model.fontSize)
         $scope.selectedShape.model.fontSize = oldValue + addHowMuch;
@@ -230,28 +234,28 @@
 
       // keyboard shortcuts
 
-      kDown.whenShortcut("esc",function(){
-        $scope.$apply(function() {
+      kDown.whenShortcut("esc", function () {
+        $scope.$apply(function () {
           $scope.unSelectShape();
         });
       });
 
-      function copyCurrentShape(){
-        if(!$scope.selectedShape) return;
+      function copyCurrentShape() {
+        if (!$scope.selectedShape) return;
         $scope.copiedShapeModel = angular.copy($scope.selectedShape.model);
         delete $scope.copiedShapeModel.id;
       }
 
-      kDown.whenShortcut("cmd+c",function(){
-        $scope.$apply(function() {
+      kDown.whenShortcut("cmd+c", function () {
+        $scope.$apply(function () {
           copyCurrentShape();
         });
       });
 
-      kDown.whenShortcut("cmd+v",function(){
-        if(!$scope.copiedShapeModel) return;
+      kDown.whenShortcut("cmd+v", function () {
+        if (!$scope.copiedShapeModel) return;
 
-        $scope.$apply(function() {
+        $scope.$apply(function () {
           // offset new shape
           $scope.copiedShapeModel.top += 25;
           $scope.copiedShapeModel.left += 25;
@@ -262,11 +266,11 @@
         });
       });
 
-      kDown.whenDown('backspace', function(e) {
+      kDown.whenDown('backspace', function (e) {
         console.log(e)
-        if(!$scope.selectedShape) return;
+        if (!$scope.selectedShape) return;
 
-        $scope.$apply(function() {
+        $scope.$apply(function () {
           $scope.deleteShape();
         });
 

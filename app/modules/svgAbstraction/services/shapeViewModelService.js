@@ -18,6 +18,7 @@
           font: 'Verdana',
           fontSize: '12.0',
           fontColor: 'black',
+          wrapTextAround: true,
           "image": {
             "url": null,
             "top": 0,
@@ -27,7 +28,6 @@
             "rotation": 0
           }
         });
-
       }
 
       Object.defineProperty(shapeViewModel.prototype, "model", {

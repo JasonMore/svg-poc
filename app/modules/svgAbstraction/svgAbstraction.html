@@ -108,37 +108,19 @@
     </content-aim>
   </submenu-aim>
     <submenu-aim>
-      <title-aim>Delete Shape</title-aim>
+      <title-aim>Shape</title-aim>
       <content-aim class="popover">
-        <label>
-          Click to Delete this shape
           <a ng-show="selectedShape" ng-click="deleteShape()" class="btn btn-warning">
-            Delete
+            Click to Delete this shape
           </a>
+        <label>
+          Text wraps around shape:
+          <input type="checkbox" ng-model="selectedShape.model.wrapTextAround">
         </label>
 
       </content-aim>
     </submenu-aim>
   </menu-aim>
-
-  <!--<shape-options name="Font Color"-->
-  <!--visible="selectedShape"-->
-  <!--options="colorOptions"-->
-  <!--selection="selectedShape.fontColor"></shape-options>-->
-
-  <!--<shape-options name="Font Size"-->
-  <!--visible="selectedShape"-->
-  <!--options="fontSizeOptions"-->
-  <!--selection="selectedShape.fontSize"></shape-options>-->
-
-  <!--<shape-options name="Font Family"-->
-  <!--visible="selectedShape"-->
-  <!--options="fontFamilyOptions"-->
-  <!--selection="selectedFontFamily"></shape-options>-->
-
-  <!--<a ng-show="selectedShape" ng-click="deleteShape()" class="btn btn-warning">-->
-  <!--Delete-->
-  <!--</a>-->
 </div>
 
 

@@ -78,7 +78,8 @@
 
         var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup, {
           transform: transform.join(', '),
-          'ng-show': 'viewModel && !viewModel.showPreviewImage'
+          'ng-show': 'viewModel && !viewModel.showPreviewImage',
+          class: 'noTextWrap'
         });
 
         ngSvg.svg.path(selectionBox, '', {
@@ -87,7 +88,8 @@
           fillOpacity: '0.3',
           'stroke-dasharray': '5,5',
           stroke: '#0096fd',
-          strokeWidth: 2
+          strokeWidth: 2,
+          class: 'noTextWrap'
         });
 
         return selectionBox;
@@ -101,7 +103,8 @@
 
         var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup, {
           transform: transform.join(', '),
-          'ng-show': 'viewModel.showPreviewImage'
+          'ng-show': 'viewModel.showPreviewImage',
+          class: 'noTextWrap'
         });
 
         var imageSelectionPath = [
@@ -118,7 +121,8 @@
           fillOpacity: '0.3',
           'stroke-dasharray': '5,5',
           stroke: '#0096fd',
-          strokeWidth: 2
+          strokeWidth: 2,
+          class: 'noTextWrap'
         });
 
         return selectionBox;
@@ -126,7 +130,7 @@
 
       function drawSelectionCorners(svg, selectionBox) {
         var defaultCircleSettings = {
-          class_: 'corner',
+          class_: 'corner noTextWrap',
           fill: '#0096fd',
           'stroke-width': 1,
           stroke: 'white'
@@ -155,12 +159,13 @@
         svg.line(selectionBox, 0, 0, 0, (-1 * rotatorLineLength), {
           stroke: '#0096fd',
           strokeWidth: 3,
-          transform: 'translate({{viewModel.midPointX()}},0)'
+          transform: 'translate({{viewModel.midPointX()}},0)',
+          class: 'noTextWrap'
         });
 
         var rotator = svg.circle(selectionBox, 0, 0, 5, _.extend({
           'data-cornerid': 'rotator',
-          class_: 'rotator',
+          class_: 'rotator noTextWrap',
           fill: '#FFFFFF',
           stroke: '#0096fd',
           strokeWidth: 1,
