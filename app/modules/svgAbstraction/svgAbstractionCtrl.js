@@ -232,7 +232,7 @@
 
       kDown.whenShortcut("esc",function(){
         $scope.$apply(function() {
-          $scope.unse();
+          $scope.unSelectShape();
         });
       });
 
