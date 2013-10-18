@@ -1,7 +1,7 @@
 (function () {
   // wrap jquery svg draw methods which produce errors with angular
   angular.module('svgAbstraction.directives')
-    .directive('ngShape', function ($compile, $timeout, pathService, textReflowService) {
+    .directive('ngShape', function ($compile, $timeout, pathService) {
       return {
         restrict: 'E',
         require: '^ngSvg',
@@ -40,10 +40,6 @@
             ngSvg.svg.remove(shape.parentGroup);
           });
 
-//          $scope.$on('recalculateTextFlow', function(){
-//            var text = angular.element(parentGroup).find('.text')[0];
-//            textReflowService.recalcText(text, parentGroup, ngSvg.svg);
-//          });
         }
       };
 
@@ -77,7 +73,6 @@
 
         var shapeBackground = ngSvg.svg.use(parentGroup, '', {
           'ng-href': '{{"#" + viewModel.model.id}}',
-//          'class': 'shape',
           'fill': '{{viewModel.model.backgroundColor}}',
           'ng-mousedown': 'whenClick()',
           'ng-dblclick': 'viewModel.isEditingText = true',
@@ -99,7 +94,6 @@
         var textSpans = ngSvg.svg.createText().string('{{viewModel.model.text}}');
 
         var text = ngSvg.svg.text(parentGroup, 10, 10, textSpans, {
-//          class: 'text',
           opacity: 1,
           'font-family': '{{viewModel.model.font}}',
           'font-size': '{{viewModel.model.fontSize}}',
@@ -173,7 +167,6 @@
         var width,
           height,
           img = new Image();
-//          viewModelImage = $scope.viewModel.model.image;
 
         img.onload = function () {
           width = this.width;

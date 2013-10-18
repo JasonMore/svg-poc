@@ -26,32 +26,32 @@
 
 
     self.getSelectionBox = function (shape) {
-        var totalLen = shape.getTotalLength();
+      var totalLen = shape.getTotalLength();
 
-        var minX = 999999;
-        var maxX = 0;
-        var minY = 999999;
-        var maxY = 0;
+      var minX = 999999;
+      var maxX = 0;
+      var minY = 999999;
+      var maxY = 0;
 
 
-        for (var i=0; i < totalLen; i++) {
-            var pt = shape.getPointAtLength(i);
+      for (var i = 0; i < totalLen; i++) {
+        var pt = shape.getPointAtLength(i);
 
-            minX = Math.min(minX, pt.x);
-            maxX = Math.max(maxX, pt.x);
-            minY = Math.min(minY, pt.y);
-            maxY = Math.max(maxY, pt.y);
+        minX = Math.min(minX, pt.x);
+        maxX = Math.max(maxX, pt.x);
+        minY = Math.min(minY, pt.y);
+        maxY = Math.max(maxY, pt.y);
 
-        }
+      }
 
-        var boundingBox = shape.ownerSVGElement.createSVGRect();
+      var boundingBox = shape.ownerSVGElement.createSVGRect();
 
-        boundingBox.x = minX;
-        boundingBox.y = minY;
-        boundingBox.width = maxX - minX;
-        boundingBox.height = maxY - minY;
-        return boundingBox;
-    }
+      boundingBox.x = minX;
+      boundingBox.y = minY;
+      boundingBox.width = maxX - minX;
+      boundingBox.height = maxY - minY;
+      return boundingBox;
+    };
 
     self.createSelectionBox = function (group) {
       var shape = $(group).find('.shape')[0];

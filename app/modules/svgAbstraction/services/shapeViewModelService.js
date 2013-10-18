@@ -2,8 +2,6 @@
   angular.module('svgAbstraction.services').service('shapeViewModelService', function (pathService) {
     this.create = function create(shape) {
       var selectionBox;
-//        width = 0,
-//        height = 0;
 
       // add image properties if they don't exist
 
@@ -38,14 +36,6 @@
       });
 
       _.extend(shapeViewModel.prototype, {
-//        model: shape,
-
-//        showPreviewImage: false,
-
-//        updateModel: function (newModel) {
-//          this.model = newModel;
-//          selectionBox = null;
-//        },
 
         id: function () {
           return this.model.id;

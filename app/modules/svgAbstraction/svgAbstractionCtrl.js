@@ -17,7 +17,6 @@
       $scope.shapePaths = shapePaths.list;
       $scope.shapeKeyValues = shapePaths.keyValues;
       $scope.shapes = {};
-//      $scope.isEditingText = false;
 
       $scope.colorOptions = [
         {id: 'red', name: 'Red'},
@@ -97,7 +96,6 @@
       });
 
       var updateAllTextReflows = _.debounce(function () {
-//          $scope.$broadcast('recalculateTextFlow');
         textReflowService.recalculateAllText($scope.shapes);
       }, 200);
 
@@ -175,8 +173,6 @@
 
       $scope.shapeDrawn = function (shape) {
         liveShapes.add(shape);
-        // TODO: figure out some way to get the viewmodel perf optimization back
-//        $scope.shapes.push(shape);
         $scope.setSelectedShape(shape);
       };
 

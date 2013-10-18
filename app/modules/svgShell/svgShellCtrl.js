@@ -22,10 +22,7 @@
 
       // computed
       $scope.isDrawing = function () {
-        if ($scope.shapeToDraw) {
-          return true;
-        }
-        return false;
+        return $scope.shapeToDraw;
       }
 
       // properties

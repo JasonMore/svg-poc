@@ -10,7 +10,6 @@
           viewModel: '='
         },
         link: function ($scope, element, attr, ngSvgController) {
-          ;
           var ngSvg = ngSvgController,
             selection = createSelectionBox(ngSvg);
 
@@ -43,8 +42,6 @@
         };
 
         $scope.imageHeight = function () {
-          var vm = $scope.viewModel;
-
           if (!$scope.viewModel || !$scope.viewModel.model.image) {
             return 0;
           }

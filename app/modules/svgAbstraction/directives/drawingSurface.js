@@ -1,12 +1,11 @@
 (function () {
   angular.module('svgAbstraction.directives')
-    .directive('drawingSurface', function ($compile, pathService, uuidService, shapePaths, shapeViewModelService) {
+    .directive('drawingSurface', function ($compile, pathService, uuidService, shapePaths) {
       return {
         restrict: 'E',
         require: '^ngSvg',
         scope: {
           active: '=',
-//          model: '=',
           whenDone: '&',
           shape: '='
         },
@@ -91,7 +90,7 @@
           });
         }
 
-        function endDrag(event) {
+        function endDrag() {
           var shape = ngSvg.svg.path(shapePaths.keyValues[$scope.shape]);
 
           var selectionBox = pathService.getSelectionBox(shape);
@@ -102,9 +101,7 @@
           ngSvg.svg.remove(shape);
 
           var defaultBorder = 2;
-//          var newShape = shapeViewModelService.create({
           var newShape = {
-//              id: uuidService.generateUUID(),
             top: $scope.y,
             left: $scope.x,
             rotation: 0,
@@ -122,11 +119,7 @@
             }
           };
 
-//          newShape.width($scope.width);
-//          newShape.height($scope.height);
-
           $scope.$apply(function () {
-//            $scope.model.push(newShape);
             $scope.whenDone({shape: newShape});
             resetSelectionBox($scope);
           });
