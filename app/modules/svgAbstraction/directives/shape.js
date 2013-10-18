@@ -5,6 +5,8 @@
       return {
         restrict: 'E',
         require: '^ngSvg',
+        template: '<div fooId="{{viewModel.model.id}}" fooOrder="{{viewModel.model.order}}"></div>',
+        replace: true,
         scope: {
           viewModel: '=',
           draggable: '=',

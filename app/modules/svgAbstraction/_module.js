@@ -5,6 +5,7 @@
     'svgAbstraction.controllers',
     'svgAbstraction.directives',
     'svgAbstraction.services',
+    'svgAbstraction.filters',
     'ui.bootstrap',
     'menuAim',
     'liveResource'
