@@ -26,4 +26,5 @@
 
   angular.module('svgAbstraction.services',[]);
   angular.module('svgAbstraction.directives', []);
+  angular.module('svgAbstraction.filters', []);
 }());

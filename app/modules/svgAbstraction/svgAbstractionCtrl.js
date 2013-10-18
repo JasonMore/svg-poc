@@ -87,10 +87,11 @@
         var idsToAdd = _.difference(modelIds, viewModelIds);
 
         _.each(idsToAdd, function (id) {
-          $scope.shapes[id] = shapeViewModelService.create(
-            function () {
-              return $scope.template.shapes[id];
-            });
+          function getModelFn() {
+            return $scope.template.shapes[id];
+          }
+
+          $scope.shapes[id] = shapeViewModelService.create(nextOrderNumber(), getModelFn);
         });
 
       });
@@ -274,6 +275,29 @@
           $scope.deleteShape();
         });
 
-      })
+      });
+
+      // shape ordering
+      function nextOrderNumber(){
+        return _.keys($scope.shapes).length;
+      }
+
+      $scope.moveUp = function(shape){
+        var newOrderSpot = shape.model.order + 1;
+        
+        // at end already
+        if(newOrderSpot === nextOrderNumber()) return;
+
+        _($scope.shapes)
+          .where(function(shape){return shape.model.order >= newOrderSpot;})
+          .each(function(shape){ shape.model.order -= 1; });
+
+        shape.model.order = newOrderSpot;
+      }
+
+      function moveDown(shape){
+
+      }
+
     });
 }());

@@ -1,6 +1,6 @@
 (function () {
   angular.module('svgAbstraction.services').service('shapeViewModelService', function (pathService) {
-    this.create = function create(shape) {
+    this.create = function create(nextOrderByNumber, getModelFn) {
       var selectionBox;
 
       // add image properties if they don't exist
@@ -12,6 +12,7 @@
         this.isEditingText = false;
 
         _.defaults(this.model, {
+          order: nextOrderByNumber,
           text: '',
           font: 'Verdana',
           fontSize: '12.0',
@@ -137,7 +138,7 @@
         }
       });
 
-      return new shapeViewModel(shape);
+      return new shapeViewModel(getModelFn);
     };
   });
 })();

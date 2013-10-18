@@ -133,6 +133,9 @@
         <a ng-click="copyCurrentShape()" class="btn">
           Copy (cmd + c)
         </a>
+        <a ng-click="moveUp(selectedShape)" class="btn">
+          Move Shape Up
+        </a>
 
       </content-aim>
     </submenu-aim>
@@ -146,7 +149,7 @@
   <ng-shape view-model="shape"
             draggable="canDragShape(shape)"
             when-click="setSelectedShape(shape)"
-            ng-repeat="shape in shapes"
+            ng-repeat="shape in shapes | objectOrderBy:'order'"
       ></ng-shape>
   <selection-box view-model="selectedShape"></selection-box>
   <drawing-surface active="isDrawing()"
