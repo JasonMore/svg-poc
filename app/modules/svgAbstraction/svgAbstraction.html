@@ -32,9 +32,21 @@
     <div>
       <a class="btn"
          ng-class="{active: !shapeToDraw}"
+         ng-click="shapeToDraw = null"
          tooltip-placement="bottom"
          tooltip="Select">
         <img class="toolbar-icon" src="img/cursor_arrow.png">
+      </a>
+    </div>
+    <div>
+      <a class="btn"
+         ng-class="{disabled: !copiedShapeModel}"
+         ng-click="pasteCopiedShape()"
+         tooltip-placement="bottom"
+         tooltip="Paste (cmd + v)">
+        <svg style="height:31px; width:31px">
+          <path ng-attr-d="{{shapeKeyValues['paintBrush']}}"></path>
+        </svg>
       </a>
     </div>
   </div>
@@ -110,13 +122,16 @@
     <submenu-aim>
       <title-aim>Shape</title-aim>
       <content-aim class="popover">
-          <a ng-show="selectedShape" ng-click="deleteShape()" class="btn btn-warning">
+          <a ng-click="deleteShape()" class="btn btn-warning">
             Click to Delete this shape
           </a>
         <label>
           Text wraps around shape:
           <input type="checkbox" ng-model="selectedShape.model.wrapTextAround">
         </label>
+        <a ng-click="copyCurrentShape()" class="btn">
+          Copy (cmd + c)
+        </a>
 
       </content-aim>
     </submenu-aim>

@@ -180,7 +180,23 @@
         addHowMuch = parseInt(addHowMuch);
         oldValue = parseInt($scope.selectedShape.model.fontSize)
         $scope.selectedShape.model.fontSize = oldValue + addHowMuch;
-      }
+      };
+
+      $scope.copyCurrentShape = function () {
+        if (!$scope.selectedShape) return;
+        $scope.copiedShapeModel = angular.copy($scope.selectedShape.model);
+        delete $scope.copiedShapeModel.id;
+      };
+
+      $scope.pasteCopiedShape = function () {
+        // offset new shape
+        $scope.copiedShapeModel.top += 25;
+        $scope.copiedShapeModel.left += 25;
+
+        liveShapes.add($scope.copiedShapeModel);
+        $scope.setSelectedShape($scope.copiedShapeModel);
+        $scope.copyCurrentShape();
+      };
 
       // computed
       $scope.shapeType = function () {
@@ -236,15 +252,9 @@
         });
       });
 
-      function copyCurrentShape() {
-        if (!$scope.selectedShape) return;
-        $scope.copiedShapeModel = angular.copy($scope.selectedShape.model);
-        delete $scope.copiedShapeModel.id;
-      }
-
       kDown.whenShortcut("cmd+c", function () {
         $scope.$apply(function () {
-          copyCurrentShape();
+          $scope.copyCurrentShape();
         });
       });
 
@@ -252,13 +262,7 @@
         if (!$scope.copiedShapeModel) return;
 
         $scope.$apply(function () {
-          // offset new shape
-          $scope.copiedShapeModel.top += 25;
-          $scope.copiedShapeModel.left += 25;
-
-          liveShapes.add($scope.copiedShapeModel);
-          $scope.setSelectedShape($scope.copiedShapeModel);
-          copyCurrentShape();
+          $scope.pasteCopiedShape();
         });
       });
 
