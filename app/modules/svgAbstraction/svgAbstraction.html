@@ -125,7 +125,11 @@
       <content-aim class="popover">
         <label>
           ID:
-          <span>{{selectedShape.model.id}}</span>
+          <input ng-model="selectedShape.model.id" readonly>
+        </label>
+        <label>
+          Order:
+          <input ng-model="selectedShape.model.order" readonly>
         </label>
           <a ng-click="deleteShape()" class="btn btn-warning">
             Click to Delete this shape
@@ -153,7 +157,7 @@
   <ng-shape view-model="shape"
             draggable="canDragShape(shape)"
             when-click="setSelectedShape(shape)"
-            ng-repeat="shape in shapes | objectOrderBy:'order'"
+            ng-repeat="shape in shapes"
       ></ng-shape>
   <selection-box view-model="selectedShape"></selection-box>
   <drawing-surface active="isDrawing()"
