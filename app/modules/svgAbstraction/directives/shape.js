@@ -51,7 +51,7 @@
               el.insertAfter(angular.element('g[data-order=' + newOrder + ']'));
             } else if (newOrder < oldOrder) {
               // insertBefore oldOrder
-//              el.insertBefore($('g[data-order=' + oldOrder + ']'));
+              el.insertBefore(angular.element('g[data-order=' + newOrder + ']'));
             }
 
             el.data('order', newOrder);
