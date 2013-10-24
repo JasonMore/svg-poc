@@ -37,6 +37,27 @@
             calculateImageHeightWidth($scope);
           });
 
+          $scope.$watch('viewModel.model.order', function (newOrder, oldOrder) {
+            if (newOrder === oldOrder) return;
+
+            var el = angular.element($scope.viewModel.svgElement);
+
+            if (el.data('order') === newOrder) return;
+
+
+            if (newOrder > oldOrder) {
+              //hacks
+              // insertAfter oldOrder, because thats what the new spot current si
+              el.insertAfter(angular.element('g[data-order=' + newOrder + ']'));
+            } else if (newOrder < oldOrder) {
+              // insertBefore oldOrder
+              el.insertBefore(angular.element('g[data-order=' + newOrder + ']'));
+            }
+
+            el.data('order', newOrder);
+
+          });
+
           $scope.$on("$destroy", function () {
             ngSvg.svg.remove(pathDefinition);
             ngSvg.svg.remove(shape.parentGroup);
@@ -70,7 +91,9 @@
         ];
 
         var parentGroup = ngSvg.svg.group(ngSvg.shapeGroup, {
-          transform: transform.join(', ')
+          transform: transform.join(', '),
+          'data-order':$scope.viewModel.model.order,
+          'data-id': '{{viewModel.model.id}}'
         });
 
         var shapeBackground = ngSvg.svg.use(parentGroup, '', {
@@ -103,12 +126,12 @@
           'ng-show': '!viewModel.isEditingText',
           'ng-mousedown': 'whenClick()',
           'ng-dblclick': 'viewModel.isEditingText = true',
-          'ng-style':'{cursor:"default"}',
+          'ng-style': '{cursor:"default"}',
           'class': '{{viewModel.model.wrapTextAround ? "" : "noTextWrap"}}'
         });
 
         return {
-          parentGroup : parentGroup,
+          parentGroup: parentGroup,
           text: text
         };
       }

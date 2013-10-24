@@ -282,22 +282,35 @@
         return _.keys($scope.shapes).length;
       }
 
-      $scope.moveUp = function(shape){
+      $scope.moveUp = function (shape) {
         var newOrderSpot = shape.model.order + 1;
-        
+
         // at end already
-        if(newOrderSpot === nextOrderNumber()) return;
+        if (newOrderSpot === nextOrderNumber()) return;
 
         _($scope.shapes)
-          .where(function(shape){return shape.model.order >= newOrderSpot;})
-          .each(function(shape){ shape.model.order -= 1; });
+          .where(function (shape) {
+            return shape.model.order >= newOrderSpot;
+          })
+          .each(function (shape) {
+            shape.model.order -= 1;
+          });
 
         shape.model.order = newOrderSpot;
-      }
+      };
 
-      function moveDown(shape){
+      $scope.moveDown = function(shape){
+        var newOrderSpot = shape.model.order - 1;
 
-      }
+        // at end already
+        if(newOrderSpot === -1) return;
+
+        _($scope.shapes)
+          .where(function(shape){return shape.model.order <= newOrderSpot;})
+          .each(function(shape){ shape.model.order += 1; });
+
+        shape.model.order = newOrderSpot;
+      };
 
     });
 }());
