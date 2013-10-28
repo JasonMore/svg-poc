@@ -1,6 +1,6 @@
 <svg version="1.1" width="1602" height="600">
   <!--empty rectangle as background for clicking-->
-  <rect ng-click="click()"
+  <rect ng-click="unSelectShape()"
         x="0" y="0" width="100%" height="100%" fill="white" fill-opacity="0"></rect>
 
   <defs id="paths">
@@ -101,8 +101,7 @@
           stroke-dasharray="5,5"
           stroke="#0096fd"
           stroke-width="2"
-          class="noTextWrap"
-          d="M0,0L,0L,L0,z"></path>
+          class="noTextWrap"></path>
       <circle cx="0"
               cy="0"
               r="5"
@@ -127,7 +126,7 @@
               cy="0"
               r="5"
               data-cornerid="cornerSE"
-              transform="translate{{selectedShape.width()}},{{selectedShape.height()}}"
+              transform="translate({{selectedShape.width()}},{{selectedShape.height()}})"
               class="corner noTextWrap"
               fill="#0096fd"
               stroke-width="1"
@@ -149,7 +148,7 @@
             y2="-20"
             stroke="#0096fd"
             stroke-width="3"
-            transform="translate({{selectedShape.midPointX()}},0)'"
+            transform="translate({{selectedShape.midPointX()}},0)"
             class="noTextWrap"></line>
       <circle cx="0"
               cy="0"
@@ -159,8 +158,8 @@
               fill="#0096fd"
               stroke="white"
               stroke-width="1"
-              transform="translate({{viewModel.midPointX()}},-20)"
-              style="position: relative;"></circle>
+              transform="translate({{selectedShape.midPointX()}},-20)"
+              ></circle>
     </g>
     <!--<g transform="translate(0,0), rotate(0,,)" ng-show="viewModel.showPreviewImage" class="noTextWrap"-->
        <!--style="display: none;">-->
