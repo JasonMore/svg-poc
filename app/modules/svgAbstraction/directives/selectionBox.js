@@ -4,52 +4,15 @@
   angular.module('svgAbstraction.directives')
     .directive('selectionBox', function ($compile, pathService) {
       return {
-//        restrict: 'E',
         require: '^ngSvg',
-//        scope: {
-//          viewModel: '='
-//        },
         link: function ($scope, $element, attr, ngSvgController) {
           var ngSvg = ngSvgController,
-//            selection = createSelectionBox(ngSvg);
             selection = getSelectionBox($element);
 
           attachResizeBindings(selection.corners, $scope, ngSvg.svg);
           attachRotateBindings(selection.rotator, $scope, ngSvg.svg);
-
-//          attachImageResizeBindings(selection.imageCorners, $scope, ngSvg.svg);
-//          attachImageRotateBindings(selection.imageRotator, $scope, ngSvg.svg);
-
-//          $compile(selection.box)($scope);
-//          $compile(selection.imageBox)($scope);
-//          addScopeMethods($scope);
         }
       };
-
-//      function addScopeMethods($scope) {
-//        $scope.calcImageLeft = function () {
-//          var vm = $scope.viewModel;
-//          return vm ? vm.imageLeft() + vm.left() + vm.borderOffset() : 0;
-//        };
-//
-//        $scope.calcImageTop = function () {
-//          var vm = $scope.viewModel;
-//          return vm ? vm.imageTop() + vm.top() + vm.borderOffset() : 0;
-//        };
-//
-//        $scope.calcImageRotation = function () {
-//          var vm = $scope.viewModel;
-//          return vm ? vm.model.image.rotation + vm.model.rotation : 0;
-//        };
-//
-//        $scope.imageHeight = function () {
-//          if (!$scope.viewModel || !$scope.viewModel.model.image) {
-//            return 0;
-//          }
-//
-//          return $scope.viewModel.model.image.height;
-//        };
-//      }
 
       function getSelectionBox($element){
 
@@ -62,131 +25,6 @@
 //          imageRotator: imageHandles.rotator
         };
       }
-
-      function createSelectionBox(ngSvg) {
-        var selectionBox = drawSelectionBox(ngSvg);
-        var handles = drawSelectionCorners(ngSvg.svg, selectionBox);
-
-        var imageSelectionBox = drawImageSelectionBox(ngSvg);
-        var imageHandles = drawImageSelectionCorners(ngSvg.svg, imageSelectionBox);
-
-        return {
-          box: selectionBox,
-          corners: handles.corners,
-          rotator: handles.rotator,
-          imageBox: imageSelectionBox,
-          imageCorners: imageHandles.corners,
-          imageRotator: imageHandles.rotator
-        };
-      }
-
-//      function drawSelectionBox(ngSvg) {
-//        var transform = [
-//          'translate({{viewModel.left()}},{{viewModel.top()}})',
-//          'rotate({{viewModel.model.rotation}},{{viewModel.midPointX()}},{{viewModel.midPointY()}})'
-//        ];
-//
-//        var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup, {
-//          transform: transform.join(', '),
-//          'ng-show': 'viewModel && !viewModel.showPreviewImage',
-//          class: 'noTextWrap'
-//        });
-//
-//        ngSvg.svg.path(selectionBox, '', {
-//          'ng-attr-d': 'M0,0L{{viewModel.width()}},0L{{viewModel.width()}},{{viewModel.height()}}L0,{{viewModel.height()}}z',
-//          fill: 'none',
-//          fillOpacity: '0.3',
-//          'stroke-dasharray': '5,5',
-//          stroke: '#0096fd',
-//          strokeWidth: 2,
-//          class: 'noTextWrap'
-//        });
-//
-//        return selectionBox;
-//      }
-
-//      function drawImageSelectionBox(ngSvg) {
-//        var transform = [
-//          'translate({{calcImageLeft()}},{{calcImageTop()}})',
-//          'rotate({{calcImageRotation()}},{{viewModel.imageMidPointX()}},{{viewModel.imageMidPointY()}})'
-//        ];
-//
-//        var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup, {
-//          transform: transform.join(', '),
-//          'ng-show': 'viewModel.showPreviewImage',
-//          class: 'noTextWrap'
-//        });
-//
-//        var imageSelectionPath = [
-//          'M0,0',
-//          'L{{viewModel.imageWidth()}},0',
-//          'L{{viewModel.imageWidth()}},{{viewModel.imageHeight()}}',
-//          'L0,{{viewModel.imageHeight()}}',
-//          'z'
-//        ];
-//
-//        ngSvg.svg.path(selectionBox, '', {
-//          'ng-attr-d': imageSelectionPath.join(''),
-//          fill: 'none',
-//          fillOpacity: '0.3',
-//          'stroke-dasharray': '5,5',
-//          stroke: '#0096fd',
-//          strokeWidth: 2,
-//          class: 'noTextWrap'
-//        });
-//
-//        return selectionBox;
-//      }
-//
-//      function drawSelectionCorners(svg, selectionBox) {
-//        var defaultCircleSettings = {
-//          class_: 'corner noTextWrap',
-//          fill: '#0096fd',
-//          'stroke-width': 1,
-//          stroke: 'white'
-//        };
-//
-//        var cornerNW = svg.circle(selectionBox, 0, 0, 5, _.extend({
-//          'data-cornerid': 'cornerNW',
-//          transform: 'translate(0,0)'
-//        }, defaultCircleSettings));
-//
-//        var cornerNE = svg.circle(selectionBox, 0, 0, 5, _.extend({
-//          'data-cornerid': 'cornerNE',
-//          transform: 'translate({{viewModel.width()}},0)'
-//        }, defaultCircleSettings));
-//
-//        var cornerSE = svg.circle(selectionBox, 0, 0, 5, _.extend({
-//          'data-cornerid': 'cornerSE',
-//          transform: 'translate({{viewModel.width()}},{{viewModel.height()}})'
-//        }, defaultCircleSettings));
-//
-//        var cornerSW = svg.circle(selectionBox, 0, 0, 5, _.extend({
-//          'data-cornerid': 'cornerSW',
-//          transform: 'translate(0,{{viewModel.height()}})'
-//        }, defaultCircleSettings));
-//
-//        svg.line(selectionBox, 0, 0, 0, (-1 * rotatorLineLength), {
-//          stroke: '#0096fd',
-//          strokeWidth: 3,
-//          transform: 'translate({{viewModel.midPointX()}},0)',
-//          class: 'noTextWrap'
-//        });
-//
-//        var rotator = svg.circle(selectionBox, 0, 0, 5, _.extend({
-//          'data-cornerid': 'rotator',
-//          class_: 'rotator noTextWrap',
-//          fill: '#FFFFFF',
-//          stroke: '#0096fd',
-//          strokeWidth: 1,
-//          transform: 'translate({{viewModel.midPointX()}},-20)'
-//        }, defaultCircleSettings));
-//
-//        return {
-//          corners: angular.element([cornerNW, cornerNE, cornerSE, cornerSW]),
-//          rotator: angular.element(rotator)
-//        };
-//      }
 
       function drawImageSelectionCorners(svg, selectionBox) {
         var defaultCircleSettings = {
