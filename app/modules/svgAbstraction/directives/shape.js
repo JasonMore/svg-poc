@@ -3,31 +3,42 @@
   angular.module('svgAbstraction.directives')
     .directive('ngShape', function ($compile, $timeout, pathService) {
       return {
-        restrict: 'E',
+//        restrict: 'E',
         require: '^ngSvg',
-        template: '<div fooId="{{viewModel.model.id}}" fooOrder="{{viewModel.model.order}}"></div>',
-        replace: true,
-        scope: {
-          viewModel: '=',
-          draggable: '=',
-          whenClick: '&'
-        },
+//        template: '<div fooId="{{viewModel.model.id}}" fooOrder="{{viewModel.model.order}}"></div>',
+//        replace: true,
+//        scope: {
+//          viewModel: '=',
+//          draggable: '=',
+//          whenClick: '&'
+//        },
         link: function ($scope, element, attr, ngSvgController) {
           var ngSvg = ngSvgController;
 
-          var pathDefinition = createPathDefinition($scope, ngSvg);
-          var shape = drawShape($scope, ngSvg);
+//          var pathDefinition = createPathDefinition($scope, ngSvg);
+//          var shape = drawShape($scope, ngSvg);
 
-          $compile(pathDefinition)($scope);
-          $compile(shape.parentGroup)($scope);
+//          $compile(pathDefinition)($scope);
+//          $compile(shape.parentGroup)($scope);
 
-          $scope.viewModel.svg = ngSvg.svg;
-          $scope.viewModel.svgElementPath = pathDefinition;
-          $scope.viewModel.svgElement = shape.parentGroup;
-          $scope.viewModel.svgText = shape.text;
+          $timeout(function() {
+            $scope.viewModel.svg = ngSvg.svg;
+            $scope.viewModel.svgElementPath = angular.element('#' + $scope.viewModel.id())[0];
+            $scope.viewModel.svgElement = element[0];
+            $scope.viewModel.svgText = element.find('text')[0];
+          })
+
+//          $scope.viewModel.svg = ngSvg.svg;
+//          $scope.viewModel.svgElementPath = angular.element('#' + $scope.viewModel.id())[0];
+//          $scope.viewModel.svgElement = element;
+//          $scope.viewModel.svgText = element.find('text');
+
+//          $scope.viewModel.svgElementPath = pathDefinition;
+//          $scope.viewModel.svgElement = shape.parentGroup;
+//          $scope.viewModel.svgText = shape.text;
 
           // attach svg element to dom element so we can access it from other directives
-          element.data('parentGroup', shape.parentGroup);
+//          element.data('parentGroup', shape.parentGroup);
 
           $scope.$watch('viewModel.model.image.url', function (url, oldVal) {
             if (url === oldVal) {
@@ -37,31 +48,31 @@
             calculateImageHeightWidth($scope);
           });
 
-          $scope.$watch('viewModel.model.order', function (newOrder, oldOrder) {
-            if (newOrder === oldOrder) return;
+//          $scope.$watch('viewModel.model.order', function (newOrder, oldOrder) {
+//            if (newOrder === oldOrder) return;
+//
+//            var el = angular.element($scope.viewModel.svgElement);
+//
+//            if (el.data('order') === newOrder) return;
+//
+//
+//            if (newOrder > oldOrder) {
+//              //hacks
+//              // insertAfter oldOrder, because thats what the new spot current si
+//              el.insertAfter(angular.element('g[data-order=' + newOrder + ']'));
+//            } else if (newOrder < oldOrder) {
+//              // insertBefore oldOrder
+//              el.insertBefore(angular.element('g[data-order=' + newOrder + ']'));
+//            }
+//
+//            el.data('order', newOrder);
+//
+//          });
 
-            var el = angular.element($scope.viewModel.svgElement);
-
-            if (el.data('order') === newOrder) return;
-
-
-            if (newOrder > oldOrder) {
-              //hacks
-              // insertAfter oldOrder, because thats what the new spot current si
-              el.insertAfter(angular.element('g[data-order=' + newOrder + ']'));
-            } else if (newOrder < oldOrder) {
-              // insertBefore oldOrder
-              el.insertBefore(angular.element('g[data-order=' + newOrder + ']'));
-            }
-
-            el.data('order', newOrder);
-
-          });
-
-          $scope.$on("$destroy", function () {
-            ngSvg.svg.remove(pathDefinition);
-            ngSvg.svg.remove(shape.parentGroup);
-          });
+//          $scope.$on("$destroy", function () {
+//            ngSvg.svg.remove(pathDefinition);
+//            ngSvg.svg.remove(shape.parentGroup);
+//          });
 
         }
       };

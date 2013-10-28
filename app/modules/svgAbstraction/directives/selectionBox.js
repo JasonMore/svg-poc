@@ -4,49 +4,62 @@
   angular.module('svgAbstraction.directives')
     .directive('selectionBox', function ($compile, pathService) {
       return {
-        restrict: 'E',
+//        restrict: 'E',
         require: '^ngSvg',
-        scope: {
-          viewModel: '='
-        },
-        link: function ($scope, element, attr, ngSvgController) {
+//        scope: {
+//          viewModel: '='
+//        },
+        link: function ($scope, $element, attr, ngSvgController) {
           var ngSvg = ngSvgController,
-            selection = createSelectionBox(ngSvg);
+//            selection = createSelectionBox(ngSvg);
+            selection = getSelectionBox($element);
 
           attachResizeBindings(selection.corners, $scope, ngSvg.svg);
           attachRotateBindings(selection.rotator, $scope, ngSvg.svg);
 
-          attachImageResizeBindings(selection.imageCorners, $scope, ngSvg.svg);
-          attachImageRotateBindings(selection.imageRotator, $scope, ngSvg.svg);
+//          attachImageResizeBindings(selection.imageCorners, $scope, ngSvg.svg);
+//          attachImageRotateBindings(selection.imageRotator, $scope, ngSvg.svg);
 
-          $compile(selection.box)($scope);
-          $compile(selection.imageBox)($scope);
-          addScopeMethods($scope);
+//          $compile(selection.box)($scope);
+//          $compile(selection.imageBox)($scope);
+//          addScopeMethods($scope);
         }
       };
 
-      function addScopeMethods($scope) {
-        $scope.calcImageLeft = function () {
-          var vm = $scope.viewModel;
-          return vm ? vm.imageLeft() + vm.left() + vm.borderOffset() : 0;
-        };
+//      function addScopeMethods($scope) {
+//        $scope.calcImageLeft = function () {
+//          var vm = $scope.viewModel;
+//          return vm ? vm.imageLeft() + vm.left() + vm.borderOffset() : 0;
+//        };
+//
+//        $scope.calcImageTop = function () {
+//          var vm = $scope.viewModel;
+//          return vm ? vm.imageTop() + vm.top() + vm.borderOffset() : 0;
+//        };
+//
+//        $scope.calcImageRotation = function () {
+//          var vm = $scope.viewModel;
+//          return vm ? vm.model.image.rotation + vm.model.rotation : 0;
+//        };
+//
+//        $scope.imageHeight = function () {
+//          if (!$scope.viewModel || !$scope.viewModel.model.image) {
+//            return 0;
+//          }
+//
+//          return $scope.viewModel.model.image.height;
+//        };
+//      }
 
-        $scope.calcImageTop = function () {
-          var vm = $scope.viewModel;
-          return vm ? vm.imageTop() + vm.top() + vm.borderOffset() : 0;
-        };
+      function getSelectionBox($element){
 
-        $scope.calcImageRotation = function () {
-          var vm = $scope.viewModel;
-          return vm ? vm.model.image.rotation + vm.model.rotation : 0;
-        };
-
-        $scope.imageHeight = function () {
-          if (!$scope.viewModel || !$scope.viewModel.model.image) {
-            return 0;
-          }
-
-          return $scope.viewModel.model.image.height;
+        return {
+          box: $element.find('g'),
+          corners: $element.find('circle.corner'),
+          rotator: $element.find('circle.rotator')
+//          imageBox: imageSelectionBox,
+//          imageCorners: imageHandles.corners,
+//          imageRotator: imageHandles.rotator
         };
       }
 
@@ -67,113 +80,113 @@
         };
       }
 
-      function drawSelectionBox(ngSvg) {
-        var transform = [
-          'translate({{viewModel.left()}},{{viewModel.top()}})',
-          'rotate({{viewModel.model.rotation}},{{viewModel.midPointX()}},{{viewModel.midPointY()}})'
-        ];
+//      function drawSelectionBox(ngSvg) {
+//        var transform = [
+//          'translate({{viewModel.left()}},{{viewModel.top()}})',
+//          'rotate({{viewModel.model.rotation}},{{viewModel.midPointX()}},{{viewModel.midPointY()}})'
+//        ];
+//
+//        var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup, {
+//          transform: transform.join(', '),
+//          'ng-show': 'viewModel && !viewModel.showPreviewImage',
+//          class: 'noTextWrap'
+//        });
+//
+//        ngSvg.svg.path(selectionBox, '', {
+//          'ng-attr-d': 'M0,0L{{viewModel.width()}},0L{{viewModel.width()}},{{viewModel.height()}}L0,{{viewModel.height()}}z',
+//          fill: 'none',
+//          fillOpacity: '0.3',
+//          'stroke-dasharray': '5,5',
+//          stroke: '#0096fd',
+//          strokeWidth: 2,
+//          class: 'noTextWrap'
+//        });
+//
+//        return selectionBox;
+//      }
 
-        var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup, {
-          transform: transform.join(', '),
-          'ng-show': 'viewModel && !viewModel.showPreviewImage',
-          class: 'noTextWrap'
-        });
-
-        ngSvg.svg.path(selectionBox, '', {
-          'ng-attr-d': 'M0,0L{{viewModel.width()}},0L{{viewModel.width()}},{{viewModel.height()}}L0,{{viewModel.height()}}z',
-          fill: 'none',
-          fillOpacity: '0.3',
-          'stroke-dasharray': '5,5',
-          stroke: '#0096fd',
-          strokeWidth: 2,
-          class: 'noTextWrap'
-        });
-
-        return selectionBox;
-      }
-
-      function drawImageSelectionBox(ngSvg) {
-        var transform = [
-          'translate({{calcImageLeft()}},{{calcImageTop()}})',
-          'rotate({{calcImageRotation()}},{{viewModel.imageMidPointX()}},{{viewModel.imageMidPointY()}})'
-        ];
-
-        var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup, {
-          transform: transform.join(', '),
-          'ng-show': 'viewModel.showPreviewImage',
-          class: 'noTextWrap'
-        });
-
-        var imageSelectionPath = [
-          'M0,0',
-          'L{{viewModel.imageWidth()}},0',
-          'L{{viewModel.imageWidth()}},{{viewModel.imageHeight()}}',
-          'L0,{{viewModel.imageHeight()}}',
-          'z'
-        ];
-
-        ngSvg.svg.path(selectionBox, '', {
-          'ng-attr-d': imageSelectionPath.join(''),
-          fill: 'none',
-          fillOpacity: '0.3',
-          'stroke-dasharray': '5,5',
-          stroke: '#0096fd',
-          strokeWidth: 2,
-          class: 'noTextWrap'
-        });
-
-        return selectionBox;
-      }
-
-      function drawSelectionCorners(svg, selectionBox) {
-        var defaultCircleSettings = {
-          class_: 'corner noTextWrap',
-          fill: '#0096fd',
-          'stroke-width': 1,
-          stroke: 'white'
-        };
-
-        var cornerNW = svg.circle(selectionBox, 0, 0, 5, _.extend({
-          'data-cornerid': 'cornerNW',
-          transform: 'translate(0,0)'
-        }, defaultCircleSettings));
-
-        var cornerNE = svg.circle(selectionBox, 0, 0, 5, _.extend({
-          'data-cornerid': 'cornerNE',
-          transform: 'translate({{viewModel.width()}},0)'
-        }, defaultCircleSettings));
-
-        var cornerSE = svg.circle(selectionBox, 0, 0, 5, _.extend({
-          'data-cornerid': 'cornerSE',
-          transform: 'translate({{viewModel.width()}},{{viewModel.height()}})'
-        }, defaultCircleSettings));
-
-        var cornerSW = svg.circle(selectionBox, 0, 0, 5, _.extend({
-          'data-cornerid': 'cornerSW',
-          transform: 'translate(0,{{viewModel.height()}})'
-        }, defaultCircleSettings));
-
-        svg.line(selectionBox, 0, 0, 0, (-1 * rotatorLineLength), {
-          stroke: '#0096fd',
-          strokeWidth: 3,
-          transform: 'translate({{viewModel.midPointX()}},0)',
-          class: 'noTextWrap'
-        });
-
-        var rotator = svg.circle(selectionBox, 0, 0, 5, _.extend({
-          'data-cornerid': 'rotator',
-          class_: 'rotator noTextWrap',
-          fill: '#FFFFFF',
-          stroke: '#0096fd',
-          strokeWidth: 1,
-          transform: 'translate({{viewModel.midPointX()}},-20)'
-        }, defaultCircleSettings));
-
-        return {
-          corners: angular.element([cornerNW, cornerNE, cornerSE, cornerSW]),
-          rotator: angular.element(rotator)
-        };
-      }
+//      function drawImageSelectionBox(ngSvg) {
+//        var transform = [
+//          'translate({{calcImageLeft()}},{{calcImageTop()}})',
+//          'rotate({{calcImageRotation()}},{{viewModel.imageMidPointX()}},{{viewModel.imageMidPointY()}})'
+//        ];
+//
+//        var selectionBox = ngSvg.svg.group(ngSvg.selectionGroup, {
+//          transform: transform.join(', '),
+//          'ng-show': 'viewModel.showPreviewImage',
+//          class: 'noTextWrap'
+//        });
+//
+//        var imageSelectionPath = [
+//          'M0,0',
+//          'L{{viewModel.imageWidth()}},0',
+//          'L{{viewModel.imageWidth()}},{{viewModel.imageHeight()}}',
+//          'L0,{{viewModel.imageHeight()}}',
+//          'z'
+//        ];
+//
+//        ngSvg.svg.path(selectionBox, '', {
+//          'ng-attr-d': imageSelectionPath.join(''),
+//          fill: 'none',
+//          fillOpacity: '0.3',
+//          'stroke-dasharray': '5,5',
+//          stroke: '#0096fd',
+//          strokeWidth: 2,
+//          class: 'noTextWrap'
+//        });
+//
+//        return selectionBox;
+//      }
+//
+//      function drawSelectionCorners(svg, selectionBox) {
+//        var defaultCircleSettings = {
+//          class_: 'corner noTextWrap',
+//          fill: '#0096fd',
+//          'stroke-width': 1,
+//          stroke: 'white'
+//        };
+//
+//        var cornerNW = svg.circle(selectionBox, 0, 0, 5, _.extend({
+//          'data-cornerid': 'cornerNW',
+//          transform: 'translate(0,0)'
+//        }, defaultCircleSettings));
+//
+//        var cornerNE = svg.circle(selectionBox, 0, 0, 5, _.extend({
+//          'data-cornerid': 'cornerNE',
+//          transform: 'translate({{viewModel.width()}},0)'
+//        }, defaultCircleSettings));
+//
+//        var cornerSE = svg.circle(selectionBox, 0, 0, 5, _.extend({
+//          'data-cornerid': 'cornerSE',
+//          transform: 'translate({{viewModel.width()}},{{viewModel.height()}})'
+//        }, defaultCircleSettings));
+//
+//        var cornerSW = svg.circle(selectionBox, 0, 0, 5, _.extend({
+//          'data-cornerid': 'cornerSW',
+//          transform: 'translate(0,{{viewModel.height()}})'
+//        }, defaultCircleSettings));
+//
+//        svg.line(selectionBox, 0, 0, 0, (-1 * rotatorLineLength), {
+//          stroke: '#0096fd',
+//          strokeWidth: 3,
+//          transform: 'translate({{viewModel.midPointX()}},0)',
+//          class: 'noTextWrap'
+//        });
+//
+//        var rotator = svg.circle(selectionBox, 0, 0, 5, _.extend({
+//          'data-cornerid': 'rotator',
+//          class_: 'rotator noTextWrap',
+//          fill: '#FFFFFF',
+//          stroke: '#0096fd',
+//          strokeWidth: 1,
+//          transform: 'translate({{viewModel.midPointX()}},-20)'
+//        }, defaultCircleSettings));
+//
+//        return {
+//          corners: angular.element([cornerNW, cornerNE, cornerSE, cornerSW]),
+//          rotator: angular.element(rotator)
+//        };
+//      }
 
       function drawImageSelectionCorners(svg, selectionBox) {
         var defaultCircleSettings = {
@@ -243,15 +256,15 @@
           start: draggableStart,
           drag: function (event, ui) {
 
-            var angle = $scope.viewModel.model.rotation,
+            var angle = $scope.selectedShape.model.rotation,
               parentGroup = rotator.parent()[0];
 
             var drag = getDragOffset(event);
             var pt = convertScreenToElementCoordinates(parentGroup, drag, svg);
 
             // ref point is height/2, -20
-            var cx = $scope.viewModel.width() / 2;
-            var cy = $scope.viewModel.height() / 2;
+            var cx = $scope.selectedShape.width() / 2;
+            var cy = $scope.selectedShape.height() / 2;
 
             var newAngle = getAngle({x: pt.x, y: pt.y},
               {x: cx, y: -20},
@@ -264,13 +277,13 @@
             }
 
             $scope.$apply(function () {
-              $scope.viewModel.isResizing = true;
-              $scope.viewModel.model.rotation = angle;
+              $scope.selectedShape.isResizing = true;
+              $scope.selectedShape.model.rotation = angle;
             });
           },
           stop: function () {
             $scope.$apply(function () {
-              $scope.viewModel.isResizing = false;
+              $scope.selectedShape.isResizing = false;
             });
           }
         });
@@ -281,15 +294,15 @@
           start: draggableStart,
           drag: function (event, ui) {
 
-            var angle = $scope.viewModel.model.image.rotation,
+            var angle = $scope.selectedShape.model.image.rotation,
               parentGroup = rotator.parent()[0];
 
             var drag = getDragOffset(event);
             var pt = convertScreenToElementCoordinates(parentGroup, drag, svg);
 
             // ref point is height/2, -20
-            var cx = $scope.viewModel.imageWidth() / 2;
-            var cy = $scope.viewModel.imageHeight() / 2;
+            var cx = $scope.selectedShape.imageWidth() / 2;
+            var cy = $scope.selectedShape.imageHeight() / 2;
 
             var newAngle = getAngle({x: pt.x, y: pt.y},
               {x: cx, y: -20},
@@ -302,13 +315,13 @@
             }
 
             $scope.$apply(function () {
-              $scope.viewModel.isResizing = true;
-              $scope.viewModel.model.image.rotation = angle;
+              $scope.selectedShape.isResizing = true;
+              $scope.selectedShape.model.image.rotation = angle;
             });
           },
           stop: function () {
             $scope.$apply(function () {
-              $scope.viewModel.isResizing = false;
+              $scope.selectedShape.isResizing = false;
             });
           }
         });
@@ -353,14 +366,14 @@
           drag: function (event, ui) {
 
             var draggedCorner = $(this);
-            var viewModel = $scope.viewModel;
-            var rawElement = $scope.viewModel.svgElement;
+            var viewModel = $scope.selectedShape;
+            var rawElement = $scope.selectedShape.svgElement;
             var selectionBoxGroup = draggedCorner.parent()[0];
             var baselineOrigin = convertBaselineToSVG(selectionBoxGroup);
             var drag = getDragOffset(event);
-            var currentDimensions = {width: $scope.viewModel.width(), height: $scope.viewModel.height()};
+            var currentDimensions = {width: $scope.selectedShape.width(), height: $scope.selectedShape.height()};
             var newDim = getNewShapeLocationAndDimensions(svg, draggedCorner, drag, currentDimensions);
-            var borderWidth = $scope.viewModel.model.borderWidth;
+            var borderWidth = $scope.selectedShape.model.borderWidth;
 
             $scope.$apply(function () {
               viewModel.width(newDim.width - viewModel.borderOffset());
@@ -371,7 +384,7 @@
             var translation = getTranslation(rawElement, conversion.deltaX, conversion.deltaY, true);
             var scaleX = (newDim.width) / (currentDimensions.width);
             var scaleY = (newDim.height) / (currentDimensions.height);
-            var shapePath = $scope.viewModel.svgElementPath;
+            var shapePath = $scope.selectedShape.svgElementPath;
             var newShapePath = rescaleElement(shapePath, scaleX, scaleY);
 
             $scope.$apply(function () {
@@ -391,7 +404,7 @@
           },
           stop: function () {
             $scope.$apply(function () {
-              $scope.viewModel.isResizing = false;
+              $scope.selectedShape.isResizing = false;
             });
           }
         });
@@ -460,7 +473,7 @@
           drag: function (event, ui) {
 
             var draggedCorner = $(this);
-            var vm = $scope.viewModel;
+            var vm = $scope.selectedShape;
             var drag = getDragOffset(event);
             var currentDimensions = {width: vm.imageWidth(), height: vm.imageHeight()};
             var newDim = getNewShapeLocationAndDimensions(svg, draggedCorner, drag, currentDimensions);
@@ -474,7 +487,7 @@
           },
           stop: function () {
             $scope.$apply(function () {
-              $scope.viewModel.isResizing = false;
+              $scope.selectedShape.isResizing = false;
             });
           }
         });

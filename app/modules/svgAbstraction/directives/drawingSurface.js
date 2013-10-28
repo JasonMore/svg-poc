@@ -2,10 +2,10 @@
   angular.module('svgAbstraction.directives')
     .directive('drawingSurface', function ($compile, pathService, uuidService, shapePaths) {
       return {
-        restrict: 'E',
+//        restrict: 'E',
         require: '^ngSvg',
         scope: {
-          active: '=',
+//          active: '=',
           whenDone: '&',
           shape: '='
         },
@@ -15,11 +15,11 @@
         link: function drawingSurfaceLink($scope, element, attr, ngSvgController) {
           var ngSvg = ngSvgController;
 
-          var surfaceGroup = drawSurface(ngSvg);
+//          var surfaceGroup = drawSurface(ngSvg);
+//
+//          $compile(surfaceGroup)($scope);
 
-          $compile(surfaceGroup)($scope);
-
-          setupDrawMouseBindings(surfaceGroup, $scope, ngSvg);
+          setupDrawMouseBindings(element, $scope, ngSvg);
         }
       };
 
