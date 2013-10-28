@@ -1,6 +1,6 @@
 (function () {
   angular.module('svgAbstraction.directives')
-    .directive('draggable', function ($compile) {
+    .directive('ngSvgDraggable', function ($compile) {
       return {
         restrict: 'A',
         require: '^ngSvg',
@@ -8,10 +8,10 @@
 //          var self = this;
           var ngSvg = ngSvgController;
 
-          $scope.$watch('draggable', function (isDraggable) {
+          $scope.$watch(attr.ngSvgDraggable, function (isDraggable) {
             if (isDraggable) {
-              var parentGroup = element.data('parentGroup');
-              $(parentGroup).draggable(options);
+//              var parentGroup = element.data('parentGroup');
+              element.draggable(options);
             }
           });
 

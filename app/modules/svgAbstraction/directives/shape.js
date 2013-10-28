@@ -1,7 +1,7 @@
 (function () {
   // wrap jquery svg draw methods which produce errors with angular
   angular.module('svgAbstraction.directives')
-    .directive('ngShape', function ($compile, $timeout, pathService) {
+    .directive('ngSvgShape', function ($compile, $timeout, pathService) {
       return {
 //        restrict: 'E',
         require: '^ngSvg',

@@ -13,8 +13,9 @@
   </clipPath>
 </defs>
 <g class="shapes">
-  <g ng-repeat="viewModel in shapes"
-     ng-shape
+  <g ng-repeat="viewModel in shapes | objectOrderBy:'model.order'"
+     ng-svg-shape
+     ng-svg-draggable = "$parent.canDragShape(shape)"
      transform="translate({{viewModel.model.left}},{{viewModel.model.top}}), rotate({{viewModel.model.rotation}},{{viewModel.midPointX()}},{{viewModel.midPointY()}})">
     <!--shape-->
     <use
@@ -104,6 +105,7 @@
         stroke="#0096fd"
         stroke-width="2"
         class="noTextWrap"></path>
+    <!--corners-->
     <circle cx="0"
             cy="0"
             r="5"
@@ -144,6 +146,7 @@
             stroke-width="1"
             stroke="white"
             style="position: relative;"></circle>
+    <!--rotator-->
     <line x1="0"
           y1="0"
           x2="0"
@@ -182,10 +185,6 @@
   <!--data-cornerid="rotator" transform="translate(,-20)" style="position: relative;"></circle>-->
   <!--</g>-->
 </g>
-<!--active="isDrawing()"-->
-<!--shape="shapeType()"-->
-<!--model="shapes"-->
-
 <g class="drawing">
   <g drawing-surface
      when-done="shapeDrawn(shape);"

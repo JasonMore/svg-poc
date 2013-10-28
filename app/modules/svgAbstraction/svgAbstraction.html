@@ -154,21 +154,6 @@
 </div>
 
 
-<!--<ng-svg style="height: 600px" click="unSelectShape()" on-esc="unSelectShape()">-->
-<!--<clip-path model="clip"-->
-<!--ng-repeat="clip in clips"></clip-path>-->
-<!--<ng-shape view-model="shape"-->
-<!--draggable="canDragShape(shape)"-->
-<!--when-click="setSelectedShape(shape)"-->
-<!--ng-repeat="shape in shapes"-->
-<!--></ng-shape>-->
-<!--<selection-box view-model="selectedShape"></selection-box>-->
-<!--<drawing-surface active="isDrawing()"-->
-<!--shape="shapeType()"-->
-<!--model="shapes"-->
-<!--when-done="shapeDrawn(shape);"></drawing-surface>-->
-<!--</ng-svg>-->
-
 <ng-include src="'modules/svgAbstraction/svgCanvas.html'"></ng-include>
 
 <shape-text-editor text-value="selectedShape.model.text"
