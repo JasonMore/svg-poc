@@ -78,6 +78,7 @@
 
         for (var property in $scope.shapes) {
           if (_.contains(idsToRemove, property)) {
+//            shiftShapesDown($scope.shapes[property].model.order);
             delete $scope.shapes[property];
           }
         }
@@ -136,7 +137,6 @@
 
       $scope.deleteShape = function () {
         liveShapes.del($scope.selectedShape.model.id);
-//        $scope.shapes.remove($scope.selectedShape);
         $scope.unSelectShape();
       };
 
@@ -193,10 +193,12 @@
         // offset new shape
         $scope.copiedShapeModel.top += 25;
         $scope.copiedShapeModel.left += 25;
+        $scope.copiedShapeModel.order = nextOrderNumber();
 
         liveShapes.add($scope.copiedShapeModel);
         $scope.setSelectedShape($scope.copiedShapeModel);
-        $scope.copyCurrentShape();
+//        $scope.copyCurrentShape();
+        $scope.copiedShapeModel = null;
       };
 
       // computed
@@ -278,36 +280,52 @@
       });
 
       // shape ordering
-      function nextOrderNumber(){
+      function nextOrderNumber() {
         return _.keys($scope.shapes).length;
       }
 
+      $scope.canMoveUp = function (shape) {
+        var newOrderSpot = shape.model.order + 1;
+        return newOrderSpot !== nextOrderNumber();
+      };
+
+      $scope.canMoveDown = function (shape) {
+        var newOrderSpot = shape.model.order - 1;
+        return newOrderSpot !== -1;
+      };
+
       $scope.moveUp = function (shape) {
+        if (!$scope.canMoveUp(shape)) return;
+
         var newOrderSpot = shape.model.order + 1;
 
-        // at end already
-        if (newOrderSpot === nextOrderNumber()) return;
-
-        _($scope.shapes)
-          .where(function (shape) {
-            return shape.model.order >= newOrderSpot;
-          })
-          .each(function (shape) {
-            shape.model.order -= 1;
-          });
+        shiftShapesDown(newOrderSpot);
 
         shape.model.order = newOrderSpot;
       };
 
-      $scope.moveDown = function(shape){
+      function shiftShapesDown(afterOrderSpot){
+        _($scope.shapes)
+          .where(function (shape) {
+            return shape.model.order >= afterOrderSpot;
+          })
+          .each(function (shape) {
+            shape.model.order -= 1;
+          });
+      }
+
+      $scope.moveDown = function (shape) {
+        if (!$scope.canMoveDown(shape)) return;
+
         var newOrderSpot = shape.model.order - 1;
 
-        // at end already
-        if(newOrderSpot === -1) return;
-
         _($scope.shapes)
-          .where(function(shape){return shape.model.order <= newOrderSpot;})
-          .each(function(shape){ shape.model.order += 1; });
+          .where(function (shape) {
+            return shape.model.order <= newOrderSpot;
+          })
+          .each(function (shape) {
+            shape.model.order += 1;
+          });
 
         shape.model.order = newOrderSpot;
       };
