@@ -21,7 +21,7 @@
     <use
         ng-href="{{'#' + viewModel.model.id}}"
         xlink:href="{{'#' + viewModel.model.id}}"
-        fill="gray"
+        fill="{{viewModel.model.backgroundColor}}"
         ng-mousedown="setSelectedShape(viewModel)"
         ng-dblclick="viewModel.isEditingText = true"
         class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}"></use>
@@ -99,7 +99,7 @@
      ng-show="selectedShape && !selectedShape.showPreviewImage"
      class="selection noTextWrap">
     <path
-        ng-attr-d="M0,0L{{selectedShape.width()}},0L{{selectedShape.width()}},{{selectedShape.height()}}L0,{{selectedShape.height()}}z"
+        ng-attr-d="M0,0L{{selectedShape ? selectedShape.width() : 0}},0L{{selectedShape ? selectedShape.width() : 0}},{{selectedShape ? selectedShape.height() : 0}}L0,{{selectedShape.height()}}z"
         fill="none"
         fill-opacity="0.3"
         stroke-dasharray="5,5"
