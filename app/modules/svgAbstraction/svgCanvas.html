@@ -89,6 +89,7 @@
           ng-dblclick="viewModel.isEditingText = true"
           ng-style="{cursor:'default'}"
           class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}"
+          ng-bind="viewModel.model.text"
           style="cursor: default;"></text>
   </g>
 </g>
