@@ -5,12 +5,10 @@
         restrict: 'A',
         require: '^ngSvg',
         link: function ($scope, element, attr, ngSvgController) {
-//          var self = this;
           var ngSvg = ngSvgController;
 
           $scope.$watch(attr.ngSvgDraggable, function (isDraggable) {
             if (isDraggable) {
-//              var parentGroup = element.data('parentGroup');
               element.draggable(options);
             }
           });
