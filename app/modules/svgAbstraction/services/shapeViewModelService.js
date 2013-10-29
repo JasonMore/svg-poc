@@ -121,12 +121,28 @@
           return this.hasImage() ? this.model.image.height : 0;
         },
 
+        imageRotation: function() {
+          return this.hasImage() ? this.model.image.rotation + this.model.rotation : 0;
+        },
+
         imageMidPointX: function () {
           return this.hasImage() ? this.imageWidth() / 2 : 0;
         },
 
         imageMidPointY: function () {
           return this.hasImage() ? this.imageHeight() / 2 : 0;
+        },
+
+        imageOutlineLeft: function(){
+          return this.hasImage() ? this.imageLeft() + this.left() + this.borderOffset(): 0;
+        },
+
+        imageOutlineTop: function(){
+          return this.hasImage() ? this.imageTop() + this.top() + this.borderOffset(): 0;
+        },
+
+        imageOutlineRotation: function(){
+          return this.hasImage() ? this.model.image.rotation + this.model.rotation: 0;
         },
 
         makeUrlRef: function (key) {

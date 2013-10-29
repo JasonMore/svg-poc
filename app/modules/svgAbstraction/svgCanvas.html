@@ -15,7 +15,7 @@
 <g class="shapes">
   <g ng-repeat="viewModel in shapes | objectOrderBy:'model.order'"
      ng-svg-shape
-     ng-svg-draggable = "$parent.canDragShape(shape)"
+     ng-svg-draggable="$parent.canDragShape(shape)"
      transform="translate({{viewModel.model.left}},{{viewModel.model.top}}), rotate({{viewModel.model.rotation}},{{viewModel.midPointX()}},{{viewModel.midPointY()}})">
     <!--shape-->
     <use
@@ -96,7 +96,7 @@
 <g selection-box class="selection">
   <g transform="translate({{selectedShape.left()}},{{selectedShape.top()}}), rotate({{selectedShape.model.rotation}},{{selectedShape.midPointX()}},{{selectedShape.midPointY()}})"
      ng-show="selectedShape && !selectedShape.showPreviewImage"
-     class="noTextWrap">
+     class="selection noTextWrap">
     <path
         ng-attr-d="M0,0L{{selectedShape.width()}},0L{{selectedShape.width()}},{{selectedShape.height()}}L0,{{selectedShape.height()}}z"
         fill="none"
@@ -166,24 +166,70 @@
             transform="translate({{selectedShape.midPointX()}},-20)"
         ></circle>
   </g>
-  <!--<g transform="translate(0,0), rotate(0,,)" ng-show="viewModel.showPreviewImage" class="noTextWrap"-->
-  <!--style="display: none;">-->
-  <!--<path-->
-  <!--ng-attr-d="M0,0L{{viewModel.imageWidth()}},0L{{viewModel.imageWidth()}},{{viewModel.imageHeight()}}L0,{{viewModel.imageHeight()}}z"-->
-  <!--fill="none" fill-opacity="0.3" stroke-dasharray="5,5" stroke="#0096fd" stroke-width="2" class="noTextWrap"-->
-  <!--d="M0,0L,0L,L0,z"></path>-->
-  <!--<circle cx="0" cy="0" r="5" class="corner" fill="#0096fd" stroke-width="1" stroke="white" data-cornerid="cornerNW"-->
-  <!--transform="translate(0,0)" style="position: relative;"></circle>-->
-  <!--<circle cx="0" cy="0" r="5" class="corner" fill="#0096fd" stroke-width="1" stroke="white" data-cornerid="cornerNE"-->
-  <!--transform="translate(,0)" style="position: relative;"></circle>-->
-  <!--<circle cx="0" cy="0" r="5" class="corner" fill="#0096fd" stroke-width="1" stroke="white" data-cornerid="cornerSE"-->
-  <!--transform="translate(,)" style="position: relative;"></circle>-->
-  <!--<circle cx="0" cy="0" r="5" class="corner" fill="#0096fd" stroke-width="1" stroke="white" data-cornerid="cornerSW"-->
-  <!--transform="translate(0,)" style="position: relative;"></circle>-->
-  <!--<line x1="0" y1="0" x2="0" y2="-20" stroke="#0096fd" stroke-width="3" transform="translate(,0)"></line>-->
-  <!--<circle cx="0" cy="0" r="5" class="rotator" fill="#FFFFFF" stroke-width="1" stroke="#0096fd"-->
-  <!--data-cornerid="rotator" transform="translate(,-20)" style="position: relative;"></circle>-->
-  <!--</g>-->
+  <g transform="translate({{selectedShape.imageOutlineLeft()}},{{selectedShape.imageOutlineTop()}}), rotate({{selectedShape.imageOutlineRotation()}},{{selectedShape.imageMidPointX()}},{{selectedShape.imageMidPointY()}})"
+     ng-show="selectedShape.showPreviewImage"
+     class="imageSelection noTextWrap">
+    <path
+        ng-attr-d="M0,0L{{selectedShape.imageWidth()}},0L{{selectedShape.imageWidth()}},{{selectedShape.imageHeight()}}L0,{{selectedShape.imageHeight()}}z"
+        fill="none"
+        fill-opacity="0.3"
+        stroke-dasharray="5,5"
+        stroke="#0096fd"
+        stroke-width="2"
+        class="noTextWrap"></path>
+    <circle cx="0"
+            cy="0"
+            r="5"
+            class="corner"
+            fill="#0096fd"
+            stroke-width="1"
+            stroke="white"
+            data-cornerid="cornerNW"
+            transform="translate(0,0)" ></circle>
+    <circle cx="0"
+            cy="0"
+            r="5"
+            class="corner"
+            fill="#0096fd"
+            stroke-width="1"
+            stroke="white"
+            data-cornerid="cornerNE"
+            transform="translate({{selectedShape.imageWidth()}},0)"></circle>
+    <circle cx="0"
+            cy="0"
+            r="5"
+            class="corner"
+            fill="#0096fd"
+            stroke-width="1"
+            stroke="white"
+            data-cornerid="cornerSE"
+            transform="translate({{selectedShape.imageWidth()}},{{selectedShape.imageHeight()}})"></circle>
+    <circle cx="0"
+            cy="0"
+            r="5"
+            class="corner"
+            fill="#0096fd"
+            stroke-width="1"
+            stroke="white"
+            data-cornerid="cornerSW"
+            transform="translate(0,{{selectedShape.imageHeight()}})"></circle>
+    <line x1="0"
+          y1="0"
+          x2="0"
+          y2="-20"
+          stroke="#0096fd"
+          stroke-width="3"
+          transform="translate({{selectedShape.imageMidPointX()}},0)"></line>
+    <circle cx="0"
+            cy="0"
+            r="5"
+            class="rotator"
+            fill="#FFFFFF"
+            stroke-width="1"
+            stroke="#0096fd"
+            data-cornerid="rotator"
+            transform="translate({{selectedShape.imageMidPointX()}},-20)" ></circle>
+  </g>
 </g>
 <g class="drawing">
   <g drawing-surface

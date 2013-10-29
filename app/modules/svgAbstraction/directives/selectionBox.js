@@ -11,18 +11,20 @@
 
           attachResizeBindings(selection.corners, $scope, ngSvg.svg);
           attachRotateBindings(selection.rotator, $scope, ngSvg.svg);
+          attachImageResizeBindings(selection.imageCorners, $scope, ngSvg.svg);
+          attachImageRotateBindings(selection.imageRotator, $scope, ngSvg.svg);
         }
       };
 
-      function getSelectionBox($element){
+      function getSelectionBox($element) {
 
         return {
-          box: $element.find('g'),
-          corners: $element.find('circle.corner'),
-          rotator: $element.find('circle.rotator')
-//          imageBox: imageSelectionBox,
-//          imageCorners: imageHandles.corners,
-//          imageRotator: imageHandles.rotator
+          box: $element.find('g.selection'),
+          corners: $element.find('g.selection circle.corner'),
+          rotator: $element.find('g.selection circle.rotator'),
+          imageBox: $element.find('g.imageSelection'),
+          imageCorners: $element.find('g.imageSelection circle.corner'),
+          imageRotator: $element.find('g.imageSelection circle.rotator')
         };
       }
 
