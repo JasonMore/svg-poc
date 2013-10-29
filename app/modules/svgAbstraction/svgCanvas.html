@@ -99,7 +99,7 @@
      ng-show="selectedShape && !selectedShape.showPreviewImage"
      class="selection noTextWrap">
     <path
-        ng-attr-d="M0,0L{{selectedShape ? selectedShape.width() : 0}},0L{{selectedShape ? selectedShape.width() : 0}},{{selectedShape ? selectedShape.height() : 0}}L0,{{selectedShape.height()}}z"
+        ng-attr-d="M0,0L{{selectedShape ? selectedShape.width() : 0}},0L{{selectedShape ? selectedShape.width() : 0}},{{selectedShape ? selectedShape.height() : 0}}L0,{{selectedShape ? selectedShape.height() : 0}}z"
         fill="none"
         fill-opacity="0.3"
         stroke-dasharray="5,5"
@@ -171,7 +171,7 @@
      ng-show="selectedShape.showPreviewImage"
      class="imageSelection noTextWrap">
     <path
-        ng-attr-d="M0,0L{{selectedShape.imageWidth()}},0L{{selectedShape.imageWidth()}},{{selectedShape.imageHeight()}}L0,{{selectedShape.imageHeight()}}z"
+        ng-attr-d="M0,0L{{selectedShape ? selectedShape.imageWidth() : 0}},0L{{selectedShape ? selectedShape.imageWidth() : 0}},{{selectedShape ? selectedShape.imageHeight() : 0}}L0,{{selectedShape ? selectedShape.imageHeight() : 0}}z"
         fill="none"
         fill-opacity="0.3"
         stroke-dasharray="5,5"
