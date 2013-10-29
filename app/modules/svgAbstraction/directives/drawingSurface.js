@@ -2,10 +2,8 @@
   angular.module('svgAbstraction.directives')
     .directive('drawingSurface', function ($compile, pathService, uuidService, shapePaths) {
       return {
-        restrict: 'E',
         require: '^ngSvg',
         scope: {
-          active: '=',
           whenDone: '&',
           shape: '='
         },
@@ -15,39 +13,9 @@
         link: function drawingSurfaceLink($scope, element, attr, ngSvgController) {
           var ngSvg = ngSvgController;
 
-          var surfaceGroup = drawSurface(ngSvg);
-
-          $compile(surfaceGroup)($scope);
-
-          setupDrawMouseBindings(surfaceGroup, $scope, ngSvg);
+          setupDrawMouseBindings(element, $scope, ngSvg);
         }
       };
-
-      function drawSurface(ngSvg) {
-        var drawingSurfaceGroup = ngSvg.svg.group(ngSvg.drawingGroup, {
-          'ng-show': 'active'
-        });
-
-        // drawSurface
-        ngSvg.svg.rect(drawingSurfaceGroup, 0, 0, '100%', '100%', {
-          fill: 'white',
-          'fill-opacity': 0
-        });
-
-        // mouse drag outline
-        ngSvg.svg.rect(drawingSurfaceGroup, 0, 0, 0, 0, {
-          fill: 'none',
-          stroke: '#0096fd',
-          strokeWidth: 2,
-          'stroke-dasharray': '5,5',
-          'ng-attr-x': '{{x}}',
-          'ng-attr-y': '{{y}}',
-          'ng-attr-width': '{{width}}',
-          'ng-attr-height': '{{height}}'
-        });
-
-        return angular.element(drawingSurfaceGroup);
-      }
 
       function resetSelectionBox($scope) {
         $scope.x = 0;
@@ -104,6 +72,8 @@
           var newShape = {
             top: $scope.y,
             left: $scope.x,
+            width: $scope.width,
+            height: $scope.height,
             rotation: 0,
             path: path,
             backgroundColor: 'gray',

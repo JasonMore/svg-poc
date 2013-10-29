@@ -59,7 +59,7 @@
      style="position: absolute;"
     >
 
-  <menu-aim class="dropdown-menu" style="display:block;">
+  <menu-aim class="dropdown-menu" style="display:block; height:150px">
     <submenu-aim>
       <title-aim>Background</title-aim>
       <content-aim class="popover">
@@ -154,20 +154,7 @@
 </div>
 
 
-<ng-svg style="height: 600px" click="unSelectShape()" on-esc="unSelectShape()">
-  <clip-path model="clip"
-             ng-repeat="clip in clips"></clip-path>
-  <ng-shape view-model="shape"
-            draggable="canDragShape(shape)"
-            when-click="setSelectedShape(shape)"
-            ng-repeat="shape in shapes"
-      ></ng-shape>
-  <selection-box view-model="selectedShape"></selection-box>
-  <drawing-surface active="isDrawing()"
-                   shape="shapeType()"
-                   model="shapes"
-                   when-done="shapeDrawn(shape);"></drawing-surface>
-</ng-svg>
+<ng-include src="'modules/svgAbstraction/svgCanvas.html'"></ng-include>
 
 <shape-text-editor text-value="selectedShape.model.text"
                       is-editing="selectedShape.isEditingText"
@@ -185,5 +172,5 @@
     <input type="text" class="input-small" ng-model="debugThrottle">
     <input type="range" min="0" max="1000" step="25" ng-model="debugThrottle">
   </label>
-  <pre>{{ template.shapes | json }}</pre>
+  <!--<pre>{{ template.shapes | json }}</pre>-->
 </div>

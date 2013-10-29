@@ -21,6 +21,11 @@
           $scope.setValue = function(selectedOption) {
             $scope.selection = selectedOption;
           };
+
+          $scope.optionName = function(option) {
+            return ' ' + option.name;
+          }
+
         }
       }
     })
