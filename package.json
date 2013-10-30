@@ -11,10 +11,10 @@
     "ejs": "0.8.3",
     "underscore": "1.4.4",
     "mongoskin": "0.5.0",
-    "racer": "~0.5.10",
-    "livedb-mongo": "~0.2.4",
+    "racer": "~0.5.11",
+    "livedb-mongo": "~0.2.5",
     "racer-browserchannel": "~0.1.1",
-    "redis": "~0.8.4"
+    "redis": "~0.8.6"
   },
   "devDependencies": {
     "supervisor": "*",
