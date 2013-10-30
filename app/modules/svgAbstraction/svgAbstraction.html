@@ -164,13 +164,3 @@
                       left="{{selectedShape.left() || 0}}"
                       width="{{selectedShape.width() || 0}}"
                       height="{{selectedShape.width() || 0}}"></shape-text-editor>
-
-<a style="color:lightgrey" ng-href="" ng-click="debug = !debug">debug</a>
-<div ng-show="debug">
-  <label>
-    Live Update Throttle -
-    <input type="text" class="input-small" ng-model="debugThrottle">
-    <input type="range" min="0" max="1000" step="25" ng-model="debugThrottle">
-  </label>
-  <!--<pre>{{ template.shapes | json }}</pre>-->
-</div>
