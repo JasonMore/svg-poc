@@ -52,8 +52,12 @@ if (process.env.REDIS_HOST) {
 } else if (process.env.REDISCLOUD_URL) {
   var redisUrl = require('url').parse(process.env.REDISCLOUD_URL);
   var redis = require('redis').createClient(redisUrl.port, redisUrl.hostname);
-  console.log(redis)
-  redis.auth(redisUrl.auth.split(":")[1]);
+//  console.log(redis);
+  var password = redisUrl.auth.split(":")[1];
+  console.log(password);
+  console.log(process.env.REDISCLOUD_URL);
+  console.log(redisUrl);
+  redis.auth(password);
 } else {
   var redis = require('redis').createClient();
 }
