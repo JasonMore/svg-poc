@@ -213,8 +213,6 @@
             var drag = getDragOffset(event);
             var currentDimensions = {width: $scope.selectedShape.width(), height: $scope.selectedShape.height()};
             var newDim = getNewShapeLocationAndDimensions(svg, draggedCorner, drag, currentDimensions);
-            console.log(newDim);
-            var borderWidth = $scope.selectedShape.model.borderWidth;
 
             $scope.$apply(function () {
               viewModel.width(newDim.width - viewModel.borderOffset());
@@ -225,6 +223,9 @@
             var translation = getTranslation(rawElement, conversion.deltaX, conversion.deltaY, true);
             var scaleX = (newDim.width) / (currentDimensions.width);
             var scaleY = (newDim.height) / (currentDimensions.height);
+
+            console.log(scaleY, newDim);
+
             var shapePath = $scope.selectedShape.svgElementPath;
             var newShapePath = rescaleElement(shapePath, scaleX, scaleY);
 
@@ -363,12 +364,12 @@
 
         if(width < 10){
           width = 10;
-          deltaY = 0;
+          deltaX = 0;
         }
 
         if(height < 10){
           height = 10;
-          deltaX = 0;
+          deltaY = 0;
         }
 
         return {
