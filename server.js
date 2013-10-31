@@ -57,7 +57,7 @@ if (process.env.REDIS_HOST) {
 //  console.log(password);
 //  console.log(process.env.REDISCLOUD_URL);
 //  console.log(redisUrl);
-//  redis.auth(password);
+  redis.auth(password);
   console.log('authed redis')
 } else {
   var redis = require('redis').createClient();
