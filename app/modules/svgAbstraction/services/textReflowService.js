@@ -15,13 +15,13 @@
         }  
         
         // check hit test against all items in container
-        var localHitTestItems = angular.element(shape.svgElement).find('g, use, image');
+        var localHitTestItems = angular.element(shape.svgElementShapeGroup).find('g, use, image');
         var pageHitTestItems = angular.element(shape.svg._svg).find('.noTextWrap');
         var itemsToHitCheck = angular.element.merge(localHitTestItems, pageHitTestItems);
         angular.element.merge(itemsToHitCheck, domElements)
 
         var svgText = shape.svgText;
-        var container = shape.svgElement;
+        var container = shape.svgElementShapeGroup;
 
         // get the next sibling. We'll be removing the text node, and this keeps
         // track of where to put it back.

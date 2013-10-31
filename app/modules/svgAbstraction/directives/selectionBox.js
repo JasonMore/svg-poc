@@ -207,12 +207,13 @@
 
             var draggedCorner = $(this);
             var viewModel = $scope.selectedShape;
-            var rawElement = $scope.selectedShape.svgElement;
+            var rawElement = $scope.selectedShape.svgElementParentGroup;
             var selectionBoxGroup = draggedCorner.parent()[0];
             var baselineOrigin = convertBaselineToSVG(selectionBoxGroup);
             var drag = getDragOffset(event);
             var currentDimensions = {width: $scope.selectedShape.width(), height: $scope.selectedShape.height()};
             var newDim = getNewShapeLocationAndDimensions(svg, draggedCorner, drag, currentDimensions);
+            console.log(newDim);
             var borderWidth = $scope.selectedShape.model.borderWidth;
 
             $scope.$apply(function () {
@@ -358,6 +359,16 @@
           deltaX = -pt.x;
           width = width - pt.x;
           height = pt.y;
+        }
+
+        if(width < 10){
+          width = 10;
+          deltaY = 0;
+        }
+
+        if(height < 10){
+          height = 10;
+          deltaX = 0;
         }
 
         return {
