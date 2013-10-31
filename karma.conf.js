@@ -10,9 +10,9 @@ module.exports = function(karma) {
     // frameworks to use
     frameworks: ['jasmine'],
 
-//    preprocessors : {
-//      'app/modules/**/*.js': 'coverage'
-//    },
+    preprocessors : {
+      '**/*.html': ['ng-html2js']
+    },
 
 //    plugins: ['ng-html2js'],
 
@@ -36,9 +36,12 @@ module.exports = function(karma) {
 
       // app code
       'app/modules/**/*.js',
+      'app/modules/**/*.html',
 
       // app tests
-      'test/unit/**/*.js'
+      'test/unit/**/*.js',
+      '*.html'
+
 //      'test/unit/**/*.html'
     ],
 

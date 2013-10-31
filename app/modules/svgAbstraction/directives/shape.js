@@ -10,7 +10,7 @@
           $timeout(function() {
             $scope.viewModel.svg = ngSvg.svg;
             $scope.viewModel.svgElementPath = angular.element('#' + $scope.viewModel.id())[0];
-            $scope.viewModel.svgElement = element[0];
+            $scope.viewModel.svgElement = element.find('g.shape')[0];
             $scope.viewModel.svgText = element.find('text')[0];
           })
 

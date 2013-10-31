@@ -5,17 +5,28 @@ describe('draggableSpec.js', function () {
 //    scope,
 //    timeout;
 //
-  beforeEach(module('svgAbstraction'));
+//  beforeEach(module('svgAbstraction'));
 //
-  beforeEach(inject(function ($rootScope, $compile, $timeout) {
-    timeout = $timeout;
+  beforeEach(inject(function ($rootScope, $compile, $timeout, $templateCache) {
+    debugger;
 
-    act = function () {
-      element = angular.element(htmlToRender);
-      scope = $rootScope;
-      $compile(element)(scope);
-    };
+//    timeout = $timeout;
+//
+//    act = function () {
+//      element = angular.element(htmlToRender);
+//      scope = $rootScope;
+//      $compile(element)(scope);
+//    };
   }));
+
+  describe('test', function() {
+    it('does foo', function() {
+      debugger;
+
+    })
+
+  });
+
 //
 //  describe('when shape is draggable', function () {
 //    beforeEach(function () {

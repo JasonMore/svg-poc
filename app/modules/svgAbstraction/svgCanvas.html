@@ -18,65 +18,67 @@
      ng-svg-draggable="$parent.canDragShape(shape)"
      transform="translate({{viewModel.model.left}},{{viewModel.model.top}}), rotate({{viewModel.model.rotation}},{{viewModel.midPointX()}},{{viewModel.midPointY()}})">
     <!--shape-->
-    <use
-        ng-href="{{'#' + viewModel.model.id}}"
-        xlink:href="{{'#' + viewModel.model.id}}"
-        fill="{{viewModel.model.backgroundColor}}"
-        ng-mousedown="setSelectedShape(viewModel)"
-        ng-dblclick="viewModel.isEditingText = true"
-        class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}"></use>
-    <!--image mask-->
-    <mask id="{{viewModel.model.id + '_previewImageMask'}}"
-          ng-attr-x="{{viewModel.imageLeft()}}"
-          ng-attr-y="{{viewModel.imageTop()}}"
-          ng-attr-width="{{viewModel.imageWidth()}}"
-          ng-attr-height="{{viewModel.imageHeight()}}"
-          preserveAspectRatio="none"
-          class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}">
-      <!--image preview mask rect-->
-      <rect fill="white"
-            opacity=".4"
+    <g class="shape">
+      <use
+          ng-href="{{'#' + viewModel.model.id}}"
+          xlink:href="{{'#' + viewModel.model.id}}"
+          fill="{{viewModel.model.backgroundColor}}"
+          ng-mousedown="setSelectedShape(viewModel)"
+          ng-dblclick="viewModel.isEditingText = true"
+          class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}"></use>
+      <!--image mask-->
+      <mask id="{{viewModel.model.id + '_previewImageMask'}}"
             ng-attr-x="{{viewModel.imageLeft()}}"
             ng-attr-y="{{viewModel.imageTop()}}"
             ng-attr-width="{{viewModel.imageWidth()}}"
             ng-attr-height="{{viewModel.imageHeight()}}"
             preserveAspectRatio="none"
-            class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}"></rect>
-    </mask>
-    <!--image clipped by shape-->
-    <g clip-path="url({{'#' + viewModel.model.id + '_clipPath'}})">
+            class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}">
+        <!--image preview mask rect-->
+        <rect fill="white"
+              opacity=".4"
+              ng-attr-x="{{viewModel.imageLeft()}}"
+              ng-attr-y="{{viewModel.imageTop()}}"
+              ng-attr-width="{{viewModel.imageWidth()}}"
+              ng-attr-height="{{viewModel.imageHeight()}}"
+              preserveAspectRatio="none"
+              class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}"></rect>
+      </mask>
+      <!--image clipped by shape-->
+      <g clip-path="url({{'#' + viewModel.model.id + '_clipPath'}})">
+        <image xlink:href="{{viewModel.model.image.url}}"
+               ng-mousedown="setSelectedShape(viewModel)"
+               ng-dblclick="viewModel.isEditingText = true"
+               transform="rotate(0,0,0)"
+               ng-show="viewModel.model.image.url"
+               ng-attr-x="{{viewModel.imageLeft()}}"
+               ng-attr-y="{{viewModel.imageTop()}}"
+               ng-attr-width="{{viewModel.imageWidth()}}"
+               ng-attr-height="{{viewModel.imageHeight()}}"
+               preserveAspectRatio="none"
+               class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}"></image>
+      </g>
+      <!-- full image -->
       <image xlink:href="{{viewModel.model.image.url}}"
-             ng-mousedown="setSelectedShape(viewModel)"
-             ng-dblclick="viewModel.isEditingText = true"
+             ng-attr-mask="url({{viewModel.urlRef('previewImageMask')}})"
              transform="rotate(0,0,0)"
-             ng-show="viewModel.model.image.url"
+             ng-show="viewModel.showPreviewImage"
              ng-attr-x="{{viewModel.imageLeft()}}"
              ng-attr-y="{{viewModel.imageTop()}}"
              ng-attr-width="{{viewModel.imageWidth()}}"
              ng-attr-height="{{viewModel.imageHeight()}}"
              preserveAspectRatio="none"
-             class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}"></image>
+             class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}"
+             mask="url({{'#' + viewModel.model.id + '_previewImageMask'}})"></image>
+      <!--shape outline-->
+      <use xlink:href="{{'#' + viewModel.model.id}}"
+           fill="none"
+           stroke="black"
+           stroke-width="2"
+           ng-mousedown="setSelectedShape(viewModel)"
+           ng-dblclick="viewModel.isEditingText = true"
+           class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}"></use>
     </g>
-    <!-- full image -->
-    <image xlink:href="{{viewModel.model.image.url}}"
-           ng-attr-mask="url({{viewModel.urlRef('previewImageMask')}})"
-           transform="rotate(0,0,0)"
-           ng-show="viewModel.showPreviewImage"
-           ng-attr-x="{{viewModel.imageLeft()}}"
-           ng-attr-y="{{viewModel.imageTop()}}"
-           ng-attr-width="{{viewModel.imageWidth()}}"
-           ng-attr-height="{{viewModel.imageHeight()}}"
-           preserveAspectRatio="none"
-           class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}"
-           mask="url({{'#' + viewModel.model.id + '_previewImageMask'}})"></image>
-    <!--shape outline-->
-    <use xlink:href="{{'#' + viewModel.model.id}}"
-         fill="none"
-         stroke="black"
-         stroke-width="2"
-         ng-mousedown="setSelectedShape(viewModel)"
-         ng-dblclick="viewModel.isEditingText = true"
-         class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}"></use>
     <!--shape text-->
     <text x=""
           y=""
@@ -186,7 +188,7 @@
             stroke-width="1"
             stroke="white"
             data-cornerid="cornerNW"
-            transform="translate(0,0)" ></circle>
+            transform="translate(0,0)"></circle>
     <circle cx="0"
             cy="0"
             r="5"
@@ -229,7 +231,7 @@
             stroke-width="1"
             stroke="#0096fd"
             data-cornerid="rotator"
-            transform="translate({{selectedShape.imageMidPointX()}},-20)" ></circle>
+            transform="translate({{selectedShape.imageMidPointX()}},-20)"></circle>
   </g>
 </g>
 <g class="drawing">
