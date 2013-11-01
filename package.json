@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
-    "startDev": "supervisor server.js"
+    "startDev": "supervisor server.js -w server.js,server server.js"
   },
   "dependencies": {
     "express": "3.1.0",

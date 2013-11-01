@@ -39,8 +39,8 @@ module.exports = function(karma) {
       'app/modules/**/*.html',
 
       // app tests
-      'test/unit/**/*.js',
-      '*.html'
+      'test/unit/**/*.js'
+//      '*.html'
 
 //      'test/unit/**/*.html'
     ],

@@ -7,6 +7,10 @@ describe('draggableSpec.js', function () {
 //
 //  beforeEach(module('svgAbstraction'));
 //
+
+  //load templates
+  beforeEach(module('/base/app/modules/svgAbstraction/svgCanvas.html'));
+
   beforeEach(inject(function ($rootScope, $compile, $timeout, $templateCache) {
     debugger;
 
