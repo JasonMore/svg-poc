@@ -1,5 +1,5 @@
-module(function ($provide) {
-  $provide.service('liveResource', function ($delegate) {
+//module(function ($provide) {
+//  $provide.service('liveResource', function ($delegate) {
     function mockLiveResourceService(path){
       // racer functions
       this.add = function (newModel) {
@@ -68,8 +68,8 @@ module(function ($provide) {
 //      };
     }
 
-    return function(path){
+window.liveResourceMock =  function(path){
       return new mockLiveResourceService(path);
     }
-  });
-});
+//  });
+//});
