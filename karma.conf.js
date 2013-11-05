@@ -33,6 +33,7 @@ module.exports = function(karma) {
 
       // testing libraries
       'http://code.angularjs.org/1.1.5/angular-mocks.js',
+      'test/_mocks/**/*.js',
 
       // app code
       'app/modules/**/*.js',
@@ -44,6 +45,24 @@ module.exports = function(karma) {
 
 //      'test/unit/**/*.html'
     ],
+
+
+
+    ngHtml2JsPreprocessor: {
+    // strip this from the file path
+    stripPrefix: 'app/',
+      // prepend this to the
+//      prependPrefix: 'served/',
+
+      // or define a custom transform function
+//      cacheIdFromPath: function (filepath) {
+//        return cacheId;
+//      },
+
+    // setting this option will create only a single module that contains templates
+    // from all the files, so you can load them all with module('foo')
+    moduleName: 'preloadAllHtmlTemplates'
+  },
 
 
     // list of files to exclude

@@ -1,27 +1,59 @@
 (function () {
-  angular.module('svgAbstraction.services').service('textReflowService', function () {
+  angular.module('svgAbstraction.services').service('textReflowService', function() {
 
+    function resetVisibility(elt) {
+      if (elt.nodeType != 1) {
+        return;
+      }
 
-    this.recalculateAllText = function (shapes) {
-      if(_.isEmpty(shapes)) return;
+      var visibility = elt.getAttributeNS(null, 'prevVisibility');
+      _.each(elt.childNodes, function(childNode) {
+        resetVisibility(childNode);
+      });
+
+      if (visibility === "visible") {
+        elt.setAttributeNS(null, 'visibility', 'visible');
+      }
+      elt.removeAttributeNS(null, 'prevVisibility');
+    }
+
+    this.recalculateAllText = function(shapes) {
+      if (_.isEmpty(shapes)) return;
 
       var svg;
 
       var domElements = angular.element('span, a, ul, li, label, i, div, button, input');
 
-      _.each(shapes, function (shape) {
-        if(!svg){
-           svg = shape.svg;
-        }  
-        
+      _.each(shapes, function(shape) {
+        if (!svg) {
+          svg = shape.svg;
+        }
+
         // check hit test against all items in container
         var localHitTestItems = angular.element(shape.svgElementShapeGroup).find('g, use, image');
-        var pageHitTestItems = angular.element(shape.svg._svg).find('.noTextWrap');
+        // var pageHitTestItems = angular.element(shape.svg._svg).find('.noTextWrap');
+        pageHitTestItems = angular.element('svg .noTextWrap');
         var itemsToHitCheck = angular.element.merge(localHitTestItems, pageHitTestItems);
         angular.element.merge(itemsToHitCheck, domElements)
 
+
+        _.each(itemsToHitCheck, function(hitCheckItem) {
+
+          if (!hitCheckItem.hasAttributeNS(null, 'prevVisibility')) {
+            var visibility = hitCheckItem.getAttributeNS(null, 'visibility');
+            if (visibility === "") {
+              visibility = 'visible';
+            }
+            hitCheckItem.setAttributeNS(null, 'prevVisibility', visibility);
+            hitCheckItem.setAttributeNS(null, 'visibility', 'hidden');
+          }
+        });
+
         var svgText = shape.svgText;
         var container = shape.svgElementShapeGroup;
+
+        resetVisibility(container);
+        //container.setAttributeNS(null, 'visibility', 'visible');
 
         // get the next sibling. We'll be removing the text node, and this keeps
         // track of where to put it back.
@@ -59,7 +91,12 @@
           var c = textContent.substring(i, i + 1);
 
           if (currentWord == null) {
-            currentWord = {x: r.x, checkPoints: [0], height: r.height, chars: []};
+            currentWord = {
+              x: r.x,
+              checkPoints: [0],
+              height: r.height,
+              chars: []
+            };
           } else if (currentWord.height < r.height) {
             currentWord.height = r.height
           }
@@ -73,7 +110,10 @@
 
           // Push the bounding rectable of the character onto the array
           //currentWord.charRect.push(r);
-          currentWord.chars.push({c: c, x: r.x - currentWord.x});
+          currentWord.chars.push({
+            c: c,
+            x: r.x - currentWord.x
+          });
 
           // If the character is a space, this indicates a new word is following
           if (c == " ") {
@@ -118,7 +158,7 @@
           currentWord.x = xPos;
           currentWord.y = yPos;
           // Does the word fit?
-          while (!checkWordFits(svg, container, itemsToHitCheck, margin, currentWord)) {
+          while (!checkWordFits(svg, container, itemsToHitCheck, margin, currentWord, bbox)) {
 
             // This may be too low, or create a
             // better heuristic check like a binary search such as
@@ -165,6 +205,11 @@
         } else {
           svgG.insertBefore(svgText, nextSibling);
         }
+
+        _.each(itemsToHitCheck, function(hitCheckItem) {
+          resetVisibility(hitCheckItem);
+        });
+
       })
 
 
@@ -175,10 +220,10 @@
     //isn't perfect, since there could be shapes that do not cover
     //any of the 4 corners, but still block the letter. However, the rectangles
     //are fairly small, and checking all the points isn't efficient.
-    function checkWordFits(svg, container, itemsToHitCheck, margin, currentWord) {
+    function checkWordFits(svg, container, itemsToHitCheck, margin, currentWord, bbox) {
       var matrix = container.getScreenCTM();
 
-//        var svg = $('#svgDiv').svg('get').root();
+      //        var svg = $('#svgDiv').svg('get').root();
       svg = svg.root();
 
       var yVals = [currentWord.y - margin + 1, currentWord.y + currentWord.height + margin - 1];
@@ -218,7 +263,19 @@
           // If the hit is null, then the points are off the screen
           // If the hit doesn't match the container, the container
           // is not on top.
-          if (hit == null || !_.contains(itemsToHitCheck, hit)) {
+          //if (hit == null || !_.contains(itemsToHitCheck, hit)) {
+          //console.log('hit', hit, container);
+          //console.dir(hit);
+          if (hit === null) {
+            return false;
+          }
+
+
+          while (hit !== null && container.nodeName != hit.nodeName) {
+            hit = hit.parentNode;
+          }
+
+          if (hit === null || hit != container) {
             //var pt3 = pt1.matrixTransform(matrix2);
             //$('#svgDiv').svg('get').circle(pt3.x, pt3.y, 1, {id: 'circle2', class: 'svgdrag', fillOpacity: 0.9, fill: 'white', stroke: 'red', strokeWidth: 2});
             return false;

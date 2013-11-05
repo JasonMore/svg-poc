@@ -1,31 +1,31 @@
 describe('draggableSpec.js', function () {
-//  var htmlToRender,
-//    act,
-//    element,
-//    scope,
-//    timeout;
-//
-//  beforeEach(module('svgAbstraction'));
-//
 
-  //load templates
-  beforeEach(module('/base/app/modules/svgAbstraction/svgCanvas.html'));
+  var element,
+    scope;
 
-  beforeEach(inject(function ($rootScope, $compile, $timeout, $templateCache) {
+  beforeEach(module('preloadAllHtmlTemplates'));
+  beforeEach(module(function($provide){
     debugger;
+    $provide.service('liveResource', window.liveResourceMock);
+  }));
+  beforeEach(module('svgAbstraction'));
+//  beforeEach(window.useMock('service','liveResource'));
 
-//    timeout = $timeout;
-//
-//    act = function () {
-//      element = angular.element(htmlToRender);
-//      scope = $rootScope;
-//      $compile(element)(scope);
-//    };
+
+
+  beforeEach(inject(function ($rootScope, $compile, $provide, $timeout, $templateCache) {
+//    window.useMock('service', 'liveResource')
+
+
+    element = angular.element('<ng-include src="\'modules/svgAbstraction/svgCanvas.html\'"></ng-include>');
+    scope = $rootScope;
+
+    $compile(element)(scope);
   }));
 
-  describe('test', function() {
-    it('does foo', function() {
-      debugger;
+  describe('test', function () {
+    it('does foo', function () {
+      console.log(element)
 
     })
 
