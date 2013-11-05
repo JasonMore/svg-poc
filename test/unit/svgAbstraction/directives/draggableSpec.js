@@ -4,16 +4,10 @@ describe('draggableSpec.js', function () {
     scope;
 
   beforeEach(module('preloadAllHtmlTemplates'));
-  beforeEach(module(function($provide){
-    debugger;
-    $provide.service('liveResource', window.liveResourceMock);
-  }));
+  beforeEach(module('liveResource'));
   beforeEach(module('svgAbstraction'));
-//  beforeEach(window.useMock('service','liveResource'));
 
-
-
-  beforeEach(inject(function ($rootScope, $compile, $provide, $timeout, $templateCache) {
+  beforeEach(inject(function ($rootScope, $compile, $timeout, $templateCache) {
 //    window.useMock('service', 'liveResource')
 
 

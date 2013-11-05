@@ -169,7 +169,7 @@
         $scope.selectedShape = null;
 
         // HACK
-//        updateAllTextReflows();
+        updateAllTextReflows();
       };
 
       $scope.shapeDrawn = function (shape) {
