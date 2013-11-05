@@ -34,7 +34,7 @@
               },
               drag: function (event, ui) {
                 var parentGroup = this;
-                var delta = getTranslatedDragDeltas(parentGroup);
+                var delta = getTranslatedDragDeltas(parentGroup, event);
 
                 $scope.$apply(function () {
                   $scope.viewModel.isDragging = true;
@@ -58,7 +58,7 @@
             };
 
           // convert screen to element coordinates
-          function getTranslatedDragDeltas(draggedElement) {
+          function getTranslatedDragDeltas(draggedElement, event) {
             var pt = draggedElement.ownerSVGElement.createSVGPoint();
             pt.x = event.pageX;
             pt.y = event.pageY;

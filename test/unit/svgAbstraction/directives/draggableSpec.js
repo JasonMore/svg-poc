@@ -1,128 +1,138 @@
 describe('draggableSpec.js', function () {
 
   var element,
-    scope;
+    scope,
+    vmService;
 
   beforeEach(module('preloadAllHtmlTemplates'));
   beforeEach(module('liveResource'));
   beforeEach(module('svgAbstraction'));
 
-  beforeEach(inject(function ($rootScope, $compile, $timeout, $templateCache) {
-//    window.useMock('service', 'liveResource')
-
-
+  beforeEach(inject(function ($rootScope, $compile, shapeViewModelService) {
+    vmService = shapeViewModelService;
     element = angular.element('<ng-include src="\'modules/svgAbstraction/svgCanvas.html\'"></ng-include>');
     scope = $rootScope;
-
     $compile(element)(scope);
   }));
 
-  describe('test', function () {
-    it('does foo', function () {
-      console.log(element)
+  describe('when shape is draggable', function () {
+    beforeEach(function () {
 
-    })
+      scope.canDragShape = function(shape){
+        return true;
+      }
 
+      var model = {
+        top: 0,
+        left: 0,
+        path: 'M0,0L100,0L100,100L0,100z',
+        "width": 216,
+        "height": 190,
+        "rotation": 0,
+        "backgroundColor": "gray",
+        "borderColor": "black",
+        "borderWidth": 2,
+        "image": {
+          "url": null,
+          "top": 0,
+          "left": 0,
+          "width": 0,
+          "height": 0,
+          "rotation": 0
+        },
+        "id": "abc123",
+        "order": 2,
+        "text": "",
+        "font": "Verdana",
+        "fontSize": "12.0",
+        "fontColor": "black",
+        "wrapTextAround": true
+      }
+
+      scope.shapes = {
+        "abc123": vmService.create(function () {
+          return 0;
+        }, function () {
+          return model;
+        })};
+
+      scope.$digest();
+
+      var mouseDown = $.Event('mousedown', {
+        which: 1,
+        pageX: 50,
+        pageY: 50
+      });
+
+      var mousemove = $.Event("mousemove.draggable", {
+        pageX: 60,
+        pageY: 60
+      });
+
+      var mouseup = $.Event("mouseup.draggable", {
+        pageX: 60,
+        pageY: 60
+      });
+
+
+
+      var parentGroup = element.find('g[ng-svg-shape]');
+      parentGroup.trigger(mouseDown);
+
+      $(document).trigger(mousemove);
+      $(document).trigger(mouseup);
+      $(document).trigger($.Event("mouseup"));
+    });
+
+    it('moves shape top', function () {
+      expect(scope.shapes['abc123'].model.top).toEqual(10);
+    });
+
+    it('moves shape left', function () {
+      expect(scope.shapes['abc123'].model.left).toEqual(10);
+    });
   });
 
-//
-//  describe('when shape is draggable', function () {
-//    beforeEach(function () {
-//      htmlToRender =
-//        '<ng-svg style="height: 600px">' +
-//          '<ng-shape view-model="shape"' +
-//          ' draggable="true"' +
-//          ' when-click="setSelectedShape(shape)"' +
-//          ' ng-repeat="shape in shapes"'+
-//          '></ng-shape>' +
-//          '</ng-svg>';
-//
-//      act();
-//
-//      scope.shapes = [{model:{
-//        top:0,
-//        left:0,
-//        rotation: 0,
-//        path:'M0,0L100,0L100,100L0,100z',
-//        backgroundColor:'green',
-//        borderColor:'blue',
-//        borderWidth:12
-//      }}];
-//
-//      scope.$digest();
-//      timeout.flush();
-//
-//      var mouseDown = $.Event('mousedown', {
-//        which:1,
-//        pageX:50,
-//        pageY:50
-//      });
-//
-//      var mousemove = $.Event("mousemove.draggable", {
-//        pageX:60,
-//        pageY:60
-//      });
-//
-//      var mouseup = $.Event("mouseup.draggable", {
-//        pageX:60,
-//        pageY:60
-//      });
-//
-//      var parentGroup = element.find('g');
-//      parentGroup.trigger(mouseDown);
-//
-//      $(document).trigger(mousemove);
-//      $(document).trigger(mouseup);
-//      $(document).trigger($.Event("mouseup"));
-//    });
-//
-//    it('moves shape top', function () {
-//      expect(scope.shapes[0].model.top).toEqual(10);
-//    });
-//
-//    it('moves shape left', function () {
-//      expect(scope.shapes[0].model.left).toEqual(10);
-//    });
-//  });
-//
 //  beforeEach(function () {
 //    htmlToRender =
 //      '<ng-svg style="height: 600px">' +
 //        '<ng-shape view-model="shape"' +
 //        ' draggable="false"' +
 //        ' when-click="setSelectedShape(shape)"' +
-//        ' ng-repeat="shape in shapes"'+
+//        ' ng-repeat="shape in shapes"' +
 //        '></ng-shape>' +
 //        '</ng-svg>';
 //
 //    act();
 //
-//    scope.shapes = [{model:{
-//      top:0,
-//      left:0,
-//      rotation: 0,
-//      path:'M0,0L100,0L100,100L0,100z',
-//      backgroundColor:'green',
-//      borderColor:'blue',
-//      borderWidth:12
-//    }}];
+//    scope.shapes = [
+//      {model: {
+//        top: 0,
+//        left: 0,
+//        rotation: 0,
+//        path: 'M0,0L100,0L100,100L0,100z',
+//        backgroundColor: 'green',
+//        borderColor: 'blue',
+//        borderWidth: 12
+//      }}
+//    ];
 //
 //    scope.$digest();
 //
 //    var mouseDown = $.Event('mousedown', {
-//      which:1,
-//      pageX:50,
-//      pageY:50
+//      which: 1,
+//      pageX: 50,
+//      pageY: 50
 //    });
 //
 //    var mousemove = $.Event("mousemove.draggable", {
-//      pageX:60,
-//      pageY:60
+//      pageX: 60,
+//      pageY: 60
 //    });
 //
 //    var mouseup = $.Event("mouseup.draggable", {
-//      pageX:60,
-//      pageY:60
+//      pageX: 60,
+//      pageY: 60
 //    });
 //
 //    var parentGroup = element.find('g');
