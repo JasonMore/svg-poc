@@ -19,10 +19,10 @@ module.exports = function(karma) {
     // list of files / patterns to load in the browser
     files: [
       // -- add libraries here as they are added to index.html
-      'http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js',
-      'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js',
-      'http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js',
-      'http://cdnjs.cloudflare.com/ajax/libs/lodash.js/1.3.1/lodash.min.js',
+      'http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.js',
+      'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.js',
+      'http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.js',
+      'http://cdnjs.cloudflare.com/ajax/libs/lodash.js/1.3.1/lodash.js',
       'app/lib/jquery.menu-aim.js',
       'app/lib/jquery.svg.js',
       'http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.1.5/angular.js',

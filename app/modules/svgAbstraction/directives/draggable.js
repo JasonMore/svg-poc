@@ -10,6 +10,8 @@
           $scope.$watch(attr.ngSvgDraggable, function (isDraggable) {
             if (isDraggable) {
               element.draggable(options);
+            } else if(element.data('ui-draggable')){
+              element.draggable('destroy');
             }
           });
 
