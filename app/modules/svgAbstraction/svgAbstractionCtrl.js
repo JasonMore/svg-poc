@@ -270,7 +270,7 @@
       });
 
       kDown.whenDown('backspace', function (e) {
-        console.log(e)
+//        console.log(e)
         if (!$scope.selectedShape) return;
 
         $scope.$apply(function () {

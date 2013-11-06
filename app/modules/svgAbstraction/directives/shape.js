@@ -7,12 +7,13 @@
         link: function ($scope, element, attr, ngSvgController) {
           var ngSvg = ngSvgController;
 
-          $timeout(function() {
+          $timeout(function () {
             $scope.viewModel.svg = ngSvg.svg;
-            $scope.viewModel.svgElementPath = angular.element('#' + $scope.viewModel.id())[0];
             $scope.viewModel.svgElementShapeGroup = element.find('g.shape')[0];
             $scope.viewModel.svgElementParentGroup = element[0];
             $scope.viewModel.svgText = element.find('text')[0];
+            $scope.viewModel.svgElementPath = angular.element(ngSvg.svg._svg)
+              .find('#' + $scope.viewModel.id())[0];
           })
 
           $scope.$watch('viewModel.model.image.url', function (url, oldVal) {

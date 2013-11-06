@@ -224,7 +224,7 @@
             var scaleX = (newDim.width) / (currentDimensions.width);
             var scaleY = (newDim.height) / (currentDimensions.height);
 
-            console.log(scaleY, newDim);
+//            console.log(scaleY, newDim);
 
             var shapePath = $scope.selectedShape.svgElementPath;
             var newShapePath = rescaleElement(shapePath, scaleX, scaleY);
