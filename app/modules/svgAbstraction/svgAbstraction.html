@@ -44,14 +44,13 @@
     </div>
     <div>
       <a class="btn"
+         style="line-height: 36px;"
          ng-class="{disabled: !copiedShapeModel}"
          ng-disabled="dataMode"
          ng-click="pasteCopiedShape()"
          tooltip-placement="bottom"
          tooltip="Paste (cmd + v)">
-        <svg style="height:31px; width:31px">
-          <path ng-attr-d="{{shapeKeyValues['paintBrush']}}"></path>
-        </svg>
+        <img class="toolbar-icon" src="img/paste.png">
       </a>
     </div>
     <div>
