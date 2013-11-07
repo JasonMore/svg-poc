@@ -1,7 +1,8 @@
 <div>
   <h1 ng-show="!editTemplateName" ng-click="editTemplateName = true">{{template.name}}</h1>
+
   <div ng-show="editTemplateName" class="input-append">
-    <input type="text" ng-show="editTemplateName" ng-model="template.name" >
+    <input type="text" ng-show="editTemplateName" ng-model="template.name">
     <button class="btn" type="button" ng-click="editTemplateName = false">Done</button>
   </div>
 </div>
@@ -11,6 +12,7 @@
     <div class="dropdown">
       <a class="btn dropdown-toggle"
          ng-class="{active: shapeToDraw}"
+         ng-disabled="dataMode"
          tooltip-placement="bottom"
          tooltip="Draw a Shape">
         <svg style="height:31px; width:31px">
@@ -33,6 +35,7 @@
       <a class="btn"
          style="line-height: 36px;"
          ng-class="{active: !shapeToDraw}"
+         ng-disabled="dataMode"
          ng-click="shapeToDraw = null"
          tooltip-placement="bottom"
          tooltip="Select">
@@ -42,11 +45,23 @@
     <div>
       <a class="btn"
          ng-class="{disabled: !copiedShapeModel}"
+         ng-disabled="dataMode"
          ng-click="pasteCopiedShape()"
          tooltip-placement="bottom"
          tooltip="Paste (cmd + v)">
         <svg style="height:31px; width:31px">
           <path ng-attr-d="{{shapeKeyValues['paintBrush']}}"></path>
+        </svg>
+      </a>
+    </div>
+    <div>
+      <a class="btn"
+         ng-disabled="dataMode"
+         ng-click="exportPdf()"
+         tooltip-placement="bottom"
+         tooltip="Export PDF">
+        <svg style="height:31px; width:31px">
+          <path ng-attr-d="{{shapeKeyValues['printer']}}"></path>
         </svg>
       </a>
     </div>
@@ -100,40 +115,33 @@
       </content-aim>
     </submenu-aim>
     <submenu-aim>
-    <title-aim>Text</title-aim>
-    <content-aim class="popover">
-      <shape-options name="Font"
-                     visible="selectedShape"
-                     options="fontFamilyOptions"
-                     selection="selectedShape.model.font"></shape-options>
-      <label>
-        Font Size - {{ selectedShape.model.fontSize }}pt
-      </label>
-      <button ng-click="fontSize(-1)">-</button>
-      <button ng-click="fontSize(1)">+</button>
-      <input type="range" ng-model="selectedShape.model.fontSize" min="5.0" max="100" step="1"/>
+      <title-aim>Text</title-aim>
+      <content-aim class="popover">
+        <shape-options name="Font"
+                       visible="selectedShape"
+                       options="fontFamilyOptions"
+                       selection="selectedShape.model.font"></shape-options>
+        <label>
+          Font Size - {{ selectedShape.model.fontSize }}pt
+        </label>
+        <button ng-click="fontSize(-1)">-</button>
+        <button ng-click="fontSize(1)">+</button>
+        <input type="range" ng-model="selectedShape.model.fontSize" min="5.0" max="100" step="1"/>
 
-      <shape-options name="Font Color"
-                     visible="selectedShape"
-                     options="colorOptions"
-                     selection="selectedShape.model.fontColor"></shape-options>
+        <shape-options name="Font Color"
+                       visible="selectedShape"
+                       options="colorOptions"
+                       selection="selectedShape.model.fontColor"></shape-options>
 
-    </content-aim>
-  </submenu-aim>
+      </content-aim>
+    </submenu-aim>
     <submenu-aim>
       <title-aim>Shape</title-aim>
       <content-aim class="popover">
         <label>
-          ID:
-          <input ng-model="selectedShape.model.id" readonly>
+          Template ID:
+          <input ng-model="selectedShape.model.templateId">
         </label>
-        <label>
-          Order:
-          <input ng-model="selectedShape.model.order" readonly>
-        </label>
-          <a ng-click="deleteShape()" class="btn btn-warning">
-            Click to Delete this shape
-          </a>
         <label>
           Text wraps around shape:
           <input type="checkbox" ng-model="selectedShape.model.wrapTextAround">
@@ -141,13 +149,29 @@
         <a ng-click="copyCurrentShape()" class="btn">
           Copy (cmd + c)
         </a>
+        <label>
+          Transparency:
+          <input type="range" ng-model="selectedShape.model.transparency" min="0" max="1" step="0.01">
+        </label>
+      </content-aim>
+    </submenu-aim>
+    <submenu-aim>
+      <title-aim>Order</title-aim>
+      <content-aim class="popover">
         <a ng-click="moveUp(selectedShape)" class="btn">
           Move Shape Up
         </a>
         <a ng-click="moveDown(selectedShape)" class="btn">
           Move Shape Down
         </a>
-
+      </content-aim>
+    </submenu-aim>
+    <submenu-aim>
+      <title-aim>Delete</title-aim>
+      <content-aim class="popover">
+        <a ng-click="deleteShape()" class="btn btn-warning">
+          Click to Delete this shape
+        </a>
       </content-aim>
     </submenu-aim>
   </menu-aim>
@@ -157,10 +181,53 @@
 <ng-include src="'modules/svgAbstraction/svgCanvas.html'"></ng-include>
 
 <shape-text-editor text-value="selectedShape.model.text"
-                      is-editing="selectedShape.isEditingText"
-                      font-family="selectedShape.model.fontFamily"
-                      font-size="selectedShape.model.fontSize"
-                      top="{{selectedShape.top() + 190 || 0}}"
-                      left="{{selectedShape.left() || 0}}"
-                      width="{{selectedShape.width() || 0}}"
-                      height="{{selectedShape.width() || 0}}"></shape-text-editor>
+                   is-editing="selectedShape.isEditingText"
+                   font-family="selectedShape.model.fontFamily"
+                   font-size="selectedShape.model.fontSize"
+                   top="{{selectedShape.top() + 190 || 0}}"
+                   left="{{selectedShape.left() || 0}}"
+                   width="{{selectedShape.width() || 0}}"
+                   height="{{selectedShape.width() || 0}}"></shape-text-editor>
+
+
+<div>
+  <label> <input type="checkbox" ng-model="dataMode"> Data Mode</label>
+  <textarea ng-show="dataMode" ng-model="templateData"></textarea>
+</div>
+
+
+<form id="export" style="display:none" target="_blank" action="http://23.21.206.118/V1/renderRequest" method="POST">
+
+       <input type="text" name="svgURI" size="50">
+
+      <input type="radio" name="fileType" value="JPG" />
+        <input type="radio" name="fileType" value="PNG" />
+        <input type="radio" name="fileType" value="PDF" checked="checked"/>
+        <input type="radio" name="fileType" value="CMYKPDF" />
+
+      width:
+      <input type="text" name="width">
+
+      height:
+      <input type="text" name="height">
+ 
+      jpegQuality:
+      <input type="text" name="jpegQuality">
+
+      language:
+      <input type="text" name="language">
+
+      millimetersPerPixel:
+      <input type="text" name="millimetersPerPixel">
+
+      initialBufferSize:
+      <input type="text" name="initialBufferSize">
+
+      svgFile: 
+        <textarea rows="20" cols="80" name="svgFile" ></textarea>
+
+      <input type="submit" value="Render Image">
+
+
+
+</form>
