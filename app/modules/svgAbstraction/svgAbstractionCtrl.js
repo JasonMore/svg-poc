@@ -130,6 +130,10 @@
 
             $scope.templatedShapes[model.templateId] = shapeViewModelService.create(nextOrderNumber(), getModelFn);
           });
+
+        if($scope.templateData){
+          applyTemplateDataToTemplateShapes();
+        }
       });
 
       $scope.$watch('templateData', function (data, oldData) {
@@ -137,16 +141,20 @@
         var templateData;
 
         try {
-          templateData = JSON.parse(data);
+          $scope.templateData = JSON.parse(data);
         }
         catch (e) {
           return;
         }
 
-        _(templateData).each(function (templateDataModel) {
+        applyTemplateDataToTemplateShapes();
+      })
+
+      function applyTemplateDataToTemplateShapes() {
+        _($scope.templateData).each(function (templateDataModel) {
           _.extend($scope.templatedShapes[templateDataModel.templateId].model, templateDataModel);
         })
-      })
+      }
 
       // actions
       $scope.setSelectedShape = function (shape) {
