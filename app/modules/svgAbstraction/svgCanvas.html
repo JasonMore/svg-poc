@@ -13,7 +13,7 @@
   </clipPath>
 </defs>
 <g class="shapes">
-  <g ng-repeat="viewModel in shapes | objectOrderBy:'model.order'"
+  <g ng-repeat="viewModel in computedShapes() | objectOrderBy:'model.order'"
      ng-svg-shape
      ng-svg-draggable="$parent.canDragShape(shape)"
      transform="translate({{viewModel.model.left}},{{viewModel.model.top}}), rotate({{viewModel.model.rotation}},{{viewModel.midPointX()}},{{viewModel.midPointY()}})">

@@ -109,9 +109,48 @@
         updateAllTextReflows();
       });
 
+      $scope.$watch('selectedShape.model.id', function (id) {
+        if (!$scope.selectedShape) return;
+        if ($scope.selectedShape.model.templateId) return;
+        $scope.selectedShape.model.templateId = id;
+      });
+
+      $scope.$watch('dataMode', function (isDataMode, oldValue) {
+        if (isDataMode === oldValue || !isDataMode) return;
+
+        var template = angular.copy($scope.template.shapes);
+        template = _.values(template);
+        $scope.templatedShapes = {};
+
+        _(template)
+          .each(function (model) {
+            function getModelFn() {
+              return model;
+            }
+
+            $scope.templatedShapes[model.templateId] = shapeViewModelService.create(nextOrderNumber(), getModelFn);
+          });
+      });
+
+      $scope.$watch('templateData', function (data, oldData) {
+        if (data === oldData) return;
+        var templateData;
+
+        try {
+          templateData = JSON.parse(data);
+        }
+        catch (e) {
+          return;
+        }
+
+        _(templateData).each(function (templateDataModel) {
+          _.extend($scope.templatedShapes[templateDataModel.templateId].model, templateDataModel);
+        })
+      })
+
       // actions
       $scope.setSelectedShape = function (shape) {
-        if ($scope.selectedShape === shape) {
+        if ($scope.selectedShape === shape || $scope.dataMode) {
           return;
         }
 
@@ -141,7 +180,7 @@
       };
 
       $scope.canDragShape = function (shape) {
-        return true;
+        return !$scope.dataMode;
       };
 
       $scope.drawShape = function (shape) {
@@ -190,6 +229,8 @@
       };
 
       $scope.pasteCopiedShape = function () {
+        if ($scope.dataMode) return;
+
         // offset new shape
         $scope.copiedShapeModel.top += 25;
         $scope.copiedShapeModel.left += 25;
@@ -202,6 +243,14 @@
       };
 
       // computed
+      $scope.computedShapes = function () {
+        if ($scope.dataMode) {
+          return $scope.templatedShapes;
+        }
+
+        return $scope.shapes;
+      }
+
       $scope.shapeType = function () {
         if ($scope.shapeToDraw) {
           return $scope.shapeToDraw.key;
@@ -269,15 +318,14 @@
         });
       });
 
-      kDown.whenDown('backspace', function (e) {
-//        console.log(e)
-        if (!$scope.selectedShape) return;
-
-        $scope.$apply(function () {
-          $scope.deleteShape();
-        });
-
-      });
+//      kDown.whenDown('backspace', function (e) {
+//        if (!$scope.selectedShape) return;
+//
+//        $scope.$apply(function () {
+//          $scope.deleteShape();
+//        });
+//
+//      });
 
       // shape ordering
       function nextOrderNumber() {
@@ -304,7 +352,7 @@
         shape.model.order = newOrderSpot;
       };
 
-      function shiftShapesDown(afterOrderSpot){
+      function shiftShapesDown(afterOrderSpot) {
         _($scope.shapes)
           .where(function (shape) {
             return shape.model.order >= afterOrderSpot;

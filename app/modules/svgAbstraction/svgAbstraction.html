@@ -11,6 +11,7 @@
     <div class="dropdown">
       <a class="btn dropdown-toggle"
          ng-class="{active: shapeToDraw}"
+         ng-disabled="dataMode"
          tooltip-placement="bottom"
          tooltip="Draw a Shape">
         <svg style="height:31px; width:31px">
@@ -33,6 +34,7 @@
       <a class="btn"
          style="line-height: 36px;"
          ng-class="{active: !shapeToDraw}"
+         ng-disabled="dataMode"
          ng-click="shapeToDraw = null"
          tooltip-placement="bottom"
          tooltip="Select">
@@ -42,6 +44,7 @@
     <div>
       <a class="btn"
          ng-class="{disabled: !copiedShapeModel}"
+         ng-disabled="dataMode"
          ng-click="pasteCopiedShape()"
          tooltip-placement="bottom"
          tooltip="Paste (cmd + v)">
@@ -128,6 +131,10 @@
           <input ng-model="selectedShape.model.id" readonly>
         </label>
         <label>
+          Template ID:
+          <input ng-model="selectedShape.model.templateId">
+        </label>
+        <label>
           Order:
           <input ng-model="selectedShape.model.order" readonly>
         </label>
@@ -164,3 +171,9 @@
                       left="{{selectedShape.left() || 0}}"
                       width="{{selectedShape.width() || 0}}"
                       height="{{selectedShape.width() || 0}}"></shape-text-editor>
+
+
+<div>
+  <label> <input type="checkbox" ng-model="dataMode"> Data Mode</label>
+  <textarea  ng-show="dataMode" ng-model="templateData"></textarea>
+</div>
