@@ -139,20 +139,9 @@
       <title-aim>Shape</title-aim>
       <content-aim class="popover">
         <label>
-          ID:
-          <input ng-model="selectedShape.model.id" readonly>
-        </label>
-        <label>
           Template ID:
           <input ng-model="selectedShape.model.templateId">
         </label>
-        <label>
-          Order:
-          <input ng-model="selectedShape.model.order" readonly>
-        </label>
-        <a ng-click="deleteShape()" class="btn btn-warning">
-          Click to Delete this shape
-        </a>
         <label>
           Text wraps around shape:
           <input type="checkbox" ng-model="selectedShape.model.wrapTextAround">
@@ -160,13 +149,29 @@
         <a ng-click="copyCurrentShape()" class="btn">
           Copy (cmd + c)
         </a>
+        <label>
+          Transparency:
+          <input type="range" ng-model="selectedShape.model.transparency" min="0" max="1" step="0.01">
+        </label>
+      </content-aim>
+    </submenu-aim>
+    <submenu-aim>
+      <title-aim>Order</title-aim>
+      <content-aim class="popover">
         <a ng-click="moveUp(selectedShape)" class="btn">
           Move Shape Up
         </a>
         <a ng-click="moveDown(selectedShape)" class="btn">
           Move Shape Down
         </a>
-
+      </content-aim>
+    </submenu-aim>
+    <submenu-aim>
+      <title-aim>Delete</title-aim>
+      <content-aim class="popover">
+        <a ng-click="deleteShape()" class="btn btn-warning">
+          Click to Delete this shape
+        </a>
       </content-aim>
     </submenu-aim>
   </menu-aim>

@@ -250,6 +250,8 @@
       };
 
       $scope.exportPdf = function() {
+        $scope.unSelectShape();
+
         //OMG mega hacks
         var svg = _.values($scope.shapes)[0].svg;
 
