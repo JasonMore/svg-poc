@@ -119,19 +119,18 @@
         if (isDataMode === oldValue || !isDataMode) return;
 
         var template = angular.copy($scope.template.shapes);
-        template = _.values(template);
+//        template = _.values(template);
         $scope.templatedShapes = {};
 
-        _(template)
-          .each(function (model) {
-            function getModelFn() {
-              return model;
-            }
+        _(template).each(function (model) {
+          function getModelFn() {
+            return model;
+          }
 
-            $scope.templatedShapes[model.templateId] = shapeViewModelService.create(nextOrderNumber(), getModelFn);
-          });
+          $scope.templatedShapes[model.templateId] = shapeViewModelService.create(nextOrderNumber(), getModelFn);
+        });
 
-        if($scope.templateData){
+        if ($scope.templateDataObject) {
           applyTemplateDataToTemplateShapes();
         }
       });
@@ -141,17 +140,17 @@
         var templateData;
 
         try {
-          $scope.templateData = JSON.parse(data);
+          $scope.templateDataObject = JSON.parse(data);
         }
         catch (e) {
           return;
         }
 
         applyTemplateDataToTemplateShapes();
-      })
+      });
 
       function applyTemplateDataToTemplateShapes() {
-        _($scope.templateData).each(function (templateDataModel) {
+        _($scope.templateDataObject).each(function (templateDataModel) {
           _.extend($scope.templatedShapes[templateDataModel.templateId].model, templateDataModel);
         })
       }
