@@ -98,7 +98,7 @@
       });
 
       var updateAllTextReflows = _.debounce(function () {
-        textReflowService.recalculateAllText($scope.shapes);
+        textReflowService.recalculateAllText($scope.computedShapes());
       }, 200);
 
       $scope.$watch('template.shapes', function () {
@@ -116,7 +116,12 @@
       });
 
       $scope.$watch('dataMode', function (isDataMode, oldValue) {
-        if (isDataMode === oldValue || !isDataMode) return;
+        if (isDataMode === oldValue) return;
+
+        if(!isDataMode){
+          updateAllTextReflows();
+          return;
+        }
 
         var template = angular.copy($scope.template.shapes);
 //        template = _.values(template);
@@ -133,6 +138,8 @@
         if ($scope.templateDataObject) {
           applyTemplateDataToTemplateShapes();
         }
+
+        updateAllTextReflows();
       });
 
       $scope.$watch('templateData', function (data, oldData) {
