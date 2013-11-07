@@ -249,6 +249,14 @@
         $scope.copiedShapeModel = null;
       };
 
+      $scope.exportPdf = function() {
+        //OMG mega hacks
+        var svg = _.values($scope.shapes)[0].svg;
+
+        $("#export textarea").val(svg.toSVG());
+        $("#export").submit();
+      }
+
       // computed
       $scope.computedShapes = function () {
         if ($scope.dataMode) {

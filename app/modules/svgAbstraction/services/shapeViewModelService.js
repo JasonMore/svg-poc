@@ -6,7 +6,6 @@
       // add image properties if they don't exist
 
       function shapeViewModel(getModelFn){
-//        this.model = model;
         this.getModel = getModelFn;
         this.showPreviewImage = false;
         this.isEditingText = false;
@@ -18,6 +17,7 @@
           fontSize: '12.0',
           fontColor: 'black',
           wrapTextAround: true,
+          transparency: 1,
           "image": {
             "url": null,
             "top": 0,
