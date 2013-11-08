@@ -67,6 +67,8 @@ describe('selectionBoxSpec.js', function () {
         return model;
       })};
 
+    scope.computedShapes = function() { return scope.shapes;}
+
     scope.$digest();
     timeout.flush();
 

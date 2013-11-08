@@ -59,6 +59,8 @@ describe('draggableSpec.js', function () {
             return model;
           })};
 
+        scope.computedShapes = function() { return scope.shapes;}
+
         scope.$digest();
 
         var mouseDown = $.Event('mousedown', {

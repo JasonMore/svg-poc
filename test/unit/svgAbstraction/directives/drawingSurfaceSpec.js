@@ -16,29 +16,7 @@ describe('drawingSurfaceSpec.js', function() {
     scope.$digest();
     drawingSurface = element.find('g.drawing g');
   }));
-//
-//  beforeEach(inject(function($rootScope, $compile, $controller){
-//    var html = '' +
-//      '<ng-svg>' +
-//      '<drawing-surface ' +
-//      ' active="isDrawing" ' +
-//      ' model="shapes" ' +
-//      ' shape="shapeType" ' +
-//      ' when-done="setSelectedShape(shape)">' +
-//      '</drawing-surface>' +
-//      '</ng-svg>';
-//
-//    element = angular.element(html);
-//    scope = $rootScope;
-////    controller = $controller('ngSvgController', {$element: element});
-//
-//    scope.shapes = [];
-//
-//    $compile(element)(scope);
-//
-//    drawingSurface = element.find('g.drawing g');
-//  }));
-//
+
   describe('when not drawing', function() {
     beforeEach(function() {
       scope.isDrawing = function() { return false; };
