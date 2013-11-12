@@ -16,3 +16,12 @@ After cloning run
 `npm install`
 
 `npm start`
+
+
+
+
+
+homebrew
+mongo
+node
+redis

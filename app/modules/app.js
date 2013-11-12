@@ -1,7 +1,7 @@
 (function () {
   'use strict';
   angular.module('app', ['main', 'svgShell', 'svgAbstraction', 'templateList'])
-    .config(function ($routeProvider, $injector) {
+    .config(function ($routeProvider) {
       $routeProvider
         .otherwise({
           redirectTo: '/'

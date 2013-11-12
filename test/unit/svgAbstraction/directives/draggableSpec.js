@@ -49,7 +49,7 @@ describe('draggableSpec.js', function () {
         "fontSize": "12.0",
         "fontColor": "black",
         "wrapTextAround": true
-      }
+      };
 
       act = function() {
         scope.shapes = {

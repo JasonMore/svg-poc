@@ -36,7 +36,7 @@
     background: #fc3;
 }
 
-.toolbar > div{
+.toolbar > div {
     display: inline-block;
 }
 
@@ -46,9 +46,22 @@
 }
 
 .toolbar-submenu {
-    min-width:420px;
+    min-width: 420px;
 }
 
-ul.inline > li{
-    padding-top : 5px;
+ul.inline > li {
+    padding-top: 5px;
+}
+
+.svgOutline {
+    display: inline-block;
+    border-radius: 3px;
+    background: #e9eaee;
+    border: 1px solid lightgray;
+    padding: 45px;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.svgOutline > * {
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
 }
