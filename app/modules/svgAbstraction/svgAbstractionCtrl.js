@@ -205,7 +205,7 @@
       };
 
       $scope.drawShape = function (shape) {
-        $scope.showDrawMenu = false;
+        $scope.openMenu('close');
         $scope.unSelectShape();
 
         // if they click the button twice, undo
@@ -280,7 +280,7 @@
         $scope.showDrawMenu = false;
         $scope.showSettingsMenu = false;
 
-        if(menu){
+        if(menu !== 'close'){
           $scope[menu] = !oldVal;
         }
       }
@@ -312,7 +312,7 @@
         if (!$scope.selectedShape) {
           return 0;
         }
-        return $scope.selectedShape.model.top + 30;
+        return $scope.selectedShape.model.top - 150;
       };
 
       $scope.menuLeft = function () {
@@ -320,7 +320,7 @@
           return 0;
         }
 
-        return $scope.selectedShape.left() + $scope.selectedShape.width() - 120;
+        return $scope.selectedShape.left() + $scope.selectedShape.width() + 24;
       };
 
       $scope.showShapeMenu = function () {
@@ -333,6 +333,10 @@
         }
 
         if ($scope.selectedShape.isResizing) {
+          return false;
+        }
+
+        if($scope.showDrawMenu || $scope.showSettingsMenu){
           return false;
         }
 

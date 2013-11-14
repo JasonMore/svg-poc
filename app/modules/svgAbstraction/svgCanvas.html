@@ -1,7 +1,8 @@
 <svg version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"
+     class="drawing-surface"
      svg-attr-viewbox="0 0 {{template.width}} {{template.height}}"
-     width="{{template.width * zoom}}"
-     height="{{template.height * zoom}}"
+     ng-attr-width="{{template.width * zoom}}"
+     ng-attr-height="{{template.height * zoom}}"
      ng-svg>
 <!--empty rectangle as background for clicking-->
 <rect ng-click="unSelectShape()"
