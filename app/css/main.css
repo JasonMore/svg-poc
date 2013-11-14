@@ -1,3 +1,278 @@
+html,
+body {
+    margin: 0;
+    background: #eee;
+}
+.navbar {
+    /*width: 100%;*/
+    /*height: 50px;*/
+    margin-bottom: 0px;
+    float: top;
+    z-index:101;
+}
+.sidebar {
+    float: left;
+    padding: 15px 0 0 0;
+    width: 80px;
+    height: 92%;
+    background: #eeeeee;
+}
+.wrapper {
+    margin: 67px 0;
+    background: #eee;
+    text-align: center;
+}
+.drawing-surface {
+    /*border: 1px solid #eee;*/
+    background: #fff;
+    margin: auto;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.5)
+}
+.btn-text {
+    overflow: hidden;
+    font-family: "News Cycle", "Arial Narrow Bold", sans-serif;
+}
+.HoverText {
+    opacity: 0;
+    margin-bottom: -50px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 14pt;
+    line-height: 48px;
+    margin-left: -6px;
+}
+
+.btn-text:hover .HoverText {
+    opacity: 1;
+    margin-bottom: -2px;
+    margin-top: 2px;
+}
+
+.IconWrapper, .HoverText {
+    transition: all 0.2s ease-in-out;
+}
+.btn-text:hover .IconWrapper {
+    margin-top: -50px;
+}
+
+.sliding-menu {
+    margin-top:-50px;
+}
+
+.btn-text:hover .sliding-menu {
+    margin-top:4px;
+}
+
+g.drawing{
+    cursor: crosshair;
+}
+
+/* General styles for all menus */
+
+.cbp-spmenu {
+    background: #47a3da;
+    position: fixed;
+    font-family: "News Cycle", "Arial Narrow Bold", sans-serif;
+}
+
+/*.cbp-spmenu h3 {*/
+/*    color: #afdefa;*/
+/*    font-size: 1.9em;*/
+/*    padding: 20px;*/
+/*    margin: 0;*/
+/*font-weight: 300;*/
+/*    background: #0d77b6;*/
+/*}*/
+
+.cbp-spmenu .spmenu-title {
+    /*color: #afdefa;*/
+    /*font-size: 1.9em;*/
+    padding: 20px;
+    margin: 0;
+    /*font-weight: 300;*/
+    background: #0d77b6;
+}
+
+.spmenu-title h3{
+    color: #afdefa;
+    font-size: 1.9em;
+}
+
+.cbp-spmenu a {
+    display: block;
+    color: #fff;
+    /*font-size: 2em;*/
+    /*font-weight: 300;*/
+}
+
+.cbp-spmenu ul li {
+    display: inline-block;
+    color: #fff;
+    /*font-size: 2em;*/
+    /*font-weight: 300;*/
+}
+
+/* Orientation-dependent styles for the content of the menu */
+
+.cbp-spmenu-vertical {
+    width: 240px;
+    height: 100%;
+    top: 0;
+    z-index: 100;
+}
+
+.cbp-spmenu-vertical a {
+    border-bottom: 1px solid #258ecd;
+    padding: 1em;
+}
+
+.cbp-spmenu-horizontal {
+    width: 100%;
+    height: 250px;
+    left: 0;
+    z-index: 100;
+    overflow: hidden;
+}
+
+/*.cbp-spmenu-horizontal h3 {*/
+/*    height: 100%;*/
+/*    width: 20%;*/
+/*    float: left;*/
+/*}*/
+
+.cbp-spmenu-horizontal .spmenu-title {
+    height: 100%;
+    width: 20%;
+    float: left;
+}
+
+
+
+
+.cbp-spmenu-horizontal > a {
+    float: left;
+    /*width: 20%;*/
+    /*padding: 0.8em;*/
+    /*border-left: 1px solid #258ecd;*/
+}
+
+.cbp-spmenu-horizontal ul li {
+    /*float: left;*/
+    width: 20%;
+    padding: 0.8em;
+    border-left: 1px solid #258ecd;
+}
+
+.cbp-spmenu-horizontal .btn {
+    margin:0.2em;
+}
+
+/* Vertical menu that slides from the left or right */
+
+.cbp-spmenu-left {
+    left: -240px;
+}
+
+.cbp-spmenu-right {
+    right: -240px;
+}
+
+.cbp-spmenu-left.cbp-spmenu-open {
+    left: 0px;
+}
+
+.cbp-spmenu-right.cbp-spmenu-open {
+    right: 0px;
+}
+
+/* Horizontal menu that slides from the top or bottom */
+
+.cbp-spmenu-top {
+    top: -250px;
+}
+
+.cbp-spmenu-bottom {
+    bottom: -150px;
+}
+
+.cbp-spmenu-top.cbp-spmenu-open {
+    top: 62px;
+}
+
+.cbp-spmenu-bottom.cbp-spmenu-open {
+    bottom: 0px;
+    /*margin-top: 40px*/
+}
+
+/* Push classes applied to the body */
+
+.cbp-spmenu-push {
+    overflow-x: hidden;
+    position: relative;
+    left: 0;
+}
+
+.cbp-spmenu-push-toright {
+    left: 240px;
+}
+
+.cbp-spmenu-push-toleft {
+    left: -240px;
+}
+
+/* Transitions */
+
+.cbp-spmenu,
+.cbp-spmenu-push {
+    transition: all 0.4s ease;
+}
+
+/* Example media queries */
+
+/*@media screen and (max-width: 55.1875em){*/
+
+/*    .cbp-spmenu-horizontal {*/
+/*        font-size: 75%;*/
+/*        height: 110px;*/
+/*    }*/
+
+/*    .cbp-spmenu-top {*/
+/*        top: -110px;*/
+/*    }*/
+
+/*    .cbp-spmenu-bottom {*/
+/*        bottom: -110px;*/
+/*    }*/
+
+/*}*/
+
+/*@media screen and (max-height: 26.375em){*/
+
+/*    .cbp-spmenu-vertical {*/
+/*        font-size: 90%;*/
+/*        width: 190px;*/
+/*    }*/
+
+/*    .cbp-spmenu-left,*/
+/*    .cbp-spmenu-push-toleft {*/
+/*        left: -190px;*/
+/*    }*/
+
+/*    .cbp-spmenu-right {*/
+/*        right: -190px;*/
+/*    }*/
+
+/*    .cbp-spmenu-push-toright {*/
+/*        left: 190px;*/
+/*    }*/
+/*}*/
+
+
+
+
+
+
+
 .svg-drop {
     border: 1px;
     background-color: rgb(245, 245, 245);

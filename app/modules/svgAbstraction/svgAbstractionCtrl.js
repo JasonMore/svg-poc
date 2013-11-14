@@ -7,16 +7,23 @@
       var templateKey = 'templates.' + $routeParams.id;
       var liveTemplate = liveResource(templateKey);
       $scope.template = liveTemplate.subscribe();
+      if(!$scope.template.width || !scope.template.height){
+        $scope.template.width = 1500;
+        $scope.template.height = 1500;
+      }
 
       // lets you do crud on templates.[id].shapes directly
       var liveShapes = liveTemplate.scope('shapes');
 
       // properties
+      $scope.showDrawMenu = false;
+      $scope.showSettingsMenu = false;
       $scope.selectedShape = null;
       $scope.shapeToDraw = null;
       $scope.shapePaths = shapePaths.list;
       $scope.shapeKeyValues = shapePaths.keyValues;
       $scope.shapes = {};
+      $scope.zoom = 1;
 
       $scope.colorOptions = [
         {id: 'red', name: 'Red'},
@@ -198,6 +205,7 @@
       };
 
       $scope.drawShape = function (shape) {
+        $scope.showDrawMenu = false;
         $scope.unSelectShape();
 
         // if they click the button twice, undo
@@ -266,6 +274,17 @@
         $("#export").submit();
       }
 
+      $scope.openMenu = function(menu){
+        var oldVal = $scope[menu];
+
+        $scope.showDrawMenu = false;
+        $scope.showSettingsMenu = false;
+
+        if(menu){
+          $scope[menu] = !oldVal;
+        }
+      }
+
       // computed
       $scope.computedShapes = function () {
         if ($scope.dataMode) {
@@ -319,6 +338,14 @@
 
         return true;
       };
+//
+//      $scope.svgWidth = function() {
+//        return $scope.width * $scope.zoom;
+//      }
+//
+//      $scope.svgHeight = function() {
+//        return $scope.height * $scope.zoom;
+//      }
 
       // keyboard shortcuts
 

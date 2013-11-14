@@ -1,5 +1,8 @@
-<svg version="1.1" width="1602" height="600" ng-svg
-     xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+<svg version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"
+     svg-attr-viewbox="0 0 {{template.width}} {{template.height}}"
+     width="{{template.width * zoom}}"
+     height="{{template.height * zoom}}"
+     ng-svg>
 <!--empty rectangle as background for clicking-->
 <rect ng-click="unSelectShape()"
       x="0" y="0" width="100%" height="100%" fill="white"></rect>
