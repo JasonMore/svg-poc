@@ -11,6 +11,6 @@
       ng-mouseenter="showDelete = true"
       ng-mouseleave="showDelete = false">
     <a ng-href="#/svgAbstraction/{{template.id}}">{{ template.name }}</a>
-    <a class="btn" ng-show="showDelete" ng-click="delete(template)"> Delete</a>
+    <a ng-show="showDelete" ng-click="delete(template)"> Delete</a>
   </li>
 </ul>
