@@ -55,7 +55,7 @@
         <image xlink:href="{{viewModel.model.image.url}}"
                ng-mousedown="setSelectedShape(viewModel)"
                ng-dblclick="viewModel.isEditingText = true"
-               transform="rotate(0,0,0)"
+               transform="rotate({{viewModel.model.image.rotation}},{{viewModel.imageMidPointX() + viewModel.imageLeft()}},{{viewModel.imageMidPointY() + viewModel.imageTop()}})"
                ng-show="viewModel.model.image.url"
                ng-attr-x="{{viewModel.imageLeft()}}"
                ng-attr-y="{{viewModel.imageTop()}}"
@@ -67,7 +67,7 @@
       <!-- full image -->
       <image xlink:href="{{viewModel.model.image.url}}"
              ng-attr-mask="url({{viewModel.urlRef('previewImageMask')}})"
-             transform="rotate(0,0,0)"
+             transform="rotate({{viewModel.model.image.rotation}},{{viewModel.imageMidPointX() + viewModel.imageLeft()}},{{viewModel.imageMidPointY() + viewModel.imageTop()}})"
              ng-show="viewModel.showPreviewImage"
              ng-attr-x="{{viewModel.imageLeft()}}"
              ng-attr-y="{{viewModel.imageTop()}}"
@@ -162,7 +162,7 @@
           y2="-20"
           stroke="#0096fd"
           stroke-width="3"
-          transform="translate({{selectedShape.midPointX()}},0)"
+          transform="translate({{selectedShape.midPointX() + selectedShape.borderOffset()}},0)"
           class="noTextWrap"></line>
     <circle cx="0"
             cy="0"
@@ -172,7 +172,7 @@
             fill="#0096fd"
             stroke="white"
             stroke-width="1"
-            transform="translate({{selectedShape.midPointX()}},-20)"
+            transform="translate({{selectedShape.midPointX() + selectedShape.borderOffset()}},-20)"
         ></circle>
   </g>
   <g transform="translate({{selectedShape.imageOutlineLeft()}},{{selectedShape.imageOutlineTop()}}), rotate({{selectedShape.imageOutlineRotation()}},{{selectedShape.imageMidPointX()}},{{selectedShape.imageMidPointY()}})"
