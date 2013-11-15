@@ -362,3 +362,7 @@ ul.inline > li {
 g.drawing{
     cursor: crosshair;
 }
+
+.modal {
+    display:block;
+}
