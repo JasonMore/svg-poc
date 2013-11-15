@@ -34,6 +34,10 @@
           templatesLive.delete(template);
         });
 
+
+        //hack
+//        templatesLive.delete(template);
+
       };
 
     });
