@@ -143,14 +143,6 @@
 
         imageOutlineRotation: function(){
           return this.hasImage() ? this.model.image.rotation + this.model.rotation: 0;
-        },
-
-        makeUrlRef: function (key) {
-          return this.model.id + '_' + key;
-        },
-
-        urlRef: function (key) {
-          return "#" + this.model.id + "_" + key;
         }
       });
 
