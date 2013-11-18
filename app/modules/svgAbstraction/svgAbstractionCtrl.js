@@ -170,6 +170,10 @@
       }
 
       // actions
+      $scope.wrapperClicked = function() {
+
+      };
+
       $scope.setSelectedShape = function (shape) {
         if ($scope.selectedShape === shape || $scope.dataMode) {
           return;
@@ -228,6 +232,8 @@
         $scope.selectedShape.isEditingText = false;
         $scope.selectedShape.showPreviewImage = false;
         $scope.selectedShape = null;
+
+        $scope.openMenu('close');
 
         // HACK
         updateAllTextReflows();
@@ -312,7 +318,14 @@
         if (!$scope.selectedShape) {
           return 0;
         }
-        return $scope.selectedShape.model.top - 150;
+
+        var modelTop = $scope.selectedShape.model.top;
+
+        if(modelTop < 175){
+          modelTop = 175
+        }
+
+        return modelTop - 150;
       };
 
       $scope.menuLeft = function () {

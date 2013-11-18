@@ -79,8 +79,8 @@
       <!--shape outline-->
       <use xlink:href="{{'#' + viewModel.model.id}}"
            fill="none"
-           stroke="black"
-           stroke-width="2"
+           stroke="{{viewModel.model.borderColor}}"
+           stroke-width="{{viewModel.model.borderWidth}}"
            ng-mousedown="setSelectedShape(viewModel)"
            ng-dblclick="viewModel.isEditingText = true"
            class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}"></use>

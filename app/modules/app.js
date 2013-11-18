@@ -1,6 +1,14 @@
 (function () {
   'use strict';
-  angular.module('app', ['main', 'svgShell', 'svgAbstraction', 'templateList'])
+  var using = [
+    'main',
+    'svgShell',
+    'svgAbstraction',
+    'templateList',
+    'testData'
+  ];
+
+  angular.module('app', using)
     .config(function ($routeProvider) {
       $routeProvider
         .otherwise({
