@@ -1,8 +1,11 @@
+///
+// Stops propagation of the click from the elements children
+
 (function () {
   angular.module('svgAbstraction.directives')
-    .directive('ngWrapperClick', function ($parse) {
+    .directive('ngClickStop', function ($parse) {
       return function (scope, element, attr) {
-        var fn = $parse(attr['ngWrapperClick']);
+        var fn = $parse(attr['ngClickStop']);
         element.bind('click', function (event) {
           if(event.target !== element[0]) return;
 

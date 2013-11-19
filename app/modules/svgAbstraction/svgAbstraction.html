@@ -11,14 +11,14 @@
       </div>
       <div class="HoverText">To list</div>
     </a>
-    <a class="btn btn-primary btn-text" ng-click="openMenu('showDrawMenu')">
+    <a class="btn btn-primary btn-text" ng-mousedown="openMenu('showDrawMenu')">
       <div class="IconWrapper">
         <i class="fa fa-pencil fa-3x "></i>
       </div>
       <div class="HoverText">Draw <b class="caret"></b>
       </div>
     </a>
-    <a class="btn btn-primary btn-text" ng-click="openMenu('showSettingsMenu')">
+    <a class="btn btn-primary btn-text" ng-mousedown="openMenu('showSettingsMenu')">
       <div class="IconWrapper">
         <i class="fa fa-gear fa-3x "></i>
       </div>
@@ -291,7 +291,7 @@
 </div>
 
 <div class="wrapper"
-     ng-wrapper-click="unSelectShape()"
+     ng-click-stop="unSelectShape()"
      ng-include="'modules/svgAbstraction/svgCanvas.html'">
 </div>
 

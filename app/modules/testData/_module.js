@@ -15,7 +15,12 @@
 
       $routeProvider.when('/testData/templates', {
         templateUrl: "modules/testData/templates.html",
-        controller:'templatesCtrl'
+        controller:'templatesCtrl',
+        resolve: {
+          liveResource: function (liveResourceProvider) {
+            return liveResourceProvider.createLiveResource;
+          }
+        }
       })
     });
 
