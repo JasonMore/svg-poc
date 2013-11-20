@@ -2,9 +2,9 @@
   angular.module('testData.controllers')
     .controller('templatesCtrl', function($scope, liveResource) {
 window.debugScope = $scope;
-//      var liveTemplateTypes = liveResource('templateTypes');
-//      var allTemplateTypes = liveTemplateTypes.query({});
-//      $scope.templatesTypes = allTemplateTypes.subscribe(allTemplatesQuery);
+      var liveTemplateTypes = liveResource('templateTypes');
+      var templateTypesQuery = liveTemplateTypes.query({});
+      $scope.templateTypes = liveTemplateTypes.subscribe(templateTypesQuery);
 
       var liveTemplates = liveResource('templates');
       var allTemplatesQuery = liveTemplates.query({});
@@ -14,22 +14,31 @@ window.debugScope = $scope;
 //        return _.groupBy($scope.templates, 'templateType');
 //      }
 
-      $scope.groupedTemplates = {};
+      $scope.deleteTemplate = function(template){
+        liveTemplates.delete(template);
+      }
 
-      $scope.$watch('templates', function(templates, oldValue) {
+      $scope.groupedTemplates = [];
+
+      $scope.$watch('templates', templateWatch, true);
+      function templateWatch(templates, oldValue) {
         if(templates === oldValue) return;
 
-        $scope.numberOfTemplates = _.keys(templates).length;
-        
-        $scope.groupedTemplates = _.groupBy($scope.templates, 'templateType');
-      });
+        var templatesByType = _.groupBy($scope.templates, 'templateType');
+        $scope.groupedTemplates = _.map($scope.templateTypes, function(type){
+          return {
+            type: type,
+            templates: templatesByType[type.id]
+          }
+        });
+      }
 
       $scope.addTestData = function() {
         addStudentOfTheMonth();
       };
 
       function addStudentOfTheMonth(){
-        var templateType = liveTemplateTypes.add({
+        var templateTypeId = liveTemplateTypes.add({
           id: "559641b7-66ec-4828-b6b9-77a4dabd0180",
           name: 'Student of the Month',
           requiredFields: ["Student_Name", "Student_Picture"],
@@ -45,7 +54,7 @@ window.debugScope = $scope;
 
         liveTemplates.add({
           "id": "07e4f709-d1cf-4f1d-aaf4-c5fb842e6a76",
-          templateType: templateType.id,
+          templateType: templateTypeId,
           "width": "846",
           "height": "988",
           "name": "Top 1",
@@ -111,7 +120,7 @@ window.debugScope = $scope;
 
         liveTemplates.add({
           "id": "852bc9be-c837-444a-b3e8-98f59d9f1674",
-          templateType: templateType.id,
+          templateType: templateTypeId,
           "width": "846",
           "height": "978",
           "name": "Left 1",

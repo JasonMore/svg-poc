@@ -10,7 +10,7 @@
   <li ng-repeat="template in templates"
       ng-mouseenter="showDelete = true"
       ng-mouseleave="showDelete = false">
-    <a ng-href="#/svgAbstraction/{{template.id}}">{{ template.name }}</a>
+    <a ng-href="#/template/{{template.id}}">{{ template.name }}</a>
     <a href ng-show="showDelete" ng-click="delete(template)"> Delete</a>
   </li>
 </ul>

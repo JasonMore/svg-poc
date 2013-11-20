@@ -15,9 +15,15 @@
         templateUrl:'modules/templateList/templateList.html',
         controller:'templateListCtrl',
         resolve: {
-          liveResource: function (liveResourceProvider) {
-            return liveResourceProvider.createLiveResource;
-          }
+          liveResource: liveResourceFactory
+        }
+      });
+
+      $routeProvider.when('/template/:id', {
+        templateUrl:'modules/templateList/template.html',
+        controller:'templateCtrl',
+        resolve: {
+          liveResource: liveResourceFactory
         }
       });
     });
@@ -25,4 +31,8 @@
   angular.module('templateList.controllers',[]);
   angular.module('templateList.services',[]);
   angular.module('templateList.directives', []);
+
+  function liveResourceFactory(liveResourceProvider) {
+    return liveResourceProvider.createLiveResource;
+  }
 }());

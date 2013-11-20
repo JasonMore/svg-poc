@@ -3,13 +3,18 @@
 </h3>
 
     <p>
-      <button class="btn btn-default">Add test data</button>
+      <button ng-click="addTestData()" class="btn btn-default">Add test data</button>
     </p>
 
-    <p>Number of templates: {{numberOfTemplates}}</p>
     <ul>
-      <li ng-repeat="template in templates">
-        <a href>{{template.name}}</a>
+      <li ng-repeat="group in groupedTemplates">
+        <a href>{{group.type.name}}</a>
+        <ul>
+          <li ng-repeat="template in group.templates">
+            <a ng-href="#/svgAbstraction/{{template.id}}">{{template.name}}</a>
+            <a href ng-click="deleteTemplate(template)">Delete</a>
+          </li>
+        </ul>
       </li>
     </ul>
 <!--<ul>-->

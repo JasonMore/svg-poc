@@ -17,13 +17,23 @@
         templateUrl: "modules/testData/templates.html",
         controller:'templatesCtrl',
         resolve: {
-          liveResource: function (liveResourceProvider) {
-            return liveResourceProvider.createLiveResource;
-          }
+          liveResource: liveResourceFactory
         }
-      })
+      });
+
+      $routeProvider.when('/testData/students', {
+        templateUrl: "modules/testData/students.html",
+        controller:'studentsCtrl',
+        resolve: {
+          liveResource: liveResourceFactory
+        }
+      });
     });
 
   angular.module('testData.controllers',[]);
   angular.module('testData.services',[]);
+
+  function liveResourceFactory(liveResourceProvider) {
+    return liveResourceProvider.createLiveResource;
+  }
 }());
