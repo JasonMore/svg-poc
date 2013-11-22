@@ -37,6 +37,10 @@ window.debugScope = $scope;
         addStudentOfTheMonth();
       };
 
+      function addIdCard(){
+
+      }
+
       function addStudentOfTheMonth(){
         var templateTypeId = liveTemplateTypes.add({
           id: "559641b7-66ec-4828-b6b9-77a4dabd0180",

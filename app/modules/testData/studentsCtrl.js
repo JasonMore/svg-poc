@@ -15,7 +15,7 @@
           "Student_Last_Name":"Mantello",
           "Student_Teacher":"John Madden",
           "Student_Grade":"11",
-          "Student_Picture_Url":"img/CO/Flash1.jpg",
+          "Student_Picture":"img/CO/Flash1.jpg",
           "School_Name":"Sunnyside Elementary"
         });
 
@@ -24,7 +24,7 @@
           "Student_Last_Name":"Jordan",
           "Student_Teacher":"John Madden",
           "Student_Grade":"11",
-          "Student_Picture_Url":"img/CO/Flash5.jpg",
+          "Student_Picture":"img/CO/Flash5.jpg",
           "School_Name":"Sunnyside Elementary"
         });
 
@@ -33,7 +33,7 @@
           "Student_Last_Name":"Vang",
           "Student_Teacher":"Sherry Alvirez",
           "Student_Grade":"11",
-          "Student_Picture_Url":"img/CO/Flash7.jpg",
+          "Student_Picture":"img/CO/Flash7.jpg",
           "School_Name":"Sunnyside Elementary"
         });
 
@@ -42,7 +42,7 @@
           "Student_Last_Name":"Anderson",
           "Student_Teacher":"Sherry Alvirez",
           "Student_Grade":"11",
-          "Student_Picture_Url":"img/CO/Flash9.jpg",
+          "Student_Picture":"img/CO/Flash9.jpg",
           "School_Name":"Sunnyside Elementary"
         });
       }

@@ -1,29 +1,37 @@
 (function () {
   angular.module('svgAbstraction.controllers', [])
-    .controller('svgAbstractionCtrl', function ($scope, $routeParams, $timeout, shapePaths, shapeViewModelService, liveResource, textReflowService) {
+    .controller('svgAbstractionCtrl', function ($scope, $routeParams, $timeout, shapePaths, shapeViewModelService, liveResource, textReflowService, dotNotation) {
       window.debugScope = $scope;
 
       // load data
       var templateKey = 'templates.' + $routeParams.id;
       var liveTemplate = liveResource(templateKey);
       $scope.template = liveTemplate.subscribe();
-      if(!$scope.template.width || !scope.template.height){
-        $scope.template.width = 1500;
-        $scope.template.height = 1500;
-      }
+
+      var liveStudents = liveResource('students');
+      var studentsQuery = liveStudents.query({});
+      $scope.students = liveStudents.subscribe(studentsQuery);
 
       // lets you do crud on templates.[id].shapes directly
       var liveShapes = liveTemplate.scope('shapes');
 
+      // add default template data
+      if (!$scope.template.width || !scope.template.height) {
+        $scope.template.width = 1500;
+        $scope.template.height = 1500;
+      }
+
       // properties
       $scope.showDrawMenu = false;
       $scope.showSettingsMenu = false;
+      $scope.showDataMenu = false;
       $scope.selectedShape = null;
       $scope.shapeToDraw = null;
       $scope.shapePaths = shapePaths.list;
       $scope.shapeKeyValues = shapePaths.keyValues;
       $scope.shapes = {};
       $scope.zoom = 1;
+      $scope.dataMode = false;
 
       $scope.colorOptions = [
         {id: 'red', name: 'Red'},
@@ -125,13 +133,12 @@
       $scope.$watch('dataMode', function (isDataMode, oldValue) {
         if (isDataMode === oldValue) return;
 
-        if(!isDataMode){
+        if (!isDataMode) {
           updateAllTextReflows();
           return;
         }
 
         var template = angular.copy($scope.template.shapes);
-//        template = _.values(template);
         $scope.templatedShapes = {};
 
         _(template).each(function (model) {
@@ -149,28 +156,31 @@
         updateAllTextReflows();
       });
 
-      $scope.$watch('templateData', function (data, oldData) {
-        if (data === oldData) return;
-        var templateData;
-
-        try {
-          $scope.templateDataObject = JSON.parse(data);
-        }
-        catch (e) {
-          return;
-        }
-
-        applyTemplateDataToTemplateShapes();
-      });
+//      $scope.$watch('templateData', function (data, oldData) {
+//        if (data === oldData) return;
+//        var templateData;
+//
+//        try {
+//          $scope.templateDataObject = JSON.parse(data);
+//        }
+//        catch (e) {
+//          return;
+//        }
+//
+//        applyTemplateDataToTemplateShapes();
+//      });
 
       function applyTemplateDataToTemplateShapes() {
         _($scope.templateDataObject).each(function (templateDataModel) {
-          _.extend($scope.templatedShapes[templateDataModel.templateId].model, templateDataModel);
+          var shape = $scope.templatedShapes[templateDataModel.templateId];
+          if (!shape) return;
+
+          dotNotation.getSet(shape.model, templateDataModel.path, templateDataModel.data)
         })
       }
 
       // actions
-      $scope.wrapperClicked = function() {
+      $scope.wrapperClicked = function () {
 
       };
 
@@ -270,7 +280,7 @@
         $scope.copiedShapeModel = null;
       };
 
-      $scope.exportPdf = function() {
+      $scope.exportPdf = function () {
         $scope.unSelectShape();
 
         //OMG mega hacks
@@ -278,17 +288,64 @@
 
         $("#export textarea").val(svg.toSVG());
         $("#export").submit();
-      }
+      };
 
-      $scope.openMenu = function(menu){
+      $scope.openMenu = function (menu) {
         var oldVal = $scope[menu];
 
         $scope.showDrawMenu = false;
         $scope.showSettingsMenu = false;
+        $scope.showDataMenu = false;
 
-        if(menu !== 'close'){
+        if (menu !== 'close') {
           $scope[menu] = !oldVal;
         }
+      };
+
+      $scope.mergeData = function (data) {
+        $scope.dataMode = true;
+
+        var dictionary = {
+          "Student_Name": "text",
+          "Student_First_Name": "text",
+          "Student_Last_Name": "text",
+          "Student_Teacher": "text",
+          "Student_Grade": "text",
+          "Student_Picture": "image.url",
+          "School_Name": "text"
+        };
+
+        var computedDictionary = {
+          "Student_Name": function (data) {
+            return data["Student_First_Name"] + " " + data["Student_Last_Name"];
+          }
+        };
+
+        $scope.templateDataObject = _.union(
+          mapData(data, dictionary),
+          mapData(computedDictionary, dictionary, data)
+        );
+
+        if($scope.templatedShapes){
+          applyTemplateDataToTemplateShapes();
+        }
+      };
+
+      function mapData(dataOrComputedDictionary, dictionary, data) {
+        var templateData = []
+        for (var property in dataOrComputedDictionary) {
+          var dictionaryMapValue = dictionary[property];
+          if (!dictionaryMapValue) continue;
+
+          var value = dataOrComputedDictionary[property];
+
+          var mapped = {
+            templateId: property,
+            path: dictionaryMapValue,
+            data: _.isFunction(value) ? value(data) : value};
+          templateData.push(mapped);
+        }
+        return templateData;
       }
 
       // computed
@@ -321,7 +378,7 @@
 
         var modelTop = $scope.selectedShape.model.top;
 
-        if(modelTop < 175){
+        if (modelTop < 175) {
           modelTop = 175
         }
 
@@ -349,7 +406,7 @@
           return false;
         }
 
-        if($scope.showDrawMenu || $scope.showSettingsMenu){
+        if ($scope.showDrawMenu || $scope.showSettingsMenu || $scope.showDataMenu) {
           return false;
         }
 
@@ -447,4 +504,6 @@
       };
 
     });
+
+
 }());
