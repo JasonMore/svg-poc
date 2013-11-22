@@ -8,13 +8,15 @@
     'svgAbstraction.filters',
     'ui.bootstrap',
     'menuAim',
-    'liveResource'
+    'liveResource',
+    'ui.router'
 //    'ngSvg'
   ];
 
   angular.module('svgAbstraction', using)
-    .config(function ($routeProvider) {
-      $routeProvider.when('/svgAbstraction/:id', {
+    .config(function ($stateProvider) {
+      $stateProvider.state('svgAbstraction', {
+        url:'/svgAbstraction/:id',
         templateUrl:'modules/svgAbstraction/svgAbstraction.html',
         controller:'svgAbstractionCtrl',
         resolve: {

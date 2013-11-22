@@ -1,10 +1,10 @@
 (function () {
   angular.module('svgAbstraction.controllers', [])
-    .controller('svgAbstractionCtrl', function ($scope, $routeParams, $timeout, shapePaths, shapeViewModelService, liveResource, textReflowService, dotNotation) {
+    .controller('svgAbstractionCtrl', function ($scope, $stateParams, $timeout, shapePaths, shapeViewModelService, liveResource, textReflowService, dotNotation) {
       window.debugScope = $scope;
 
       // load data
-      var templateKey = 'templates.' + $routeParams.id;
+      var templateKey = 'templates.' + $stateParams.id;
       var liveTemplate = liveResource(templateKey);
       $scope.template = liveTemplate.subscribe();
 

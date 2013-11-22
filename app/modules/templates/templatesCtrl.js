@@ -1,8 +1,8 @@
 (function () {
 
 
-  angular.module('templateList.controllers', [])
-    .controller('templateListCtrl', function ($scope, liveResource, $modal) {
+  angular.module('templates.controllers', [])
+    .controller('templatesCtrl', function ($scope, liveResource, $modal) {
 
       var templateTypesLive = liveResource('templateTypes');
       var allTemplateTypesQuery = templateTypesLive.query({});
@@ -16,7 +16,7 @@
 
 //
 //        var modalInstance = $modal.open({
-//          templateUrl: 'modules/templateList/deleteModal.html',
+//          templateUrl: 'modules/templates/deleteModal.html',
 //          controller: function($scope, $modalInstance) {
 //            $scope.template = template;
 //

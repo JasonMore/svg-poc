@@ -2,18 +2,16 @@
   'use strict';
   var using = [
     'main',
-    'svgShell',
+//    'svgShell',
     'svgAbstraction',
-    'templateList',
-    'testData'
+    'templates',
+//    'testData',
+    'ui.router'
   ];
 
   angular.module('app', using)
-    .config(function ($routeProvider) {
-      $routeProvider
-        .otherwise({
-          redirectTo: '/'
-        });
+    .config(function ($urlRouterProvider) {
+      $urlRouterProvider.otherwise("/");
     });
 
   // best place for extensions? not sure

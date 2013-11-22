@@ -4,16 +4,19 @@
   var using = [
     'testData.controllers',
     'testData.services',
-    'liveResource'
+    'liveResource',
+    'ui.router '
   ];
 
   angular.module('testData', using)
-    .config(function($routeProvider) {
-      $routeProvider.when('/testData', {
+    .config(function($stateProvider) {
+      $stateProvider.state('testData', {
+        url: '/testData',
         templateUrl: 'modules/testData/testData.html'
       });
 
-      $routeProvider.when('/testData/templates', {
+      $stateProvider.state('testData.templates',{
+        url: '/testData/templates',
         templateUrl: "modules/testData/templates.html",
         controller:'templatesCtrl',
         resolve: {
@@ -21,7 +24,7 @@
         }
       });
 
-      $routeProvider.when('/testData/students', {
+      $stateProvider.state('testData.students', {
         templateUrl: "modules/testData/students.html",
         controller:'studentsCtrl',
         resolve: {
