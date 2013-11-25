@@ -29,7 +29,8 @@
           ng-href="{{'#' + viewModel.model.id}}"
           xlink:href="{{'#' + viewModel.model.id}}"
           fill="{{viewModel.model.backgroundColor}}"
-          ng-mousedown="setSelectedShape(viewModel)"
+          ng-mousedown="shapeClick(viewModel)"
+          ng-rightclick="shapeMenuOpen($event)"
           ng-dblclick="viewModel.isEditingText = true"
           class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}"></use>
       <!--image mask-->
@@ -53,7 +54,8 @@
       <!--image clipped by shape-->
       <g clip-path="url({{'#' + viewModel.model.id + '_clipPath'}})">
         <image xlink:href="{{viewModel.model.image.url}}"
-               ng-mousedown="setSelectedShape(viewModel)"
+               ng-mousedown="shapeClick(viewModel)"
+               ng-rightclick="shapeMenuOpen($event)"
                ng-dblclick="viewModel.isEditingText = true"
                transform="rotate({{viewModel.model.image.rotation}},{{viewModel.imageMidPointX() + viewModel.imageLeft()}},{{viewModel.imageMidPointY() + viewModel.imageTop()}})"
                ng-show="viewModel.model.image.url"
@@ -81,7 +83,8 @@
            fill="none"
            stroke="{{viewModel.model.borderColor}}"
            stroke-width="{{viewModel.model.borderWidth}}"
-           ng-mousedown="setSelectedShape(viewModel)"
+           ng-mousedown="shapeClick(viewModel)"
+           ng-rightclick="shapeMenuOpen($event)"
            ng-dblclick="viewModel.isEditingText = true"
            class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}"></use>
     </g>
@@ -93,7 +96,8 @@
           font-size="{{viewModel.model.fontSize}}"
           fill="{{viewModel.model.fontColor}}"
           ng-show="!viewModel.isEditingText"
-          ng-mousedown="setSelectedShape(viewModel)"
+          ng-mousedown="shapeClick(viewModel)"
+          ng-rightclick="shapeMenuOpen($event)"
           ng-dblclick="viewModel.isEditingText = true"
           ng-style="{cursor:'default'}"
           class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}"

@@ -366,3 +366,58 @@ g.drawing{
 .modal {
     display:block;
 }
+
+
+/*   animations   */
+
+/*.navbar-header > a.ng-hide {*/
+    /*animation: fadeIn 1s;*/
+    /*transition: all 0.2s ease-in-out;*/
+/*}*/
+
+/*.navbar-header > a.ng-hide {*/
+    /*animation: fadeOut 1s;*/
+/*}*/
+
+
+/*.navbar-header > a.ng-hide-add,*/
+/*.navbar-header > a.ng-hide-remove {*/
+    /*-webkit-transition:0.5s linear all;*/
+    /*transition:0.5s linear all;*/
+
+     /*remember to add this */
+    /*display:inline-block!important;*/
+    /*opacity:1;*/
+/*}*/
+/*.navbar-header > a.ng-hide {*/
+    /*opacity:0;*/
+/*}*/
+
+/*.fader.ng-hide-add {*/
+    /*opacity: 0;*/
+    /*display: inline-block !important;*/
+    /*transition: fadeIn 1s;*/
+/*}*/
+
+/*.fader.ng-hide-remove {*/
+    /*opacity: 1;*/
+    /*display: inline-block !important;*/
+    /*transition: fadeOut 1s;*/
+/*}*/
+
+/*.fader.ng-hide-add-active {*/
+    /*opacity: 0;*/
+/*}*/
+
+.fader {
+    transition: opacity 0.5s;
+}
+
+.fader.ng-hide-add,
+.fader.ng-hide-remove {
+    display:inline-block!important;
+}
+
+.fader.ng-hide {
+    opacity:0;
+}

@@ -30,36 +30,15 @@
       </div>
       <div class="HoverText">Data <b class="caret"></b></div>
     </a>
+    <a class="btn btn-primary btn-text fader"
+       ng-mousedown="shapeMenuOpen($event, true)"
+        ng-hide="!selectedShape">
+      <div class="IconWrapper">
+        <i class="fa fa-edit fa-3x"></i>
+      </div>
+      <div class="HoverText">Options <b class="caret"></b></div>
+    </a>
   </div>
-
-
-  <!--<div class="navbar-collapse collapse navbar-inverse-collapse">-->
-  <!--<ul class="nav navbar-nav">-->
-  <!--  <li class="active"><a href="#">Active</a>-->
-  <!--  </li>-->
-  <!--  <li><a href="#">Link</a>-->
-  <!--  </li>-->
-  <!--  <li class="dropdown">-->
-  <!--    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>-->
-  <!--    <ul class="dropdown-menu">-->
-  <!--      <li><a href="#">Action</a>-->
-  <!--      </li>-->
-  <!--      <li><a href="#">Another action</a>-->
-  <!--      </li>-->
-  <!--      <li><a href="#">Something else here</a>-->
-  <!--      </li>-->
-  <!--      <li class="divider"></li>-->
-  <!--      <li class="dropdown-header">Dropdown header</li>-->
-  <!--      <li><a href="#">Separated link</a>-->
-  <!--      </li>-->
-  <!--      <li><a href="#">One more separated link</a>-->
-  <!--      </li>-->
-  <!--    </ul>-->
-  <!--  </li>-->
-  <!--</ul>-->
-  <!--<form class="navbar-form navbar-left">-->
-  <!--  <input type="text" class="form-control col-lg-8" placeholder="Search">-->
-  <!--</form>-->
   <ul class="nav navbar-nav navbar-right">
     <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown">Lifetouch <b class="caret"></b>
@@ -101,11 +80,6 @@
       </svg>
       {{shape.name}}
     </a></div>
-  <!--<li ng-repeat="shape in shapePaths">-->
-
-  <!--</li>-->
-  <!--<a ng-repeat="icon in icons | filter:drawSearch" class="btn btn-info" href="#">-->
-  <!--<i class="fa fa-lg {{ icon.type }}"></i> {{icon.name}}</a>-->
 </nav>
 <nav class="cbp-spmenu cbp-spmenu-horizontal cbp-spmenu-top" ng-class="{ 'cbp-spmenu-open':showSettingsMenu}">
   <div class="spmenu-title">
@@ -145,18 +119,11 @@
       </li>
     </ul>
   </div>
-
 </nav>
 
 <nav class="cbp-spmenu cbp-spmenu-horizontal cbp-spmenu-top" ng-class="{ 'cbp-spmenu-open':showDataMenu}">
   <div class="spmenu-title">
     <h3>Data</h3>
-    <!--<label ng-show="!editTemplateName" ng-click="editTemplateName = true">{{template.name}}</label>-->
-
-    <!--<div ng-show="editTemplateName" class="input-append">-->
-      <!--<input type="text" ng-show="editTemplateName" ng-model="template.name">-->
-      <!--<button class="btn btn-default" type="button" ng-click="editTemplateName = false">Done</button>-->
-    <!--</div>-->
   </div>
   <div class="spmenu-contents">
     <ul>
@@ -164,81 +131,13 @@
         <a href ng-click="mergeData(data)">{{data.Student_First_Name}} {{data.Student_Last_Name}}</a>
       </li>
     </ul>
-    <!--<ul>-->
-      <!--<li>-->
-        <!--<label>-->
-          <!--Name:-->
-          <!--&lt;!&ndash;<input type="text" ng-model="">&ndash;&gt;-->
-        <!--</label>-->
-      <!--</li>-->
-      <!--<li>-->
-        <!--<label>-->
-          <!--<a href ng-click="zoom = 1">zoom: {{zoom}}</a>-->
-          <!--<input type="range" ng-model="zoom" min="0.05" max="5" step="0.05">-->
-        <!--</label>-->
-      <!--</li>-->
-      <!--<li>-->
-        <!--<label>-->
-          <!--width: {{template.width}}-->
-        <!--</label>-->
-        <!--<input type="range" ng-model="template.width" min="10" max="1500" step="2">-->
-      <!--</li>-->
-      <!--<li>-->
-        <!--<label>-->
-          <!--height: {{template.height}}-->
-        <!--</label>-->
-        <!--<input type="range" ng-model="template.height" min="10" max="1500" step="2">-->
-      <!--</li>-->
-    <!--</ul>-->
   </div>
-
 </nav>
 
-<!-- /.nav-collapse -->
-<!--</div>-->
-<!--<div class="navbar navbar-fixed-top">-->
-<!--  <h3>Student of the Month</h3>-->
-<!--</div>-->
-<!--<div class="sidebar">-->
-<!--  <a id="shapesbtn" class="btn btn-info" title="draw shape">-->
-<!--<i class="fa fa-pencil fa-3x fa-fw"></i>-->
-<!--    <div class="IconWrapper">-->
-<!--      <i class="fa fa-pencil fa-2x "></i>-->
-<!--      <i class="fa fa-caret-right fa-2x"></i>-->
-<!--    </div>-->
-<!--    <div class="HoverText"> Draw</div>-->
-<!--  </a>-->
-<!--  <a class="btn btn-info" title="select">-->
-<!--    <i class="fa fa-location-arrow fa-rotate-270 fa-2x fa-fw"></i>-->
-<!--  </a>-->
-<!--  <a class="btn btn-info" title="undo">-->
-<!--    <i class="fa fa-undo fa-2x fa-fw"></i>-->
-<!--  </a>-->
-<!--  <a class="btn btn-info" title="redo">-->
-<!--    <i class="fa fa-rotate-right fa-2x fa-fw"></i>-->
-<!--  </a>-->
-<!--  <hr>-->
-<!--  <a class="btn btn-info" title="settings">-->
-<!--    <i class="fa fa-gear fa-2x "></i>-->
-<!--    <i class="fa fa-caret-right fa-2x"></i>-->
-<!--  </a>-->
-<!--  <a class="btn btn-info" title="data">-->
-<!--    <i class="fa fa-table fa-2x "></i>-->
-<!--    <i class="fa fa-caret-right fa-2x"></i>-->
-<!--  </a>-->
-<!--  <a class="btn btn-info" title="print">-->
-<!--    <i class="fa fa-print fa-2x fa-fw"></i>-->
-<!--  </a>-->
-<!--  <a class="btn btn-info" title="account">-->
-<!--    <i class="fa fa-user fa-2x fa-fw"></i>-->
-<!--  </a>-->
-<!--</div>-->
-
 <div ng-show="showShapeMenu()"
-     ng-style="{top: menuTop(), left: menuLeft()}"
+     ng-style="{top: menuTop, left: menuLeft}"
      style="position: absolute;"
     >
-
   <menu-aim class="dropdown-menu" style="display:block; height:175px">
     <submenu-aim>
       <title-aim>Background</title-aim>

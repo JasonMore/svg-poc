@@ -9,7 +9,8 @@
     'ui.bootstrap',
     'menuAim',
     'liveResource',
-    'ui.router'
+    'ui.router',
+    'ngAnimate'
 //    'ngSvg'
   ];
 

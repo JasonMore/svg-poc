@@ -5,7 +5,7 @@
 //    'svgShell',
     'svgAbstraction',
     'templates',
-//    'testData',
+    'testData',
     'ui.router'
   ];
 

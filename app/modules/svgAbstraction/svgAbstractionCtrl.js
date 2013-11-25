@@ -1,5 +1,5 @@
 (function () {
-  angular.module('svgAbstraction.controllers', [])
+  angular.module('svgAbstraction.controllers', ['ngAnimate'])
     .controller('svgAbstractionCtrl', function ($scope, $stateParams, $timeout, shapePaths, shapeViewModelService, liveResource, textReflowService, dotNotation) {
       window.debugScope = $scope;
 
@@ -32,6 +32,9 @@
       $scope.shapes = {};
       $scope.zoom = 1;
       $scope.dataMode = false;
+      $scope.openShapeMenu = false;
+      $scope.menuTop = 0;
+      $scope.menuLeft = 0;
 
       $scope.colorOptions = [
         {id: 'red', name: 'Red'},
@@ -180,8 +183,10 @@
       }
 
       // actions
-      $scope.wrapperClicked = function () {
 
+      $scope.shapeClick = function (shape) {
+        $scope.openShapeMenu = false;
+        $scope.setSelectedShape(shape);
       };
 
       $scope.setSelectedShape = function (shape) {
@@ -231,6 +236,8 @@
       };
 
       $scope.unSelectShape = function () {
+        $scope.openShapeMenu = false;
+
         if (!$scope.selectedShape) {
           return;
         }
@@ -326,7 +333,7 @@
           mapData(computedDictionary, dictionary, data)
         );
 
-        if($scope.templatedShapes){
+        if ($scope.templatedShapes) {
           applyTemplateDataToTemplateShapes();
         }
       };
@@ -346,6 +353,18 @@
           templateData.push(mapped);
         }
         return templateData;
+      }
+
+      $scope.shapeMenuOpen = function ($event, toggle) {
+        $scope.menuTop = $event.pageY + 10;
+        $scope.menuLeft = $event.pageX + 10;
+
+        if (toggle) {
+          $scope.openShapeMenu = !$scope.openShapeMenu;
+        }
+        else {
+          $scope.openShapeMenu = true;
+        }
       }
 
       // computed
@@ -371,38 +390,36 @@
         return $scope.shapeToDraw === shape;
       };
 
-      $scope.menuTop = function () {
-        if (!$scope.selectedShape) {
-          return 0;
-        }
-
-        var modelTop = $scope.selectedShape.model.top;
-
-        if (modelTop < 175) {
-          modelTop = 175
-        }
-
-        return modelTop - 150;
-      };
-
-      $scope.menuLeft = function () {
-        if (!$scope.selectedShape) {
-          return 0;
-        }
-
-        return $scope.selectedShape.left() + $scope.selectedShape.width() + 24;
-      };
+//      $scope.menuTop = function () {
+//        if (!$scope.selectedShape) {
+//          return 0;
+//        }
+//
+//        var modelTop = $scope.selectedShape.model.top;
+//
+//        if (modelTop < 175) {
+//          modelTop = 175
+//        }
+//
+//        return modelTop - 150;
+//      };
+//
+//      $scope.menuLeft = function () {
+//        if (!$scope.selectedShape) {
+//          return 0;
+//        }
+//
+//        return $scope.selectedShape.left() + $scope.selectedShape.width() + 24;
+//      };
 
       $scope.showShapeMenu = function () {
-        if (!$scope.selectedShape) {
+        if (!$scope.openShapeMenu) {
           return false;
         }
 
-        if ($scope.selectedShape.isDragging) {
-          return false;
-        }
+        var shape = $scope.selectedShape;
 
-        if ($scope.selectedShape.isResizing) {
+        if (shape.isDragging || shape.isResizing) {
           return false;
         }
 
