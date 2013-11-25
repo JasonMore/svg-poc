@@ -438,6 +438,13 @@
 //        return $scope.height * $scope.zoom;
 //      }
 
+      // events
+
+      $scope.$on('blankSpaceOnBodyClicked', function($event){
+        $scope.unSelectShape();
+      });
+
+
       // keyboard shortcuts
 
       kDown.whenShortcut("esc", function () {

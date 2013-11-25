@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="app"></html>
+<html ng-app="app" ng-click-stop="blankSpaceClicked($event)" ng-controller="bodyCtrl">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -10,13 +10,13 @@
   <!-- build:css styles/main.css -->
   <link href="css/bootstrap-journal.css" rel="stylesheet">
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.2/css/font-awesome.css" rel="stylesheet">
-  <link href="css/animate.css"  rel="stylesheet" >
-  <link href="css/main.css" rel="stylesheet" >
+  <link href="css/animate.css" rel="stylesheet">
+  <link href="css/main.css" rel="stylesheet">
   <!-- endbuild -->
 </head>
 <body class="container-fluid">
 
-<div ui-view ></div>
+<div ui-view></div>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>

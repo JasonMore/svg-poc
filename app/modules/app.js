@@ -9,10 +9,16 @@
     'ui.router'
   ];
 
-  angular.module('app', using)
+  var app = angular.module('app', using)
     .config(function ($urlRouterProvider) {
       $urlRouterProvider.otherwise("/");
     });
+
+  app.controller('bodyCtrl', function($scope){
+    $scope.blankSpaceClicked = function($event){
+      $scope.$broadcast('blankSpaceOnBodyClicked', $event);
+    }
+  });
 
   // best place for extensions? not sure
 
