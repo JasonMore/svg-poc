@@ -14,15 +14,20 @@
     .config(function ($stateProvider) {
       $stateProvider
         .state('templates', {
+          abstract:true,
           url: "/templates",
-          templateUrl: "modules/templates/templates.html",
+          templateUrl: "modules/templates/templates.html"
+        })
+        .state('templates.list', {
+          url:'',
+          templateUrl:'modules/templates/templateList.html',
           controller: 'templatesCtrl',
           resolve: {
             liveResource: liveResourceFactory
           }
         })
-        .state('template', {
-          url: "/template/:id",
+        .state('templates.item', {
+          url: "/:id",
           templateUrl: "modules/templates/template.html",
           controller: 'templateCtrl',
           resolve: {
