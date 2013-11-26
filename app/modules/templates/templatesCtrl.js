@@ -6,7 +6,7 @@
 
       var templateTypesLive = liveResource('templateTypes');
       var allTemplateTypesQuery = templateTypesLive.query({});
-      $scope.templates = templateTypesLive.subscribe(allTemplateTypesQuery);
+      $scope.templateTypes = templateTypesLive.subscribe(allTemplateTypesQuery);
 
       $scope.add = function () {
 //        templateTypesLive.add({ name: $scope.newName });

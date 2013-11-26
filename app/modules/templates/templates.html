@@ -7,7 +7,7 @@
 <button ng-click="add()">new template</button>
 
 <ul>
-  <li ng-repeat="template in templates"
+  <li ng-repeat="template in templateTypes"
       ng-mouseenter="showDelete = true"
       ng-mouseleave="showDelete = false">
     <a ng-href="#/template/{{template.id}}">{{ template.name }}</a>
