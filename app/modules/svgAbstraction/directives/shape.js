@@ -16,8 +16,15 @@
               .find('#' + $scope.viewModel.id())[0];
           })
 
-          $scope.$watch('viewModel.model.image.url', function (url, oldVal) {
+          var imgWatch = 'viewModel.model.image.url + viewModel.model.width + viewModel.model.height';
+          $scope.$watch(imgWatch, function (url, oldVal) {
             if (url === oldVal) {
+              return;
+            }
+
+            // we only want to recalculate if width and height are 0
+            var currentImage = $scope.viewModel.model.image;
+            if(currentImage.width || currentImage.height){
               return;
             }
 
