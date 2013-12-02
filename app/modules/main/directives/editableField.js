@@ -5,8 +5,8 @@
     return {
       restrict:'EA',
       scope: true,
-      link: function(scope, el, attr){
-        scope.edit = false;
+      link: function($scope, el, attr){
+        $scope.edit = false;
         var modelName = attr.editableField || attr.model;
         modelName = '$parent.' + modelName;
 
@@ -15,9 +15,17 @@
           template.filter('span.editable-field-readonly').attr('ng-bind', modelName);
           template.find('input.editable-field-value').attr('ng-model', modelName);
 
-          $compile(template)(scope);
+          $compile(template)($scope);
 
           el.append(template);
+        });
+
+        $scope.$on('startEditMode', function(){
+          $scope.edit = true;
+        });
+
+        $scope.$on('endEditMode', function(){
+          $scope.edit = false;
         });
       }
     }

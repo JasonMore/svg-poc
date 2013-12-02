@@ -1,10 +1,11 @@
-<div class="container">
+
   <h3>
     Students
   </h3>
 
   <p>
-    <button ng-click="addTestData()" ng-disable="students" class="btn btn-default">Add test data</button>
+    <button ng-click="addTestData()" ng-disable="hasStudents()" class="btn btn-default">Add test data</button>
+    <button ng-click="deleteAll()" ng-disable="!hasStudents()" class="btn btn-info">Delete all data</button>
   </p>
 
   <div class="row">
@@ -30,9 +31,10 @@
               <editable-field model="student.School_Name"></editable-field></li>
           </ul>
           </p>
-          <p><a href ng-click="" class="btn btn-primary" role="button">Edit</a></p>
+          <p>
+            <editable-group-button></editable-group-button>
+          </p>
         </div>
       </div>
     </div>
   </div>
-</div>

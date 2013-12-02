@@ -14,9 +14,9 @@ window.debugScope = $scope;
 //        return _.groupBy($scope.templates, 'templateType');
 //      }
 
-      $scope.deleteTemplate = function(template){
+      $scope.deleteTemplate = function (template) {
         liveTemplates.delete(template);
-      }
+      };
 
       $scope.groupedTemplates = [];
 

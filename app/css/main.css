@@ -423,19 +423,12 @@ g.drawing{
 }
 
 .editable-field-readonly{
-    transition: box-shadow 0.2s ease-in-out, background 0.2s ease-in-out, color 0.2s ease-in-out;
+    transition: box-shadow 0.5s ease, background 0.5s ease, color 0.5s ease;
 }
 
 .editable-field-readonly:hover{
     box-shadow: 0 1px 1px rgba(0,0,0,0.5);
-    /*min-width:50px;*/
-    /*padding:3px;*/
     background:#e5e5e5;
     cursor:pointer;
     color: black;
 }
-
-.editable-field-value {
-    /*width:50px;*/
-}
-
