@@ -140,7 +140,7 @@
      ng-style="{top: menuTop, left: menuLeft}"
      style="position: absolute;"
     >
-  <menu-aim class="dropdown-menu" style="display:block; height:175px">
+  <menu-aim class="dropdown-menu shape-submemu">
     <submenu-aim>
       <title-aim>Background</title-aim>
       <content-aim class="popover">
@@ -166,6 +166,15 @@
            ng-click="selectedShape.model.image.url = null">
           Remove Image
         </a>
+      </content-aim>
+    </submenu-aim>
+    <submenu-aim>
+      <title-aim>Shadow</title-aim>
+      <content-aim class="popover">
+        <label>
+          Shadow:
+          <input type="checkbox" ng-model="selectedShape.model.shadow.enabled">
+        </label>
       </content-aim>
     </submenu-aim>
     <submenu-aim>

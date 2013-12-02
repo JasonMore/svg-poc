@@ -8,21 +8,29 @@
 <rect ng-click="unSelectShape()"
       x="0" y="0" width="100%" height="100%" fill="white"></rect>
 
-<defs id="paths">
-  <clipPath ng-repeat="viewModel in shapes"
-            id="{{viewModel.model.id + '_clipPath'}}"
+<defs ng-repeat="viewModel in shapes">
+  <clipPath id="{{viewModel.model.id + '_clipPath'}}"
             clipPathUnits="userSpaceOnUse">
     <path id="{{viewModel.model.id}}"
           stroke-width="{{viewModel.model.borderWidth}}"
           ng-attr-d="{{viewModel.model.path}}"></path>
   </clipPath>
+  <filter id="{{viewModel.model.id + '_shadow'}}"
+          x="0" y="0" width="200%" height="200%">
+    <feOffset result="offOut" in="SourceAlpha"
+              dx="{{viewModel.model.shadow.offsetX}}"
+              dy="{{viewModel.model.shadow.offsetY}}" />
+    <feGaussianBlur result="blurOut" in="offOut" stdDeviation="10" />
+    <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+  </filter>
 </defs>
 <g class="shapes">
   <g ng-repeat="viewModel in computedShapes() | objectOrderBy:'model.order'"
      ng-svg-shape
      ng-svg-draggable="$parent.canDragShape(shape)"
      opacity="{{viewModel.model.transparency}}"
-     transform="translate({{viewModel.model.left}},{{viewModel.model.top}}), rotate({{viewModel.model.rotation}},{{viewModel.midPointX()}},{{viewModel.midPointY()}})">
+     transform="translate({{viewModel.model.left}},{{viewModel.model.top}}), rotate({{viewModel.model.rotation}},{{viewModel.midPointX()}},{{viewModel.midPointY()}})"
+     filter="url({{viewModel.shadowId()}})">
     <!--shape-->
     <g class="shape">
       <use

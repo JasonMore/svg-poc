@@ -25,6 +25,11 @@
             "width": 0,
             "height": 0,
             "rotation": 0
+          },
+          shadow:{
+            enabled:false,
+            offsetX:20,
+            offsetY:20
           }
         });
       }
@@ -143,6 +148,10 @@
 
         imageOutlineRotation: function(){
           return this.hasImage() ? this.model.image.rotation + this.model.rotation: 0;
+        },
+
+        shadowId: function() {
+          return this.model.shadow.enabled ? '#' + this.model.id + '_shadow' : '';
         }
       });
 
