@@ -1,0 +1,9 @@
+<span class='editable-field-readonly' ng-click="edit = true" ng-show="!edit"></span>
+<span ng-show="edit">
+  <div class="input-group input-group-sm">
+    <input type="text" class="form-control editable-field-value">
+      <span class="input-group-btn">
+        <a class="btn btn-default" type="button" ng-click="edit = false"><i class="fa fa-check"></i></a>
+      </span>
+  </div>
+</span>

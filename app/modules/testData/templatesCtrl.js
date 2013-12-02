@@ -35,10 +35,143 @@ window.debugScope = $scope;
 
       $scope.addTestData = function() {
         addStudentOfTheMonth();
+        addIdCard();
       };
 
       function addIdCard(){
+        var templateTypeId = liveTemplateTypes.add({
+          name: 'Id Card',
+          requiredFields: ["Student_Name", "Student_Picture"],
+          optionFields: ["Student_Grade", "Student_Teacher", "School_Name"],
+          mockData: {
+            "Student_Name": "Johnny Appleseed",
+            "Student_Picture": "img/CO/Flash1.jpg",
+            "Student_Grade": "11",
+            "Student_Teacher": "Mr. Krum",
+            "School_Name": "Sunnyside Elementary"
+          }
+        });
 
+        liveTemplates.add({
+          "width": "428",
+          "height": "234",
+          "templateType": templateTypeId,
+          "name": "Landscape",
+          "shapes": {
+            "b694df81-413f-4c31-9b7b-8e6c805f9712": {
+              "top": 8,
+              "left": 9.5,
+              "width": 402,
+              "height": 209,
+              "rotation": 0,
+              "path": "M0,0L402.395,0L402.395,209.347L0,209.347z",
+              "backgroundColor": "white",
+              "borderColor": "black",
+              "borderWidth": 2,
+              "image": {
+                "url": null,
+                "top": 0,
+                "left": 0,
+                "width": 0,
+                "height": 0,
+                "rotation": 0
+              },
+              "id": "b694df81-413f-4c31-9b7b-8e6c805f9712",
+              "order": 0,
+              "text": "",
+              "font": "Verdana",
+              "fontSize": "12.0",
+              "fontColor": "black",
+              "wrapTextAround": true,
+              "transparency": 1,
+              "templateId": "b694df81-413f-4c31-9b7b-8e6c805f9712"
+            },
+            "9f9ce0a1-8d7b-4c07-83ce-3efad3372919": {
+              "top": 23,
+              "left": 27.5,
+              "width": 126,
+              "height": 167,
+              "rotation": 0,
+              "path": "M0,0L126.63,0L126.63,167.553L0,167.553z",
+              "backgroundColor": "white",
+              "borderColor": "black",
+              "borderWidth": 2,
+              "image": {
+                "url": "img/CO/Flash1.jpg",
+                "top": -0.5185185185185184,
+                "left": 0,
+                "width": 125.89565217391302,
+                "height": 167.42048674938718,
+                "rotation": 0
+              },
+              "id": "9f9ce0a1-8d7b-4c07-83ce-3efad3372919",
+              "order": 1,
+              "text": "",
+              "font": "Verdana",
+              "fontSize": "12.0",
+              "fontColor": "black",
+              "wrapTextAround": true,
+              "transparency": 1,
+              "templateId": "Student_Picture"
+            },
+            "80752dc6-3b78-4206-b4a2-69860b4a242c": {
+              "top": 28,
+              "left": 173.5,
+              "width": 203,
+              "height": 87,
+              "rotation": 0,
+              "path": "M0,0L203.491,0L203.491,87.537L0,87.537z",
+              "backgroundColor": "white",
+              "borderColor": "black",
+              "borderWidth": 2,
+              "image": {
+                "url": null,
+                "top": 0,
+                "left": 0,
+                "width": 0,
+                "height": 0,
+                "rotation": 0
+              },
+              "id": "80752dc6-3b78-4206-b4a2-69860b4a242c",
+              "order": 2,
+              "text": "test name",
+              "font": "Verdana",
+              "fontSize": "12.0",
+              "fontColor": "black",
+              "wrapTextAround": true,
+              "transparency": 1,
+              "templateId": "Student_Name"
+            },
+            "fbddc1ab-e074-4f74-9c99-d2979a6087d2": {
+              "top": 136,
+              "left": 175,
+              "width": 202,
+              "height": 58,
+              "rotation": 0,
+              "path": "M0,0L201.945,0L201.945,58L0,58z",
+              "backgroundColor": "white",
+              "borderColor": "black",
+              "borderWidth": 2,
+              "image": {
+                "url": null,
+                "top": 0,
+                "left": 0,
+                "width": 0,
+                "height": 0,
+                "rotation": 0
+              },
+              "id": "fbddc1ab-e074-4f74-9c99-d2979a6087d2",
+              "order": 3,
+              "text": "test school",
+              "font": "Verdana",
+              "fontSize": "12.0",
+              "fontColor": "black",
+              "wrapTextAround": true,
+              "transparency": 1,
+              "templateId": "School_Name"
+            }
+          }
+        })
       }
 
       function addStudentOfTheMonth(){

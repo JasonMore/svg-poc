@@ -11,7 +11,9 @@
       </div>
       <div class="HoverText">To list</div>
     </a>
-    <a class="btn btn-primary btn-text" ng-mousedown="openMenu('showDrawMenu')">
+    <a class="btn btn-primary btn-text"
+       ng-mousedown="openMenu('showDrawMenu')"
+       ng-disabled="dataMode">
       <div class="IconWrapper">
         <i class="fa fa-pencil fa-3x "></i>
       </div>
@@ -128,7 +130,7 @@
   <div class="spmenu-contents">
     <ul>
       <li ng-repeat="data in students">
-        <a href ng-click="mergeData(data)">{{data.Student_First_Name}} {{data.Student_Last_Name}}</a>
+        <a href ng-click="mergeData(data.id)">{{data.Student_First_Name}} {{data.Student_Last_Name}}</a>
       </li>
     </ul>
   </div>

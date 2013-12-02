@@ -307,10 +307,27 @@
         if (menu !== 'close') {
           $scope[menu] = !oldVal;
         }
+
+        //HACK
+        updateAllTextReflows();
       };
 
-      $scope.mergeData = function (data) {
+      $scope.$watch('students', function() {
+        if(!$scope.mergeDataId) return;
+        $scope.mergeData();
+
+      }, true);
+
+      $scope.mergeDataId;
+
+      $scope.mergeData = function (id) {
+        if(id){
+          $scope.mergeDataId = id;
+        }
+
         $scope.dataMode = true;
+
+        var data = $scope.students[$scope.mergeDataId];
 
         var dictionary = {
           "Student_Name": "text",
@@ -336,6 +353,8 @@
         if ($scope.templatedShapes) {
           applyTemplateDataToTemplateShapes();
         }
+
+        updateAllTextReflows();
       };
 
       function mapData(dataOrComputedDictionary, dictionary, data) {
@@ -345,6 +364,10 @@
           if (!dictionaryMapValue) continue;
 
           var value = dataOrComputedDictionary[property];
+
+          var valueGetter = function() {
+            return _.isFunction(value) ? value(data) : value;
+          };
 
           var mapped = {
             templateId: property,
