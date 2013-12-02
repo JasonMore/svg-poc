@@ -29,7 +29,8 @@
           shadow:{
             enabled:false,
             offsetX:20,
-            offsetY:20
+            offsetY:20,
+            density:10
           }
         });
       }

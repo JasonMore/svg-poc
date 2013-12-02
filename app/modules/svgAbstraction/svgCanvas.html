@@ -19,9 +19,9 @@
           x="0" y="0" width="200%" height="200%">
     <feOffset result="offOut" in="SourceAlpha"
               dx="{{viewModel.model.shadow.offsetX}}"
-              dy="{{viewModel.model.shadow.offsetY}}" />
-    <feGaussianBlur result="blurOut" in="offOut" stdDeviation="10" />
-    <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+              dy="{{viewModel.model.shadow.offsetY}}"/>
+    <feGaussianBlur result="blurOut" in="offOut" stdDeviation="10"/>
+    <feBlend in="SourceGraphic" in2="blurOut" mode="normal"/>
   </filter>
 </defs>
 <g class="shapes">
@@ -40,7 +40,7 @@
           ng-mousedown="shapeClick(viewModel)"
           ng-rightclick="shapeMenuOpen($event)"
           ng-dblclick="viewModel.isEditingText = true"
-          class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}"></use>
+          ng-class="{noTextWrap: viewModel.model.wrapTextAround}"></use>
       <!--image mask-->
       <mask id="{{viewModel.model.id + '_previewImageMask'}}"
             ng-attr-x="{{viewModel.imageLeft()}}"
@@ -48,7 +48,7 @@
             ng-attr-width="{{viewModel.imageWidth()}}"
             ng-attr-height="{{viewModel.imageHeight()}}"
             preserveAspectRatio="none"
-            class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}">
+            ng-class="{noTextWrap: viewModel.model.wrapTextAround}">
         <!--image preview mask rect-->
         <rect fill="white"
               opacity=".4"
@@ -57,7 +57,7 @@
               ng-attr-width="{{viewModel.imageWidth()}}"
               ng-attr-height="{{viewModel.imageHeight()}}"
               preserveAspectRatio="none"
-              class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}"></rect>
+              ng-class="{noTextWrap: viewModel.model.wrapTextAround}"></rect>
       </mask>
       <!--image clipped by shape-->
       <g clip-path="url({{'#' + viewModel.model.id + '_clipPath'}})">
@@ -72,7 +72,7 @@
                ng-attr-width="{{viewModel.imageWidth()}}"
                ng-attr-height="{{viewModel.imageHeight()}}"
                preserveAspectRatio="none"
-               class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}"></image>
+               ng-class="{noTextWrap: viewModel.model.wrapTextAround}"></image>
       </g>
       <!-- full image -->
       <image xlink:href="{{viewModel.model.image.url}}"
@@ -84,7 +84,7 @@
              ng-attr-width="{{viewModel.imageWidth()}}"
              ng-attr-height="{{viewModel.imageHeight()}}"
              preserveAspectRatio="none"
-             class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}"
+             ng-class="{noTextWrap: viewModel.model.wrapTextAround}"
              mask="url({{'#' + viewModel.model.id + '_previewImageMask'}})"></image>
       <!--shape outline-->
       <use xlink:href="{{'#' + viewModel.model.id}}"
@@ -94,7 +94,7 @@
            ng-mousedown="shapeClick(viewModel)"
            ng-rightclick="shapeMenuOpen($event)"
            ng-dblclick="viewModel.isEditingText = true"
-           class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}"></use>
+           ng-class="{noTextWrap: viewModel.model.wrapTextAround}"></use>
     </g>
     <!--shape text-->
     <text x=""
@@ -108,7 +108,7 @@
           ng-rightclick="shapeMenuOpen($event)"
           ng-dblclick="viewModel.isEditingText = true"
           ng-style="{cursor:'default'}"
-          class="{{viewModel.model.wrapTextAround ? '' : 'noTextWrap'}}"
+          ng-class="{noTextWrap: viewModel.model.wrapTextAround}"
           ng-bind="viewModel.model.text"
           style="cursor: default;"></text>
   </g>
