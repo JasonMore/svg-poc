@@ -10,8 +10,17 @@
   ];
 
   var app = angular.module('app', using)
-    .config(function ($urlRouterProvider) {
+    .config(function ($urlRouterProvider, $sceDelegateProvider) {
       $urlRouterProvider.otherwise("/");
+
+      $sceDelegateProvider.resourceUrlWhitelist([
+        // Allow same origin resource loads.
+        'self',
+
+        // HACK
+        // Allow loading assets from anywhere.
+        '**'
+      ]);
     });
 
   app.controller('bodyCtrl', function($scope){
