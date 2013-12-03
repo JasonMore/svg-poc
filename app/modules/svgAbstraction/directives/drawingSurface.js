@@ -18,10 +18,10 @@
       };
 
       function resetSelectionBox($scope) {
-        $scope.x = 0;
-        $scope.y = 0;
-        $scope.width = 0;
-        $scope.height = 0;
+        $scope.$parent.x = 0;
+        $scope.$parent.y = 0;
+        $scope.$parent.width = 0;
+        $scope.$parent.height = 0;
       }
 
       function setupDrawMouseBindings(surfaceGroup, $scope, ngSvg) {
@@ -51,10 +51,10 @@
           }
 
           $scope.$apply(function () {
-            $scope.x = Math.min(event.clientX - offset.left, start.x);
-            $scope.y = Math.min(event.clientY - offset.top, start.y);
-            $scope.width = Math.abs(event.clientX - offset.left - start.x);
-            $scope.height = Math.abs(event.clientY - offset.top - start.y);
+            $scope.$parent.x = Math.min(event.clientX - offset.left, start.x);
+            $scope.$parent.y = Math.min(event.clientY - offset.top, start.y);
+            $scope.$parent.width = Math.abs(event.clientX - offset.left - start.x);
+            $scope.$parent.height = Math.abs(event.clientY - offset.top - start.y);
           });
         }
 
@@ -62,18 +62,18 @@
           var shape = ngSvg.svg.path(shapePaths.keyValues[$scope.shape]);
 
           var selectionBox = pathService.getSelectionBox(shape);
-          var scaleX = $scope.width / selectionBox.width;
-          var scaleY = $scope.height / selectionBox.height;
+          var scaleX = $scope.$parent.width / selectionBox.width;
+          var scaleY = $scope.$parent.height / selectionBox.height;
           var path = pathService.transformShape(ngSvg.svg, shape, scaleX, scaleY, -scaleX * selectionBox.x, -scaleY * selectionBox.y);
 
           ngSvg.svg.remove(shape);
 
           var defaultBorder = 2;
           var newShape = {
-            top: $scope.y,
-            left: $scope.x,
-            width: $scope.width,
-            height: $scope.height,
+            top: $scope.$parent.y,
+            left: $scope.$parent.x,
+            width: $scope.$parent.width,
+            height: $scope.$parent.height,
             rotation: 0,
             path: path,
             backgroundColor: 'gray',
