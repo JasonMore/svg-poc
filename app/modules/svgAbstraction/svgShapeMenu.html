@@ -67,6 +67,10 @@
     <submenu-aim>
       <title-aim>Text</title-aim>
       <content-aim class="popover">
+        <button class="btn btn-default"
+                ng-click="selectedShape.isEditingText = true">
+          Edit Text (double click)
+        </button>
         <shape-options name="Font"
                        visible="selectedShape"
                        options="fontFamilyOptions"
