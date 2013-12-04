@@ -15,10 +15,16 @@
           width:'@',
           height:'@'
         },
-        controller: function($scope) {
+        link: function($scope, el) {
           $scope.fontSizePx = function() {
             return $scope.fontSize + 'px';
-          }
+          };
+
+          $scope.$watch('isEditing', function(val){
+            if(val){
+              el.focus();
+            }
+          })
         }
       }
     })
