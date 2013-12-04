@@ -14,3 +14,39 @@
                    left="{{selectedShape.left() + 20 || 0}}"
                    width="{{selectedShape.width() || 0}}"
                    height="{{selectedShape.width() || 0}}"></shape-text-editor>
+
+<form id="export" style="display:none" target="_blank" action="http://svg-batik.herokuapp.com/V1/renderRequest" method="POST">
+
+  <input type="text" name="svgURI" size="50">
+
+  <input type="radio" name="fileType" value="JPG" />
+  <input type="radio" name="fileType" value="PNG" />
+  <input type="radio" name="fileType" value="PDF" checked="checked"/>
+  <input type="radio" name="fileType" value="CMYKPDF" />
+
+  width:
+  <input type="text" name="width">
+
+  height:
+  <input type="text" name="height">
+
+  jpegQuality:
+  <input type="text" name="jpegQuality">
+
+  language:
+  <input type="text" name="language">
+
+  millimetersPerPixel:
+  <input type="text" name="millimetersPerPixel">
+
+  initialBufferSize:
+  <input type="text" name="initialBufferSize">
+
+  svgFile:
+  <textarea rows="20" cols="80" name="svgFile" ></textarea>
+
+  <input type="submit" value="Render Image">
+
+
+
+</form>
