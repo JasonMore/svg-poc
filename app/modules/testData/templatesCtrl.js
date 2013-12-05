@@ -1,7 +1,7 @@
-(function(){
+(function () {
   angular.module('testData.controllers')
-    .controller('templatesCtrl', function($scope, liveResource) {
-window.debugScope = $scope;
+    .controller('templatesCtrl', function ($scope, liveResource) {
+      window.debugScope = $scope;
       var liveTemplateTypes = liveResource('templateTypes');
       var templateTypesQuery = liveTemplateTypes.query({});
       $scope.templateTypes = liveTemplateTypes.subscribe(templateTypesQuery);
@@ -22,10 +22,10 @@ window.debugScope = $scope;
 
       $scope.$watch('templates', templateWatch, true);
       function templateWatch(templates, oldValue) {
-        if(templates === oldValue) return;
+        if (templates === oldValue) return;
 
         var templatesByType = _.groupBy($scope.templates, 'templateType');
-        $scope.groupedTemplates = _.map($scope.templateTypes, function(type){
+        $scope.groupedTemplates = _.map($scope.templateTypes, function (type) {
           return {
             type: type,
             templates: templatesByType[type.id]
@@ -33,12 +33,12 @@ window.debugScope = $scope;
         });
       }
 
-      $scope.addTestData = function() {
+      $scope.addTestData = function () {
         addStudentOfTheMonth();
         addIdCard();
       };
 
-      function addIdCard(){
+      function addIdCard() {
         var templateTypeId = liveTemplateTypes.add({
           name: 'Id Card',
           requiredFields: ["Student_Name", "Student_Picture"],
@@ -174,17 +174,17 @@ window.debugScope = $scope;
         })
       }
 
-      function addStudentOfTheMonth(){
+      function addStudentOfTheMonth() {
         var templateTypeId = liveTemplateTypes.add({
           id: "559641b7-66ec-4828-b6b9-77a4dabd0180",
           name: 'Student of the Month',
           requiredFields: ["Student_Name", "Student_Picture"],
-          optionFields: ["Student_Grade", "Student_Teacher", "School_Name"],
+          optionalFields: ["Student_Grade", "Student_Teacher", "School_Name"],
           mockData: {
             "Student_Name": "Johnny Appleseed",
-            "Student_Picture":"",
-            "Student_Grade":"11",
-            "Student_Teacher":"Mr. Krum",
+            "Student_Picture": "",
+            "Student_Grade": "11",
+            "Student_Teacher": "Mr. Krum",
             "School_Name": "Sunnyside Elementary"
           }
         });

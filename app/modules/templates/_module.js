@@ -16,20 +16,20 @@
         .state('templates', {
           abstract:true,
           url: "/templates",
-          templateUrl: "modules/templates/templates.html"
+          templateUrl: "modules/templates/templatesShell.html"
         })
         .state('templates.list', {
           url:'',
-          templateUrl:'modules/templates/templateList.html',
-          controller: 'templatesCtrl',
+          templateUrl:'modules/templates/templateTypes.html',
+          controller: 'templateTypesCtrl',
           resolve: {
             liveResource: liveResourceFactory
           }
         })
         .state('templates.item', {
           url: "/:id",
-          templateUrl: "modules/templates/template.html",
-          controller: 'templateCtrl',
+          templateUrl: "modules/templates/templates.html",
+          controller: 'templatesCtrl',
           resolve: {
             liveResource: liveResourceFactory
           }

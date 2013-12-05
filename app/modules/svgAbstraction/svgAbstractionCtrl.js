@@ -289,12 +289,7 @@
 
       $scope.exportPdf = function () {
         $scope.unSelectShape();
-
-        //OMG mega hacks
-        var svg = _.values($scope.shapes)[0].svg;
-
-        $("#export textarea").val(svg.toSVG());
-        $("#export").submit();
+        $scope.$broadcast('submitSvgToBatik');
       };
 
       $scope.openMenu = function (menu) {
@@ -312,8 +307,8 @@
         updateAllTextReflows();
       };
 
-      $scope.$watch('students', function() {
-        if(!$scope.mergeDataId) return;
+      $scope.$watch('students', function () {
+        if (!$scope.mergeDataId) return;
         $scope.mergeData();
 
       }, true);
@@ -321,7 +316,7 @@
       $scope.mergeDataId;
 
       $scope.mergeData = function (id) {
-        if(id){
+        if (id) {
           $scope.mergeDataId = id;
         }
 
@@ -365,7 +360,7 @@
 
           var value = dataOrComputedDictionary[property];
 
-          var valueGetter = function() {
+          var valueGetter = function () {
             return _.isFunction(value) ? value(data) : value;
           };
 
@@ -463,7 +458,7 @@
 
       // events
 
-      $scope.$on('blankSpaceOnBodyClicked', function($event){
+      $scope.$on('blankSpaceOnBodyClicked', function ($event) {
         $scope.unSelectShape();
       });
 
