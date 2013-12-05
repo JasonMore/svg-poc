@@ -205,7 +205,7 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
             });
           }
 
-          _.extend(liveData, newServerModel);
+          _.merge(liveData, newServerModel);
         });
       });
     };
