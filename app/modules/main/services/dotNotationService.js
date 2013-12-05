@@ -1,5 +1,5 @@
 (function() {
-  angular.module('svgAbstraction.services')
+  angular.module('main.services')
     .service('dotNotation', function() {
 
       // see http://plnkr.co/edit/lo0thC?p=preview for usage

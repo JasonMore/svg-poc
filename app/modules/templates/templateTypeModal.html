@@ -14,21 +14,21 @@
           </label>
           <label>
             Required Fields
-            <input ng-model="templateType.requiredFields">
+            <input disabled ng-model="templateType.requiredFields">
           </label>
           <label>
             Optional Fields
-            <input ng-model="templateType.optionalFields">
+            <input disabled ng-model="templateType.optionalFields">
           </label>
           <label>
             Mock Data
-            <input ng-model="templateType.mockData">
+            <input disabled>
           </label>
         </form>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" ng-click="save()">Save</button>
-        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-info" ng-click="save()">Done</button>
+        <button disabled class="btn btn-default" ng-click="cancel()">Undo</button>
       </div>
     </div>
   </div>

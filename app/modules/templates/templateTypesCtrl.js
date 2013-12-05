@@ -8,14 +8,14 @@
       var templateTypesQuery = liveTemplateTypes.query({});
       $scope.templateTypes = liveTemplateTypes.subscribe(templateTypesQuery);
 
-      $scope.addOrEdit = function (template) {
+      $scope.addOrEdit = function (templateType) {
         var modalInstance = $modal.open({
           templateUrl: 'modules/templates/templateTypeModal.html',
           controller: function($scope, $modalInstance) {
-            $scope.template = template || {};
+            $scope.templateType = templateType || {};
 
             $scope.save = function () {
-              $modalInstance.close($scope.template);
+              $modalInstance.close($scope.templateType);
             };
 
             $scope.cancel = function () {
@@ -24,16 +24,16 @@
           }
         });
 
-        modalInstance.result.then(function (template) {
-          if(!template.id){
-            liveTemplateTypes.add(template);
+        modalInstance.result.then(function (templateType) {
+          if(!templateType.id){
+            liveTemplateTypes.add(templateType);
           }
         });
 
 //        templateTypesLive.add({ name: $scope.newName });
       };
 
-      $scope.delete = function (template) {
+      $scope.delete = function (templateType) {
         var modalInstance = $modal.open({
           templateUrl: 'modules/templates/templateTypeDeleteModal.html',
           controller: function($scope, $modalInstance) {
@@ -50,7 +50,7 @@
         });
 
         modalInstance.result.then(function () {
-          liveTemplateTypes.delete(template);
+          liveTemplateTypes.delete(templateType);
         });
       };
 

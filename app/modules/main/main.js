@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var main = angular.module('main', ['ui.router', 'main.directives']);
+  var main = angular.module('main', ['ui.router', 'main.directives', 'main.services']);
 
   main.config(function ($stateProvider) {
     $stateProvider.state('main', {
@@ -15,5 +15,5 @@
   });
 
   angular.module('main.directives',[]);
-
+  angular.module('main.services',[]);
 }());
