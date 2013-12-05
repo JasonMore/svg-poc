@@ -4,14 +4,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Delete {{template.name}}</h4>
+        <h4 class="modal-title">Delete {{templateType.name}}</h4>
       </div>
       <div class="modal-body">
         <p>Are you sure you want to delete this template?</p>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" ng-click="ok()">Yes</button>
-        <button class="btn btn-warning" ng-click="cancel()">No</button>
+        <button class="btn btn-info" ng-click="ok()">Yes</button>
+        <button class="btn btn-default" ng-click="cancel()">No</button>
       </div>
     </div>
   </div>

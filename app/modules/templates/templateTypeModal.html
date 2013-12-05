@@ -3,8 +3,8 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Add/Edit Template Type</h4>
+        <button type="button" ng-click="cancel()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">{{isNew ? 'Add' : 'Edit'}} Template Type</h4>
       </div>
       <div class="modal-body">
         <form>
@@ -27,8 +27,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-info" ng-click="save()">Done</button>
-        <button disabled class="btn btn-default" ng-click="cancel()">Undo</button>
+        <button class="btn btn-info" ng-click="save()">{{isNew ? 'Add' : 'Done'}} </button>
+        <button ng-disabled="!isNew" class="btn btn-default" ng-click="cancel(isNew)">{{isNew ? 'Cancel' : 'Undo'}} </button>
       </div>
     </div>
   </div>

@@ -27,7 +27,7 @@
           }
         })
         .state('templates.item', {
-          url: "/:id",
+          url: ":id",
           templateUrl: "modules/templates/templates.html",
           controller: 'templatesCtrl',
           resolve: {
