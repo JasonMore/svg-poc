@@ -304,7 +304,14 @@
         }
 
         //HACK
-        updateAllTextReflows();
+        $timeout(function () {
+          if(oldVal){
+            updateAllTextReflows();
+          }
+
+        }, 200)
+
+
       };
 
       $scope.$watch('students', function () {

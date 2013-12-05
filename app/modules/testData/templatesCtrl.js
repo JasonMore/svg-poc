@@ -55,17 +55,17 @@
         liveTemplates.add({
           "width": "428",
           "height": "234",
-          "templateType": templateTypeId,
+          "templateType": "fe6c88cd-f0de-4ba5-bae0-008833154e30",
           "name": "Landscape",
           "shapes": {
             "b694df81-413f-4c31-9b7b-8e6c805f9712": {
-              "top": 8,
-              "left": 9.5,
-              "width": 402,
-              "height": 209,
+              "top": 6,
+              "left": 6.5,
+              "width": 411,
+              "height": 221,
               "rotation": 0,
-              "path": "M0,0L402.395,0L402.395,209.347L0,209.347z",
-              "backgroundColor": "white",
+              "path": "M0,0L411.385,0L411.385,221.311L0,221.311z",
+              "backgroundColor": "yellow",
               "borderColor": "black",
               "borderWidth": 2,
               "image": {
@@ -77,18 +77,24 @@
                 "rotation": 0
               },
               "id": "b694df81-413f-4c31-9b7b-8e6c805f9712",
-              "order": 0,
+              "order": 3,
               "text": "",
               "font": "Verdana",
               "fontSize": "12.0",
               "fontColor": "black",
               "wrapTextAround": true,
               "transparency": 1,
-              "templateId": "b694df81-413f-4c31-9b7b-8e6c805f9712"
+              "templateId": "b694df81-413f-4c31-9b7b-8e6c805f9712",
+              "shadow": {
+                "enabled": false,
+                "offsetX": 20,
+                "offsetY": 20,
+                "density": 10
+              }
             },
             "9f9ce0a1-8d7b-4c07-83ce-3efad3372919": {
-              "top": 23,
-              "left": 27.5,
+              "top": 23.00000762939453,
+              "left": 24.5,
               "width": 126,
               "height": 167,
               "rotation": 0,
@@ -105,22 +111,28 @@
                 "rotation": 0
               },
               "id": "9f9ce0a1-8d7b-4c07-83ce-3efad3372919",
-              "order": 1,
+              "order": 4,
               "text": "",
               "font": "Verdana",
               "fontSize": "12.0",
               "fontColor": "black",
               "wrapTextAround": true,
               "transparency": 1,
-              "templateId": "Student_Picture"
+              "templateId": "Student_Picture",
+              "shadow": {
+                "enabled": true,
+                "offsetX": "7",
+                "offsetY": "5",
+                "density": 10
+              }
             },
             "80752dc6-3b78-4206-b4a2-69860b4a242c": {
-              "top": 28,
-              "left": 173.5,
-              "width": 203,
-              "height": 87,
+              "top": 92,
+              "left": 180.5,
+              "width": 207,
+              "height": 26,
               "rotation": 0,
-              "path": "M0,0L203.491,0L203.491,87.537L0,87.537z",
+              "path": "M0,0L207.481,0L207.481,26.857L0,26.857z",
               "backgroundColor": "white",
               "borderColor": "black",
               "borderWidth": 2,
@@ -133,23 +145,29 @@
                 "rotation": 0
               },
               "id": "80752dc6-3b78-4206-b4a2-69860b4a242c",
-              "order": 2,
+              "order": 4,
               "text": "test name",
               "font": "Verdana",
               "fontSize": "12.0",
               "fontColor": "black",
               "wrapTextAround": true,
               "transparency": 1,
-              "templateId": "Student_Name"
+              "templateId": "Student_Name",
+              "shadow": {
+                "enabled": false,
+                "offsetX": 20,
+                "offsetY": 20,
+                "density": 10
+              }
             },
             "fbddc1ab-e074-4f74-9c99-d2979a6087d2": {
-              "top": 136,
-              "left": 175,
-              "width": 202,
-              "height": 58,
+              "top": 24,
+              "left": 176,
+              "width": 207.5,
+              "height": 39,
               "rotation": 0,
-              "path": "M0,0L201.945,0L201.945,58L0,58z",
-              "backgroundColor": "white",
+              "path": "M0,0L207.414,0L207.414,39.323L0,39.323z",
+              "backgroundColor": "yellow",
               "borderColor": "black",
               "borderWidth": 2,
               "image": {
@@ -161,17 +179,194 @@
                 "rotation": 0
               },
               "id": "fbddc1ab-e074-4f74-9c99-d2979a6087d2",
-              "order": 3,
-              "text": "test school",
+              "order": 6,
+              "text": "School Name",
+              "font": "Cambria",
+              "fontSize": 20,
+              "fontColor": "black",
+              "wrapTextAround": true,
+              "transparency": 1,
+              "templateId": "School_Name",
+              "shadow": {
+                "enabled": true,
+                "offsetX": "1",
+                "offsetY": "0",
+                "density": "47"
+              }
+            },
+            "588d2eaf-13dd-4f3d-bc83-71493187dd43": {
+              "top": 174.48631286621094,
+              "left": 282.82733154296875,
+              "width": 49.389747619628906,
+              "height": 53.13072535395622,
+              "rotation": 0,
+              "path": "M0,0L49.417,0L49.417,53.077L0,53.077z",
+              "backgroundColor": "none",
+              "borderColor": "none",
+              "borderWidth": "0",
+              "image": {
+                "url": "img/Prior%20Lake%20Logo.png",
+                "top": 4.8395195481998625,
+                "left": -6.636212423431878,
+                "width": 65.32259095912941,
+                "height": 44.01609534113285,
+                "rotation": 0
+              },
+              "id": "588d2eaf-13dd-4f3d-bc83-71493187dd43",
+              "order": 5,
+              "text": "",
               "font": "Verdana",
               "fontSize": "12.0",
               "fontColor": "black",
               "wrapTextAround": true,
               "transparency": 1,
-              "templateId": "School_Name"
+              "shadow": {
+                "enabled": false,
+                "offsetX": "6",
+                "offsetY": "11",
+                "density": "60"
+              },
+              "templateId": "588d2eaf-13dd-4f3d-bc83-71493187dd43"
+            },
+            "43593473-72c0-49fa-ba0a-a196ed1443f6": {
+              "top": 204.0660400390625,
+              "left": 359.5,
+              "width": 57.95540237426758,
+              "height": 20.9339599609375,
+              "rotation": 0,
+              "path": "M0,0L58.151,0L58.151,21.353L0,21.353z",
+              "backgroundColor": "gray",
+              "borderColor": "none",
+              "borderWidth": 2,
+              "image": {
+                "url": null,
+                "top": 0,
+                "left": 0,
+                "width": 0,
+                "height": 0,
+                "rotation": 0
+              },
+              "id": "43593473-72c0-49fa-ba0a-a196ed1443f6",
+              "order": 5,
+              "text": "2013-14",
+              "font": "Verdana",
+              "fontSize": "12.0",
+              "fontColor": "white",
+              "wrapTextAround": true,
+              "transparency": "0.42",
+              "shadow": {
+                "enabled": false,
+                "offsetX": 20,
+                "offsetY": 20,
+                "density": 10
+              },
+              "templateId": "43593473-72c0-49fa-ba0a-a196ed1443f6"
+            },
+            "7d1cd536-65bd-4bd3-ac46-007e82505451": {
+              "top": -1,
+              "left": -0.5,
+              "width": 427,
+              "height": 236,
+              "rotation": 0,
+              "path": "M0,0L426.986,0L426.986,235.941L0,235.941z",
+              "backgroundColor": "blue",
+              "borderColor": "black",
+              "borderWidth": 2,
+              "image": {
+                "url": null,
+                "top": 0,
+                "left": 0,
+                "width": 0,
+                "height": 0,
+                "rotation": 0
+              },
+              "id": "7d1cd536-65bd-4bd3-ac46-007e82505451",
+              "order": 0,
+              "text": "",
+              "font": "Verdana",
+              "fontSize": "12.0",
+              "fontColor": "black",
+              "wrapTextAround": true,
+              "transparency": 1,
+              "shadow": {
+                "enabled": false,
+                "offsetX": 20,
+                "offsetY": 20,
+                "density": 10
+              },
+              "templateId": "7d1cd536-65bd-4bd3-ac46-007e82505451"
+            },
+            "24fa2247-f255-4ce2-afbd-bcc082a1c8be": {
+              "top": 146,
+              "left": 181.5,
+              "width": 206,
+              "height": 30,
+              "rotation": 0,
+              "path": "M0,0L205.97,0L205.97,30L0,30z",
+              "backgroundColor": "gray",
+              "borderColor": "black",
+              "borderWidth": 2,
+              "image": {
+                "url": null,
+                "top": 0,
+                "left": 0,
+                "width": 0,
+                "height": 0,
+                "rotation": 0
+              },
+              "id": "24fa2247-f255-4ce2-afbd-bcc082a1c8be",
+              "order": 7,
+              "text": "BARCODE",
+              "font": "Verdana",
+              "fontSize": "12.0",
+              "fontColor": "black",
+              "wrapTextAround": true,
+              "transparency": 1,
+              "shadow": {
+                "enabled": false,
+                "offsetX": 20,
+                "offsetY": 20,
+                "density": 10
+              },
+              "templateId": "24fa2247-f255-4ce2-afbd-bcc082a1c8be"
+            },
+            "d293502b-0b66-451a-9fec-99e597dc1c75": {
+              "top": 195,
+              "left": 155.5,
+              "width": 66,
+              "height": 23,
+              "rotation": 0,
+              "path": "M0,0L66,0L66,23L0,23z",
+              "backgroundColor": "yellow",
+              "borderColor": "black",
+              "borderWidth": 2,
+              "image": {
+                "url": null,
+                "top": 0,
+                "left": 0,
+                "width": 0,
+                "height": 0,
+                "rotation": 0
+              },
+              "id": "d293502b-0b66-451a-9fec-99e597dc1c75",
+              "order": 8,
+              "text": "Bus",
+              "font": "Verdana",
+              "fontSize": "12.0",
+              "fontColor": "black",
+              "wrapTextAround": true,
+              "transparency": 1,
+              "shadow": {
+                "enabled": false,
+                "offsetX": 20,
+                "offsetY": 20,
+                "density": 10
+              },
+              "templateId": "Bus_ID"
             }
-          }
-        })
+          },
+          "id": "9222aa66-ee36-4cf7-ac8e-128312e14c05"
+        });
       }
 
       function addStudentOfTheMonth() {
