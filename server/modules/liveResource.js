@@ -17,6 +17,13 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
 
     window.debugRacerModel = racerModel;
 
+    // link up to ui.router to clear any subscriptions on page changes
+    $rootScope.$on('$stateChangeStart',
+      function(event, toState, toParams, fromState, fromParams){
+        racerModel.unload();
+      }
+    );
+
     // currently singleton, refactor to factory
     var returnService = function liveResource(path) {
       this._racerModel = racerModel;

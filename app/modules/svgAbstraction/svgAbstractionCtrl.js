@@ -263,7 +263,7 @@
 
       $scope.fontSize = function (addHowMuch) {
         addHowMuch = parseInt(addHowMuch);
-        oldValue = parseInt($scope.selectedShape.model.fontSize)
+        var oldValue = parseInt($scope.selectedShape.model.fontSize);
         $scope.selectedShape.model.fontSize = oldValue + addHowMuch;
       };
 

@@ -1,6 +1,6 @@
 (function() {
-  angular.module('testData.controllers')
-    .controller('defaultDictionaryCtrl', function($scope, liveResource) {
+  angular.module('testData')
+    .controller('testData.defaultDictionaryCtrl', function($scope, liveResource) {
       // load data
       var liveTemplateType = liveResource(templateKey);
       $scope.templateType = liveTemplateType.subscribe();

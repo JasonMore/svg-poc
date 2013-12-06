@@ -1,6 +1,6 @@
 (function () {
-  angular.module('testData.controllers')
-    .controller('templatesCtrl', function ($scope, liveResource) {
+  angular.module('testData')
+    .controller('testData.templatesCtrl', function ($scope, liveResource) {
       window.debugScope = $scope;
       var liveTemplateTypes = liveResource('templateTypes');
       var templateTypesQuery = liveTemplateTypes.query({});

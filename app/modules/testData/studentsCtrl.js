@@ -1,6 +1,6 @@
 (function () {
-  angular.module('testData.controllers')
-    .controller('studentsCtrl', function ($scope, liveResource) {
+  angular.module('testData')
+    .controller('testData.studentsCtrl', function ($scope, liveResource) {
       window.debugScope = $scope;
 
       var liveStudents = liveResource('students');

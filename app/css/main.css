@@ -3,20 +3,20 @@ body {
     margin: 0;
     background: #eee;
 }
-.navbar {
+/*.navbar {*/
     /*width: 100%;*/
     /*height: 50px;*/
-    margin-bottom: 0px;
-    float: top;
-    z-index:101;
-}
-.sidebar {
-    float: left;
-    padding: 15px 0 0 0;
-    width: 80px;
-    height: 92%;
-    background: #eeeeee;
-}
+    /*margin-bottom: 0px;*/
+    /*float: top;*/
+    /*z-index:101;*/
+/*}*/
+/*.sidebar {*/
+    /*float: left;*/
+    /*padding: 15px 0 0 0;*/
+    /*width: 80px;*/
+    /*height: 92%;*/
+    /*background: #eeeeee;*/
+/*}*/
 .wrapper {
     margin: 67px 0;
     background: #eee;
