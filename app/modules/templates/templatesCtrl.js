@@ -1,6 +1,6 @@
 (function() {
   angular.module('templates.controllers')
-    .controller('templatesCtrl', function($scope, $stateParams, liveResource) {
+    .controller('templatesCtrl', function($scope, $stateParams, liveResource, $modal) {
 
       // load data
       var templateKey = 'templateTypes.' + $stateParams.id;
@@ -10,5 +10,32 @@
       var liveTemplates = liveResource('templates');
       var templatesQuery = liveTemplates.query({templateType: $stateParams.id});
       $scope.templates = liveTemplates.subscribe(templatesQuery);
+
+      // actions
+      $scope.addOrEdit = function (template) {
+        var modalInstance = $modal.open({
+          templateUrl: 'modules/templates/templateModal.html',
+          controller: function($scope, $modalInstance) {
+            $scope.isNew = template ? false : true;
+            $scope.template = template || {};
+
+            $scope.save = function () {
+              $modalInstance.close($scope.template);
+            };
+
+            $scope.cancel = function (isNew) {
+              $modalInstance.dismiss('cancel');
+            };
+          }
+        });
+
+        modalInstance.result.then(function (template) {
+          if(!template.id){
+            template.templateType = $scope.templateType.id;
+            template.created = new Date();
+            liveTemplates.add(template);
+          }
+        });
+      };
     });
 }());

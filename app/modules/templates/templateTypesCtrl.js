@@ -34,8 +34,6 @@
             liveTemplateTypes.add(templateType);
           }
         });
-
-//        templateTypesLive.add({ name: $scope.newName });
       };
 
       $scope.delete = function (templateType) {
