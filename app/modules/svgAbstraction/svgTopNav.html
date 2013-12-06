@@ -1,57 +1,139 @@
-<div class="navbar navbar-default navbar-fixed-top">
+<div class="navbar navbar-inverse navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
-      <a href="../" class="navbar-brand">Bootswatch</a>
-      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-inverse-collapse">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
+      <a ui-sref="templates" class="btn btn-primary btn-text">
+        <div class="IconWrapper">
+          <i class="fa fa-caret-left fa-3x "></i>
+        </div>
+        <div class="HoverText">To list</div>
+      </a>
+      <a class="btn btn-primary btn-text"
+         ng-mousedown="openMenu('showDrawMenu')"
+         ng-disabled="dataMode">
+        <div class="IconWrapper">
+          <i class="fa fa-pencil fa-3x "></i>
+        </div>
+        <div class="HoverText">Draw <b class="caret"></b>
+        </div>
+      </a>
+      <a class="btn btn-primary btn-text" ng-mousedown="openMenu('showSettingsMenu')">
+        <div class="IconWrapper">
+          <i class="fa fa-gear fa-3x "></i>
+        </div>
+        <div class="HoverText">Settings <b class="caret"></b></div>
+      </a>
+      <a class="btn btn-primary btn-text" ng-mousedown="openMenu('showDataMenu')">
+        <div class="IconWrapper">
+          <i class="fa fa-folder-o fa-3x"></i>
+        </div>
+        <div class="HoverText">Data <b class="caret"></b></div>
+      </a>
+      <a class="btn btn-primary btn-text fader"
+         ng-mousedown="shapeMenuOpen($event, true)"
+         ng-hide="!selectedShape">
+        <div class="IconWrapper">
+          <i class="fa fa-edit fa-3x"></i>
+        </div>
+        <div class="HoverText">Options <b class="caret"></b></div>
+      </a>
     </div>
-    <div class="navbar-collapse collapse" id="navbar-main">
-      <ul class="nav navbar-nav">
-        <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Themes <span class="caret"></span></a>
-          <ul class="dropdown-menu" aria-labelledby="themes">
-            <li><a tabindex="-1" href="../default/">Default</a></li>
-            <li class="divider"></li>
-            <li><a tabindex="-1" href="../amelia/">Amelia</a></li>
-            <li><a tabindex="-1" href="../cerulean/">Cerulean</a></li>
-            <li><a tabindex="-1" href="../cosmo/">Cosmo</a></li>
-            <li><a tabindex="-1" href="../cyborg/">Cyborg</a></li>
-            <li><a tabindex="-1" href="../flatly/">Flatly</a></li>
-            <li><a tabindex="-1" href="../journal/">Journal</a></li>
-            <li><a tabindex="-1" href="../readable/">Readable</a></li>
-            <li><a tabindex="-1" href="../simplex/">Simplex</a></li>
-            <li><a tabindex="-1" href="../slate/">Slate</a></li>
-            <li><a tabindex="-1" href="../spacelab/">Spacelab</a></li>
-            <li><a tabindex="-1" href="../united/">United</a></li>
-            <li><a tabindex="-1" href="../yeti/">Yeti</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="../help/">Help</a>
-        </li>
-        <li>
-          <a href="http://news.bootswatch.com">Blog</a>
-        </li>
-        <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Download <span class="caret"></span></a>
-          <ul class="dropdown-menu" aria-labelledby="download">
-            <li><a tabindex="-1" href="./bootstrap.min.css">bootstrap.min.css</a></li>
-            <li><a tabindex="-1" href="./bootstrap.css">bootstrap.css</a></li>
-            <li class="divider"></li>
-            <li><a tabindex="-1" href="./variables.less">variables.less</a></li>
-            <li><a tabindex="-1" href="./bootswatch.less">bootswatch.less</a></li>
-          </ul>
-        </li>
-      </ul>
-
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="http://builtwithbootstrap.com/" target="_blank">Built With Bootstrap</a></li>
-        <li><a href="https://wrapbootstrap.com/?ref=bsw" target="_blank">WrapBootstrap</a></li>
-      </ul>
-
-    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Lifetouch <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="#">Action</a>
+          </li>
+          <li>
+            <a href="#">Another action</a>
+          </li>
+          <li>
+            <a href="#">Something else here</a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href="#">Separated link</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
   </div>
 </div>
+
+<nav class="cbp-spmenu cbp-spmenu-horizontal cbp-spmenu-top" ng-class="{ 'cbp-spmenu-open':showDrawMenu}">
+  <div class="spmenu-title">
+    <h3>Draw</h3>
+    <input ng-model="drawSearch" class="form-control input-sm" type="text" placeholder="Search...">
+
+  </div>
+  <div class="spmenu-contents">
+    <a href
+       ng-repeat="shape in shapePaths | filter:drawSearch"
+       class="btn btn-info"
+       href
+       ng-class="{active: isActiveShape(shape)}"
+       ng-click="drawShape(shape)">
+      <svg class="toolbar-icon">
+        <path fill="white" ng-attr-d="{{shape.path}}"></path>
+      </svg>
+      {{shape.name}}
+    </a></div>
+</nav>
+<nav class="cbp-spmenu cbp-spmenu-horizontal cbp-spmenu-top" ng-class="{ 'cbp-spmenu-open':showSettingsMenu}">
+  <div class="spmenu-title">
+    <h3>Settings</h3>
+    <label ng-show="!editTemplateName" ng-click="editTemplateName = true">{{template.name}}</label>
+
+    <div ng-show="editTemplateName" class="input-append">
+      <input type="text" ng-show="editTemplateName" ng-model="template.name">
+      <button class="btn btn-default" type="button" ng-click="editTemplateName = false">Done</button>
+    </div>
+  </div>
+  <div class="spmenu-contents">
+    <ul>
+      <li>
+        <label>
+          Name:
+          <!--<input type="text" ng-model="">-->
+        </label>
+      </li>
+      <li>
+        <label>
+          <a href ng-click="zoom = 1">zoom: {{zoom}}</a>
+          <input type="range" ng-model="zoom" min="0.05" max="5" step="0.05">
+        </label>
+      </li>
+      <li>
+        <label>
+          width: {{template.width}}
+        </label>
+        <input type="range" ng-model="template.width" min="10" max="1500" step="2">
+      </li>
+      <li>
+        <label>
+          height: {{template.height}}
+        </label>
+        <input type="range" ng-model="template.height" min="10" max="1500" step="2">
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<nav class="cbp-spmenu cbp-spmenu-horizontal cbp-spmenu-top" ng-class="{ 'cbp-spmenu-open':showDataMenu}">
+  <div class="spmenu-title">
+    <h3>Data</h3>
+  </div>
+  <div class="spmenu-contents">
+    <ul>
+      <li ng-repeat="data in students">
+        <a href ng-click="mergeData(data.id)">{{data.Student_First_Name}} {{data.Student_Last_Name}}</a>
+      </li>
+    </ul>
+  </div>
+</nav>
