@@ -81,7 +81,8 @@
         {id: 'Arial', name: 'Arial'},
         {id: 'Cambria', name: 'Cambria'},
         {id: 'Consolas', name: 'Consolas'},
-        {id: 'Verdana', name: 'Verdana'}
+        {id: 'Verdana', name: 'Verdana'},
+        {id: 'Code39Azalea', name: 'Barcode 39'}
       ];
 
       // watches

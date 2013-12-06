@@ -437,3 +437,8 @@ g.drawing{
     display:block;
     height:200px
 }
+
+@font-face {
+    font-family: 'Code39Azalea';
+    src: url(fonts/Code39Azalea.woff) format("woff")
+}
