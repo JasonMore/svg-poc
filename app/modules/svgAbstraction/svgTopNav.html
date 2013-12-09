@@ -88,12 +88,13 @@
 <nav class="cbp-spmenu cbp-spmenu-horizontal cbp-spmenu-top" ng-class="{ 'cbp-spmenu-open':showSettingsMenu}">
   <div class="spmenu-title">
     <h3>Settings</h3>
-    <label ng-show="!editTemplateName" ng-click="editTemplateName = true">{{template.name}}</label>
+    <editable-field model="template.name"></editable-field>
+    <!--<label ng-show="!editTemplateName" ng-click="editTemplateName = true">{{template.name}}</label>-->
 
-    <div ng-show="editTemplateName" class="input-append">
-      <input type="text" ng-show="editTemplateName" ng-model="template.name">
-      <button class="btn btn-default" type="button" ng-click="editTemplateName = false">Done</button>
-    </div>
+    <!--<div ng-show="editTemplateName" class="input-append">-->
+      <!--<input type="text" ng-show="editTemplateName" ng-model="template.name">-->
+      <!--<button class="btn btn-default" type="button" ng-click="editTemplateName = false">Done</button>-->
+    <!--</div>-->
   </div>
   <div class="spmenu-contents">
     <ul>
@@ -105,8 +106,8 @@
       </li>
       <li>
         <label>
-          <a href ng-click="zoom = 1">zoom: {{zoom}}</a>
-          <input type="range" ng-model="zoom" min="0.05" max="5" step="0.05">
+          <a href ng-click="$parent.zoom = 1">zoom: {{zoom}}</a>
+          <input type="range" ng-model="$parent.zoom" min="0.05" max="5" step="0.05">
         </label>
       </li>
       <li>
