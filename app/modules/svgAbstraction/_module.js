@@ -10,7 +10,8 @@
     'menuAim',
     'liveResource',
     'ui.router',
-    'ngAnimate'
+    'ngAnimate',
+    'colorpicker.module'
 //    'ngSvg'
   ];
 
@@ -28,6 +29,7 @@
       });
     });
 
+  angular.module('svgAbstraction.controllers', ['ngAnimate', 'colorpicker.module']);
   angular.module('svgAbstraction.services',[]);
   angular.module('svgAbstraction.directives', []);
   angular.module('svgAbstraction.filters', []);

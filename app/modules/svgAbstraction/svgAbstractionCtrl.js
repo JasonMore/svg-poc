@@ -1,5 +1,5 @@
 (function () {
-  angular.module('svgAbstraction.controllers', ['ngAnimate'])
+  angular.module('svgAbstraction.controllers')
     .controller('svgAbstractionCtrl', function ($scope, $stateParams, $timeout, shapePaths, shapeViewModelService, liveResource, textReflowService, dotNotation) {
       window.debugScope = $scope;
 

@@ -76,7 +76,7 @@
             height: $scope.$parent.height,
             rotation: 0,
             path: path,
-            backgroundColor: 'gray',
+            backgroundColor: 'rgba(53,99,204,1)',
             borderColor: 'black',
             borderWidth: defaultBorder,
             "image": {

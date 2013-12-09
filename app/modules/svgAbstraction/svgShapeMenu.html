@@ -6,10 +6,12 @@
     <submenu-aim>
       <title-aim>Background</title-aim>
       <content-aim class="popover">
-        <shape-options name="Background Color"
-                       visible="selectedShape"
-                       options="colorOptions"
-                       selection="selectedShape.model.backgroundColor"></shape-options>
+
+        <label>
+        Background Color
+          <input colorpicker="rgba" class="span2" type="text" ng-model="selectedShape.model.backgroundColor" />
+        </label>
+
         <label>
           Image Url
           <input ng-model="selectedShape.model.image.url" debounce>
@@ -55,10 +57,10 @@
     <submenu-aim>
       <title-aim>Border</title-aim>
       <content-aim class="popover">
-        <shape-options name="Border Color"
-                       visible="selectedShape"
-                       options="colorOptions"
-                       selection="selectedShape.model.borderColor"></shape-options>
+        <label>
+          Border Color
+          <input colorpicker="rgba" class="span2" type="text" ng-model="selectedShape.model.borderColor" />
+        </label>
         <label>Border Size
           <input type="range" ng-model="selectedShape.model.borderWidth" max="25">
         </label>
@@ -82,11 +84,10 @@
         <button ng-click="fontSize(1)">+</button>
         <input type="range" ng-model="selectedShape.model.fontSize" min="5.0" max="100" step="1"/>
 
-        <shape-options name="Font Color"
-                       visible="selectedShape"
-                       options="colorOptions"
-                       selection="selectedShape.model.fontColor"></shape-options>
-
+        <label>
+          Font Color
+          <input colorpicker="rgba" class="span2" type="text" ng-model="selectedShape.model.fontColor" />
+        </label>
       </content-aim>
     </submenu-aim>
     <submenu-aim>
