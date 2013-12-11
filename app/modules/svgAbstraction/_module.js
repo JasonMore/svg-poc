@@ -11,7 +11,8 @@
     'liveResource',
     'ui.router',
     'ngAnimate',
-    'colorpicker.module'
+    'colorpicker.module',
+    'ui.select2'
 //    'ngSvg'
   ];
 
@@ -29,7 +30,7 @@
       });
     });
 
-  angular.module('svgAbstraction.controllers', ['ngAnimate', 'colorpicker.module']);
+  angular.module('svgAbstraction.controllers', ['ngAnimate', 'colorpicker.module', 'ui.select2']);
   angular.module('svgAbstraction.services',[]);
   angular.module('svgAbstraction.directives', []);
   angular.module('svgAbstraction.filters', []);

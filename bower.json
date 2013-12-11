@@ -17,6 +17,7 @@
   ],
   "dependencies": {
     "angular": "~1.2.3",
-    "angular-bootstrap-colorpicker": "~3.0.1"
+    "angular-bootstrap-colorpicker": "~3.0.1",
+    "angular-ui-select2": "~0.0.4"
   }
 }

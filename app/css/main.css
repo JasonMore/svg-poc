@@ -185,6 +185,7 @@ body {
 
 .spmenu-contents-side {
     margin-top: 25px;
+    width: 400px;
 }
 
 .spmenu-contents > a {
