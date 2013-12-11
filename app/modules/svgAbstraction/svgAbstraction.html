@@ -1,8 +1,19 @@
 <div ng-include="'modules/svgAbstraction/svgTopNav.html'"></div>
 <div ng-include="'modules/svgAbstraction/svgShapeMenu.html'"></div>
 
-<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left "
-    ng-class="{'cbp-spmenu-open':sideMenuOpen}">
+<div class="wrapper"
+     ng-class="{'side-menu-open':sideMenuOpen}"
+     ng-click-stop="unSelectShape()"
+     ng-include="'modules/svgAbstraction/svgCanvas.html'">
+</div>
+
+
+<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left behind-other-menus"
+     ng-class="{'cbp-spmenu-open':sideMenuOpen}">
+  <div class="left-pill">
+    <button class="btn btn-primary" ng-click="sideMenuOpen = !sideMenuOpen"><i class="fa fa-angle-double-up"></i></button>
+  </div>
+
   <h3>Menu</h3>
   <a href="#">Celery seakale</a>
   <a href="#">Dulse daikon</a>
@@ -10,17 +21,16 @@
   <a href="#">Catsear azuki bean</a>
   <a href="#">Dandelion bunya</a>
   <a href="#">Rutabaga</a>
-  <div class="left-pill">
-    <button class="btn btn-info" ng-click="sideMenuOpen = !sideMenuOpen">Menu</button>
-  </div>
+  <a href="#">Celery seakale</a>
+  <a href="#">Dulse daikon</a>
+  <a href="#">Zucchini garlic</a>
+  <a href="#">Catsear azuki bean</a>
+  <a href="#">Dandelion bunya</a>
+  <a href="#">Rutabaga</a>
+
+
 </nav>
 
-
-<div class="wrapper"
-     ng-class="{'side-menu-open':sideMenuOpen}"
-     ng-click-stop="unSelectShape()"
-     ng-include="'modules/svgAbstraction/svgCanvas.html'">
-</div>
 
 <shape-text-editor text-value="selectedShape.model.text"
                    is-editing="selectedShape.isEditingText"
@@ -32,3 +42,4 @@
                    height="{{selectedShape.width() || 0}}"></shape-text-editor>
 
 <batik-upload></batik-upload>
+

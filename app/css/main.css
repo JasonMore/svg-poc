@@ -29,7 +29,7 @@ body {
 }
 
 .left-pill{
-    margin: -70px 0px 0px 265px;
+    margin: 21px 0px 0px 260px;
     -webkit-transform: rotate(90deg);
     background: black;
 }
@@ -125,7 +125,7 @@ body {
 /* Orientation-dependent styles for the content of the menu */
 
 .cbp-spmenu-vertical {
-    margin-top: 61px;
+    margin-top: 31px;
     width: 240px;
     height: 100%;
     top: 0;
@@ -299,9 +299,9 @@ body {
 /*}*/
 
 
-
-
-
+.behind-other-menus {
+    z-index:10;
+}
 
 
 .svg-drop {
