@@ -33,9 +33,8 @@
         </div>
         <div class="HoverText">Data <b class="caret"></b></div>
       </a>
-      <a class="btn btn-primary btn-text fader"
-         ng-mousedown="shapeMenuOpen($event, true)"
-         ng-hide="!selectedShape">
+      <a class="btn btn-primary btn-text"
+         ng-mousedown="sideMenuOpen = false">
         <div class="IconWrapper">
           <i class="fa fa-edit fa-3x"></i>
         </div>
@@ -66,7 +65,8 @@
   </div>
 </div>
 
-<nav class="cbp-spmenu cbp-spmenu-horizontal cbp-spmenu-top" ng-class="{ 'cbp-spmenu-open':showDrawMenu}">
+<nav class="cbp-spmenu cbp-spmenu-horizontal cbp-spmenu-top"
+     ng-class="{ 'cbp-spmenu-open':showDrawMenu}">
   <div class="spmenu-title">
     <h3>Draw</h3>
     <input ng-model="drawSearch" class="form-control input-sm" type="text" placeholder="Search...">
@@ -85,7 +85,8 @@
       {{shape.name}}
     </a></div>
 </nav>
-<nav class="cbp-spmenu cbp-spmenu-horizontal cbp-spmenu-top" ng-class="{ 'cbp-spmenu-open':showSettingsMenu}">
+<nav class="cbp-spmenu cbp-spmenu-horizontal cbp-spmenu-top"
+     ng-class="{ 'cbp-spmenu-open':showSettingsMenu}">
   <div class="spmenu-title">
     <h3>Settings</h3>
     <editable-field model="template.name"></editable-field>
@@ -126,7 +127,8 @@
   </div>
 </nav>
 
-<nav class="cbp-spmenu cbp-spmenu-horizontal cbp-spmenu-top" ng-class="{ 'cbp-spmenu-open':showDataMenu}">
+<nav class="cbp-spmenu cbp-spmenu-horizontal cbp-spmenu-top"
+     ng-class="{ 'cbp-spmenu-open':showDataMenu}">
   <div class="spmenu-title">
     <h3>Data</h3>
   </div>

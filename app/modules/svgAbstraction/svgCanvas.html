@@ -25,7 +25,8 @@
     <feOffset result="offOut" in="SourceAlpha"
               dx="{{viewModel.model.shadow.offsetX}}"
               dy="{{viewModel.model.shadow.offsetY}}"/>
-    <feGaussianBlur result="blurOut" in="offOut" stdDeviation="10"/>
+    <!--<feGaussianBlur result="blurOut" in="offOut" stdDeviation="10"/>-->
+    <feGaussianBlur result="blurOut" in="offOut" svg-attr-stddeviation="{{viewModel.model.shadow.density}}"/>
     <feBlend in="SourceGraphic" in2="blurOut" mode="normal"/>
   </filter>
 </defs>

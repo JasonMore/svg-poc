@@ -1,7 +1,23 @@
 <div ng-include="'modules/svgAbstraction/svgTopNav.html'"></div>
 <div ng-include="'modules/svgAbstraction/svgShapeMenu.html'"></div>
 
+<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left "
+    ng-class="{'cbp-spmenu-open':sideMenuOpen}">
+  <h3>Menu</h3>
+  <a href="#">Celery seakale</a>
+  <a href="#">Dulse daikon</a>
+  <a href="#">Zucchini garlic</a>
+  <a href="#">Catsear azuki bean</a>
+  <a href="#">Dandelion bunya</a>
+  <a href="#">Rutabaga</a>
+  <div class="left-pill">
+    <button class="btn btn-info" ng-click="sideMenuOpen = !sideMenuOpen">Menu</button>
+  </div>
+</nav>
+
+
 <div class="wrapper"
+     ng-class="{'side-menu-open':sideMenuOpen}"
      ng-click-stop="unSelectShape()"
      ng-include="'modules/svgAbstraction/svgCanvas.html'">
 </div>

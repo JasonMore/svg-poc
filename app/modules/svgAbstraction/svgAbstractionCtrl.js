@@ -33,6 +33,7 @@
       $scope.zoom = 1;
       $scope.dataMode = false;
       $scope.openShapeMenu = false;
+      $scope.sideMenuOpen = true;
       $scope.menuTop = 0;
       $scope.menuLeft = 0;
 

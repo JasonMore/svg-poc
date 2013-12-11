@@ -21,7 +21,19 @@ body {
     margin: 67px 0;
     background: #eee;
     text-align: center;
+    transition: margin-left 0.4s ease;
 }
+
+.wrapper.side-menu-open{
+    margin-left: 254px;
+}
+
+.left-pill{
+    margin: -70px 0px 0px 265px;
+    -webkit-transform: rotate(90deg);
+    background: black;
+}
+
 .drawing-surface {
     /*border: 1px solid #eee;*/
     background: #fff;
@@ -113,6 +125,7 @@ body {
 /* Orientation-dependent styles for the content of the menu */
 
 .cbp-spmenu-vertical {
+    margin-top: 61px;
     width: 240px;
     height: 100%;
     top: 0;
