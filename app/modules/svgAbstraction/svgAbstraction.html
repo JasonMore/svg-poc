@@ -11,7 +11,9 @@
 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left behind-other-menus"
      ng-class="{'cbp-spmenu-open':sideMenuOpen}">
   <div class="left-pill">
-    <button class="btn btn-primary" ng-click="sideMenuOpen = !sideMenuOpen"><i class="fa fa-angle-double-up"></i></button>
+    <button class="btn btn-primary" ng-click="sideMenuOpen = !sideMenuOpen">
+      <i class="fa fa-angle-double-{{sideMenuOpen? 'down' : 'up'}}"></i>
+    </button>
   </div>
 
   <h3>Menu</h3>
