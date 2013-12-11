@@ -11,28 +11,56 @@
 <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left behind-other-menus"
      ng-class="{'cbp-spmenu-open':sideMenuOpen}">
   <div class="left-pill">
-    <button class="btn btn-primary" ng-click="sideMenuOpen = !sideMenuOpen">
-      <i class="fa fa-angle-double-{{sideMenuOpen? 'down' : 'up'}}"></i>
+    <button class="btn btn-primary "
+            ng-class="{invisible:sideMenuOpen}"
+            ng-click="sideMenuOpen = true">
+      <i class="fa fa-angle-double-up"></i>
     </button>
   </div>
 
   <div class="spmenu-title">
-    <h3>Menu</h3>
+    <h3>
+      <button class="btn btn-primary" ng-click="sideMenuOpen = false">
+        <i class="fa fa-angle-double-left"></i>
+      </button>
+      Shape Options
+    </h3>
   </div>
 
-  <a href="#">Celery seakale</a>
-  <a href="#">Dulse daikon</a>
-  <a href="#">Zucchini garlic</a>
-  <a href="#">Catsear azuki bean</a>
-  <a href="#">Dandelion bunya</a>
-  <a href="#">Rutabaga</a>
-  <a href="#">Celery seakale</a>
-  <a href="#">Dulse daikon</a>
-  <a href="#">Zucchini garlic</a>
-  <a href="#">Catsear azuki bean</a>
-  <a href="#">Dandelion bunya</a>
-  <a href="#">Rutabaga</a>
+  <div class="spmenu-contents-side container">
+    <div class="col-md-4">
+      <form class="form-horizontal" role="form">
+        <div class="form-group">
+          <label for="inputEmail3" class="col-md-2 control-label">Email</label>
 
+          <div class="col-md-10">
+            <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputPassword3" class="col-md-2 control-label">Password</label>
+
+          <div class="col-md-10">
+            <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-offset-2 col-md-10">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox"> Remember me
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn btn-default">Sign in</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 
 </nav>
 
