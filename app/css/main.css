@@ -29,7 +29,7 @@ body {
 }
 
 .left-pill{
-    margin: 21px 0px 0px 260px;
+    margin: 75px 0px 0px 260px;
     -webkit-transform: rotate(90deg);
     background: black;
 }
@@ -98,7 +98,7 @@ body {
     /*color: #afdefa;*/
     /*font-size: 1.9em;*/
     padding: 20px;
-    margin: 0;
+    margin: 0px;
     /*font-weight: 300;*/
     background: #0d77b6;
 }
@@ -125,7 +125,6 @@ body {
 /* Orientation-dependent styles for the content of the menu */
 
 .cbp-spmenu-vertical {
-    margin-top: 31px;
     width: 240px;
     height: 100%;
     top: 0;
@@ -262,40 +261,40 @@ body {
 
 /*@media screen and (max-width: 55.1875em){*/
 
-/*    .cbp-spmenu-horizontal {*/
-/*        font-size: 75%;*/
-/*        height: 110px;*/
-/*    }*/
+    /*.cbp-spmenu-horizontal {*/
+        /*font-size: 75%;*/
+        /*height: 110px;*/
+    /*}*/
 
-/*    .cbp-spmenu-top {*/
-/*        top: -110px;*/
-/*    }*/
+    /*.cbp-spmenu-top {*/
+        /*top: -110px;*/
+    /*}*/
 
-/*    .cbp-spmenu-bottom {*/
-/*        bottom: -110px;*/
-/*    }*/
+    /*.cbp-spmenu-bottom {*/
+        /*bottom: -110px;*/
+    /*}*/
 
 /*}*/
 
 /*@media screen and (max-height: 26.375em){*/
 
-/*    .cbp-spmenu-vertical {*/
-/*        font-size: 90%;*/
-/*        width: 190px;*/
-/*    }*/
+    /*.cbp-spmenu-vertical {*/
+        /*font-size: 90%;*/
+        /*width: 190px;*/
+    /*}*/
 
-/*    .cbp-spmenu-left,*/
-/*    .cbp-spmenu-push-toleft {*/
-/*        left: -190px;*/
-/*    }*/
+    /*.cbp-spmenu-left,*/
+    /*.cbp-spmenu-push-toleft {*/
+        /*left: -190px;*/
+    /*}*/
 
-/*    .cbp-spmenu-right {*/
-/*        right: -190px;*/
-/*    }*/
+    /*.cbp-spmenu-right {*/
+        /*right: -190px;*/
+    /*}*/
 
-/*    .cbp-spmenu-push-toright {*/
-/*        left: 190px;*/
-/*    }*/
+    /*.cbp-spmenu-push-toright {*/
+        /*left: 190px;*/
+    /*}*/
 /*}*/
 
 
@@ -303,6 +302,9 @@ body {
     z-index:10;
 }
 
+.left-pill + .spmenu-title{
+    margin: -64px 0px 0px 0px;
+}
 
 .svg-drop {
     border: 1px;
