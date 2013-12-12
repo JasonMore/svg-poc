@@ -32,7 +32,7 @@ body {
 .left-pill {
     position:absolute;
     left: 10px;
-    margin: 13px 0px 0px 0px;
+    margin: 5px 0px 0px 0px;
 }
 
 .drawing-surface {
@@ -111,7 +111,7 @@ body {
 }
 
 .spmenu-title .btn {
-    margin: 0px 10px 0px 0px;
+    margin: -10px 10px 0px 0px;
 }
 
 .spmenu-contents a {
