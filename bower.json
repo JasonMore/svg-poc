@@ -18,6 +18,7 @@
   "dependencies": {
     "angular": "~1.2.3",
     "angular-bootstrap-colorpicker": "~3.0.1",
-    "angular-ui-select2": "~0.0.4"
+    "angular-ui-select2": "~0.0.4",
+    "select2-bootstrap-css": "https://github.com/fk/select2-bootstrap-css.git#~1.2.0"
   }
 }
