@@ -110,6 +110,10 @@ body {
     font-size: 1.9em;
 }
 
+.spmenu-title .btn {
+    margin: 0px 10px 0px 0px;
+}
+
 .spmenu-contents a {
     display: block;
     color: #fff;
@@ -131,7 +135,7 @@ body {
 /* Orientation-dependent styles for the content of the menu */
 
 .cbp-spmenu-vertical {
-    width: 410px;
+    width: 350px;
     height: 100%;
     top: 0;
     z-index: 100;
@@ -185,7 +189,7 @@ body {
 
 .spmenu-contents-side {
     margin-top: 25px;
-    width: 400px;
+    width: 340px;
 }
 
 .spmenu-contents > a {
@@ -450,8 +454,8 @@ g.drawing {
     opacity: 0;
 }
 
-.invisible{
-    opacity:0;
+.invisible {
+    opacity: 0;
 }
 
 .editable-field-readonly {
@@ -473,4 +477,11 @@ g.drawing {
 @font-face {
     font-family: 'Code39Azalea';
     src: url(fonts/Code39Azalea.woff) format("woff")
+}
+
+/*makes ranges work correctly*/
+input[type=range].form-control {
+    padding: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
 }
