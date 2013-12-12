@@ -19,6 +19,13 @@
     "angular": "~1.2.3",
     "angular-bootstrap-colorpicker": "~3.0.1",
     "angular-ui-select2": "~0.0.4",
-    "select2-bootstrap-css": "https://github.com/fk/select2-bootstrap-css.git#~1.2.0"
+    "select2-bootstrap-css": "https://github.com/fk/select2-bootstrap-css.git#~1.2.0",
+    "angular-animate": "~1.2.4",
+    "jquery": "~2.0.3",
+    "bootstrap": "~3.0.3",
+    "lodash": "~2.4.1",
+    "font-awesome": "~4.0.3",
+    "jquery-ui": "~1.10.3",
+    "angular-ui-router": "0.2.0"
   }
 }
