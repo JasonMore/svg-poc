@@ -221,9 +221,9 @@
         })
       };
 
-      $scope.deleteShape = function () {
-        liveShapes.del($scope.selectedShape.model.id);
+      $scope.deleteShape = function (selectedShape) {
         $scope.unSelectShape();
+        liveShapes.del(selectedShape.model.id);
       };
 
       $scope.canDragShape = function (shape) {

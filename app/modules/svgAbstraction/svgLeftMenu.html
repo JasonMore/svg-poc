@@ -1,8 +1,4 @@
 <div class="left-pill">
-  <!--<a class="btn btn-primary"-->
-          <!--ng-click="sideMenuOpen = true">-->
-    <!--<i class="fa fa-angle-double-right fa-2x"></i>-->
-  <!--</a>-->
   <a class="btn btn-primary btn-text" ng-click="$parent.sideMenuOpen = true">
     <div class="IconWrapper">
       <i class="fa fa-angle-right fa-3x"></i>
@@ -17,16 +13,12 @@
   <div class="spmenu-title">
     <h3>
       {{selectedShape ? 'Shape':''}} Options
-      <!--<a class="btn btn-primary pull-right" ng-click="sideMenuOpen = false">-->
-        <!--<i class="fa fa-angle-double-left fa-3x"></i>-->
-      <!--</a>-->
-
       <a class="btn btn-primary btn-text pull-right"
          ng-click="$parent.sideMenuOpen = false">
         <div class="IconWrapper">
           <i class="fa fa-angle-left fa-3x"></i>
         </div>
-        <div class="HoverText">Close</div>
+        <div class="HoverText"> Close </div>
       </a>
     </h3>
   </div>
@@ -37,11 +29,11 @@
       <form ng-hide="selectedShape" class="form-horizontal" role="form">
         <div class="form-group">
           <label class="col-md-5 control-label">
-            <a href ng-click="$parent.zoom = 1">zoom: {{zoom}}</a>
+            <a href ng-click="$parent.zoom = 1">zoom: {{$parent.zoom}}</a>
           </label>
 
           <div class="col-md-7">
-            <input class="form-control" type="range" ng-model="zoom" min="0.05" max="5" step="0.05">
+            <input class="form-control" type="range" ng-model="$parent.zoom" min="0.05" max="5" step="0.05">
           </div>
         </div>
 
@@ -155,13 +147,13 @@
               <i class="fa fa-angle-double-up"></i>
             </button>
             <button class="btn btn-default">
-              <i class="fa fa-angle-up"></i>
+              <i class="fa fa-angle-up" ng-click="moveUp(selectedShape)"></i>
             </button>
             <button class="btn btn-default">
               <i class="fa fa-angle-down"></i>
             </button>
             <button class="btn btn-default">
-              <i class="fa fa-angle-double-down"></i>
+              <i class="fa fa-angle-double-down" ng-click="moveDown(selectedShape)"></i>
             </button>
 
           </div>
@@ -182,6 +174,18 @@
           <div class="col-md-7">
             <input class="form-control" type="range" ng-model="selectedShape.model.transparency" min="0" max="1"
                    step="0.01">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-5 control-label"></label>
+
+          <div class="col-md-7">
+            <button class="btn btn-info"
+
+
+                    ng-click="deleteShape(selectedShape)">
+              <i class="fa fa-trash"></i> Delete Shape
+            </button>
           </div>
         </div>
         <!--<div class="form-group">-->

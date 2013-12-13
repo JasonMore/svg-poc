@@ -202,20 +202,32 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
         // to the op insert payload when new items are being created.
         $timeout(function () {
           var newServerModel = angular.copy(racerModel.get(path));
-
-          // if a collection, remove deleted data
-          if (!newServerModel || !newServerModel.id) {
-            var keysRemoved = _.difference(_.keys(liveData), _.keys(newServerModel));
-
-            _.each(keysRemoved, function (key) {
-              delete liveData[key];
-            });
-          }
-
+          removeDeletedItemsFromCollection(newServerModel,liveData);
           _.merge(liveData, newServerModel);
         });
       });
     };
+
+    function removeDeletedItemsFromCollection(newServerModel, liveData){
+      // recursively check and remove child collections
+      for(var property in newServerModel){
+        var serverData = newServerModel[property],
+          localData = liveData[property];
+
+        if(_.isObject(serverData) && localData){
+          removeDeletedItemsFromCollection(serverData, localData);
+        }
+      }
+
+      // if a collection, remove deleted data
+      if (!newServerModel || !newServerModel.id) {
+        var keysRemoved = _.difference(_.keys(liveData), _.keys(newServerModel));
+
+        _.each(keysRemoved, function (key) {
+          delete liveData[key];
+        });
+      }
+    }
 
     $timeout(function () {
       initDefer.resolve(function (path) {
