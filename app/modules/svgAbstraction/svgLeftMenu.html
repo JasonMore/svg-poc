@@ -143,18 +143,24 @@
           <label class="col-md-5 control-label">Layering</label>
 
           <div class="col-md-7">
-            <button class="btn btn-default">
+            <a class="btn btn-default"
+               ng-class="{disabled:!canMoveUp(selectedShape)}">
               <i class="fa fa-angle-double-up"></i>
-            </button>
-            <button class="btn btn-default">
-              <i class="fa fa-angle-up" ng-click="moveUp(selectedShape)"></i>
-            </button>
-            <button class="btn btn-default">
+            </a>
+            <a class="btn btn-default"
+               ng-class="{disabled:!canMoveUp(selectedShape)}"
+               ng-click="moveUp(selectedShape)">
+              <i class="fa fa-angle-up" ></i>
+            </a>
+            <a class="btn btn-default"
+               ng-class="{disabled:!canMoveDown(selectedShape)}"
+               ng-click="moveDown(selectedShape)">
               <i class="fa fa-angle-down"></i>
-            </button>
-            <button class="btn btn-default">
-              <i class="fa fa-angle-double-down" ng-click="moveDown(selectedShape)"></i>
-            </button>
+            </a>
+            <a class="btn btn-default"
+               ng-class="{disabled:!canMoveDown(selectedShape)}">
+              <i class="fa fa-angle-double-down" ></i>
+            </a>
 
           </div>
         </div>
