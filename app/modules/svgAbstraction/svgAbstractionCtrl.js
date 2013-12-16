@@ -312,7 +312,7 @@
 
         //HACK
         $timeout(function () {
-          if(oldVal){
+          if (oldVal) {
             updateAllTextReflows();
           }
 
@@ -514,60 +514,47 @@
       }
 
       $scope.canMoveUp = function (shape) {
-        if(!shape) return false;
+        if (!shape) return false;
         var newOrderSpot = shape.model.order + 1;
         return newOrderSpot !== nextOrderNumber();
       };
 
       $scope.canMoveDown = function (shape) {
-        if(!shape) return false;
+        if (!shape) return false;
         var newOrderSpot = shape.model.order - 1;
         return newOrderSpot !== -1;
       };
 
-      $scope.moveUp = function (shape) {
-        if (!$scope.canMoveUp(shape)) return;
-
-        var newOrderSpot = shape.model.order + 1;
-
-        shiftShapesDown(newOrderSpot);
-
-        shape.model.order = newOrderSpot;
-      };
-
-      $scope.moveToTop = function(shape){
+      $scope.moveToTop = function (shape) {
         //TODO: this is a lazy way
-        while($scope.canMoveUp(shape)){
+        while ($scope.canMoveUp(shape)) {
           $scope.moveUp(shape);
         }
       };
 
-      function shiftShapesDown(afterOrderSpot) {
-        _($scope.shapes)
-          .where(function (shape) {
-            return shape.model.order >= afterOrderSpot;
-          })
-          .each(function (shape) {
-            shape.model.order -= 1;
-          });
-      }
+      $scope.moveUp = function (shape) {
+        if (!$scope.canMoveUp(shape)) return;
+        moveShape('up', shape);
+      };
 
       $scope.moveDown = function (shape) {
         if (!$scope.canMoveDown(shape)) return;
-
-        var newOrderSpot = shape.model.order - 1;
-
-        _($scope.shapes)
-          .where(function (shape) {
-            return shape.model.order <= newOrderSpot;
-          })
-          .each(function (shape) {
-            shape.model.order += 1;
-          });
-
-        shape.model.order = newOrderSpot;
+        moveShape('down', shape);
       };
 
+      function moveShape(direction, shape){
+        var directionInt = direction === 'up' ? 1 : -1;
+
+        var newOrderSpot = shape.model.order + directionInt;
+
+        var originalSpot = _.find($scope.shapes, function (shape) {
+          return shape.model.order === newOrderSpot;
+        });
+
+        originalSpot.model.order -= directionInt;
+
+        shape.model.order = newOrderSpot;
+      }
     });
 
 
