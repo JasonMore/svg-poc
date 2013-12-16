@@ -532,6 +532,13 @@
         }
       };
 
+      $scope.moveToBottom = function (shape) {
+        //TODO: this is a lazy way
+        while ($scope.canMoveDown(shape)) {
+          $scope.moveDown(shape);
+        }
+      };
+
       $scope.moveUp = function (shape) {
         if (!$scope.canMoveUp(shape)) return;
         moveShape('up', shape);

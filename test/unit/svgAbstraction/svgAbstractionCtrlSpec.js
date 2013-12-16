@@ -56,8 +56,7 @@ describe('svgAbstractionCtrl.js >', function () {
 
     describe('charlie up one >', function () {
       beforeEach(function () {
-        shape = $scope.shapes.shapeCharlie;
-        $scope.moveUp(shape);
+        $scope.moveUp($scope.shapes.shapeCharlie);
       });
 
       it('alpha stays 0', function() {
@@ -76,8 +75,7 @@ describe('svgAbstractionCtrl.js >', function () {
 
     describe('charlie down one >', function () {
       beforeEach(function () {
-        shape = $scope.shapes.shapeCharlie;
-        $scope.moveDown(shape);
+        $scope.moveDown($scope.shapes.shapeCharlie);
       });
 
       it('alpha stays 0', function() {
@@ -96,8 +94,7 @@ describe('svgAbstractionCtrl.js >', function () {
 
     describe('beta down one >', function () {
       beforeEach(function () {
-        shape = $scope.shapes.shapeBeta;
-        $scope.moveDown(shape);
+        $scope.moveDown($scope.shapes.shapeBeta);
       });
 
       it('alpha moves from 0 to 1', function() {
@@ -115,11 +112,41 @@ describe('svgAbstractionCtrl.js >', function () {
     });
 
     describe('to top >', function () {
+      beforeEach(function () {
+        $scope.moveToTop($scope.shapes.shapeBeta);
+      });
 
+      it('alpha stays 0', function() {
+        expect($scope.shapes.shapeAlpha.model.order).toEqual(0);
+      });
+      it('beta moves from 1 to 3', function() {
+        expect($scope.shapes.shapeBeta.model.order).toEqual(3);
+      });
+      it('charlie moves from 2 to 1', function () {
+        expect($scope.shapes.shapeCharlie.model.order).toEqual(1);
+      });
+      it('delta moves from 3 to 2', function() {
+        expect($scope.shapes.shapeDelta.model.order).toEqual(2);
+      });
     });
 
     describe('to bottom >', function () {
+      beforeEach(function () {
+        $scope.moveToBottom($scope.shapes.shapeCharlie);
+      });
 
+      it('alpha moves from 0 to 1', function() {
+        expect($scope.shapes.shapeAlpha.model.order).toEqual(1);
+      });
+      it('beta moves from 1 to 2', function() {
+        expect($scope.shapes.shapeBeta.model.order).toEqual(2);
+      });
+      it('charlie moves from 2 to 0', function () {
+        expect($scope.shapes.shapeCharlie.model.order).toEqual(0);
+      });
+      it('delta stays 3', function() {
+        expect($scope.shapes.shapeDelta.model.order).toEqual(3);
+      });
     });
   })
 });
