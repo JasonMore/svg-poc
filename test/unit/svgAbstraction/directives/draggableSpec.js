@@ -1,4 +1,4 @@
-describe('draggableSpec.js', function () {
+xdescribe('draggableSpec.js', function () {
 
   var element,
     scope,

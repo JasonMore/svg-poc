@@ -16,6 +16,11 @@
 //    'ngSvg'
   ];
 
+  angular.module('svgAbstraction.controllers', ['colorpicker.module', 'ui.select2']);
+  angular.module('svgAbstraction.services',[]);
+  angular.module('svgAbstraction.directives', []);
+  angular.module('svgAbstraction.filters', []);
+
   angular.module('svgAbstraction', using)
     .config(function ($stateProvider) {
       $stateProvider.state('svgAbstraction', {
@@ -29,9 +34,4 @@
         }
       });
     });
-
-  angular.module('svgAbstraction.controllers', ['colorpicker.module', 'ui.select2']);
-  angular.module('svgAbstraction.services',[]);
-  angular.module('svgAbstraction.directives', []);
-  angular.module('svgAbstraction.filters', []);
 }());
