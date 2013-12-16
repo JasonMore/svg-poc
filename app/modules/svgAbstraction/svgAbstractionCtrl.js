@@ -536,10 +536,10 @@
       };
 
       $scope.moveToTop = function(shape){
-        if (!$scope.canMoveUp(shape)) return;
-        var topOrder = _.max($scope.template.shapes, 'order').order;
-        shiftShapesDown(shape.model.order);
-        shape.model.order = topOrder;
+        //TODO: this is a lazy way
+        while($scope.canMoveUp(shape)){
+          $scope.moveUp(shape);
+        }
       };
 
       function shiftShapesDown(afterOrderSpot) {
