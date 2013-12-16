@@ -1,6 +1,6 @@
 var liveResourceModule = angular.module('liveResource', []);
 
-liveResourceModule.service('liveResource', function ($delegate) {
+liveResourceModule.service('liveResource', function () {
   function mockLiveResourceService(path) {
     // racer functions
     this.add = function (newModel) {
