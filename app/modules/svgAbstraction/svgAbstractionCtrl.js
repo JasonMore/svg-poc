@@ -514,11 +514,13 @@
       }
 
       $scope.canMoveUp = function (shape) {
+        if(!shape) return false;
         var newOrderSpot = shape.model.order + 1;
         return newOrderSpot !== nextOrderNumber();
       };
 
       $scope.canMoveDown = function (shape) {
+        if(!shape) return false;
         var newOrderSpot = shape.model.order - 1;
         return newOrderSpot !== -1;
       };
@@ -531,6 +533,13 @@
         shiftShapesDown(newOrderSpot);
 
         shape.model.order = newOrderSpot;
+      };
+
+      $scope.moveToTop = function(shape){
+        if (!$scope.canMoveUp(shape)) return;
+        var topOrder = _.max($scope.template.shapes, 'order').order;
+        shiftShapesDown(shape.model.order);
+        shape.model.order = topOrder;
       };
 
       function shiftShapesDown(afterOrderSpot) {
