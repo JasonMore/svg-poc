@@ -148,5 +148,22 @@ describe('svgAbstractionCtrl.js >', function () {
         expect($scope.shapes.shapeDelta.model.order).toEqual(3);
       });
     });
+
+    describe('deleting shape >', function() {
+      beforeEach(function () {
+        $scope.deleteShape($scope.shapes.shapeBeta);
+      });
+
+      it('alpha stays at 0', function() {
+        expect($scope.shapes.shapeAlpha.model.order).toEqual(0);
+      });
+
+      it('charlie moves from 2 to 1', function () {
+        expect($scope.shapes.shapeCharlie.model.order).toEqual(1);
+      });
+      it('delta moves from 3 to 2', function() {
+        expect($scope.shapes.shapeDelta.model.order).toEqual(2);
+      });
+    });
   })
 });

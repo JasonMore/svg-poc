@@ -16,7 +16,7 @@ liveResourceModule.service('liveResource', function () {
 //        return racerModel.query(path, queryParams);
     };
 
-    this.delete = function (model) {
+    this.del = function (model) {
 //        if (_.contains(path, model.id)) {
 //          return racerModel.del(path);
 //        }
@@ -52,6 +52,10 @@ liveResourceModule.service('liveResource', function () {
 
     this.scope = function (subPath) {
 //        return racerModel.scope(path + '.' + subPath);
+      //TODO: stub out what scopes return
+      return {
+        del: function() {}
+      }
     };
 
     // these don't work yet

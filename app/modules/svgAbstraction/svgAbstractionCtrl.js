@@ -166,20 +166,6 @@
         updateAllTextReflows();
       });
 
-//      $scope.$watch('templateData', function (data, oldData) {
-//        if (data === oldData) return;
-//        var templateData;
-//
-//        try {
-//          $scope.templateDataObject = JSON.parse(data);
-//        }
-//        catch (e) {
-//          return;
-//        }
-//
-//        applyTemplateDataToTemplateShapes();
-//      });
-
       function applyTemplateDataToTemplateShapes() {
         _($scope.templateDataObject).each(function (templateDataModel) {
           var shape = $scope.templatedShapes[templateDataModel.templateId];
@@ -222,6 +208,7 @@
       };
 
       $scope.deleteShape = function (selectedShape) {
+        moveShapesAboveDownOneInOrder(selectedShape);
         $scope.unSelectShape();
         liveShapes.del(selectedShape.model.id);
       };
@@ -549,7 +536,7 @@
         moveShape('down', shape);
       };
 
-      function moveShape(direction, shape){
+      function moveShape(direction, shape) {
         var directionInt = direction === 'up' ? 1 : -1;
 
         var newOrderSpot = shape.model.order + directionInt;
@@ -562,6 +549,19 @@
 
         shape.model.order = newOrderSpot;
       }
+
+      function moveShapesAboveDownOneInOrder(selectedShape) {
+        var deletedOrder = selectedShape.model.order;
+
+        _($scope.shapes)
+          .where(function (shape) {
+            return shape.model.order > deletedOrder;
+          })
+          .each(function (shape) {
+            shape.model.order -= 1;
+          });
+      }
+
     });
 
 
