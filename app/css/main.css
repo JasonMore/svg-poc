@@ -139,7 +139,7 @@ body {
 /* Orientation-dependent styles for the content of the menu */
 
 .cbp-spmenu-vertical {
-    width: 350px;
+    width: 340px;
     height: 100%;
     top: 0;
     z-index: 100;
@@ -213,6 +213,10 @@ body {
     width: 20%;
     padding: 0.8em;
     border-left: 1px solid #258ecd;
+}
+
+.spmenu-contents-side a.light-text {
+    color: #ffbeba;
 }
 
 .cbp-spmenu-horizontal .btn {
@@ -496,4 +500,8 @@ input[type=range].form-control {
 
 .select2-wrapper div {
     width: 100%;
+}
+
+.control-label .btn-sm {
+    margin: -7px -2px 0px 0px;
 }

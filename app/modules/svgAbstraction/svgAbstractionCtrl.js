@@ -404,7 +404,7 @@
         }
 
         return $scope.shapes;
-      }
+      };
 
       $scope.shapeType = function () {
         if ($scope.shapeToDraw) {
