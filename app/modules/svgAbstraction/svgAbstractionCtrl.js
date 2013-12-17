@@ -34,6 +34,7 @@
       $scope.dataMode = false;
       $scope.openShapeMenu = false;
       $scope.sideMenuOpen = true;
+      $scope.leftSubmenu = null;
       $scope.menuTop = 0;
       $scope.menuLeft = 0;
 
@@ -231,6 +232,7 @@
 
       $scope.unSelectShape = function () {
         $scope.openShapeMenu = false;
+        $scope.leftSubmenu = null;
 
         if (!$scope.selectedShape) {
           return;
