@@ -386,7 +386,16 @@
         else {
           $scope.openShapeMenu = true;
         }
-      }
+      };
+
+      $scope.closeSideMenu = function () {
+        if ($scope.leftSubmenu) {
+          $scope.leftSubmenu = null;
+          return;
+        }
+
+        $scope.sideMenuOpen = false;
+      };
 
       // computed
       $scope.computedShapes = function () {

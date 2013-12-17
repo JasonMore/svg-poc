@@ -14,11 +14,11 @@
   <h3>
     {{selectedShape && !leftSubmenu ? 'Shape':''}}  {{leftSubmenu}} Options
     <a class="btn btn-primary btn-text pull-right"
-       ng-click="$parent.sideMenuOpen = false">
+       ng-click="closeSideMenu()">
       <div class="IconWrapper">
         <i class="fa fa-angle-left fa-3x"></i>
       </div>
-      <div class="HoverText"> Close</div>
+      <div class="HoverText">{{leftSubmenu ? ' Back' : 'Close'}}</div>
     </a>
   </h3>
 </div>
@@ -219,10 +219,6 @@
   <!--</div>-->
 </form>
 <form ng-show="$parent.leftSubmenu === 'Shadow'" class="form-horizontal" role="form">
-  <a href ng-click="$parent.leftSubmenu = null">
-    <i class="fa fa-arrow-x"></i>
-    Close Shadow options
-  </a>
   <div class="form-group">
     <label class="col-md-5 control-label">Right</label>
 

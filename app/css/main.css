@@ -114,6 +114,10 @@ body {
     margin: -10px 10px 0px 0px;
 }
 
+.spmenu-title .btn-text {
+    width:70px;
+}
+
 .spmenu-contents a {
     display: block;
     color: #fff;
