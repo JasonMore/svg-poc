@@ -1,6 +1,6 @@
 (function () {
   angular.module('svgAbstraction.services').service('shapeViewModelService', function (pathService) {
-    this.create = function create(nextOrderByNumber, getModelFn) {
+    this.create = function create(getModelFn) {
       var selectionBox;
 
       // add image properties if they don't exist
@@ -11,7 +11,7 @@
         this.isEditingText = false;
 
         _.defaults(this.model, {
-          order: nextOrderByNumber,
+          order: -1,
           text: '',
           font: 'Verdana',
           fontSize: '12.0',

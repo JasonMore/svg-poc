@@ -123,7 +123,7 @@
             return $scope.template.shapes[id];
           }
 
-          $scope.shapes[id] = shapeViewModelService.create(nextOrderNumber(), getModelFn);
+          $scope.shapes[id] = shapeViewModelService.create(getModelFn);
         });
 
       });
@@ -162,7 +162,7 @@
             return model;
           }
 
-          $scope.templatedShapes[model.templateId] = shapeViewModelService.create(nextOrderNumber(), getModelFn);
+          $scope.templatedShapes[model.templateId] = shapeViewModelService.create(getModelFn);
         });
 
         if ($scope.templateDataObject) {
@@ -258,6 +258,8 @@
       };
 
       $scope.shapeDrawn = function (shape) {
+        shape.order = nextOrderNumber();
+
         liveShapes.add(shape);
         $scope.setSelectedShape(shape);
       };
