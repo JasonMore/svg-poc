@@ -1,0 +1,50 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" ng-click="cancel()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h4 class="modal-title">Background Bindings Setup</h4>
+    </div>
+    <div class="modal-body">
+      <div class="row" ng-repeat="binding in bindings">
+        <div class="col-md-3">
+          <span class="pull-right form-group">
+            <label class="form-control">Is equal to</label>
+          </span>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control" type="text" ng-bind="binding.to">
+        </div>
+        <div class="col-md-2">
+          <label class="form-control">Then</label>
+
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-default"
+                  ng-style="{'background-color':binding.overrideValue}"
+                  colorpicker="rgba"
+                  ng-model="binding.overrideValue">
+            <i class="fa fa-lg fa-tint"></i>
+          </button>
+        </div>
+        <div class="col-md-1">
+          <a href ng-click="removeBinding(binding)" class="btn btn-link pull-right">
+            <i class="fa fa-lg fa-trash-o"></i>
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <a ng-click="addNewBinding()" class="btn btn-link">
+            <i class="fa fa-plus"></i>
+            Add
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-info" ng-click="save()">{{isNew ? 'Add' : 'Done'}}</button>
+      <button ng-disabled="!isNew" class="btn btn-default" ng-click="cancel(isNew)">{{isNew ? 'Cancel' : 'Undo'}}
+      </button>
+    </div>
+  </div>
+</div>

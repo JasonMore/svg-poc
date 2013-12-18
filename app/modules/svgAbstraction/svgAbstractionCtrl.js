@@ -1,6 +1,6 @@
 (function () {
   angular.module('svgAbstraction.controllers')
-    .controller('svgAbstractionCtrl', function ($scope, $stateParams, $timeout, shapePaths, shapeViewModelService, liveResource, textReflowService, dotNotation) {
+    .controller('svgAbstractionCtrl', function ($scope, $stateParams, $timeout, shapePaths, shapeViewModelService, liveResource, textReflowService, dotNotation, $modal) {
       window.debugScope = $scope;
 
       // load data
@@ -21,6 +21,10 @@
         $scope.template.height = 1500;
       }
 
+      if(!$scope.template.bindings) {
+        $scope.template.bindings = {};
+      }
+
       // properties
       $scope.showDrawMenu = false;
       $scope.showSettingsMenu = false;
@@ -37,6 +41,7 @@
       $scope.leftSubmenu = null;
       $scope.menuTop = 0;
       $scope.menuLeft = 0;
+      $scope.foobardurpdurp = 'Grade';
 
       $scope.colorOptions = [
         {id: 'red', name: 'Red'},
@@ -172,7 +177,7 @@
           var shape = $scope.templatedShapes[templateDataModel.templateId];
           if (!shape) return;
 
-          dotNotation.getSet(shape.model, templateDataModel.path, templateDataModel.data)
+          dotNotation.getSet(shape.model, templateDataModel.path, templateDataModel.data);
         })
       }
 
@@ -397,6 +402,49 @@
         $scope.sideMenuOpen = false;
       };
 
+      $scope.openBindingsWindow = function(property){
+        if(!$scope.template.bindings[property]){
+          $scope.template.bindings[property] = {};
+        }
+
+        var bindings = $scope.template.bindings[property];
+        var liveBindings = liveTemplate.scope('bindings.' + property);
+
+        var modalInstance = $modal.open({
+          templateUrl: 'modules/svgAbstraction/bindingViews/' + property + '.html',
+          controller: function($scope, $modalInstance) {
+//            $scope.isNew = template ? false : true;
+//            $scope.template = template || {};
+
+            $scope.bindings = bindings;
+
+            $scope.addNewBinding = function(){
+              liveBindings.add({type:'eq', to:'', overrideValue:''});
+            };
+
+            $scope.removeBinding = function (binding) {
+              liveBindings.del(binding.id);
+            };
+
+            $scope.save = function () {
+              $modalInstance.close();
+            };
+
+            $scope.cancel = function (isNew) {
+              $modalInstance.dismiss('cancel');
+            };
+          }
+        });
+
+        modalInstance.result.then(function (template) {
+//          if(!template.id){
+//            template.templateType = $scope.templateType.id;
+//            template.created = new Date();
+//            liveTemplates.add(template);
+//          }
+        });
+      };
+
       // computed
       $scope.computedShapes = function () {
         if ($scope.dataMode) {
@@ -420,28 +468,6 @@
         return $scope.shapeToDraw === shape;
       };
 
-//      $scope.menuTop = function () {
-//        if (!$scope.selectedShape) {
-//          return 0;
-//        }
-//
-//        var modelTop = $scope.selectedShape.model.top;
-//
-//        if (modelTop < 175) {
-//          modelTop = 175
-//        }
-//
-//        return modelTop - 150;
-//      };
-//
-//      $scope.menuLeft = function () {
-//        if (!$scope.selectedShape) {
-//          return 0;
-//        }
-//
-//        return $scope.selectedShape.left() + $scope.selectedShape.width() + 24;
-//      };
-
       $scope.showShapeMenu = function () {
         if (!$scope.openShapeMenu) {
           return false;
@@ -459,21 +485,12 @@
 
         return true;
       };
-//
-//      $scope.svgWidth = function() {
-//        return $scope.width * $scope.zoom;
-//      }
-//
-//      $scope.svgHeight = function() {
-//        return $scope.height * $scope.zoom;
-//      }
 
       // events
 
       $scope.$on('blankSpaceOnBodyClicked', function ($event) {
         $scope.unSelectShape();
       });
-
 
       // keyboard shortcuts
 

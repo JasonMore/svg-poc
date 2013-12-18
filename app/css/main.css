@@ -488,10 +488,16 @@ g.drawing {
 }
 
 /*makes ranges work correctly*/
-input[type=range].form-control {
+input[type=range].form-control{
     padding: 0;
     -webkit-box-shadow: none;
     box-shadow: none;
+}
+
+label.form-control{
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: none;
 }
 
 .select2-wrapper {
@@ -504,4 +510,9 @@ input[type=range].form-control {
 
 .control-label .btn-sm {
     margin: -7px -2px 0px 0px;
+}
+
+/*fixes bug with color picker not on top of modal*/
+.colorpicker {
+    z-index: 1100;
 }
