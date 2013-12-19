@@ -1,0 +1,23 @@
+<h3>
+  Vocabulary
+</h3>
+
+<p>
+  <button ng-click="addTestData()" ng-disable="hasVocabulary()" class="btn btn-default">Add test data</button>
+  <button ng-click="deleteAll()" ng-disable="!hasVocabulary()" class="btn btn-info">Delete all data</button>
+</p>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Field Name</th>
+    <th>Field Type</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="item in vocabulary">
+    <td>{{item.field}}</td>
+    <td>{{item.type}}</td>
+  </tr>
+  </tbody>
+</table>

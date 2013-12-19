@@ -45,12 +45,18 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
         return racerModel.query(path, queryParams);
       };
 
-      this.delete = function (model) {
-        if (_.contains(path, model.id)) {
+      this.delete = function (modelOrId) {
+        var idToDelete = modelOrId;
+
+        if(modelOrId.id){
+          idToDelete = modelOrId.id;
+        }
+
+        if (_.contains(path, idToDelete)) {
           return racerModel.del(path);
         }
 
-        return racerModel.del(path + "." + model.id);
+        return racerModel.del(path + "." + idToDelete);
       };
 
       this.get = function() {
