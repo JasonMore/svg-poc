@@ -189,7 +189,12 @@
   </div>
   <div class="form-group">
     <label class="col-md-5 control-label">
-      <a href ng-click="$parent.leftSubmenu = 'Shadow'">Drop Shadow</a>
+      <a href
+         ng-show="selectedShape.model.shadow.enabled"
+         ng-click="$parent.leftSubmenu = 'Shadow'">
+        Drop Shadow
+      </a>
+      {{ selectedShape.model.shadow.enabled ? '' : 'Drop Shadow'}}
     </label>
 
     <div class="col-md-7">
