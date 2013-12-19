@@ -5,14 +5,22 @@
       <h4 class="modal-title">Background Bindings Setup</h4>
     </div>
     <div class="modal-body">
-      <div class="row" ng-repeat="binding in bindings">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="select2-wrapper">
+          <select ui-select2="{}" ng-model="fieldBinding.boundTo">
+            <option ng-repeat="item in vocabulary" value="{{item.field}}">{{item.field}}</option>
+          </select>
+        </div></div>
+      </div>
+      <div class="row" ng-repeat="binding in fieldBinding.bindings">
         <div class="col-md-3">
           <span class="pull-right form-group">
             <label class="form-control">Is equal to</label>
           </span>
         </div>
         <div class="col-md-4">
-          <input class="form-control" type="text" ng-bind="binding.to">
+          <input class="form-control" type="text" ng-model="binding.fieldValue">
         </div>
         <div class="col-md-2">
           <label class="form-control">Then</label>

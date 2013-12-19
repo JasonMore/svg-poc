@@ -12,6 +12,10 @@
       var studentsQuery = liveStudents.query({});
       $scope.students = liveStudents.subscribe(studentsQuery);
 
+      var liveVocabulary = liveResource('vocabulary');
+      var vocabularyQuery = liveVocabulary.query({});
+      $scope.vocabulary = liveVocabulary.subscribe(vocabularyQuery);
+
       // lets you do crud on templates.[id].shapes directly
       var liveShapes = liveTemplate.scope('shapes');
 
@@ -21,8 +25,8 @@
         $scope.template.height = 1500;
       }
 
-      if(!$scope.template.bindings) {
-        $scope.template.bindings = {};
+      if(!$scope.template.fieldBindings) {
+        $scope.template.fieldBindings = {};
       }
 
       // properties
@@ -405,12 +409,13 @@
       };
 
       $scope.openBindingsWindow = function(property){
-        if(!$scope.template.bindings[property]){
-          $scope.template.bindings[property] = {};
+        if(!$scope.template.fieldBindings[property]){
+          $scope.template.fieldBindings[property] = {};
         }
 
-        var bindings = $scope.template.bindings[property];
-        var liveBindings = liveTemplate.scope('bindings.' + property);
+        var fieldBinding = $scope.template.fieldBindings[property];
+        var liveBindings = liveTemplate.scope('fieldBindings.' + property +'.bindings');
+        var vocabulary = $scope.vocabulary;
 
         var modalInstance = $modal.open({
           templateUrl: 'modules/svgAbstraction/bindingViews/' + property + '.html',
@@ -418,10 +423,11 @@
 //            $scope.isNew = template ? false : true;
 //            $scope.template = template || {};
 
-            $scope.bindings = bindings;
+            $scope.fieldBinding = fieldBinding;
+            $scope.vocabulary = vocabulary;
 
             $scope.addNewBinding = function(){
-              liveBindings.add({type:'eq', to:'', overrideValue:''});
+              liveBindings.add({type:'eq', fieldValue:'', overrideValue:''});
             };
 
             $scope.removeBinding = function (binding) {
