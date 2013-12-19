@@ -16,8 +16,9 @@ angular.module('colorpicker.module', [])
       },
       getOffset: function (elem) {
         var
-          x = 0,
-          y = 0;
+          x = window.pageXOffset || document.documentElement.scrollLeft,
+          y = window.pageYOffset || document.documentElement.scrollTop;
+
         while (elem && !isNaN(elem.offsetLeft) && !isNaN(elem.offsetTop)) {
           x += elem.offsetLeft;
           y += elem.offsetTop;
@@ -312,9 +313,13 @@ angular.module('colorpicker.module', [])
             slider = null;
             return false;
           }
+
+          var scrollX = window.pageXOffset || document.documentElement.scrollLeft,
+            scrollY = window.pageYOffset || document.documentElement.scrollTop;
+
           slider.knob = zone.children[0].style;
-          slider.left = event.pageX - helper.getOffset(zone).left;
-          slider.top = event.pageY - helper.getOffset(zone).top;
+          slider.left = event.pageX - helper.getOffset(zone).left + scrollX;
+          slider.top = event.pageY - helper.getOffset(zone).top + scrollY;
           pointer = {
             left: event.pageX,
             top: event.pageY
@@ -325,6 +330,10 @@ angular.module('colorpicker.module', [])
           if (!slider) {
             return;
           }
+
+          var scrollX = window.pageXOffset || document.documentElement.scrollLeft,
+            scrollY = window.pageYOffset || document.documentElement.scrollTop;
+
           var left = Math.max(
             0,
             Math.min(
