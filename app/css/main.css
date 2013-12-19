@@ -30,7 +30,7 @@ body {
 }
 
 .left-pill {
-    position:absolute;
+    position: absolute;
     left: 10px;
     margin: 5px 0px 0px 0px;
 }
@@ -115,7 +115,7 @@ body {
 }
 
 .spmenu-title .btn-text {
-    width:70px;
+    width: 70px;
 }
 
 .spmenu-contents a {
@@ -215,7 +215,8 @@ body {
     border-left: 1px solid #258ecd;
 }
 
-.spmenu-contents-side a.light-text {
+/*.spmenu-contents-side a:not(.btn),*/
+.spmenu-contents-side a:not(.select2-choice):not(.btn) {
     color: #ffbeba;
 }
 
@@ -488,20 +489,20 @@ g.drawing {
 }
 
 /*makes ranges work correctly*/
-input[type=range].form-control{
+input[type=range].form-control {
     padding: 0;
     -webkit-box-shadow: none;
     box-shadow: none;
 }
 
-label.form-control{
+label.form-control {
     -webkit-box-shadow: none;
     box-shadow: none;
     border: none;
 }
 
 .select2-wrapper {
-   padding: 5px 0 0 0;
+    padding: 5px 0 0 0;
 }
 
 .select2-wrapper div {
@@ -520,11 +521,13 @@ label.form-control{
 /*fixes using form groups in panel titles*/
 .panel-info .panel-title .form-control {
     color: #fff;
-    background-color:initial;
+    background-color: transparent;
 }
+
 .panel-info .panel-title .form-group {
-    margin-bottom:0;
+    margin-bottom: 0;
 }
-.panel-title .select2-container .select2-choice{
-    line-height:initial;
+
+.panel-title .select2-container .select2-choice {
+    line-height: normal;
 }

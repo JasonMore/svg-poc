@@ -408,6 +408,13 @@
         $scope.sideMenuOpen = false;
       };
 
+      var bindingViewMap = {
+        'background':'color',
+        'borderColor':'color',
+        'fontColor':'color',
+        'image':'image'
+      };
+
       $scope.openBindingsWindow = function(property){
         if(!$scope.template.fieldBindings[property]){
           $scope.template.fieldBindings[property] = {};
@@ -418,7 +425,7 @@
         var vocabulary = $scope.vocabulary;
 
         var modalInstance = $modal.open({
-          templateUrl: 'modules/svgAbstraction/bindingViews/' + property + '.html',
+          templateUrl: 'modules/svgAbstraction/bindingViews/' + bindingViewMap[property] + '.html',
           controller: function($scope, $modalInstance) {
 //            $scope.isNew = template ? false : true;
 //            $scope.template = template || {};
