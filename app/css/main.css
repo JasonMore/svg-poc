@@ -516,3 +516,15 @@ label.form-control{
 .colorpicker {
     z-index: 1100;
 }
+
+/*fixes using form groups in panel titles*/
+.panel-info .panel-title .form-control {
+    color: #fff;
+    background-color:initial;
+}
+.panel-info .panel-title .form-group {
+    margin-bottom:0;
+}
+.panel-title .select2-container .select2-choice{
+    line-height:initial;
+}

@@ -5,41 +5,97 @@
       <h4 class="modal-title">Background Bindings Setup</h4>
     </div>
     <div class="modal-body">
-      <div class="row">
-        <div class="col-md-3">
-          <div class="select2-wrapper">
-          <select ui-select2="{}" ng-model="fieldBinding.boundTo">
-            <option ng-repeat="item in vocabulary" value="{{item.field}}">{{item.field}}</option>
-          </select>
-        </div></div>
-      </div>
-      <div class="row" ng-repeat="binding in fieldBinding.bindings">
-        <div class="col-md-3">
+      <!--<div class="row">-->
+        <!--<div class="col-md-3">-->
+          <!--<span class="pull-right form-group">-->
+            <!--<label class="form-control">Field Name</label>-->
+          <!--</span>-->
+        <!--</div>-->
+        <!--<div class="col-md-4">-->
+          <!--<div class="select2-wrapper">-->
+            <!--<select ui-select2="{}" ng-model="fieldBinding.boundTo">-->
+              <!--<option ng-repeat="item in vocabulary" value="{{item.field}}">{{item.field}}</option>-->
+            <!--</select>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <div class="row">
+              <div class="col-md-3">
+          <span class="pull-right form-group">
+            <label class="form-control">Field Name</label>
+          </span>
+              </div>
+              <div class="col-md-4">
+                <div class="select2-wrapper">
+                  <select ui-select2="{}" ng-model="fieldBinding.boundTo">
+                    <option ng-repeat="item in vocabulary" value="{{item.field}}">{{item.field}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </h3>
+        </div>
+        <div class="panel-body">
+          <div class="row" ng-repeat="binding in fieldBinding.bindings">
+            <div class="col-md-3">
           <span class="pull-right form-group">
             <label class="form-control">Is equal to</label>
           </span>
-        </div>
-        <div class="col-md-4">
-          <input class="form-control" type="text" ng-model="binding.fieldValue">
-        </div>
-        <div class="col-md-2">
-          <label class="form-control">Then</label>
+            </div>
+            <div class="col-md-4">
+              <input class="form-control" type="text" ng-model="binding.fieldValue">
+            </div>
+            <div class="col-md-2">
+              <label class="form-control">Then</label>
 
-        </div>
-        <div class="col-md-2">
-          <button class="btn btn-default"
-                  ng-style="{'background-color':binding.overrideValue}"
-                  colorpicker="rgba"
-                  ng-model="binding.overrideValue">
-            <i class="fa fa-lg fa-tint"></i>
-          </button>
-        </div>
-        <div class="col-md-1">
-          <a href ng-click="removeBinding(binding)" class="btn btn-link pull-right">
-            <i class="fa fa-lg fa-trash-o"></i>
-          </a>
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-default"
+                      ng-style="{'background-color':binding.overrideValue}"
+                      colorpicker="rgba"
+                      ng-model="binding.overrideValue">
+                <i class="fa fa-lg fa-tint"></i>
+              </button>
+            </div>
+            <div class="col-md-1">
+              <a href ng-click="removeBinding(binding)" class="btn btn-link pull-right">
+                <i class="fa fa-lg fa-trash-o"></i>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
+      <!--<div class="row" ng-repeat="binding in fieldBinding.bindings">-->
+        <!--<div class="col-md-3">-->
+          <!--<span class="pull-right form-group">-->
+            <!--<label class="form-control">Is equal to</label>-->
+          <!--</span>-->
+        <!--</div>-->
+        <!--<div class="col-md-4">-->
+          <!--<input class="form-control" type="text" ng-model="binding.fieldValue">-->
+        <!--</div>-->
+        <!--<div class="col-md-2">-->
+          <!--<label class="form-control">Then</label>-->
+
+        <!--</div>-->
+        <!--<div class="col-md-2">-->
+          <!--<button class="btn btn-default"-->
+                  <!--ng-style="{'background-color':binding.overrideValue}"-->
+                  <!--colorpicker="rgba"-->
+                  <!--ng-model="binding.overrideValue">-->
+            <!--<i class="fa fa-lg fa-tint"></i>-->
+          <!--</button>-->
+        <!--</div>-->
+        <!--<div class="col-md-1">-->
+          <!--<a href ng-click="removeBinding(binding)" class="btn btn-link pull-right">-->
+            <!--<i class="fa fa-lg fa-trash-o"></i>-->
+          <!--</a>-->
+        <!--</div>-->
+      <!--</div>-->
       <div class="row">
         <div class="col-md-4">
           <a ng-click="addNewBinding()" class="btn btn-link">
