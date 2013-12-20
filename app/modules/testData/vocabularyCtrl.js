@@ -14,7 +14,7 @@
         if (!$scope.hasVocabulary()) return;
 
         angular.forEach($scope.vocabulary, function(item){
-          liveVocabulary.delete(item);
+          liveVocabulary.del(item);
         });
       };
 

@@ -21,7 +21,7 @@
         if (!$scope.hasStudents()) return;
 
         _.each($scope.students, function (student) {
-          liveStudents.delete(student);
+          liveStudents.del(student);
         })
       };
 

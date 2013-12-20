@@ -19,7 +19,7 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
 
     // link up to ui.router to clear any subscriptions on page changes
     $rootScope.$on('$stateChangeStart',
-      function(event, toState, toParams, fromState, fromParams){
+      function (event, toState, toParams, fromState, fromParams) {
         racerModel.unload();
       }
     );
@@ -45,10 +45,10 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
         return racerModel.query(path, queryParams);
       };
 
-      this.delete = function (modelOrId) {
+      this.del = function (modelOrId) {
         var idToDelete = modelOrId;
 
-        if(modelOrId.id){
+        if (modelOrId.id) {
           idToDelete = modelOrId.id;
         }
 
@@ -59,7 +59,7 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
         return racerModel.del(path + "." + idToDelete);
       };
 
-      this.get = function() {
+      this.get = function () {
         return racerModel.get(path);
       };
 
@@ -83,7 +83,7 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
         return liveData;
       };
 
-      this.scope = function(subPath){
+      this.scope = function (subPath) {
         return racerModel.scope(path + '.' + subPath);
       }
 
@@ -150,6 +150,12 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
           return;
         }
 
+        // check if newModel is primitive
+        if (!_.isObject(newModel) && !_.isArray(newModel)) {
+          racerModel.setDiff(childPath, newModel);
+          return;
+        }
+
         for (var propertyKey in newModel) {
           if (oldModel && (propertyKey in oldModel) && oldModel[propertyKey] === newModel[propertyKey]) {
             continue;
@@ -164,7 +170,8 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
           setPath += '.' + propertyKey;
 
           if (_.isArray(newModel[propertyKey])) {
-            updateArrayModel(newModel[propertyKey], oldModel ? oldModel[propertyKey] : null, setPath);
+            throw 'Sorry arrays are super broken, please use a collection instead'
+            // updateArrayModel(newModel[propertyKey], oldModel ? oldModel[propertyKey] : null, setPath);
             continue;
           }
 
@@ -187,11 +194,11 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
 
         for (var i = 0; i < oldModelArray.length; i++) {
 
-          if (!_.contains(removed, oldModelArray[i])) {
-            continue;
+          if (_.contains(removed, oldModelArray[i])) {
+            racerModel.remove(childPath, i);
           }
 
-          racerModel.remove(childPath, i);
+
         }
 
         var oldModelArrayWithoutRemovedItems = _.without(oldModelArray, removed);
@@ -208,19 +215,19 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
         // to the op insert payload when new items are being created.
         $timeout(function () {
           var newServerModel = angular.copy(racerModel.get(path));
-          removeDeletedItemsFromCollection(newServerModel,liveData);
+          removeDeletedItemsFromCollection(newServerModel, liveData);
           _.merge(liveData, newServerModel);
         });
       });
     };
 
-    function removeDeletedItemsFromCollection(newServerModel, liveData){
+    function removeDeletedItemsFromCollection(newServerModel, liveData) {
       // recursively check and remove child collections
-      for(var property in newServerModel){
+      for (var property in newServerModel) {
         var serverData = newServerModel[property],
           localData = liveData[property];
 
-        if(_.isObject(serverData) && localData){
+        if (_.isObject(serverData) && localData) {
           removeDeletedItemsFromCollection(serverData, localData);
         }
       }

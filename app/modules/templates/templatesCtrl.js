@@ -55,7 +55,7 @@
         });
 
         modalInstance.result.then(function () {
-          liveTemplates.delete(template);
+          liveTemplates.del(template);
         });
       };
     });

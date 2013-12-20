@@ -60,7 +60,7 @@
 <form ng-show="selectedShape && !$parent.leftSubmenu" class="form-horizontal" role="form">
   <div class="form-group">
     <label class="col-md-5 control-label">
-      <a href ng-click="openBindingsWindow('background')">
+      <a href ng-click="openBindingsWindow(selectedShape, 'background')">
         Background <i class="fa fa-external-link-square"></i>
       </a>
     </label>
@@ -86,7 +86,7 @@
   </div>
   <div class="form-group">
     <label class="col-md-5 control-label">
-      <a href ng-click="openBindingsWindow('borderColor')">
+      <a href ng-click="openBindingsWindow(selectedShape, 'borderColor')">
         Border Color <i class="fa fa-external-link-square"></i>
       </a>
     </label>
@@ -126,7 +126,7 @@
   </div>
   <div class="form-group">
     <label class="col-md-5 control-label">
-      <a href ng-click="openBindingsWindow('fontColor')">
+      <a href ng-click="openBindingsWindow(selectedShape, 'fontColor')">
         Font Color <i class="fa fa-external-link-square"></i>
       </a>
     </label>
@@ -145,8 +145,8 @@
 
     <div class="col-md-7">
       <div class="select2-wrapper">
-        <select ui-select2="{}" ng-model="foobardurpdurp">
-          <option value="Grade">Grade</option>
+        <select ui-select2="{}" ng-model="selectedShape.model.bindings.text.boundTo">
+          <option ng-repeat="item in vocabulary" value="{{item.field}}">{{item.field}}</option>
         </select>
       </div>
     </div>
@@ -214,7 +214,7 @@
   </div>
   <div class="form-group">
     <label class="col-md-5 control-label">
-      <a href ng-click="$parent.leftSubmenu = 'Delete'">Delete Shape</a>
+
     </label>
 
     <div class="col-md-7">
@@ -224,6 +224,15 @@
       </button>
     </div>
   </div>
+  <div class="form-group">
+  <label class="col-md-5 control-label">
+
+  </label>
+
+  <div class="col-md-7">
+    <a href ng-click="$parent.leftSubmenu = 'Delete'">Delete Shape</a>
+  </div>
+</div>
   <!--<div class="form-group">-->
   <!--<label for="inputPassword3" class="col-md-2 control-label">Password</label>-->
 

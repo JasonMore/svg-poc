@@ -31,7 +31,8 @@
             offsetX:20,
             offsetY:20,
             density:10
-          }
+          },
+          fieldBindings:{}
         });
       }
 

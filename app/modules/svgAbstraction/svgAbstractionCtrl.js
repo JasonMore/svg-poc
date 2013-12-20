@@ -25,9 +25,13 @@
         $scope.template.height = 1500;
       }
 
-      if(!$scope.template.fieldBindings) {
-        $scope.template.fieldBindings = {};
-      }
+//      if(!$scope.template.fieldBindings) {
+//        $scope.template.fieldBindings = {};
+//      }
+//
+//      if(!$scope.template.fieldBindings.text){
+//        $scope.template.fieldBindings.text = {};
+//      }
 
       // properties
       $scope.showDrawMenu = false;
@@ -409,36 +413,40 @@
       };
 
       var bindingViewMap = {
-        'background':'color',
-        'borderColor':'color',
-        'fontColor':'color',
-        'image':'image'
+        'background': 'color',
+        'borderColor': 'color',
+        'fontColor': 'color',
+        'image': 'image'
       };
 
-      $scope.openBindingsWindow = function(property){
-        if(!$scope.template.fieldBindings[property]){
-          $scope.template.fieldBindings[property] = {};
+      $scope.openBindingsWindow = function (selectedShape, property) {
+        if (!selectedShape.model.fieldBindings[property]) {
+          selectedShape.model.fieldBindings[property] = {
+            boundTo: '',
+            bindings: {}
+          };
         }
 
-        var fieldBinding = $scope.template.fieldBindings[property];
-        var liveBindings = liveTemplate.scope('fieldBindings.' + property +'.bindings');
+        var fieldBinding = selectedShape.model.fieldBindings[property];
         var vocabulary = $scope.vocabulary;
+        var bindingsKey = ['shapes', selectedShape.model.id, 'fieldBindings', property, 'bindings'].join('.');
+        var liveBindings = liveTemplate.scope(bindingsKey);
 
         var modalInstance = $modal.open({
           templateUrl: 'modules/svgAbstraction/bindingViews/' + bindingViewMap[property] + '.html',
-          controller: function($scope, $modalInstance) {
+          controller: function ($scope, $modalInstance) {
 //            $scope.isNew = template ? false : true;
 //            $scope.template = template || {};
 
             $scope.fieldBinding = fieldBinding;
             $scope.vocabulary = vocabulary;
 
-            $scope.addNewBinding = function(){
-              liveBindings.add({type:'eq', fieldValue:'', overrideValue:''});
+            $scope.addNewBinding = function () {
+              liveBindings.add({type: 'eq', fieldValue: '', overrideValue: ''});
             };
 
             $scope.removeBinding = function (binding) {
-              liveBindings.del(binding.id);
+              liveBindings.del(binding);
             };
 
             $scope.save = function () {
