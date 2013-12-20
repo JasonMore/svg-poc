@@ -189,6 +189,13 @@
         })
       }
 
+      $scope.$watch('vocabulary', computedVocabularyGroup, true);
+      function computedVocabularyGroup(vocabulary, oldValues){
+        if(vocabulary === oldValues) return;
+
+        $scope.vocabularyGroups = _.groupBy(vocabulary,'type');
+      }
+
       // actions
 
       $scope.shapeClick = function (shape) {
@@ -428,7 +435,7 @@
         }
 
         var fieldBinding = selectedShape.model.fieldBindings[property];
-        var vocabulary = $scope.vocabulary;
+        var vocabularyGroups = $scope.vocabularyGroups;
         var bindingsKey = ['shapes', selectedShape.model.id, 'fieldBindings', property, 'bindings'].join('.');
         var liveBindings = liveTemplate.scope(bindingsKey);
 
@@ -439,14 +446,14 @@
 //            $scope.template = template || {};
 
             $scope.fieldBinding = fieldBinding;
-            $scope.vocabulary = vocabulary;
+            $scope.vocabularyGroups = vocabularyGroups;
 
             $scope.addNewBinding = function () {
               liveBindings.add({type: 'eq', fieldValue: '', overrideValue: ''});
             };
 
             $scope.removeBinding = function (binding) {
-              liveBindings.del(binding);
+              liveBindings.del(binding.id);
             };
 
             $scope.save = function () {

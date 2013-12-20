@@ -43,6 +43,7 @@
         liveVocabulary.add({field: 'Phone', type: 'alpha'});
         liveVocabulary.add({field: 'TeacherNbr', type: 'alpha'});
         liveVocabulary.add({field: 'Track', type: 'alpha'});
+        liveVocabulary.add({field: 'First_Last_Name', type: 'computed'});
       }
 
     });
