@@ -53,20 +53,17 @@ describe('dataMergeService.js > ', function () {
     describe('when no data to merge with >', function () {
       it('returns a copy of the shapes', function () {
         act();
-        expect(JSON.stringify(mergedShapes)).toEqual(JSON.stringify(shapes));
+        expect(mergedShapes).toEqual(shapes);
       });
+
+      it('should not return the same object', function () {
+        act();
+        expect(mergedShapes).toNotBe(shapes);
+      })
     });
 
-    describe('when has text field binding >', function () {
-      beforeEach(function () {
-        shape.fieldBindings.text = {
-          boundTo: 'First_Name'
-        };
-
-        vocabulary = {
-          'a1': {field: 'First_Name', type: 'alpha'}
-        };
-
+    describe('when merge data >', function() {
+      beforeEach(function() {
         data = {
           "First_Name": "Marcus",
           "Last_Name": "Jordan",
@@ -75,46 +72,61 @@ describe('dataMergeService.js > ', function () {
           "Portrait": "img/CO/Flash5.jpg",
           "School_Name": "Sunnyside High"
         };
+
+        vocabulary = {
+          'a1': {field: 'First_Name', type: 'alpha'},
+          'a2': {field: 'Portrait', type: 'imageUrl'}
+        };
+
       });
 
-      it('should replace shape text with data text', function() {
-        act();
-        expect(mergedShapes['abc123'].text).toEqual("Marcus");
-      })
-    })
+      describe('when has text field binding >', function () {
+        beforeEach(function () {
+          shape.fieldBindings.text = {
+            boundTo: 'First_Name'
+          };
+        });
 
-    describe('when background has field binding >', function () {
-      beforeEach(function () {
-        shape.fieldBindings.background = {
-          "boundTo": "Grade",
-          "bindings": {
-            "2c37432c-50c4-4b11-a777-e3897dd9b1aa": {
-              "type": "eq",
-              "fieldValue": "11",
-              "overrideValue": "rgba(0,80,255,1)",
-              "id": "2c37432c-50c4-4b11-a777-e3897dd9b1aa"
+        it('should replace shape text with data text', function () {
+          act();
+          expect(mergedShapes['abc123'].text).toEqual("Marcus");
+        })
+      });
+
+      describe('when background has field data binding >', function () {
+        beforeEach(function () {
+          shape.fieldBindings.background = {
+            "boundTo": "Grade",
+            "bindings": {
+              "2c37432c-50c4-4b11-a777-e3897dd9b1aa": {
+                "type": "eq",
+                "fieldValue": "11",
+                "overrideValue": "rgba(0,80,255,1)",
+                "id": "2c37432c-50c4-4b11-a777-e3897dd9b1aa"
+              }
             }
-          }
-        };
+          };
+        });
 
-        vocabulary = {
-          'a1': {field: 'First_Name', type: 'alpha'}
-        };
-
-        data = {
-          "First_Name": "Marcus",
-          "Last_Name": "Jordan",
-          "Teacher_Name": "John Madden",
-          "Grade": "11",
-          "Portrait": "img/CO/Flash5.jpg",
-          "School_Name": "Sunnyside High"
-        };
+        it('should replace shape background with rgba value', function () {
+          act();
+          expect(mergedShapes['abc123'].backgroundColor).toEqual("rgba(0,80,255,1)");
+        });
       });
 
-      it('should replace shape background with rgba value', function() {
-        act();
-        expect(mergedShapes['abc123'].backgroundColor).toEqual("rgba(0,80,255,1)");
+      describe('when image has binding >', function () {
+        beforeEach(function () {
+          shape.fieldBindings.image = {
+            "boundTo": "Portrait",
+            "bindings": {}
+          };
+        });
+
+        it('should replace shape image url', function () {
+          act();
+          expect(mergedShapes['abc123'].image.url).toEqual("img/CO/Flash5.jpg");
+        });
       })
-    })
+    });
   });
 });
