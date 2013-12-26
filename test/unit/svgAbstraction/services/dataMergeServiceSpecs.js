@@ -82,5 +82,39 @@ describe('dataMergeService.js > ', function () {
         expect(mergedShapes['abc123'].text).toEqual("Marcus");
       })
     })
+
+    describe('when background has field binding >', function () {
+      beforeEach(function () {
+        shape.fieldBindings.background = {
+          "boundTo": "Grade",
+          "bindings": {
+            "2c37432c-50c4-4b11-a777-e3897dd9b1aa": {
+              "type": "eq",
+              "fieldValue": "11",
+              "overrideValue": "rgba(0,80,255,1)",
+              "id": "2c37432c-50c4-4b11-a777-e3897dd9b1aa"
+            }
+          }
+        };
+
+        vocabulary = {
+          'a1': {field: 'First_Name', type: 'alpha'}
+        };
+
+        data = {
+          "First_Name": "Marcus",
+          "Last_Name": "Jordan",
+          "Teacher_Name": "John Madden",
+          "Grade": "11",
+          "Portrait": "img/CO/Flash5.jpg",
+          "School_Name": "Sunnyside High"
+        };
+      });
+
+      it('should replace shape background with rgba value', function() {
+        act();
+        expect(mergedShapes['abc123'].backgroundColor).toEqual("rgba(0,80,255,1)");
+      })
+    })
   });
 });
