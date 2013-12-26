@@ -111,7 +111,6 @@
 
         for (var property in $scope.shapes) {
           if (_.contains(idsToRemove, property)) {
-//            shiftShapesDown($scope.shapes[property].model.order);
             delete $scope.shapes[property];
           }
         }
@@ -152,7 +151,7 @@
         }
 
         // by only copying the shapes in between merges, prevents flicker
-        // when updating template data
+        // when updating template data or changing templates
         if (!oldValue) {
           $scope.templatedShapes = {};
           $scope.shapesCopy = angular.copy($scope.template.shapes);
@@ -172,19 +171,9 @@
       });
 
       function applyTemplateDataToTemplateShapes() {
-//        $scope.shapesCopy = $scope.template.shapes;
         var data = $scope.students[$scope.mergeDataId];
-
-//        $scope.templatedShapes = {};
         var mergedShapes = dataMergeService.getMergedShapesWithData($scope.shapesCopy, data);
         _.merge($scope.shapesCopy, mergedShapes);
-//        _(mergedShapes).each(function (shape) {
-//          function getModelFn() {
-//            return shape;
-//          }
-//
-//          $scope.templatedShapes[shape.id] = shapeViewModelService.create(getModelFn);
-//        });
       }
 
       $scope.$watch('vocabulary', computedVocabularyGroup, true);
