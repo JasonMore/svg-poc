@@ -14,8 +14,6 @@ module.exports = function (karma) {
       '**/*.html': ['ng-html2js']
     },
 
-//    plugins: ['ng-html2js'],
-
     // list of files / patterns to load in the browser
     files: [
       // -- add libraries here as they are added to index.html

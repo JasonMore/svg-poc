@@ -143,14 +143,20 @@
   <div class="form-group">
     <label class="col-md-5 control-label">Text Binding</label>
 
-    <div class="col-md-7">
+    <div class="col-md-6">
       <div class="select2-wrapper">
-        <select ui-select2="{}" ng-model="selectedShape.model.bindings.text.boundTo">
+        <select ui-select2="{}" ng-model="selectedShape.model.fieldBindings.text.boundTo">
           <optgroup label="{{key}}" ng-repeat="(key,value) in vocabularyGroups">
             <option ng-repeat="item in value" value="{{item.field}}">{{item.field}}</option>
           </optgroup>
         </select>
       </div>
+    </div>
+    <div class="col-md-1">
+      <!--not sure why I need this style hack-->
+      <a style="margin-left:-9px"
+         class="btn btn-default"
+          ng-click="selectedShape.model.fieldBindings.text.boundTo = '' ">X</a>
     </div>
   </div>
   <div class="form-group">

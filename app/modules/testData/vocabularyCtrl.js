@@ -41,9 +41,15 @@
         liveVocabulary.add({field: 'Misc1', type: 'alpha'});
         liveVocabulary.add({field: 'Misc2', type: 'alpha'});
         liveVocabulary.add({field: 'Phone', type: 'alpha'});
-        liveVocabulary.add({field: 'TeacherNbr', type: 'alpha'});
+        liveVocabulary.add({field: 'School_Name', type: 'alpha'});
+        liveVocabulary.add({field: 'Teacher_Number', type: 'number'});
+        liveVocabulary.add({field: 'Teacher_Name', type: 'alpha'});
         liveVocabulary.add({field: 'Track', type: 'alpha'});
-        liveVocabulary.add({field: 'First_Last_Name', type: 'computed'});
+        liveVocabulary.add({
+          field: 'First_Last_Name',
+          type: 'computed',
+          template: '{{First_Name}} {{Last_Name}}'
+        });
       }
 
     });

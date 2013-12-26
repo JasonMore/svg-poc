@@ -148,11 +148,11 @@
         updateAllTextReflows();
       });
 
-      $scope.$watch('selectedShape.model.id', function (id) {
-        if (!$scope.selectedShape) return;
-        if ($scope.selectedShape.model.templateId) return;
-        $scope.selectedShape.model.templateId = id;
-      });
+//      $scope.$watch('selectedShape.model.id', function (id) {
+//        if (!$scope.selectedShape) return;
+//        if ($scope.selectedShape.model.templateId) return;
+//        $scope.selectedShape.model.templateId = id;
+//      });
 
       $scope.$watch('dataMode', function (isDataMode, oldValue) {
         if (isDataMode === oldValue) return;
@@ -163,7 +163,7 @@
         }
 
         var template = angular.copy($scope.template.shapes);
-        $scope.templatedShapes = {};
+        $scope.templateId = {};
 
         _(template).each(function (model) {
           function getModelFn() {
@@ -332,53 +332,55 @@
 
       };
 
-      $scope.$watch('students', function () {
-        if (!$scope.mergeDataId) return;
-        $scope.mergeData();
+//      $scope.$watch('students', function () {
+//        if (!$scope.mergeDataId) return;
+//        $scope.mergeData();
+//
+//      }, true);
+//
+//      $scope.mergeDataId;
+//
+//      $scope.mergeData = function (id) {
+//        if (id) {
+//          $scope.mergeDataId = id;
+//        }
+//
+//        $scope.dataMode = true;
+//
+//        var data = $scope.students[$scope.mergeDataId];
 
-      }, true);
+//        var dictionary = {
+//          "Student_Name": "text",
+//          "Student_First_Name": "text",
+//          "Student_Last_Name": "text",
+//          "Student_Teacher": "text",
+//          "Student_Grade": "text",
+//          "Student_Picture": "image.url",
+//          "School_Name": "text"
+//        };
+//
+//        var computedDictionary = {
+//          "Student_Name": function (data) {
+//            return data["Student_First_Name"] + " " + data["Student_Last_Name"];
+//          }
+//        };
 
-      $scope.mergeDataId;
+//        $scope.templateDataObject = _.union(
+//          mapData(data, dictionary),
+//          mapData(computedDictionary, dictionary, data)
+//        );
 
-      $scope.mergeData = function (id) {
-        if (id) {
-          $scope.mergeDataId = id;
-        }
 
-        $scope.dataMode = true;
-
-        var data = $scope.students[$scope.mergeDataId];
-
-        var dictionary = {
-          "Student_Name": "text",
-          "Student_First_Name": "text",
-          "Student_Last_Name": "text",
-          "Student_Teacher": "text",
-          "Student_Grade": "text",
-          "Student_Picture": "image.url",
-          "School_Name": "text"
-        };
-
-        var computedDictionary = {
-          "Student_Name": function (data) {
-            return data["Student_First_Name"] + " " + data["Student_Last_Name"];
-          }
-        };
-
-        $scope.templateDataObject = _.union(
-          mapData(data, dictionary),
-          mapData(computedDictionary, dictionary, data)
-        );
-
-        if ($scope.templatedShapes) {
-          applyTemplateDataToTemplateShapes();
-        }
-
-        updateAllTextReflows();
-      };
+//
+//        if ($scope.templatedShapes) {
+//          applyTemplateDataToTemplateShapes();
+//        }
+//
+//        updateAllTextReflows();
+//      };
 
       function mapData(dataOrComputedDictionary, dictionary, data) {
-        var templateData = []
+        var templateData = [];
         for (var property in dataOrComputedDictionary) {
           var dictionaryMapValue = dictionary[property];
           if (!dictionaryMapValue) continue;
