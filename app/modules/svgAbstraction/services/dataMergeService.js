@@ -27,7 +27,6 @@
           } else {
             dotNotation.getSet(shape, dictionary[field], data[binding.boundTo]);
           }
-
         });
       });
 

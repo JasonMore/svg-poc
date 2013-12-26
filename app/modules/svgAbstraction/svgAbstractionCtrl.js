@@ -1,6 +1,6 @@
 (function () {
   angular.module('svgAbstraction.controllers')
-    .controller('svgAbstractionCtrl', function ($scope, $stateParams, $timeout, shapePaths, shapeViewModelService, liveResource, textReflowService, dotNotation, $modal) {
+    .controller('svgAbstractionCtrl', function ($scope, $stateParams, $timeout, shapePaths, shapeViewModelService, liveResource, textReflowService, dotNotation, $modal, dataMergeService) {
       window.debugScope = $scope;
 
       // load data
@@ -25,14 +25,6 @@
         $scope.template.height = 1500;
       }
 
-//      if(!$scope.template.fieldBindings) {
-//        $scope.template.fieldBindings = {};
-//      }
-//
-//      if(!$scope.template.fieldBindings.text){
-//        $scope.template.fieldBindings.text = {};
-//      }
-
       // properties
       $scope.showDrawMenu = false;
       $scope.showSettingsMenu = false;
@@ -43,7 +35,9 @@
       $scope.shapeKeyValues = shapePaths.keyValues;
       $scope.shapes = {};
       $scope.zoom = 1;
-      $scope.dataMode = false;
+//      $scope.dataMode = false;
+      $scope.mergeDataId;
+      $scope.templatedShapes = {};
       $scope.openShapeMenu = false;
       $scope.sideMenuOpen = true;
       $scope.leftSubmenu = null;
@@ -148,53 +142,47 @@
         updateAllTextReflows();
       });
 
-//      $scope.$watch('selectedShape.model.id', function (id) {
-//        if (!$scope.selectedShape) return;
-//        if ($scope.selectedShape.model.templateId) return;
-//        $scope.selectedShape.model.templateId = id;
-//      });
+      $scope.$watch('mergeDataId', function (mergeDataId, oldValue) {
+        if (mergeDataId === oldValue) return;
 
-      $scope.$watch('dataMode', function (isDataMode, oldValue) {
-        if (isDataMode === oldValue) return;
-
-        if (!isDataMode) {
+        if (!mergeDataId) {
           updateAllTextReflows();
           return;
         }
 
-        var template = angular.copy($scope.template.shapes);
-        $scope.templateId = {};
-
-        _(template).each(function (model) {
-          function getModelFn() {
-            return model;
-          }
-
-          $scope.templatedShapes[model.templateId] = shapeViewModelService.create(getModelFn);
-        });
-
-        if ($scope.templateDataObject) {
-          applyTemplateDataToTemplateShapes();
-        }
+        applyTemplateDataToTemplateShapes();
 
         updateAllTextReflows();
       });
 
       function applyTemplateDataToTemplateShapes() {
-        _($scope.templateDataObject).each(function (templateDataModel) {
-          var shape = $scope.templatedShapes[templateDataModel.templateId];
-          if (!shape) return;
+        $scope.templatedShapes = {};
+        var shapes = $scope.template.shapes;
+        var data = $scope.students[$scope.mergeDataId];
 
-          dotNotation.getSet(shape.model, templateDataModel.path, templateDataModel.data);
-        })
+        var mergedShapes = dataMergeService.getMergedShapesWithData(shapes, data);
+
+        _(mergedShapes).each(function (shape) {
+          function getModelFn() {
+            return shape;
+          }
+
+          $scope.templatedShapes[shape.id] = shapeViewModelService.create(getModelFn);
+        });
       }
 
       $scope.$watch('vocabulary', computedVocabularyGroup, true);
-      function computedVocabularyGroup(vocabulary, oldValues){
-        if(vocabulary === oldValues) return;
+      function computedVocabularyGroup(vocabulary, oldValues) {
+        if (vocabulary === oldValues) return;
 
-        $scope.vocabularyGroups = _.groupBy(vocabulary,'type');
+        $scope.vocabularyGroups = _.groupBy(vocabulary, 'type');
       }
+
+      $scope.$watch('students', function () {
+        if (!$scope.mergeDataId) return;
+        applyTemplateDataToTemplateShapes()
+
+      }, true);
 
       // actions
 
@@ -204,7 +192,7 @@
       };
 
       $scope.setSelectedShape = function (shape) {
-        if ($scope.selectedShape === shape || $scope.dataMode) {
+        if ($scope.selectedShape === shape || $scope.mergeDataId) {
           return;
         }
 
@@ -235,7 +223,7 @@
       };
 
       $scope.canDragShape = function (shape) {
-        return !$scope.dataMode;
+        return !$scope.mergeDataId;
       };
 
       $scope.drawShape = function (shape) {
@@ -292,7 +280,7 @@
       };
 
       $scope.pasteCopiedShape = function () {
-        if ($scope.dataMode) return;
+        if ($scope.mergeDataId) return;
 
         // offset new shape
         $scope.copiedShapeModel.top += 25;
@@ -332,73 +320,9 @@
 
       };
 
-//      $scope.$watch('students', function () {
-//        if (!$scope.mergeDataId) return;
-//        $scope.mergeData();
-//
-//      }, true);
-//
-//      $scope.mergeDataId;
-//
-//      $scope.mergeData = function (id) {
-//        if (id) {
-//          $scope.mergeDataId = id;
-//        }
-//
-//        $scope.dataMode = true;
-//
-//        var data = $scope.students[$scope.mergeDataId];
-
-//        var dictionary = {
-//          "Student_Name": "text",
-//          "Student_First_Name": "text",
-//          "Student_Last_Name": "text",
-//          "Student_Teacher": "text",
-//          "Student_Grade": "text",
-//          "Student_Picture": "image.url",
-//          "School_Name": "text"
-//        };
-//
-//        var computedDictionary = {
-//          "Student_Name": function (data) {
-//            return data["Student_First_Name"] + " " + data["Student_Last_Name"];
-//          }
-//        };
-
-//        $scope.templateDataObject = _.union(
-//          mapData(data, dictionary),
-//          mapData(computedDictionary, dictionary, data)
-//        );
-
-
-//
-//        if ($scope.templatedShapes) {
-//          applyTemplateDataToTemplateShapes();
-//        }
-//
-//        updateAllTextReflows();
-//      };
-
-      function mapData(dataOrComputedDictionary, dictionary, data) {
-        var templateData = [];
-        for (var property in dataOrComputedDictionary) {
-          var dictionaryMapValue = dictionary[property];
-          if (!dictionaryMapValue) continue;
-
-          var value = dataOrComputedDictionary[property];
-
-          var valueGetter = function () {
-            return _.isFunction(value) ? value(data) : value;
-          };
-
-          var mapped = {
-            templateId: property,
-            path: dictionaryMapValue,
-            data: _.isFunction(value) ? value(data) : value};
-          templateData.push(mapped);
-        }
-        return templateData;
-      }
+      $scope.mergeData = function (id) {
+        $scope.mergeDataId = id;
+      };
 
       $scope.shapeMenuOpen = function ($event, toggle) {
         $scope.menuTop = $event.pageY + 10;
@@ -479,7 +403,7 @@
 
       // computed
       $scope.computedShapes = function () {
-        if ($scope.dataMode) {
+        if ($scope.mergeDataId) {
           return $scope.templatedShapes;
         }
 
@@ -528,6 +452,10 @@
 
       kDown.whenShortcut("esc", function () {
         $scope.$apply(function () {
+          if ($scope.mergeDataId) {
+            $scope.mergeDataId = null;
+          }
+
           $scope.unSelectShape();
         });
       });
