@@ -1,9 +1,10 @@
 (function () {
   angular.module('svgAbstraction.services').service('dataMergeService', function (dotNotation) {
-    var dictionary = {
+    var modelTranslate = {
       "text": "text",
       "background": "backgroundColor",
-      "image": "image.url"
+      "image": "image.url",
+      "fontColor": "fontColor"
     };
 
     this.getMergedShapesWithData = function (shapes, data) {
@@ -21,11 +22,11 @@
 
               // only checking for equals binding right now
               if(dataBinding.fieldValue == data[binding.boundTo]){
-                dotNotation.getSet(shape, dictionary[field], dataBinding.overrideValue);
+                dotNotation.getSet(shape, modelTranslate[field], dataBinding.overrideValue);
               }
             });
           } else {
-            dotNotation.getSet(shape, dictionary[field], data[binding.boundTo]);
+            dotNotation.getSet(shape, modelTranslate[field], data[binding.boundTo]);
           }
         });
       });

@@ -35,15 +35,13 @@
       $scope.shapeKeyValues = shapePaths.keyValues;
       $scope.shapes = {};
       $scope.zoom = 1;
-//      $scope.dataMode = false;
-      $scope.mergeDataId;
+      $scope.mergeDataId = null;
       $scope.templatedShapes = {};
       $scope.openShapeMenu = false;
       $scope.sideMenuOpen = true;
       $scope.leftSubmenu = null;
       $scope.menuTop = 0;
       $scope.menuLeft = 0;
-      $scope.foobardurpdurp = 'Grade';
 
       $scope.colorOptions = [
         {id: 'red', name: 'Red'},
