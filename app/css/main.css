@@ -3,35 +3,50 @@ body {
     margin: 0;
     background: #eee;
 }
+
 /*.navbar {*/
-    /*width: 100%;*/
-    /*height: 50px;*/
-    /*margin-bottom: 0px;*/
-    /*float: top;*/
-    /*z-index:101;*/
+/*width: 100%;*/
+/*height: 50px;*/
+/*margin-bottom: 0px;*/
+/*float: top;*/
+/*z-index:101;*/
 /*}*/
 /*.sidebar {*/
-    /*float: left;*/
-    /*padding: 15px 0 0 0;*/
-    /*width: 80px;*/
-    /*height: 92%;*/
-    /*background: #eeeeee;*/
+/*float: left;*/
+/*padding: 15px 0 0 0;*/
+/*width: 80px;*/
+/*height: 92%;*/
+/*background: #eeeeee;*/
 /*}*/
 .wrapper {
     margin: 67px 0;
     background: #eee;
     text-align: center;
+    transition: margin-left 0.4s ease;
 }
+
+.wrapper.side-menu-open {
+    margin-left: 355px;
+}
+
+.left-pill {
+    position: absolute;
+    left: 10px;
+    margin: 5px 0px 0px 0px;
+}
+
 .drawing-surface {
     /*border: 1px solid #eee;*/
     background: #fff;
     margin: auto;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.5)
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5)
 }
+
 .btn-text {
     overflow: hidden;
     font-family: "News Cycle", "Arial Narrow Bold", sans-serif;
 }
+
 .HoverText {
     opacity: 0;
     margin-bottom: -50px;
@@ -51,19 +66,18 @@ body {
 .IconWrapper, .HoverText {
     transition: all 0.2s ease-in-out;
 }
+
 .btn-text:hover .IconWrapper {
     margin-top: -50px;
 }
 
 .sliding-menu {
-    margin-top:-50px;
+    margin-top: -50px;
 }
 
 .btn-text:hover .sliding-menu {
-    margin-top:4px;
+    margin-top: 4px;
 }
-
-
 
 /* General styles for all menus */
 
@@ -86,21 +100,33 @@ body {
     /*color: #afdefa;*/
     /*font-size: 1.9em;*/
     padding: 20px;
-    margin: 0;
+    margin: 0px;
     /*font-weight: 300;*/
     background: #0d77b6;
 }
 
-.spmenu-title h3{
+.spmenu-title h3 {
     color: #afdefa;
     font-size: 1.9em;
 }
 
-.cbp-spmenu a {
+.spmenu-title .btn {
+    margin: -10px 10px 0px 0px;
+}
+
+.spmenu-title .btn-text {
+    width: 70px;
+}
+
+.spmenu-contents a {
     display: block;
     color: #fff;
     /*font-size: 2em;*/
     /*font-weight: 300;*/
+}
+
+.cbp-spmenu label {
+    color: #fff;
 }
 
 .cbp-spmenu ul li {
@@ -113,13 +139,17 @@ body {
 /* Orientation-dependent styles for the content of the menu */
 
 .cbp-spmenu-vertical {
-    width: 240px;
+    width: 340px;
     height: 100%;
     top: 0;
     z-index: 100;
 }
 
-.cbp-spmenu-vertical a {
+.cbp-spmenu-vertical .spmenu-title {
+    margin: 40px 0px 0px 0px;
+}
+
+.cbp-spmenu-vertical .spmenu-contents a {
     border-bottom: 1px solid #258ecd;
     padding: 1em;
 }
@@ -151,15 +181,19 @@ body {
     height: 100%;
     width: 20%;
     /*float: left;*/
-    position:absolute;
+    position: absolute;
     /*margin-left:20%;*/
     /*margin-right:20%;*/
     /*width:20%;*/
 }
 
-
 .spmenu-contents {
-    margin-left:20%;
+    margin-left: 20%;
+}
+
+.spmenu-contents-side {
+    margin-top: 25px;
+    width: 340px;
 }
 
 .spmenu-contents > a {
@@ -170,7 +204,7 @@ body {
 }
 
 .spmenu-contents ul {
-    padding:0;
+    padding: 0;
 }
 
 .spmenu-contents ul li {
@@ -181,14 +215,25 @@ body {
     border-left: 1px solid #258ecd;
 }
 
+/*.spmenu-contents-side a:not(.btn),*/
+.spmenu-contents-side a:not(.select2-choice):not(.btn) {
+    color: #ffbeba;
+}
+
+/*gives more room in side menu*/
+.spmenu-contents-side
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+     padding-left: 0px;
+}
+
 .cbp-spmenu-horizontal .btn {
-    margin:0.2em;
+    margin: 0.2em;
 }
 
 /* Vertical menu that slides from the left or right */
 
 .cbp-spmenu-left {
-    left: -240px;
+    left: -410px;
 }
 
 .cbp-spmenu-right {
@@ -249,47 +294,50 @@ body {
 
 /*@media screen and (max-width: 55.1875em){*/
 
-/*    .cbp-spmenu-horizontal {*/
-/*        font-size: 75%;*/
-/*        height: 110px;*/
-/*    }*/
+/*.cbp-spmenu-horizontal {*/
+/*font-size: 75%;*/
+/*height: 110px;*/
+/*}*/
 
-/*    .cbp-spmenu-top {*/
-/*        top: -110px;*/
-/*    }*/
+/*.cbp-spmenu-top {*/
+/*top: -110px;*/
+/*}*/
 
-/*    .cbp-spmenu-bottom {*/
-/*        bottom: -110px;*/
-/*    }*/
+/*.cbp-spmenu-bottom {*/
+/*bottom: -110px;*/
+/*}*/
 
 /*}*/
 
 /*@media screen and (max-height: 26.375em){*/
 
-/*    .cbp-spmenu-vertical {*/
-/*        font-size: 90%;*/
-/*        width: 190px;*/
-/*    }*/
-
-/*    .cbp-spmenu-left,*/
-/*    .cbp-spmenu-push-toleft {*/
-/*        left: -190px;*/
-/*    }*/
-
-/*    .cbp-spmenu-right {*/
-/*        right: -190px;*/
-/*    }*/
-
-/*    .cbp-spmenu-push-toright {*/
-/*        left: 190px;*/
-/*    }*/
+/*.cbp-spmenu-vertical {*/
+/*font-size: 90%;*/
+/*width: 190px;*/
 /*}*/
 
+/*.cbp-spmenu-left,*/
+/*.cbp-spmenu-push-toleft {*/
+/*left: -190px;*/
+/*}*/
 
+/*.cbp-spmenu-right {*/
+/*right: -190px;*/
+/*}*/
 
+/*.cbp-spmenu-push-toright {*/
+/*left: 190px;*/
+/*}*/
+/*}*/
 
+.behind-other-menus {
+    z-index: 10;
+}
 
-
+.left-pill + .spmenu-title {
+    margin: -50px 0px 0px 0px;
+    padding: 7px 0px 6px 20px;
+}
 
 .svg-drop {
     border: 1px;
@@ -359,86 +407,133 @@ ul.inline > li {
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
-g.drawing{
+g.drawing {
     cursor: crosshair;
 }
 
 .modal {
-    display:block;
+    display: block;
 }
-
 
 /*   animations   */
 
 /*.navbar-header > a.ng-hide {*/
-    /*animation: fadeIn 1s;*/
-    /*transition: all 0.2s ease-in-out;*/
+/*animation: fadeIn 1s;*/
+/*transition: all 0.2s ease-in-out;*/
 /*}*/
 
 /*.navbar-header > a.ng-hide {*/
-    /*animation: fadeOut 1s;*/
+/*animation: fadeOut 1s;*/
 /*}*/
-
 
 /*.navbar-header > a.ng-hide-add,*/
 /*.navbar-header > a.ng-hide-remove {*/
-    /*-webkit-transition:0.5s linear all;*/
-    /*transition:0.5s linear all;*/
+/*-webkit-transition:0.5s linear all;*/
+/*transition:0.5s linear all;*/
 
-     /*remember to add this */
-    /*display:inline-block!important;*/
-    /*opacity:1;*/
+/*remember to add this */
+/*display:inline-block!important;*/
+/*opacity:1;*/
 /*}*/
 /*.navbar-header > a.ng-hide {*/
-    /*opacity:0;*/
+/*opacity:0;*/
 /*}*/
 
 /*.fader.ng-hide-add {*/
-    /*opacity: 0;*/
-    /*display: inline-block !important;*/
-    /*transition: fadeIn 1s;*/
+/*opacity: 0;*/
+/*display: inline-block !important;*/
+/*transition: fadeIn 1s;*/
 /*}*/
 
 /*.fader.ng-hide-remove {*/
-    /*opacity: 1;*/
-    /*display: inline-block !important;*/
-    /*transition: fadeOut 1s;*/
+/*opacity: 1;*/
+/*display: inline-block !important;*/
+/*transition: fadeOut 1s;*/
 /*}*/
 
 /*.fader.ng-hide-add-active {*/
-    /*opacity: 0;*/
+/*opacity: 0;*/
 /*}*/
 
 .fader {
     transition: opacity 0.5s;
+    opacity: 1;
 }
 
 .fader.ng-hide-add,
 .fader.ng-hide-remove {
-    display:inline-block!important;
+    display: inline-block !important;
 }
 
 .fader.ng-hide {
-    opacity:0;
+    opacity: 0;
 }
 
-.editable-field-readonly{
+.invisible {
+    opacity: 0;
+}
+
+.editable-field-readonly {
     transition: box-shadow 0.5s ease, background 0.5s ease, color 0.5s ease;
 }
 
-.editable-field-readonly:hover{
-    box-shadow: 0 1px 1px rgba(0,0,0,0.5);
-    background:#e5e5e5;
-    cursor:pointer;
+.editable-field-readonly:hover {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    background: #e5e5e5;
+    cursor: pointer;
     color: black;
 }
 
-.shape-submemu{
-    display:block;
-    height:200px
+.shape-submemu {
+    display: block;
+    height: 200px
 }
 
 @font-face {
     font-family: 'Code39Azalea';
     src: url(fonts/Code39Azalea.woff) format("woff")
+}
+
+/*makes ranges work correctly*/
+input[type=range].form-control {
+    padding: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+label.form-control {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: none;
+}
+
+.select2-wrapper {
+    padding: 5px 0 0 0;
+}
+
+.select2-wrapper div {
+    width: 100%;
+}
+
+.control-label .btn-sm {
+    margin: -7px -2px 0px 0px;
+}
+
+/*fixes bug with color picker not on top of modal*/
+.colorpicker {
+    z-index: 1100;
+}
+
+/*fixes using form groups in panel titles*/
+.panel-info .panel-title .form-control {
+    color: #fff;
+    background-color: transparent;
+}
+
+.panel-info .panel-title .form-group {
+    margin-bottom: 0;
+}
+
+.panel-title .select2-container .select2-choice {
+    line-height: normal;
 }

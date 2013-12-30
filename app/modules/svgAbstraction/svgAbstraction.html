@@ -1,10 +1,13 @@
 <div ng-include="'modules/svgAbstraction/svgTopNav.html'"></div>
 <div ng-include="'modules/svgAbstraction/svgShapeMenu.html'"></div>
+<div ng-include="'modules/svgAbstraction/svgLeftMenu.html'"></div>
 
 <div class="wrapper"
+     ng-class="{'side-menu-open':sideMenuOpen}"
      ng-click-stop="unSelectShape()"
      ng-include="'modules/svgAbstraction/svgCanvas.html'">
 </div>
+
 
 <shape-text-editor text-value="selectedShape.model.text"
                    is-editing="selectedShape.isEditingText"
@@ -16,3 +19,4 @@
                    height="{{selectedShape.width() || 0}}"></shape-text-editor>
 
 <batik-upload></batik-upload>
+

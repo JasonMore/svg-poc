@@ -1,0 +1,79 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" ng-click="cancel()" class="close">&times;</button>
+      <h4 class="modal-title">Bindings Setup</h4>
+    </div>
+    <div class="modal-body">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <div class="row">
+              <div class="col-md-3">
+          <span class="pull-right form-group">
+            <label class="form-control">Field Name</label>
+          </span>
+              </div>
+              <div class="col-md-4">
+                <div class="select2-wrapper">
+                  <select ui-select2="{}" ng-model="fieldBinding.boundTo">
+                    <optgroup label="{{key}}" ng-repeat="(key,value) in vocabularyGroups">
+                      <option ng-repeat="item in value" value="{{item.field}}">{{item.field}}</option>
+                    </optgroup>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </h3>
+        </div>
+        <div class="panel-body">
+          <div class="row"
+               ng-repeat="binding in fieldBinding.bindings"
+               ng-mouseenter="showHidden = true"
+               ng-mouseleave="showHidden = false">
+            <div class="col-md-3">
+          <span class="pull-right form-group">
+            <label class="form-control">Is equal to</label>
+          </span>
+            </div>
+            <div class="col-md-4">
+              <input class="form-control" type="text" ng-model="binding.fieldValue">
+            </div>
+            <div class="col-md-2">
+              <label class="form-control">Then</label>
+
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-default"
+                      ng-style="{'background-color':binding.overrideValue}"
+                      colorpicker="rgba"
+                      ng-model="binding.overrideValue">
+                <i class="fa fa-lg fa-tint"></i>
+              </button>
+            </div>
+            <div class="col-md-1">
+              <a href ng-click="removeBinding(binding)"
+                 class="btn btn-link pull-right"
+                 ng-show="showHidden">
+                <i class="fa fa-lg fa-trash-o"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <a ng-click="addNewBinding()" class="btn btn-link">
+            <i class="fa fa-plus"></i>
+            Add
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-info" ng-click="save()">{{isNew ? 'Add' : 'Done'}}</button>
+      <button ng-disabled="!isNew" class="btn btn-default" ng-click="cancel(isNew)">{{isNew ? 'Cancel' : 'Undo'}}
+      </button>
+    </div>
+  </div>
+</div>

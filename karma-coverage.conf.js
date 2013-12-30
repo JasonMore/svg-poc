@@ -14,33 +14,57 @@ module.exports = function(karma) {
       'app/modules/**/*.js': 'coverage'
     },
 
-//    plugins: ['ng-html2js'],
-
     // list of files / patterns to load in the browser
     files: [
       // -- add libraries here as they are added to index.html
-      'http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js',
-      'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js',
-      'http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js',
-      'http://cdnjs.cloudflare.com/ajax/libs/lodash.js/1.3.1/lodash.min.js',
+      'app/components/jquery/jquery.js',
+      'app/components/jquery-ui/ui/minified/jquery-ui.min.js',
+      'app/components/bootstrap/dist/js/bootstrap.js',
+      'app/components/lodash/dist/lodash.js',
+
       'app/lib/jquery.menu-aim.js',
       'app/lib/jquery.svg.js',
-      'http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.1.5/angular.js',
-      'http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.1.5/angular-resource.js',
-      'http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.0.1/angular-ui-router.js',
-      'http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.5.0/ui-bootstrap-tpls.min.js',
+      'app/lib/kDown.js',
+
+      'app/components/angular/angular.js',
+      'app/components/angular-animate/angular-animate.js',
+      'app/components/angular-ui-router/release/angular-ui-router.js',
+      'app/lib/ui-bootstrap-tpls-0.7.0.min.js',
+      'app/components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js',
+      'app/components/select2/select2.js',
+      'app/components/angular-ui-select2/src/select2.js',
       // end of libraries
 
       // testing libraries
-      'http://code.angularjs.org/1.1.5/angular-mocks.js',
+      'app/components/angular-mocks/angular-mocks.js',
+      'test/_mocks/**/*.js',
 
       // app code
       'app/modules/**/*.js',
+      'app/modules/**/*.html',
 
       // app tests
       'test/unit/**/*.js'
+//      '*.html'
+
 //      'test/unit/**/*.html'
     ],
+
+    ngHtml2JsPreprocessor: {
+      // strip this from the file path
+      stripPrefix: 'app/',
+      // prepend this to the
+//      prependPrefix: 'served/',
+
+      // or define a custom transform function
+//      cacheIdFromPath: function (filepath) {
+//        return cacheId;
+//      },
+
+      // setting this option will create only a single module that contains templates
+      // from all the files, so you can load them all with module('foo')
+      moduleName: 'preloadAllHtmlTemplates'
+    },
 
     // list of files to exclude
     exclude: [

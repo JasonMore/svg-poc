@@ -1,4 +1,4 @@
-describe('selectionBoxSpec.js', function () {
+xdescribe('selectionBoxSpec.js', function () {
   var
 //    mock,
 //    element,

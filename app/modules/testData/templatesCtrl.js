@@ -15,7 +15,7 @@
 //      }
 
       $scope.deleteTemplate = function (template) {
-        liveTemplates.delete(template);
+        liveTemplates.del(template);
       };
 
       $scope.groupedTemplates = [];

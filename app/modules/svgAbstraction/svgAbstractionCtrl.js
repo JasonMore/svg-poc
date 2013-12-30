@@ -1,6 +1,6 @@
 (function () {
   angular.module('svgAbstraction.controllers')
-    .controller('svgAbstractionCtrl', function ($scope, $stateParams, $timeout, shapePaths, shapeViewModelService, liveResource, textReflowService, dotNotation) {
+    .controller('svgAbstractionCtrl', function ($scope, $stateParams, $timeout, shapePaths, shapeViewModelService, liveResource, textReflowService, dotNotation, $modal, dataMergeService) {
       window.debugScope = $scope;
 
       // load data
@@ -11,6 +11,10 @@
       var liveStudents = liveResource('students');
       var studentsQuery = liveStudents.query({});
       $scope.students = liveStudents.subscribe(studentsQuery);
+
+      var liveVocabulary = liveResource('vocabulary');
+      var vocabularyQuery = liveVocabulary.query({});
+      $scope.vocabulary = liveVocabulary.subscribe(vocabularyQuery);
 
       // lets you do crud on templates.[id].shapes directly
       var liveShapes = liveTemplate.scope('shapes');
@@ -31,8 +35,11 @@
       $scope.shapeKeyValues = shapePaths.keyValues;
       $scope.shapes = {};
       $scope.zoom = 1;
-      $scope.dataMode = false;
+      $scope.mergeDataId = null;
+      $scope.templatedShapes = {};
       $scope.openShapeMenu = false;
+      $scope.sideMenuOpen = true;
+      $scope.leftSubmenu = null;
       $scope.menuTop = 0;
       $scope.menuLeft = 0;
 
@@ -72,9 +79,14 @@
         {id: '12.0', name: '12'},
         {id: '13.0', name: '13'},
         {id: '14.0', name: '14'},
-        {id: '15.0', name: '15'},
-        {id: '16.0', name: '16'},
-        {id: '17.0', name: '17'}
+        {id: '18.0', name: '18'},
+        {id: '24.0', name: '24'},
+        {id: '30.0', name: '30'},
+        {id: '36.0', name: '36'},
+        {id: '48.0', name: '48'},
+        {id: '60.0', name: '60'},
+        {id: '72.0', name: '72'},
+        {id: '96.0', name: '96'}
       ];
 
       $scope.fontFamilyOptions = [
@@ -97,7 +109,6 @@
 
         for (var property in $scope.shapes) {
           if (_.contains(idsToRemove, property)) {
-//            shiftShapesDown($scope.shapes[property].model.order);
             delete $scope.shapes[property];
           }
         }
@@ -111,7 +122,7 @@
             return $scope.template.shapes[id];
           }
 
-          $scope.shapes[id] = shapeViewModelService.create(nextOrderNumber(), getModelFn);
+          $scope.shapes[id] = shapeViewModelService.create(getModelFn);
         });
 
       });
@@ -128,60 +139,53 @@
         updateAllTextReflows();
       });
 
-      $scope.$watch('selectedShape.model.id', function (id) {
-        if (!$scope.selectedShape) return;
-        if ($scope.selectedShape.model.templateId) return;
-        $scope.selectedShape.model.templateId = id;
-      });
+      $scope.$watch('mergeDataId', function (mergeDataId, oldValue) {
+        if (mergeDataId === oldValue) return;
 
-      $scope.$watch('dataMode', function (isDataMode, oldValue) {
-        if (isDataMode === oldValue) return;
-
-        if (!isDataMode) {
+        if (!mergeDataId) {
           updateAllTextReflows();
+          $scope.shapesCopy = null;
           return;
         }
 
-        var template = angular.copy($scope.template.shapes);
-        $scope.templatedShapes = {};
+        // by only copying the shapes in between merges, prevents flicker
+        // when updating template data or changing templates
+        if (!oldValue) {
+          $scope.templatedShapes = {};
+          $scope.shapesCopy = angular.copy($scope.template.shapes);
 
-        _(template).each(function (model) {
-          function getModelFn() {
-            return model;
-          }
+          _($scope.shapesCopy).each(function (shape) {
+            function getModelFn() {
+              return shape;
+            }
 
-          $scope.templatedShapes[model.templateId] = shapeViewModelService.create(nextOrderNumber(), getModelFn);
-        });
-
-        if ($scope.templateDataObject) {
-          applyTemplateDataToTemplateShapes();
+            $scope.templatedShapes[shape.id] = shapeViewModelService.create(getModelFn);
+          });
         }
+
+        applyTemplateDataToTemplateShapes();
 
         updateAllTextReflows();
       });
 
-//      $scope.$watch('templateData', function (data, oldData) {
-//        if (data === oldData) return;
-//        var templateData;
-//
-//        try {
-//          $scope.templateDataObject = JSON.parse(data);
-//        }
-//        catch (e) {
-//          return;
-//        }
-//
-//        applyTemplateDataToTemplateShapes();
-//      });
-
       function applyTemplateDataToTemplateShapes() {
-        _($scope.templateDataObject).each(function (templateDataModel) {
-          var shape = $scope.templatedShapes[templateDataModel.templateId];
-          if (!shape) return;
-
-          dotNotation.getSet(shape.model, templateDataModel.path, templateDataModel.data)
-        })
+        var data = $scope.students[$scope.mergeDataId];
+        var mergedShapes = dataMergeService.getMergedShapesWithData($scope.shapesCopy, data);
+        _.merge($scope.shapesCopy, mergedShapes);
       }
+
+      $scope.$watch('vocabulary', computedVocabularyGroup, true);
+      function computedVocabularyGroup(vocabulary, oldValues) {
+        if (vocabulary === oldValues) return;
+
+        $scope.vocabularyGroups = _.groupBy(vocabulary, 'type');
+      }
+
+      $scope.$watch('students', function () {
+        if (!$scope.mergeDataId) return;
+        applyTemplateDataToTemplateShapes()
+
+      }, true);
 
       // actions
 
@@ -191,7 +195,7 @@
       };
 
       $scope.setSelectedShape = function (shape) {
-        if ($scope.selectedShape === shape || $scope.dataMode) {
+        if ($scope.selectedShape === shape || $scope.mergeDataId) {
           return;
         }
 
@@ -215,13 +219,14 @@
         })
       };
 
-      $scope.deleteShape = function () {
-        liveShapes.del($scope.selectedShape.model.id);
+      $scope.deleteShape = function (selectedShape) {
+        moveShapesAboveDownOneInOrder(selectedShape);
         $scope.unSelectShape();
+        liveShapes.del(selectedShape.model.id);
       };
 
       $scope.canDragShape = function (shape) {
-        return !$scope.dataMode;
+        return !$scope.mergeDataId;
       };
 
       $scope.drawShape = function (shape) {
@@ -238,6 +243,7 @@
 
       $scope.unSelectShape = function () {
         $scope.openShapeMenu = false;
+        $scope.leftSubmenu = null;
 
         if (!$scope.selectedShape) {
           return;
@@ -258,6 +264,8 @@
       };
 
       $scope.shapeDrawn = function (shape) {
+        shape.order = nextOrderNumber();
+
         liveShapes.add(shape);
         $scope.setSelectedShape(shape);
       };
@@ -275,7 +283,7 @@
       };
 
       $scope.pasteCopiedShape = function () {
-        if ($scope.dataMode) return;
+        if ($scope.mergeDataId) return;
 
         // offset new shape
         $scope.copiedShapeModel.top += 25;
@@ -306,7 +314,7 @@
 
         //HACK
         $timeout(function () {
-          if(oldVal){
+          if (oldVal) {
             updateAllTextReflows();
           }
 
@@ -315,71 +323,9 @@
 
       };
 
-      $scope.$watch('students', function () {
-        if (!$scope.mergeDataId) return;
-        $scope.mergeData();
-
-      }, true);
-
-      $scope.mergeDataId;
-
       $scope.mergeData = function (id) {
-        if (id) {
-          $scope.mergeDataId = id;
-        }
-
-        $scope.dataMode = true;
-
-        var data = $scope.students[$scope.mergeDataId];
-
-        var dictionary = {
-          "Student_Name": "text",
-          "Student_First_Name": "text",
-          "Student_Last_Name": "text",
-          "Student_Teacher": "text",
-          "Student_Grade": "text",
-          "Student_Picture": "image.url",
-          "School_Name": "text"
-        };
-
-        var computedDictionary = {
-          "Student_Name": function (data) {
-            return data["Student_First_Name"] + " " + data["Student_Last_Name"];
-          }
-        };
-
-        $scope.templateDataObject = _.union(
-          mapData(data, dictionary),
-          mapData(computedDictionary, dictionary, data)
-        );
-
-        if ($scope.templatedShapes) {
-          applyTemplateDataToTemplateShapes();
-        }
-
-        updateAllTextReflows();
+        $scope.mergeDataId = id;
       };
-
-      function mapData(dataOrComputedDictionary, dictionary, data) {
-        var templateData = []
-        for (var property in dataOrComputedDictionary) {
-          var dictionaryMapValue = dictionary[property];
-          if (!dictionaryMapValue) continue;
-
-          var value = dataOrComputedDictionary[property];
-
-          var valueGetter = function () {
-            return _.isFunction(value) ? value(data) : value;
-          };
-
-          var mapped = {
-            templateId: property,
-            path: dictionaryMapValue,
-            data: _.isFunction(value) ? value(data) : value};
-          templateData.push(mapped);
-        }
-        return templateData;
-      }
 
       $scope.shapeMenuOpen = function ($event, toggle) {
         $scope.menuTop = $event.pageY + 10;
@@ -391,16 +337,81 @@
         else {
           $scope.openShapeMenu = true;
         }
-      }
+      };
+
+      $scope.closeSideMenu = function () {
+        if ($scope.leftSubmenu) {
+          $scope.leftSubmenu = null;
+          return;
+        }
+
+        $scope.sideMenuOpen = false;
+      };
+
+      var bindingViewMap = {
+        'background': 'color',
+        'borderColor': 'color',
+        'fontColor': 'color',
+        'image': 'image'
+      };
+
+      $scope.openBindingsWindow = function (selectedShape, property) {
+        if (!selectedShape.model.fieldBindings[property]) {
+          selectedShape.model.fieldBindings[property] = {
+            boundTo: '',
+            bindings: {}
+          };
+        }
+
+        var fieldBinding = selectedShape.model.fieldBindings[property];
+        var vocabularyGroups = $scope.vocabularyGroups;
+        var bindingsKey = ['shapes', selectedShape.model.id, 'fieldBindings', property, 'bindings'].join('.');
+        var liveBindings = liveTemplate.scope(bindingsKey);
+
+        var modalInstance = $modal.open({
+          templateUrl: 'modules/svgAbstraction/bindingViews/' + bindingViewMap[property] + '.html',
+          controller: function ($scope, $modalInstance) {
+//            $scope.isNew = template ? false : true;
+//            $scope.template = template || {};
+
+            $scope.fieldBinding = fieldBinding;
+            $scope.vocabularyGroups = vocabularyGroups;
+
+            $scope.addNewBinding = function () {
+              liveBindings.add({type: 'eq', fieldValue: '', overrideValue: ''});
+            };
+
+            $scope.removeBinding = function (binding) {
+              liveBindings.del(binding.id);
+            };
+
+            $scope.save = function () {
+              $modalInstance.close();
+            };
+
+            $scope.cancel = function (isNew) {
+              $modalInstance.dismiss('cancel');
+            };
+          }
+        });
+
+        modalInstance.result.then(function (template) {
+//          if(!template.id){
+//            template.templateType = $scope.templateType.id;
+//            template.created = new Date();
+//            liveTemplates.add(template);
+//          }
+        });
+      };
 
       // computed
       $scope.computedShapes = function () {
-        if ($scope.dataMode) {
+        if ($scope.mergeDataId) {
           return $scope.templatedShapes;
         }
 
         return $scope.shapes;
-      }
+      };
 
       $scope.shapeType = function () {
         if ($scope.shapeToDraw) {
@@ -415,28 +426,6 @@
       $scope.isActiveShape = function (shape) {
         return $scope.shapeToDraw === shape;
       };
-
-//      $scope.menuTop = function () {
-//        if (!$scope.selectedShape) {
-//          return 0;
-//        }
-//
-//        var modelTop = $scope.selectedShape.model.top;
-//
-//        if (modelTop < 175) {
-//          modelTop = 175
-//        }
-//
-//        return modelTop - 150;
-//      };
-//
-//      $scope.menuLeft = function () {
-//        if (!$scope.selectedShape) {
-//          return 0;
-//        }
-//
-//        return $scope.selectedShape.left() + $scope.selectedShape.width() + 24;
-//      };
 
       $scope.showShapeMenu = function () {
         if (!$scope.openShapeMenu) {
@@ -455,14 +444,6 @@
 
         return true;
       };
-//
-//      $scope.svgWidth = function() {
-//        return $scope.width * $scope.zoom;
-//      }
-//
-//      $scope.svgHeight = function() {
-//        return $scope.height * $scope.zoom;
-//      }
 
       // events
 
@@ -470,11 +451,14 @@
         $scope.unSelectShape();
       });
 
-
       // keyboard shortcuts
 
       kDown.whenShortcut("esc", function () {
         $scope.$apply(function () {
+          if ($scope.mergeDataId) {
+            $scope.mergeDataId = null;
+          }
+
           $scope.unSelectShape();
         });
       });
@@ -508,50 +492,66 @@
       }
 
       $scope.canMoveUp = function (shape) {
+        if (!shape) return false;
         var newOrderSpot = shape.model.order + 1;
         return newOrderSpot !== nextOrderNumber();
       };
 
       $scope.canMoveDown = function (shape) {
+        if (!shape) return false;
         var newOrderSpot = shape.model.order - 1;
         return newOrderSpot !== -1;
       };
 
-      $scope.moveUp = function (shape) {
-        if (!$scope.canMoveUp(shape)) return;
-
-        var newOrderSpot = shape.model.order + 1;
-
-        shiftShapesDown(newOrderSpot);
-
-        shape.model.order = newOrderSpot;
+      $scope.moveToTop = function (shape) {
+        //TODO: this is a lazy way
+        while ($scope.canMoveUp(shape)) {
+          $scope.moveUp(shape);
+        }
       };
 
-      function shiftShapesDown(afterOrderSpot) {
+      $scope.moveToBottom = function (shape) {
+        //TODO: this is a lazy way
+        while ($scope.canMoveDown(shape)) {
+          $scope.moveDown(shape);
+        }
+      };
+
+      $scope.moveUp = function (shape) {
+        if (!$scope.canMoveUp(shape)) return;
+        moveShape('up', shape);
+      };
+
+      $scope.moveDown = function (shape) {
+        if (!$scope.canMoveDown(shape)) return;
+        moveShape('down', shape);
+      };
+
+      function moveShape(direction, shape) {
+        var directionInt = direction === 'up' ? 1 : -1;
+
+        var newOrderSpot = shape.model.order + directionInt;
+
+        var originalSpot = _.find($scope.shapes, function (shape) {
+          return shape.model.order === newOrderSpot;
+        });
+
+        originalSpot.model.order -= directionInt;
+
+        shape.model.order = newOrderSpot;
+      }
+
+      function moveShapesAboveDownOneInOrder(selectedShape) {
+        var deletedOrder = selectedShape.model.order;
+
         _($scope.shapes)
           .where(function (shape) {
-            return shape.model.order >= afterOrderSpot;
+            return shape.model.order > deletedOrder;
           })
           .each(function (shape) {
             shape.model.order -= 1;
           });
       }
-
-      $scope.moveDown = function (shape) {
-        if (!$scope.canMoveDown(shape)) return;
-
-        var newOrderSpot = shape.model.order - 1;
-
-        _($scope.shapes)
-          .where(function (shape) {
-            return shape.model.order <= newOrderSpot;
-          })
-          .each(function (shape) {
-            shape.model.order += 1;
-          });
-
-        shape.model.order = newOrderSpot;
-      };
 
     });
 

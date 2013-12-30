@@ -53,7 +53,7 @@
         });
 
         modalInstance.result.then(function () {
-          liveTemplateTypes.delete(templateType);
+          liveTemplateTypes.del(templateType);
         });
       };
 

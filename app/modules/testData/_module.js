@@ -28,6 +28,14 @@
           resolve: {
             liveResource: liveResourceFactory
           }
+        })
+        .state('testData.vocabulary', {
+          url: '/vocabulary',
+          templateUrl: "modules/testData/vocabulary.html",
+          controller: 'testData.vocabularyCtrl',
+          resolve: {
+            liveResource: liveResourceFactory
+          }
         });
     });
 

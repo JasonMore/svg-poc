@@ -21,6 +21,10 @@
         // Allow loading assets from anywhere.
         '**'
       ]);
+
+
+
+
     });
 
   app.controller('bodyCtrl', function($scope){

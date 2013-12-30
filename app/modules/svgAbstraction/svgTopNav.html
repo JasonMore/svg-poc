@@ -33,14 +33,13 @@
         </div>
         <div class="HoverText">Data <b class="caret"></b></div>
       </a>
-      <a class="btn btn-primary btn-text fader"
-         ng-mousedown="shapeMenuOpen($event, true)"
-         ng-hide="!selectedShape">
-        <div class="IconWrapper">
-          <i class="fa fa-edit fa-3x"></i>
-        </div>
-        <div class="HoverText">Options <b class="caret"></b></div>
-      </a>
+      <!--<a class="btn btn-primary btn-text"-->
+         <!--ng-mousedown="sideMenuOpen = false">-->
+        <!--<div class="IconWrapper">-->
+          <!--<i class="fa fa-edit fa-3x"></i>-->
+        <!--</div>-->
+        <!--<div class="HoverText">Options <b class="caret"></b></div>-->
+      <!--</a>-->
     </div>
     <ul class="nav navbar-nav navbar-right">
       <li class="dropdown">
@@ -66,7 +65,8 @@
   </div>
 </div>
 
-<nav class="cbp-spmenu cbp-spmenu-horizontal cbp-spmenu-top" ng-class="{ 'cbp-spmenu-open':showDrawMenu}">
+<nav class="cbp-spmenu cbp-spmenu-horizontal cbp-spmenu-top"
+     ng-class="{ 'cbp-spmenu-open':showDrawMenu}">
   <div class="spmenu-title">
     <h3>Draw</h3>
     <input ng-model="drawSearch" class="form-control input-sm" type="text" placeholder="Search...">
@@ -83,9 +83,11 @@
         <path fill="white" ng-attr-d="{{shape.path}}"></path>
       </svg>
       {{shape.name}}
-    </a></div>
+    </a>
+  </div>
 </nav>
-<nav class="cbp-spmenu cbp-spmenu-horizontal cbp-spmenu-top" ng-class="{ 'cbp-spmenu-open':showSettingsMenu}">
+<nav class="cbp-spmenu cbp-spmenu-horizontal cbp-spmenu-top"
+     ng-class="{ 'cbp-spmenu-open':showSettingsMenu}">
   <div class="spmenu-title">
     <h3>Settings</h3>
     <editable-field model="template.name"></editable-field>
@@ -126,14 +128,15 @@
   </div>
 </nav>
 
-<nav class="cbp-spmenu cbp-spmenu-horizontal cbp-spmenu-top" ng-class="{ 'cbp-spmenu-open':showDataMenu}">
+<nav class="cbp-spmenu cbp-spmenu-horizontal cbp-spmenu-top"
+     ng-class="{ 'cbp-spmenu-open':showDataMenu}">
   <div class="spmenu-title">
     <h3>Data</h3>
   </div>
   <div class="spmenu-contents">
     <ul>
       <li ng-repeat="data in students">
-        <a href ng-click="mergeData(data.id)">{{data.Student_First_Name}} {{data.Student_Last_Name}}</a>
+        <a href ng-click="mergeData(data.id)">{{data.First_Name}} {{data.Last_Name}}</a>
       </li>
     </ul>
   </div>
