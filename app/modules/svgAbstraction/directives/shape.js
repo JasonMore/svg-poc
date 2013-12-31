@@ -12,9 +12,8 @@
             $scope.viewModel.svgElementShapeGroup = element.find('g.shape')[0];
             $scope.viewModel.svgElementParentGroup = element[0];
             $scope.viewModel.svgText = element.find('text')[0];
-            $scope.viewModel.svgElementPath = angular.element(ngSvg.svg._svg)
-              .find('#' + $scope.viewModel.id())[0];
-          })
+            $scope.viewModel.svgElementPath = angular.element(ngSvg.svg._svg).find('#' + $scope.viewModel.id())[0];
+          });
 
           var imgWatch = 'viewModel.model.image.url + viewModel.model.width + viewModel.model.height';
           $scope.$watch(imgWatch, function (url, oldVal) {

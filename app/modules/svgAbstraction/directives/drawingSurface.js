@@ -1,8 +1,11 @@
 (function () {
   angular.module('svgAbstraction.directives')
-    .directive('drawingSurface', function ($compile, pathService, uuidService, shapePaths) {
+    .directive('drawingSurface', function ($compile, pathService, uuidService, shapePaths, svgReferenceService) {
+      var svg = function() {
+        return svgReferenceService.svg;
+      };
+
       return {
-        require: '^ngSvg',
         scope: {
           whenDone: '&',
           shape: '='
@@ -10,10 +13,8 @@
         controller: function ($scope) {
           resetSelectionBox($scope);
         },
-        link: function drawingSurfaceLink($scope, element, attr, ngSvgController) {
-          var ngSvg = ngSvgController;
-
-          setupDrawMouseBindings(element, $scope, ngSvg);
+        link: function drawingSurfaceLink($scope, element, attr) {
+          setupDrawMouseBindings(element, $scope);
         }
       };
 
@@ -24,7 +25,7 @@
         $scope.$parent.height = 0;
       }
 
-      function setupDrawMouseBindings(surfaceGroup, $scope, ngSvg) {
+      function setupDrawMouseBindings(surfaceGroup, $scope) {
         surfaceGroup
           .on('mousedown', startDrag)
           .on('mousemove', dragging)
@@ -59,14 +60,14 @@
         }
 
         function endDrag() {
-          var shape = ngSvg.svg.path(shapePaths.keyValues[$scope.shape]);
+          var shape = svg().path(shapePaths.keyValues[$scope.shape]);
 
           var selectionBox = pathService.getSelectionBox(shape);
           var scaleX = $scope.$parent.width / selectionBox.width;
           var scaleY = $scope.$parent.height / selectionBox.height;
-          var path = pathService.transformShape(ngSvg.svg, shape, scaleX, scaleY, -scaleX * selectionBox.x, -scaleY * selectionBox.y);
+          var path = pathService.transformShape(shape, scaleX, scaleY, -scaleX * selectionBox.x, -scaleY * selectionBox.y);
 
-          ngSvg.svg.remove(shape);
+          svg().remove(shape);
 
           var defaultBorder = 2;
           var newShape = {

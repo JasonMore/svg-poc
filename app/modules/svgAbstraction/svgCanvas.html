@@ -34,7 +34,6 @@
 <g class="shapes">
   <g ng-repeat="viewModel in computedShapes() | objectOrderBy:'model.order'"
      ng-svg-shape
-     ng-svg-draggable="$parent.canDragShape(shape)"
      opacity="{{viewModel.model.transparency}}"
      transform="translate({{viewModel.model.left}},{{viewModel.model.top}}), rotate({{viewModel.model.rotation}},{{viewModel.midPointX()}},{{viewModel.midPointY()}})"
      filter="url({{viewModel.shadowId()}})">
@@ -121,25 +120,32 @@
   </g>
 </g>
 <!--Selection Box-->
-<g selection-box="selectedShape" class="selection">
-  <g transform="translate({{shadowShape.left()}},{{shadowShape.top()}}), rotate({{shadowShape.model.rotation}},{{shadowShape.midPointX() + shadowShape.borderOffset()}},{{shadowShape.midPointY()  + shadowShape.borderOffset()}})"
+<g ng-if="shadowShape"
+   selection-box
+   ng-svg-draggable="$parent.canDragShape(shape)"
+   class="selection">
+
+  <!--shadow shape-->
+  <path
+      transform="translate({{shadowShape.model.left}},{{shadowShape.model.top}}), rotate({{shadowShape.model.rotation}},{{shadowShape.midPointX()}},{{shadowShape.midPointY()}})"
+      ng-attr-d="{{shadowShape.model.path}}"
+      fill="white"
+      fill-opacity="0.3"
+      stroke="black"
+      stroke-width="2"
+      class="shadowShape noTextWrap"></path>
+
+  <g transform="translate({{shadowShape.left()}},{{shadowShape.top()}}), rotate({{shadowShape.model.rotation}},{{shadowShape.midPointX() + shadowShape.borderOffset()}},{{shadowShape.midPointY() + shadowShape.borderOffset()}})"
      ng-show="shadowShape && !shadowShape.showPreviewImage"
      class="selection noTextWrap">
+
     <!--box path-->
     <path
-        ng-attr-d="M0,0L{{shadowShape ? shadowShape.width() + shadowShape.borderOffset() : 0}},0L{{shadowShape ? shadowShape.width()  + shadowShape.borderOffset() : 0}},{{shadowShape ? shadowShape.height()  + shadowShape.borderOffset() : 0}}L0,{{shadowShape ? shadowShape.height()  + shadowShape.borderOffset() : 0}}z"
+        ng-attr-d="M0,0L{{shadowShape.width() + shadowShape.borderOffset()}},0L{{shadowShape.width()  + shadowShape.borderOffset()}},{{shadowShape.height()  + shadowShape.borderOffset()}}L0,{{shadowShape.height() + shadowShape.borderOffset()}}z"
         fill="none"
         fill-opacity="0.3"
         stroke-dasharray="5,5"
         stroke="#0096fd"
-        stroke-width="2"
-        class="noTextWrap"></path>
-
-    <path
-        ng-attr-d="{{viewModel.model.path}}"
-        fill="none"
-        fill-opacity="0.3"
-        stroke="black"
         stroke-width="2"
         class="noTextWrap"></path>
     <!--corners-->

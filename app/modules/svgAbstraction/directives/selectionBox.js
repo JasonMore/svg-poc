@@ -1,25 +1,20 @@
 (function () {
-  var rotatorLineLength = 20;
-
   angular.module('svgAbstraction.directives')
-    .directive('selectionBox', function ($compile, pathService, shapeViewModelService) {
+    .directive('selectionBox', function ($compile, pathService, svgReferenceService) {
+      var rawElement,
+        svg = function () {
+          return svgReferenceService.svg;
+        };
+
       return {
-        require: '^ngSvg',
-        scope:{
-          selectedShape:'=selectionBox'
-        },
-        link: function ($scope, $element, attr, ngSvgController) {
-          var ngSvg = ngSvgController,
-            selection = getSelectionBox($element);
+        link: function ($scope, $element, attr) {
+          rawElement = $element.find('path.shadowShape')[0];
+          var selection = getSelectionBox($element);
 
-          attachResizeBindings(selection.corners, $scope, ngSvg.svg);
-          attachRotateBindings(selection.rotator, $scope, ngSvg.svg);
-          attachImageResizeBindings(selection.imageCorners, $scope, ngSvg.svg);
-          attachImageRotateBindings(selection.imageRotator, $scope, ngSvg.svg);
-
-          $scope.$watch('selectedShape', function(viewModel, old){
-            $scope.shadowShape = _.cloneDeep(viewModel);
-          });
+          attachResizeBindings(selection.corners, $scope);
+          attachRotateBindings(selection.rotator, $scope);
+          attachImageResizeBindings(selection.imageCorners, $scope);
+          attachImageRotateBindings(selection.imageRotator, $scope);
         }
       };
 
@@ -49,16 +44,18 @@
         };
       }
 
-      function attachRotateBindings(rotator, $scope, svg) {
+      function attachRotateBindings(rotator, $scope) {
         rotator.draggable({
-          start: draggableStart,
+          start: function (event) {
+            draggableStart(event, $scope);
+          },
           drag: function (event, ui) {
 
             var angle = $scope.shadowShape.model.rotation,
               parentGroup = rotator.parent()[0];
 
             var drag = getDragOffset(event);
-            var pt = convertScreenToElementCoordinates(parentGroup, drag, svg);
+            var pt = convertScreenToElementCoordinates(parentGroup, drag);
 
             // ref point is height/2, -20
             var cx = $scope.shadowShape.width() / 2;
@@ -81,13 +78,14 @@
           },
           stop: function () {
             $scope.$apply(function () {
+              $scope.$emit('shapeDoneResizing');
               $scope.shadowShape.isResizing = false;
             });
           }
         });
       }
 
-      function attachImageRotateBindings(rotator, $scope, svg) {
+      function attachImageRotateBindings(rotator, $scope) {
         rotator.draggable({
           start: draggableStart,
           drag: function (event, ui) {
@@ -96,7 +94,7 @@
               parentGroup = rotator.parent()[0];
 
             var drag = getDragOffset(event);
-            var pt = convertScreenToElementCoordinates(parentGroup, drag, svg);
+            var pt = convertScreenToElementCoordinates(parentGroup, drag);
 
             // ref point is height/2, -20
             var cx = $scope.shadowShape.imageWidth() / 2;
@@ -119,17 +117,18 @@
           },
           stop: function () {
             $scope.$apply(function () {
+              $scope.$emit('shapeDoneResizing');
               $scope.shadowShape.isResizing = false;
             });
           }
         });
       }
 
-      function convertScreenToElementCoordinates(selectionBoxGroup, drag, svg) {
+      function convertScreenToElementCoordinates(selectionBoxGroup, drag) {
         var matrix = selectionBoxGroup.getScreenCTM().inverse();
 
         // convert screen to element coordinates
-        var pt = svg._svg.createSVGPoint();
+        var pt = svg()._svg.createSVGPoint();
         pt.x = drag.x;
         pt.y = drag.y;
         pt = pt.matrixTransform(matrix);
@@ -158,23 +157,23 @@
         return Math.sqrt(Math.pow(pt1.x - pt2.x, 2.0) + Math.pow(pt1.y - pt2.y, 2.0));
       }
 
-      function attachResizeBindings(selectionCorners, $scope, svg) {
+      function attachResizeBindings(selectionCorners, $scope) {
         selectionCorners.draggable({
-          start: draggableStart,
+          start:draggableStart,
           drag: function (event, ui) {
 
             var draggedCorner = $(this);
-            var viewModel = $scope.shadowShape;
-            var rawElement = $scope.shadowShape.svgElementParentGroup;
+            var shadowShape = $scope.shadowShape;
+//            var rawElement = svgElementParentGroup;
             var selectionBoxGroup = draggedCorner.parent()[0];
             var baselineOrigin = convertBaselineToSVG(selectionBoxGroup);
             var drag = getDragOffset(event);
             var currentDimensions = {width: $scope.shadowShape.width(), height: $scope.shadowShape.height()};
-            var newDim = getNewShapeLocationAndDimensions(svg, draggedCorner, drag, currentDimensions);
+            var newDim = getNewShapeLocationAndDimensions(draggedCorner, drag, currentDimensions);
 
             $scope.$apply(function () {
-              viewModel.width(newDim.width - viewModel.borderOffset());
-              viewModel.height(newDim.height - viewModel.borderOffset());
+              shadowShape.width(newDim.width - shadowShape.borderOffset());
+              shadowShape.height(newDim.height - shadowShape.borderOffset());
             });
 
             var conversion = convertDeltasToSVG(selectionBoxGroup, baselineOrigin, newDim.deltaX, newDim.deltaY);
@@ -184,17 +183,17 @@
 
 //            console.log(scaleY, newDim);
 
-            var shapePath = $scope.shadowShape.svgElementPath;
-            var newShapePath = rescaleElement(shapePath, scaleX, scaleY);
+//            var shapePath = $scope.shadowShape.svgElementPath;
+            var newShapePath = rescaleElement(rawElement, scaleX, scaleY);
 
             $scope.$apply(function () {
-              viewModel.isResizing = true;
-              viewModel.model.top = translation.y;
-              viewModel.model.left = translation.x;
-              viewModel.model.path = newShapePath;
+              shadowShape.isResizing = true;
+              shadowShape.model.top = translation.y;
+              shadowShape.model.left = translation.x;
+              shadowShape.model.path = newShapePath;
 
-              if (viewModel.model.image.url) {
-                var image = viewModel.model.image;
+              if (shadowShape.model.image.url) {
+                var image = shadowShape.model.image;
                 image.left = image.left * scaleX;
                 image.top = image.top * scaleY;
                 image.width = image.width * scaleX;
@@ -204,13 +203,14 @@
           },
           stop: function () {
             $scope.$apply(function () {
+              $scope.$emit('shapeDoneResizing');
               $scope.shadowShape.isResizing = false;
             });
           }
         });
 
         function convertBaselineToSVG(selectionBoxGroup) {
-          var ptA = svg._svg.createSVGPoint();
+          var ptA = svg()._svg.createSVGPoint();
           ptA.x = 0;
           ptA.y = 0;
 
@@ -223,7 +223,7 @@
         }
 
         function convertDeltasToSVG(selectionBoxGroup, baselineOrigin, deltaX, deltaY) {
-          var pt2 = svg._svg.createSVGPoint();
+          var pt2 = svg()._svg.createSVGPoint();
           pt2.x = deltaX;
           pt2.y = deltaY;
           pt2 = pt2.matrixTransform(selectionBoxGroup.getCTM());
@@ -238,7 +238,7 @@
         }
 
         function rescaleElement(element, scaleX, scaleY) {
-          return pathService.transformShape(svg, element, scaleX, scaleY, 0, 0);
+          return pathService.transformShape(element, scaleX, scaleY, 0, 0);
         }
 
         function getTranslation(elt, x, y, isRelative) {
@@ -267,7 +267,7 @@
         }
       }
 
-      function attachImageResizeBindings(selectionCorners, $scope, svg) {
+      function attachImageResizeBindings(selectionCorners, $scope) {
         selectionCorners.draggable({
           start: draggableStart,
           drag: function (event, ui) {
@@ -276,7 +276,7 @@
             var vm = $scope.shadowShape;
             var drag = getDragOffset(event);
             var currentDimensions = {width: vm.imageWidth(), height: vm.imageHeight()};
-            var newDim = getNewShapeLocationAndDimensions(svg, draggedCorner, drag, currentDimensions);
+            var newDim = getNewShapeLocationAndDimensions(draggedCorner, drag, currentDimensions);
 
             $scope.$apply(function () {
               vm.model.image.width = newDim.width;
@@ -287,15 +287,16 @@
           },
           stop: function () {
             $scope.$apply(function () {
+              $scope.$emit('shapeDoneResizing');
               $scope.shadowShape.isResizing = false;
             });
           }
         });
       }
 
-      function getNewShapeLocationAndDimensions(svg, draggedCorner, drag, currentDimensions) {
+      function getNewShapeLocationAndDimensions(draggedCorner, drag, currentDimensions) {
         var selectionBoxGroup = draggedCorner.parent()[0];
-        var pt = convertScreenToElementCoordinates(selectionBoxGroup, drag, svg);
+        var pt = convertScreenToElementCoordinates(selectionBoxGroup, drag);
         var cornerId = draggedCorner.data('cornerid'),
           deltaX = 0,
           deltaY = 0,
@@ -320,12 +321,12 @@
           height = pt.y;
         }
 
-        if(width < 10){
+        if (width < 10) {
           width = 10;
           deltaX = 0;
         }
 
-        if(height < 10){
+        if (height < 10) {
           height = 10;
           deltaY = 0;
         }

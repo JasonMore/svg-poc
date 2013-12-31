@@ -1,5 +1,5 @@
 (function () {
-  angular.module('svgAbstraction.services').service('pathService', function () {
+  angular.module('svgAbstraction.services').service('pathService', function (svgReferenceService) {
 
     ///
     // Gets all the points on a path, and calculates the x/y min/max
@@ -44,7 +44,7 @@
       };
     };
 
-    this.transformShape = function transformShape(svg, element, scaleX, scaleY, transX, transY) {
+    this.transformShape = function transformShape(element, scaleX, scaleY, transX, transY) {
       if (typeof(element.instanceRoot) != "undefined") {
         element = element.instanceRoot.correspondingElement;
       }
@@ -62,7 +62,7 @@
       }
 
       function scale(element, scaleX, transX, scaleY, transY) {
-        var newPath = svg.createPath();
+        var newPath = svgReferenceService.svg.createPath();
 
         // create the new path element
         for (var i = 0; i < element.pathSegList.numberOfItems; i++) {

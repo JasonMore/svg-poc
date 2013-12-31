@@ -85,7 +85,7 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
 
       this.scope = function (subPath) {
         return racerModel.scope(path + '.' + subPath);
-      }
+      };
 
       // these don't work yet
 //

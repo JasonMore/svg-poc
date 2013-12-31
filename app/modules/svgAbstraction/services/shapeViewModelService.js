@@ -1,11 +1,19 @@
 (function () {
   angular.module('svgAbstraction.services').service('shapeViewModelService', function (pathService) {
-    this.create = function create(getModelFn) {
+    this.create = function create(modelOrFn) {
       var selectionBox;
 
       // add image properties if they don't exist
 
-      function shapeViewModel(getModelFn){
+      function shapeViewModel(modelOrFn) {
+        var getModelFn = modelOrFn;
+
+        if (_.isPlainObject(modelOrFn)) {
+          getModelFn = function () {
+            return modelOrFn
+          };
+        }
+
         this.getModel = getModelFn;
         this.showPreviewImage = false;
         this.isEditingText = false;
@@ -26,21 +34,23 @@
             "height": 0,
             "rotation": 0
           },
-          shadow:{
-            enabled:false,
-            offsetX:20,
-            offsetY:20,
-            density:10
+          shadow: {
+            enabled: false,
+            offsetX: 20,
+            offsetY: 20,
+            density: 10
           },
-          fieldBindings:{}
+          fieldBindings: {}
         });
       }
 
       Object.defineProperty(shapeViewModel.prototype, "model", {
-        get : function(){ return this.getModel(); },
+        get: function () {
+          return this.getModel();
+        },
         //set : function(newValue){ bValue = newValue; },
-        enumerable : true,
-        configurable : true
+        enumerable: true,
+        configurable: true
       });
 
       _.extend(shapeViewModel.prototype, {
@@ -128,7 +138,7 @@
           return this.hasImage() ? this.model.image.height : 0;
         },
 
-        imageRotation: function() {
+        imageRotation: function () {
           return this.hasImage() ? this.model.image.rotation + this.model.rotation : 0;
         },
 
@@ -140,24 +150,24 @@
           return this.hasImage() ? this.imageHeight() / 2 : 0;
         },
 
-        imageOutlineLeft: function(){
-          return this.hasImage() ? this.imageLeft() + this.left() + this.borderOffset(): 0;
+        imageOutlineLeft: function () {
+          return this.hasImage() ? this.imageLeft() + this.left() + this.borderOffset() : 0;
         },
 
-        imageOutlineTop: function(){
-          return this.hasImage() ? this.imageTop() + this.top() + this.borderOffset(): 0;
+        imageOutlineTop: function () {
+          return this.hasImage() ? this.imageTop() + this.top() + this.borderOffset() : 0;
         },
 
-        imageOutlineRotation: function(){
-          return this.hasImage() ? this.model.image.rotation + this.model.rotation: 0;
+        imageOutlineRotation: function () {
+          return this.hasImage() ? this.model.image.rotation + this.model.rotation : 0;
         },
 
-        shadowId: function() {
+        shadowId: function () {
           return this.model.shadow.enabled ? '#' + this.model.id + '_shadow' : '';
         }
       });
 
-      return new shapeViewModel(getModelFn);
+      return new shapeViewModel(modelOrFn);
     };
   });
 })();
