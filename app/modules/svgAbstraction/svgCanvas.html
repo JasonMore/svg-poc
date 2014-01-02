@@ -31,6 +31,16 @@
   </filter>
 </defs>
 
+<!--<defs ng-if="shadowShape">-->
+  <!--&lt;!&ndash;shadow shape clip path&ndash;&gt;-->
+  <!--<clipPath id="{{shadowShape.model.id + '_shadowShapeClipPath'}}"-->
+            <!--clipPathUnits="userSpaceOnUse">-->
+    <!--<path id="{{shadowShape.model.id}}"-->
+          <!--stroke-width="{{shadowShape.model.borderWidth}}"-->
+          <!--ng-attr-d="{{shadowShape.model.path}}"></path>-->
+  <!--</clipPath>-->
+<!--</defs>-->
+
 <g class="shapes">
   <g ng-repeat="viewModel in computedShapes() | objectOrderBy:'model.order'"
      ng-svg-shape
@@ -122,11 +132,11 @@
 <!--Selection Box-->
 <g ng-if="shadowShape"
    selection-box
-   ng-svg-draggable="$parent.canDragShape(shape)"
    class="selection">
 
   <!--shadow shape-->
   <path
+      ng-svg-draggable="$parent.canDragShape(selectedShape)"
       transform="translate({{shadowShape.model.left}},{{shadowShape.model.top}}), rotate({{shadowShape.model.rotation}},{{shadowShape.midPointX()}},{{shadowShape.midPointY()}})"
       ng-attr-d="{{shadowShape.model.path}}"
       fill="white"

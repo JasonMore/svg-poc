@@ -461,6 +461,10 @@
         _.merge($scope.selectedShape.model, $scope.shadowShape.model)
       });
 
+      $scope.$on('shapeDoneDragging', function($event) {
+        _.merge($scope.selectedShape.model, $scope.shadowShape.model)
+      });
+
       // keyboard shortcuts
 
       kDown.whenShortcut("esc", function () {

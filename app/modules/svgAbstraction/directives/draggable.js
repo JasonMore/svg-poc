@@ -29,9 +29,9 @@
 
                 orig = {x: pt.x, y: pt.y};
 
-                if($scope.viewModel.showPreviewImage){
-                  orig.x = orig.x - $scope.viewModel.model.image.left;
-                  orig.y = orig.y - $scope.viewModel.model.image.top;
+                if($scope.shadowShape.showPreviewImage){
+                  orig.x = orig.x - $scope.shadowShape.model.image.left;
+                  orig.y = orig.y - $scope.shadowShape.model.image.top;
                 }
               },
               drag: function (event, ui) {
@@ -39,22 +39,23 @@
                 var delta = getTranslatedDragDeltas(parentGroup, event);
 
                 $scope.$apply(function () {
-                  $scope.viewModel.isDragging = true;
+                  $scope.shadowShape.isDragging = true;
 
-                  if($scope.viewModel.showPreviewImage){
-                    $scope.viewModel.model.image.left = delta.x;
-                    $scope.viewModel.model.image.top = delta.y;
+                  if($scope.shadowShape.showPreviewImage){
+                    $scope.shadowShape.model.image.left = delta.x;
+                    $scope.shadowShape.model.image.top = delta.y;
                   } else {
                     var adjustment = adjustTranslate(parentGroup, delta.x, delta.y, true);
-                    $scope.viewModel.model.left = adjustment.x;
-                    $scope.viewModel.model.top = adjustment.y;
+                    $scope.shadowShape.model.left = adjustment.x;
+                    $scope.shadowShape.model.top = adjustment.y;
                   }
 
                 });
               },
               stop: function () {
                 $scope.$apply(function () {
-                  $scope.viewModel.isDragging = false;
+                  $scope.$emit('shapeDoneDragging');
+                  $scope.shadowShape.isDragging = false;
                 });
               }
             };
