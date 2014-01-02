@@ -30,6 +30,7 @@
       $scope.showSettingsMenu = false;
       $scope.showDataMenu = false;
       $scope.selectedShape = null;
+      $scope.shadowShape = null;
       $scope.shapeToDraw = null;
       $scope.shapePaths = shapePaths.list;
       $scope.shapeKeyValues = shapePaths.keyValues;
@@ -155,11 +156,7 @@
           $scope.shapesCopy = angular.copy($scope.template.shapes);
 
           _($scope.shapesCopy).each(function (shape) {
-            function getModelFn() {
-              return shape;
-            }
-
-            $scope.templatedShapes[shape.id] = shapeViewModelService.create(getModelFn);
+            $scope.templatedShapes[shape.id] = shapeViewModelService.create(shape);
           });
         }
 
@@ -214,10 +211,18 @@
 
         // when creating a new shape, its not always drawn yet
         $timeout(function () {
+          var modelCopy = angular.copy(shape.model);
+          $scope.shadowShape = shapeViewModelService.create(modelCopy);
           $scope.selectedShape = shape;
           $scope.shapeToDraw = null;
         })
       };
+
+      function createShadowShape(shape) {
+        var modelCopy = angular.copy(shape.model);
+        var modelFn = function() { return modelCopy;};
+        return ;
+      }
 
       $scope.deleteShape = function (selectedShape) {
         moveShapesAboveDownOneInOrder(selectedShape);
@@ -255,6 +260,7 @@
 
         $scope.selectedShape.isEditingText = false;
         $scope.selectedShape.showPreviewImage = false;
+        $scope.shadowShape = null;
         $scope.selectedShape = null;
 
         $scope.openMenu('close');
@@ -449,6 +455,14 @@
 
       $scope.$on('blankSpaceOnBodyClicked', function ($event) {
         $scope.unSelectShape();
+      });
+
+      $scope.$on('shapeDoneResizing', function($event) {
+        _.merge($scope.selectedShape.model, $scope.shadowShape.model)
+      });
+
+      $scope.$on('shapeDoneDragging', function($event) {
+        _.merge($scope.selectedShape.model, $scope.shadowShape.model)
       });
 
       // keyboard shortcuts

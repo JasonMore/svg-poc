@@ -31,10 +31,19 @@
   </filter>
 </defs>
 
+<!--<defs ng-if="shadowShape">-->
+  <!--&lt;!&ndash;shadow shape clip path&ndash;&gt;-->
+  <!--<clipPath id="{{shadowShape.model.id + '_shadowShapeClipPath'}}"-->
+            <!--clipPathUnits="userSpaceOnUse">-->
+    <!--<path id="{{shadowShape.model.id}}"-->
+          <!--stroke-width="{{shadowShape.model.borderWidth}}"-->
+          <!--ng-attr-d="{{shadowShape.model.path}}"></path>-->
+  <!--</clipPath>-->
+<!--</defs>-->
+
 <g class="shapes">
   <g ng-repeat="viewModel in computedShapes() | objectOrderBy:'model.order'"
      ng-svg-shape
-     ng-svg-draggable="$parent.canDragShape(shape)"
      opacity="{{viewModel.model.transparency}}"
      transform="translate({{viewModel.model.left}},{{viewModel.model.top}}), rotate({{viewModel.model.rotation}},{{viewModel.midPointX()}},{{viewModel.midPointY()}})"
      filter="url({{viewModel.shadowId()}})">
@@ -121,12 +130,28 @@
   </g>
 </g>
 <!--Selection Box-->
-<g selection-box class="selection">
-  <g transform="translate({{selectedShape.left()}},{{selectedShape.top()}}), rotate({{selectedShape.model.rotation}},{{selectedShape.midPointX() + selectedShape.borderOffset()}},{{selectedShape.midPointY()  + selectedShape.borderOffset()}})"
-     ng-show="selectedShape && !selectedShape.showPreviewImage"
+<g ng-if="shadowShape"
+   selection-box
+   class="selection">
+
+  <!--shadow shape-->
+  <path
+      ng-svg-draggable="$parent.canDragShape(selectedShape)"
+      transform="translate({{shadowShape.model.left}},{{shadowShape.model.top}}), rotate({{shadowShape.model.rotation}},{{shadowShape.midPointX()}},{{shadowShape.midPointY()}})"
+      ng-attr-d="{{shadowShape.model.path}}"
+      fill="white"
+      fill-opacity="0.3"
+      stroke="black"
+      stroke-width="2"
+      class="shadowShape noTextWrap"></path>
+
+  <g transform="translate({{shadowShape.left()}},{{shadowShape.top()}}), rotate({{shadowShape.model.rotation}},{{shadowShape.midPointX() + shadowShape.borderOffset()}},{{shadowShape.midPointY() + shadowShape.borderOffset()}})"
+     ng-show="shadowShape && !shadowShape.showPreviewImage"
      class="selection noTextWrap">
+
+    <!--box path-->
     <path
-        ng-attr-d="M0,0L{{selectedShape ? selectedShape.width() + selectedShape.borderOffset() : 0}},0L{{selectedShape ? selectedShape.width()  + selectedShape.borderOffset() : 0}},{{selectedShape ? selectedShape.height()  + selectedShape.borderOffset() : 0}}L0,{{selectedShape ? selectedShape.height()  + selectedShape.borderOffset() : 0}}z"
+        ng-attr-d="M0,0L{{shadowShape.width() + shadowShape.borderOffset()}},0L{{shadowShape.width()  + shadowShape.borderOffset()}},{{shadowShape.height()  + shadowShape.borderOffset()}}L0,{{shadowShape.height() + shadowShape.borderOffset()}}z"
         fill="none"
         fill-opacity="0.3"
         stroke-dasharray="5,5"
@@ -148,7 +173,7 @@
             cy="0"
             r="5"
             data-cornerid="cornerNE"
-            transform="translate({{selectedShape.width() + selectedShape.borderOffset()}},0)"
+            transform="translate({{shadowShape.width() + shadowShape.borderOffset()}},0)"
             class="corner noTextWrap"
             fill="#0096fd"
             stroke-width="1"
@@ -158,7 +183,7 @@
             cy="0"
             r="5"
             data-cornerid="cornerSE"
-            transform="translate({{selectedShape.width() + selectedShape.borderOffset()}},{{selectedShape.height() + selectedShape.borderOffset()}})"
+            transform="translate({{shadowShape.width() + shadowShape.borderOffset()}},{{shadowShape.height() + shadowShape.borderOffset()}})"
             class="corner noTextWrap"
             fill="#0096fd"
             stroke-width="1"
@@ -168,7 +193,7 @@
             cy="0"
             r="5"
             data-cornerid="cornerSW"
-            transform="translate(0,{{selectedShape.height() + selectedShape.borderOffset()}})"
+            transform="translate(0,{{shadowShape.height() + shadowShape.borderOffset()}})"
             class="corner noTextWrap"
             fill="#0096fd"
             stroke-width="1"
@@ -181,7 +206,7 @@
           y2="-20"
           stroke="#0096fd"
           stroke-width="3"
-          transform="translate({{selectedShape.midPointX() + selectedShape.borderOffset()}},0)"
+          transform="translate({{shadowShape.midPointX() + shadowShape.borderOffset()}},0)"
           class="noTextWrap"></line>
     <circle cx="0"
             cy="0"
@@ -191,14 +216,14 @@
             fill="#0096fd"
             stroke="white"
             stroke-width="1"
-            transform="translate({{selectedShape.midPointX() + selectedShape.borderOffset()}},-20)"
+            transform="translate({{shadowShape.midPointX() + shadowShape.borderOffset()}},-20)"
         ></circle>
   </g>
-  <g transform="translate({{selectedShape.imageOutlineLeft()}},{{selectedShape.imageOutlineTop()}}), rotate({{selectedShape.imageOutlineRotation()}},{{selectedShape.imageMidPointX()}},{{selectedShape.imageMidPointY()}})"
-     ng-show="selectedShape.showPreviewImage"
+  <g transform="translate({{shadowShape.imageOutlineLeft()}},{{shadowShape.imageOutlineTop()}}), rotate({{shadowShape.imageOutlineRotation()}},{{shadowShape.imageMidPointX()}},{{shadowShape.imageMidPointY()}})"
+     ng-show="shadowShape.showPreviewImage"
      class="imageSelection noTextWrap">
     <path
-        ng-attr-d="M0,0L{{selectedShape ? selectedShape.imageWidth() : 0}},0L{{selectedShape ? selectedShape.imageWidth() : 0}},{{selectedShape ? selectedShape.imageHeight() : 0}}L0,{{selectedShape ? selectedShape.imageHeight() : 0}}z"
+        ng-attr-d="M0,0L{{shadowShape ? shadowShape.imageWidth() : 0}},0L{{shadowShape ? shadowShape.imageWidth() : 0}},{{shadowShape ? shadowShape.imageHeight() : 0}}L0,{{shadowShape ? shadowShape.imageHeight() : 0}}z"
         fill="none"
         fill-opacity="0.3"
         stroke-dasharray="5,5"
@@ -222,7 +247,7 @@
             stroke-width="1"
             stroke="white"
             data-cornerid="cornerNE"
-            transform="translate({{selectedShape.imageWidth()}},0)"></circle>
+            transform="translate({{shadowShape.imageWidth()}},0)"></circle>
     <circle cx="0"
             cy="0"
             r="5"
@@ -231,7 +256,7 @@
             stroke-width="1"
             stroke="white"
             data-cornerid="cornerSE"
-            transform="translate({{selectedShape.imageWidth()}},{{selectedShape.imageHeight()}})"></circle>
+            transform="translate({{shadowShape.imageWidth()}},{{shadowShape.imageHeight()}})"></circle>
     <circle cx="0"
             cy="0"
             r="5"
@@ -240,14 +265,14 @@
             stroke-width="1"
             stroke="white"
             data-cornerid="cornerSW"
-            transform="translate(0,{{selectedShape.imageHeight()}})"></circle>
+            transform="translate(0,{{shadowShape.imageHeight()}})"></circle>
     <line x1="0"
           y1="0"
           x2="0"
           y2="-20"
           stroke="#0096fd"
           stroke-width="3"
-          transform="translate({{selectedShape.imageMidPointX()}},0)"></line>
+          transform="translate({{shadowShape.imageMidPointX()}},0)"></line>
     <circle cx="0"
             cy="0"
             r="5"
@@ -256,7 +281,7 @@
             stroke-width="1"
             stroke="#0096fd"
             data-cornerid="rotator"
-            transform="translate({{selectedShape.imageMidPointX()}},-20)"></circle>
+            transform="translate({{shadowShape.imageMidPointX()}},-20)"></circle>
   </g>
 </g>
 <g class="drawing">
