@@ -38,6 +38,7 @@ module.exports = function (karma) {
       // testing libraries
       'app/components/angular-mocks/angular-mocks.js',
       'app/components/sinonjs/sinon.js',
+      'app/components/jasmine-sinon/lib/jasmine-sinon.js',
       'test/_mocks/**/*.js',
 
       // app code

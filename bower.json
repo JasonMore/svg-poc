@@ -30,6 +30,7 @@
     "angular-mocks": "~1.2.5"
   },
   "devDependencies": {
-    "sinonjs": "~1.7.3"
+    "sinonjs": "~1.7.3",
+    "jasmine-sinon": "~0.3.1"
   }
 }

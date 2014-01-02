@@ -1,4 +1,4 @@
-describe('liveResource.js', function () {
+describe('liveResource.js >', function () {
   // setup require
 
   var racerMock,
@@ -37,14 +37,30 @@ describe('liveResource.js', function () {
     ]
   };
 
-  var liveResourceProvider;
+  var liveResourceProvider, httpBackend;
 
-  beforeEach(inject(function (_liveResourceProvider_) {
-    liveResourceProvider = _liveResourceProvider_;
-  }));
 
-  it('loads liveResource', function () {
-    expect(liveResourceProvider).toBeDefined();
-    expect(liveResourceProvider.add).toBeDefined();
+
+  describe('loading liveResourceProvider >', function() {
+var $httpBackend;
+
+    beforeEach(inject(function(_$httpBackend_) {
+      racerMock.expects('ready').once();
+      racerMock.expects('init').once();
+
+      $httpBackend = _$httpBackend_;
+      $httpBackend.expectGET('/racerInit').respond({});
+    }));
+
+    // act
+    beforeEach(inject(function (_liveResourceProvider_) {
+      liveResourceProvider = _liveResourceProvider_;
+      $httpBackend.flush();
+    }));
+
+    it('calls ready and init', function() {
+      racerMock.verify();
+    });
   })
+
 });
