@@ -12,7 +12,7 @@ window.useMock = function (type, name, mockReplacement) {
     mockReplacement = window[name + 'Mock'];
   }
   return module(function ($provide) {
-    debugger;
+//    debugger;
     $provide[type](name, mockReplacement);
   });
 };

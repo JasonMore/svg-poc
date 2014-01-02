@@ -37,9 +37,11 @@ module.exports = function (karma) {
 
       // testing libraries
       'app/components/angular-mocks/angular-mocks.js',
+      'app/components/sinonjs/sinon.js',
       'test/_mocks/**/*.js',
 
       // app code
+      'server/modules/liveResource.js',
       'app/modules/**/*.js',
       'app/modules/**/*.html',
 

@@ -1,34 +1,41 @@
-var liveResourceModule = angular.module('liveResource', []);
+//var liveResourceModule = angular.module('liveResource', []);
+//
+//liveResourceModule.service('liveResource', function () {
 
-liveResourceModule.service('liveResource', function () {
-  function mockLiveResourceService(path) {
-    // racer functions
-    this.add = function (newModel) {
+window.liveResourceMock = function () {
+  return function(path){
+    return new mockLiveResourceService(path);
+  }
+};
+
+function mockLiveResourceService(path) {
+  // racer functions
+  this.add = function (newModel) {
 //        newModel = angular.copy(newModel);
 //        return racerModel.add(path, newModel);
-    };
+  };
 
-    this.at = function () {
+  this.at = function () {
 //        return racerModel.at(path);
-    };
+  };
 
-    this.query = function (queryParams) {
+  this.query = function (queryParams) {
 //        return racerModel.query(path, queryParams);
-    };
+  };
 
-    this.del = function (model) {
+  this.del = function (model) {
 //        if (_.contains(path, model.id)) {
 //          return racerModel.del(path);
 //        }
 //
 //        return racerModel.del(path + "." + model.id);
-    };
+  };
 
-    this.get = function () {
+  this.get = function () {
 //        return racerModel.get(path);
-    };
+  };
 
-    this.subscribe = function (queryOrScope) {
+  this.subscribe = function (queryOrScope) {
 //        if (!queryOrScope) {
 //          queryOrScope = racerModel.at(path);
 //        }
@@ -47,18 +54,19 @@ liveResourceModule.service('liveResource', function () {
 //
 //        return liveData;
 
-      return {};
-    };
+    return {};
+  };
 
-    this.scope = function (subPath) {
+  this.scope = function (subPath) {
 //        return racerModel.scope(path + '.' + subPath);
-      //TODO: stub out what scopes return
-      return {
-        del: function() {}
+    //TODO: stub out what scopes return
+    return {
+      del: function () {
       }
-    };
+    }
+  };
 
-    // these don't work yet
+  // these don't work yet
 //
 //      this.fn = function(name, fn){
 //        return racerModel.fn(path + "_" + name, fn);
@@ -71,10 +79,7 @@ liveResourceModule.service('liveResource', function () {
 //      this.start = function() {
 //
 //      };
-  }
+}
 
-  return function (path) {
-    return new mockLiveResourceService(path);
-  }
-});
+//});
 //});
