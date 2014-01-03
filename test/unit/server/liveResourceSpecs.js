@@ -1,13 +1,7 @@
 describe('liveResource.js >', function () {
   // setup require
 
-  var racerModel = {
-      on: function () {
-      },
-      add: function (path, newModel) {
-        return {};
-      }
-    },
+  var racerModel = jasmine.createSpyObj('racerModel', ['unload', 'on', 'add', 'at', 'query', 'del', 'get', 'subscribe', 'scope', 'setDiff']),
     racer = {
       init: function () {
       },
@@ -49,17 +43,12 @@ describe('liveResource.js >', function () {
     var $httpBackend, $timeout;
 
     beforeEach(inject(function (_$httpBackend_) {
-      sinon.spy(racer, 'ready');
-      sinon.spy(racer, 'init');
+      spyOn(racer, 'ready').andCallThrough();
+      spyOn(racer, 'init');
 
       $httpBackend = _$httpBackend_;
       $httpBackend.expectGET('/racerInit').respond({});
     }));
-
-    afterEach(function () {
-      racer.ready.restore();
-      racer.init.restore();
-    });
 
     // act
     beforeEach(inject(function (_liveResourceProvider_, _$timeout_) {
@@ -77,27 +66,27 @@ describe('liveResource.js >', function () {
     });
 
     describe('create live resource >', function () {
-      var doneFn, successSpy, errorSpy, liveResource;
+      var successFn, errorFn, liveResource;
 
       beforeEach(function () {
-        doneFn = function (returnService) {
-          liveResource = returnService('mypath');
-        };
+        successFn = jasmine.createSpy('successFn');
+        successFn.andCallFake(function (returnService) {
+          liveResource = returnService('objectModelPathToSave');
+        });
 
-        successSpy = sinon.spy(doneFn);
-        errorSpy = sinon.spy();
+        errorFn = jasmine.createSpy('errorFn');
 
-        liveResourceProvider.createLiveResource.then(successSpy, errorSpy);
+        liveResourceProvider.createLiveResource.then(successFn, errorFn);
 
         $timeout.flush();
       });
 
       it('resolves the promise', function () {
-        expect(successSpy).toHaveBeenCalledOnce();
+        expect(successFn).toHaveBeenCalled();
       });
 
       it('does not call error function', function () {
-        expect(errorSpy.called).toBeFalsy();
+        expect(errorFn).not.toHaveBeenCalled();
       });
 
       it('sets liveResource', function () {
@@ -109,11 +98,13 @@ describe('liveResource.js >', function () {
           expect(liveResource._racerModel).toBe(racerModel);
         });
 
-        describe('add', function () {
-          var newModel, result;
+        describe('add >', function () {
+          var newModel, result, addCall;
 
           beforeEach(function () {
-            sinon.spy(racerModel, 'add');
+            racerModel.add.andCallFake(function () {
+              return 'objectModelPathToSave.abc123'
+            });
 
             newModel = {
               foo: 'bar',
@@ -122,40 +113,53 @@ describe('liveResource.js >', function () {
 
             //act
             result = liveResource.add(newModel);
+
+            // spy result
+            addCall = racerModel.add.mostRecentCall;
+          });
+
+          it('calls racerModel.add', function () {
+            expect(racerModel.add).toHaveBeenCalled();
+          });
+
+          it('calls add on objectModelPathToSave', function () {
+            expect(addCall.args[0]).toEqual('objectModelPathToSave');
           });
 
           it('creates a copy of the model', function () {
-            expect(racerModel.add.firstCall.args[1]).not.toBe(newModel);
+            expect(addCall.args[1]).not.toBe(newModel);
           });
 
-//          it('excludes $$hashKey', function () {
-//            expect(racerModel.add.firstCall.args[1]).toEqual({foo: 'bar'});
-//          });
+          it('excludes $$hashKey', function () {
+            expect(addCall.args[1]).toEqual({foo: 'bar'});
+          });
 
-//          it('calls racer.add');
-//
-//          it('result has??');
+          // not sure if this is right
+          it('returns result of id', function () {
+            expect(result).toEqual('objectModelPathToSave.abc123');
+          });
+        });
+
+        describe('at >', function () {
+          var result, atReturnValue;
+
+          beforeEach(function () {
+            atReturnValue = {foo: 'bar'};
+
+            racerModel.at.andCallFake(function () {
+              return atReturnValue;
+            });
+
+            // act
+            result = racerModel.at();
+          });
+
+          it('returns atReturnValue', function () {
+            expect(result).toBe(atReturnValue);
+          })
         });
       });
     });
-
-//    it('resolves the promise', function() {
-//      var spy = sinon.spy(),
-//        errorSpy = sinon.spy();
-//
-//      liveResourceProvider.createLiveResource.then(spy, errorSpy);
-//      $timeout.flush();
-//
-//      expect(spy).toHaveBeenCalledOnce();
-//      expect(errorSpy.called).toBeFalsy();
-//    });
-//
-//    it('returns liveResource on create', function () {
-//      liveResourceProvider.createLiveResource.then(function(value){
-//        expect(value).toBeDefined();
-//      });
-//      $timeout.flush();
-//    });
   })
 
 });
