@@ -52,6 +52,7 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
           idToDelete = modelOrId.id;
         }
 
+        // Unit testing -- I don't remember why I put this here :-(
         if (_.contains(path, idToDelete)) {
           return racerModel.del(path);
         }

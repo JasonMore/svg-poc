@@ -1,7 +1,22 @@
 describe('liveResource.js >', function () {
   // setup require
 
-  var racerModel = jasmine.createSpyObj('racerModel', ['unload', 'on', 'add', 'at', 'query', 'del', 'get', 'subscribe', 'scope', 'setDiff']),
+  var racerModel,racer;
+
+  beforeEach(function () {
+    racerModel = jasmine.createSpyObj('racerModel', [
+      'unload',
+      'on',
+      'add',
+      'at',
+      'query',
+      'del',
+      'get',
+      'subscribe',
+      'scope',
+      'setDiff'
+    ]);
+
     racer = {
       init: function () {
       },
@@ -10,7 +25,6 @@ describe('liveResource.js >', function () {
       }
     };
 
-  beforeEach(function () {
     window.require = function (module) {
       // assuming racer.js
       return racer;
@@ -18,23 +32,6 @@ describe('liveResource.js >', function () {
   });
 
   beforeEach(module('liveResource'));
-
-  var testData = {
-    string: 'foobar123',
-    bool: true,
-    number: 123,
-    object: {
-      objectString: 'hello world',
-      childObject: {
-        childObjectString: 'mr fancy pants'
-      }
-    },
-    array: [
-      {id: 'arrayItem1'},
-      'arrayItem2',
-      ['arrayItem3']
-    ]
-  };
 
   var liveResourceProvider, httpBackend;
 
@@ -94,6 +91,27 @@ describe('liveResource.js >', function () {
       });
 
       describe('liveResource >', function () {
+        var testData;
+
+        beforeEach(function() {
+          testData = {
+            string: 'foobar123',
+            bool: true,
+            number: 123,
+            object: {
+              objectString: 'hello world',
+              childObject: {
+                childObjectString: 'mr fancy pants'
+              }
+            },
+            array: [
+              {id: 'arrayItem1'},
+              'arrayItem2',
+              ['arrayItem3']
+            ]
+          };
+        });
+
         it('sets _racerModel', function () {
           expect(liveResource._racerModel).toBe(racerModel);
         });
@@ -151,11 +169,134 @@ describe('liveResource.js >', function () {
             });
 
             // act
-            result = racerModel.at();
+            result = liveResource.at();
           });
 
           it('returns atReturnValue', function () {
             expect(result).toBe(atReturnValue);
+          });
+
+          it('calls racerModel.at', function () {
+            expect(racerModel.at).toHaveBeenCalledWith('objectModelPathToSave');
+          })
+        });
+
+        describe('query >', function () {
+          var result, queryReturnValue, queryParams;
+
+          beforeEach(function () {
+            queryReturnValue = {foo: 'bar'};
+
+            racerModel.query.andCallFake(function () {
+              return queryReturnValue;
+            });
+
+            // act
+            result = liveResource.query(queryParams);
+          });
+
+          it('returns queryReturnValue', function () {
+            expect(result).toBe(queryReturnValue);
+          });
+
+          it('calls racerModel.query', function () {
+            expect(racerModel.query).toHaveBeenCalledWith('objectModelPathToSave', queryParams);
+          })
+        });
+
+        describe('delete >', function () {
+          var act, result, delReturnValue, modelOrId;
+
+          beforeEach(function () {
+            delReturnValue = {id: 'abc123', name: 'Jason'};
+
+            racerModel.del.andCallFake(function () {
+              return delReturnValue;
+            });
+
+            act = function () {
+              result = liveResource.del(modelOrId);
+            };
+          });
+
+          describe('delete model >', function () {
+            beforeEach(function () {
+              modelOrId = {id: 'abc123', name: 'Jason'};
+            });
+
+            it('deletes correct id', function () {
+              act();
+              expect(racerModel.del).toHaveBeenCalledWith('objectModelPathToSave.abc123');
+            });
+
+            it('returns the model', function () {
+              act();
+              expect(result).toBe(delReturnValue);
+            });
+          });
+
+          describe('delete id >', function () {
+            beforeEach(function () {
+              modelOrId = 'abc123';
+            });
+
+            it('deletes correct id', function () {
+              act();
+              expect(racerModel.del).toHaveBeenCalledWith('objectModelPathToSave.abc123');
+            });
+
+            it('returns the model', function () {
+              act();
+              expect(result).toBe(delReturnValue);
+            });
+          });
+        });
+
+        describe('get >', function () {
+          var result, getReturnValue;
+
+          beforeEach(function () {
+            getReturnValue = {foo: 'bar'};
+
+            racerModel.get.andCallFake(function () {
+              return getReturnValue;
+            });
+
+            // act
+            result = liveResource.get();
+          });
+
+          it('returns getReturnValue', function () {
+            expect(result).toBe(getReturnValue);
+          });
+
+          it('calls racerModel.get', function () {
+            expect(racerModel.get).toHaveBeenCalledWith('objectModelPathToSave');
+          })
+        });
+
+        describe('scope >', function () {
+          var result, scopeReturnValue, subpath;
+
+          beforeEach(function () {
+            scopeReturnValue = {foo: 'bar'};
+
+            subpath = 'abc123';
+
+            racerModel.scope.andCallFake(function () {
+              return scopeReturnValue;
+            });
+
+            // act
+            result = liveResource.scope(subpath);
+          });
+
+          it('returns scopeReturnValue', function () {
+            expect(result).toBe(scopeReturnValue);
+          });
+
+          it('calls racerModel.scope', function () {
+            expect(racerModel.scope).toHaveBeenCalledWith('objectModelPathToSave.abc123');
           })
         });
       });
