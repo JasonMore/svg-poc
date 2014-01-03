@@ -140,7 +140,8 @@
       transform="translate({{shadowShape.model.left}},{{shadowShape.model.top}}), rotate({{shadowShape.model.rotation}},{{shadowShape.midPointX()}},{{shadowShape.midPointY()}})"
       ng-attr-d="{{shadowShape.model.path}}"
       fill="white"
-      fill-opacity="0.3"
+      ng-dblclick="selectedShape.isEditingText = true"
+      fill-opacity="{{shadowShape.isDragging || shadowShape.isResizing ? '0.8' : '0'}}"
       stroke="black"
       stroke-width="2"
       class="shadowShape noTextWrap"></path>
