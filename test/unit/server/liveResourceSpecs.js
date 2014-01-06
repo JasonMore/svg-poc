@@ -1,7 +1,7 @@
 describe('liveResource.js >', function () {
   // setup require
 
-  var racerModel,racer;
+  var racerModel, racer;
 
   beforeEach(function () {
     racerModel = jasmine.createSpyObj('racerModel', [
@@ -93,7 +93,7 @@ describe('liveResource.js >', function () {
       describe('liveResource >', function () {
         var testData;
 
-        beforeEach(function() {
+        beforeEach(function () {
           testData = {
             string: 'foobar123',
             bool: true,
@@ -298,6 +298,84 @@ describe('liveResource.js >', function () {
           it('calls racerModel.scope', function () {
             expect(racerModel.scope).toHaveBeenCalledWith('objectModelPathToSave.abc123');
           })
+        });
+
+        describe('subscribe >', function () {
+          var act, liveData, query;
+
+          beforeEach(function () {
+            racerModel.subscribe.andCallFake(function(queryOrScope, callback){
+              callback();
+            });
+
+            act = function () {
+              liveData = liveResource.subscribe(query);
+            };
+          });
+
+          describe('with no query > ', function () {
+            var atRoot;
+            beforeEach(function () {
+              atRoot = {id: 'atRoot'};
+
+              racerModel.at.andCallFake(function () {
+                return atRoot;
+              });
+
+              act();
+            });
+
+            it('calls racer at since no query was sent in', function () {
+              expect(racerModel.at).toHaveBeenCalledWith('objectModelPathToSave');
+            });
+
+            it('calls subscribe with root scope', function () {
+              expect(racerModel.subscribe).toHaveBeenCalledWith(atRoot, jasmine.any(Function));
+            });
+          });
+
+          describe('with query >', function() {
+            beforeEach(function() {
+              function Query() {
+                this.query = 'abc123';
+                this.ref = jasmine.createSpy('ref');
+              }
+
+              query = new Query();
+
+              act();
+            });
+
+            it('calls racer subscribe with query', function() {
+              expect(racerModel.subscribe).toHaveBeenCalledWith(query, jasmine.any(Function));
+            });
+
+            it('creates a page reference', function() {
+              expect(query.ref).toHaveBeenCalledWith('_page_.objectModelPathToSave');
+            });
+
+            it('returns liveData with no data', function() {
+              expect(liveData).toEqual({});
+            });
+
+            describe('getting data after timeout >', function() {
+              beforeEach(function(){
+                racerModel.get.andCallFake(function() {
+                  return testData;
+                });
+
+                $timeout.flush();
+              });
+
+              it('calls racer get', function() {
+                expect(racerModel.get).toHaveBeenCalledWith('objectModelPathToSave');
+              });
+
+              it('extends liveData reference with server data', function() {
+                expect(liveData).toEqual(testData);
+              });
+            });
+          });
         });
       });
     });

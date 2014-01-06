@@ -64,16 +64,14 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
         return racerModel.get(path);
       };
 
-      this.subscribe = function (queryOrScope) {
-        if (!queryOrScope) {
-          queryOrScope = racerModel.at(path);
-        }
+      this.subscribe = function (query) {
+        var queryOrPath = query || racerModel.at(path);
 
-        racerModel.subscribe(queryOrScope, function () {
+        racerModel.subscribe(queryOrPath, function () {
 
           // not sure why I have to do this
-          if (queryOrScope.constructor.name === 'Query') {
-            queryOrScope.ref('_page._' + path);
+          if (queryOrPath.constructor.name === 'Query') {
+            queryOrPath.ref('_page_.' + path);
           }
 
           $timeout(function () {
