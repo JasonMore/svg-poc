@@ -100,8 +100,6 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
 //
 //      };
 
-      this.debugRootscope = $rootScope;
-
       // when local modifications are made, update the server model
       $rootScope.$watch(function () {
         return JSON.stringify(liveData);

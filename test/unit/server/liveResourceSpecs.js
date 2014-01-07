@@ -63,7 +63,7 @@ describe('liveResource.js >', function () {
     });
 
     describe('create live resource >', function () {
-      var successFn, errorFn, liveResource;
+      var successFn, errorFn, liveResource, racerOnModelChangeCallback;
 
       beforeEach(function () {
         successFn = jasmine.createSpy('successFn');
@@ -72,6 +72,12 @@ describe('liveResource.js >', function () {
         });
 
         errorFn = jasmine.createSpy('errorFn');
+
+        racerModel.on.andCallFake(function (type, path, callback) {
+          racerOnModelChangeCallback = function () {
+            callback();
+          }
+        });
 
         liveResourceProvider.createLiveResource.then(successFn, errorFn);
 
@@ -91,8 +97,55 @@ describe('liveResource.js >', function () {
       });
 
       describe('liveResource >', function () {
+        var getPathData, model;
+        var string, bool, number, object;
+        var objectString, childObject, childObjectString;
+        var array, arrayItem0, arrayItem1, arrayItem2;
+
+        beforeEach(function () {
+          string = 'foobar123';
+          bool = true;
+          number = 123;
+
+          childObjectString = 'mr fancy pants';
+          childObject = {
+            childObjectString: childObjectString
+          };
+
+          objectString = 'hello world';
+          object = {
+            objectString: objectString,
+            childObject: childObject
+          };
+
+          arrayItem0 = {
+            id: 'arrayItem0',
+            string: 'arrayItem0String'
+          };
+          arrayItem1 = 'arrayItem1';
+          arrayItem2 = ['arrayItem2'];
+          array = [arrayItem0, arrayItem1, arrayItem2];
+
+          model = {
+            'id': 'abc123',
+            string: string,
+            bool: bool,
+            number: number,
+            object: object,
+            array: array
+          };
+
+          getPathData = {
+            'abc123': model
+          };
+        });
+
         it('sets _racerModel', function () {
           expect(liveResource._racerModel).toBe(racerModel);
+        });
+
+        it('calls racer on with path', function () {
+          expect(racerModel.on).toHaveBeenCalledWith('all', 'objectModelPathToSave**', jasmine.any(Function));
         });
 
         describe('add >', function () {
@@ -338,50 +391,9 @@ describe('liveResource.js >', function () {
             });
 
             describe('getting data after timeout >', function () {
-              var testData, model;
-              var string, bool, number, object;
-              var objectString, childObject, childObjectString;
-              var array, arrayItem0, arrayItem1, arrayItem2;
-
               beforeEach(function () {
-                string = 'foobar123';
-                bool = true;
-                number = 123;
-
-                childObjectString = 'mr fancy pants';
-                childObject = {
-                  childObjectString: childObjectString
-                };
-
-                objectString = 'hello world';
-                object = {
-                  objectString: objectString,
-                  childObject: childObject
-                };
-
-                arrayItem0 = {
-                  id: 'arrayItem0',
-                  string: 'arrayItem0String'
-                };
-                arrayItem1 = 'arrayItem1';
-                arrayItem2 = ['arrayItem2'];
-                array = [arrayItem0, arrayItem1, arrayItem2];
-
-                model = {
-                  'id': 'abc123',
-                  string: string,
-                  bool: bool,
-                  number: number,
-                  object: object,
-                  array: array
-                };
-
-                testData = {
-                  'abc123': model
-                };
-
                 racerModel.get.andCallFake(function () {
-                  return testData;
+                  return getPathData;
                 });
 
                 $timeout.flush();
@@ -392,7 +404,11 @@ describe('liveResource.js >', function () {
               });
 
               it('extends liveData reference with server data', function () {
-                expect(liveData).toEqual(testData);
+                expect(liveData).toEqual(getPathData);
+              });
+
+              it('is not an object reference to getPathData', function () {
+                expect(liveData).not.toBe(getPathData);
               });
 
               describe('updating live data >', function () {
@@ -458,6 +474,138 @@ describe('liveResource.js >', function () {
 
                   it('calls setDiff', function () {
                     expect(racerModel.setDiff).toHaveBeenCalledWith('objectModelPathToSave.abc123.array.0.arrayItem0String', 'hello there');
+                  });
+                });
+              });
+
+              describe('racer model on all path changes >', function () {
+                var act, updatedRemovePathData;
+
+                beforeEach(function () {
+                  updatedRemovePathData = angular.copy(getPathData);
+
+                  racerModel.get.andCallFake(function () {
+                    return updatedRemovePathData;
+                  });
+
+                  act = function () {
+                    racerOnModelChangeCallback();
+                    $timeout.flush();
+                  }
+                });
+
+                describe('remote updated string >', function () {
+                  beforeEach(function () {
+                    updatedRemovePathData['abc123'].string = 'hello world update';
+                    act();
+                  });
+
+                  it('updates string value on livedata', function () {
+                    expect(liveData['abc123'].string).toEqual('hello world update');
+                  });
+                });
+
+                describe('remote updated bool >', function () {
+                  beforeEach(function () {
+                    updatedRemovePathData['abc123'].bool = false;
+                    act();
+                  });
+
+                  it('updates string value on livedata', function () {
+                    expect(liveData['abc123'].bool).toEqual(false);
+                  });
+                });
+
+                describe('remote updated number >', function () {
+                  beforeEach(function () {
+                    updatedRemovePathData['abc123'].bool = false;
+                    act();
+                  });
+
+                  it('updates string value on livedata', function () {
+                    expect(liveData['abc123'].bool).toEqual(false);
+                  });
+                });
+
+                describe('remote updated object string >', function () {
+                  var originalObject;
+                  beforeEach(function () {
+                    originalObject = liveData['abc123'].object;
+                    updatedRemovePathData['abc123'].object.objectString = 'hello world update';
+                    act();
+                  });
+
+                  it('updates string value on livedata', function () {
+                    expect(liveData['abc123'].object.objectString).toEqual('hello world update');
+                  });
+
+                  it('doesnt create a new object', function() {
+                    expect(originalObject).toBe(liveData['abc123'].object);
+                  });
+                });
+
+                describe('remote updated whole object >', function () {
+                  var originalObject;
+                  beforeEach(function () {
+                    originalObject = liveData['abc123'].object;
+                    updatedRemovePathData['abc123'].object = {newBool: true, newString:'hello world update'};
+                    act();
+                  });
+
+                  it('updates string value on object', function () {
+                    expect(liveData['abc123'].object.newString).toEqual('hello world update');
+                  });
+
+                  it('updates bool value on object', function () {
+                    expect(liveData['abc123'].object.newBool).toBeTruthy();
+                  });
+
+                  it('removes property that was removed remotely', function () {
+                    expect(liveData['abc123'].object.objectString).toBeUndefined();
+                  });
+
+                  it('doesnt create a new object', function() {
+                    expect(originalObject).toBe(liveData['abc123'].object);
+                  });
+                });
+
+                describe('remote updated array >', function () {
+                  var originalArray;
+                  beforeEach(function () {
+                    originalArray = liveData['abc123'].array;
+                    updatedRemovePathData['abc123'].array[0] = 'arrayItem1 update';
+                    act();
+                  });
+
+                  it('updates string value on livedata', function () {
+                    expect(liveData['abc123'].array[0]).toEqual('arrayItem1 update');
+                  });
+
+                  it('doesnt create a new array', function() {
+                    expect(originalArray).toBe(liveData['abc123'].array);
+                  });
+                });
+
+                describe('remote updated array >', function () {
+                  var originalArray;
+                  beforeEach(function () {
+                    originalArray = liveData['abc123'].array;
+                    updatedRemovePathData['abc123'].array = ['new item'];
+                    act();
+                  });
+
+                  it('removes all arrayItems', function () {
+                    expect(liveData['abc123'].array[0]).not.toContain(arrayItem0);
+                    expect(liveData['abc123'].array[0]).not.toContain(arrayItem1);
+                    expect(liveData['abc123'].array[0]).not.toContain(arrayItem2);
+                  });
+
+                  it('adds new array item', function() {
+                    expect(liveData['abc123'].array[0]).toEqual('new item');
+                  });
+
+                  it('doesnt create a new array', function() {
+                    expect(originalArray).toBe(liveData['abc123'].array);
                   });
                 });
               });
