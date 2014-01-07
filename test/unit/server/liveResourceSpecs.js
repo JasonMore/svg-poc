@@ -136,7 +136,8 @@ describe('liveResource.js >', function () {
           };
 
           getPathData = {
-            'abc123': model
+            'abc123': model,
+            'def456': {id:'def456', value:'this will be deleted'}
           };
         });
 
@@ -607,6 +608,21 @@ describe('liveResource.js >', function () {
                   it('doesnt create a new array', function() {
                     expect(originalArray).toBe(liveData['abc123'].array);
                   });
+                });
+
+                describe('remote removed item from collection', function() {
+                  beforeEach(function() {
+                    delete updatedRemovePathData['def456'];
+                    act();
+                  });
+
+                  it('removes def456 from liveData', function() {
+                    expect(liveData['def456']).toBeUndefined();
+                  });
+
+                  it('doesnt remove abc123',function() {
+                    expect(liveData['abc123']).toBeDefined();
+                  })
                 });
               });
             });
