@@ -25,7 +25,7 @@ describe('liveResource.js >', function () {
       }
     };
 
-    window.require = function (module) {
+    window.require = function () {
       // assuming racer.js
       return racer;
     };
@@ -33,8 +33,7 @@ describe('liveResource.js >', function () {
 
   beforeEach(module('liveResource'));
 
-  var liveResourceProvider, httpBackend;
-
+  var liveResourceProvider;
 
   describe('loading liveResourceProvider >', function () {
     var $httpBackend, $timeout;
@@ -51,6 +50,7 @@ describe('liveResource.js >', function () {
     beforeEach(inject(function (_liveResourceProvider_, _$timeout_) {
       liveResourceProvider = _liveResourceProvider_;
       $timeout = _$timeout_;
+
       $httpBackend.flush();
     }));
 
@@ -91,27 +91,6 @@ describe('liveResource.js >', function () {
       });
 
       describe('liveResource >', function () {
-        var testData;
-
-        beforeEach(function () {
-          testData = {
-            string: 'foobar123',
-            bool: true,
-            number: 123,
-            object: {
-              objectString: 'hello world',
-              childObject: {
-                childObjectString: 'mr fancy pants'
-              }
-            },
-            array: [
-              {id: 'arrayItem1'},
-              'arrayItem2',
-              ['arrayItem3']
-            ]
-          };
-        });
-
         it('sets _racerModel', function () {
           expect(liveResource._racerModel).toBe(racerModel);
         });
@@ -304,7 +283,7 @@ describe('liveResource.js >', function () {
           var act, liveData, query;
 
           beforeEach(function () {
-            racerModel.subscribe.andCallFake(function(queryOrScope, callback){
+            racerModel.subscribe.andCallFake(function (queryOrScope, callback) {
               callback();
             });
 
@@ -334,8 +313,8 @@ describe('liveResource.js >', function () {
             });
           });
 
-          describe('with query >', function() {
-            beforeEach(function() {
+          describe('with query >', function () {
+            beforeEach(function () {
               function Query() {
                 this.query = 'abc123';
                 this.ref = jasmine.createSpy('ref');
@@ -346,39 +325,146 @@ describe('liveResource.js >', function () {
               act();
             });
 
-            it('calls racer subscribe with query', function() {
+            it('calls racer subscribe with query', function () {
               expect(racerModel.subscribe).toHaveBeenCalledWith(query, jasmine.any(Function));
             });
 
-            it('creates a page reference', function() {
+            it('creates a page reference', function () {
               expect(query.ref).toHaveBeenCalledWith('_page_.objectModelPathToSave');
             });
 
-            it('returns liveData with no data', function() {
+            it('returns liveData with no data', function () {
               expect(liveData).toEqual({});
             });
 
-            describe('getting data after timeout >', function() {
-              beforeEach(function(){
-                racerModel.get.andCallFake(function() {
+            describe('getting data after timeout >', function () {
+              var testData, model;
+              var string, bool, number, object;
+              var objectString, childObject, childObjectString;
+              var array, arrayItem0, arrayItem1, arrayItem2;
+
+              beforeEach(function () {
+                string = 'foobar123';
+                bool = true;
+                number = 123;
+
+                childObjectString = 'mr fancy pants';
+                childObject = {
+                  childObjectString: childObjectString
+                };
+
+                objectString = 'hello world';
+                object = {
+                  objectString: objectString,
+                  childObject: childObject
+                };
+
+                arrayItem0 = {
+                  id: 'arrayItem0',
+                  string: 'arrayItem0String'
+                };
+                arrayItem1 = 'arrayItem1';
+                arrayItem2 = ['arrayItem2'];
+                array = [arrayItem0, arrayItem1, arrayItem2];
+
+                model = {
+                  'id': 'abc123',
+                  string: string,
+                  bool: bool,
+                  number: number,
+                  object: object,
+                  array: array
+                };
+
+                testData = {
+                  'abc123': model
+                };
+
+                racerModel.get.andCallFake(function () {
                   return testData;
                 });
 
                 $timeout.flush();
               });
 
-              it('calls racer get', function() {
+              it('calls racer get', function () {
                 expect(racerModel.get).toHaveBeenCalledWith('objectModelPathToSave');
               });
 
-              it('extends liveData reference with server data', function() {
+              it('extends liveData reference with server data', function () {
                 expect(liveData).toEqual(testData);
+              });
+
+              describe('updating live data >', function () {
+                var $rootScope;
+
+                beforeEach(inject(function (_$rootScope_) {
+                  $rootScope = _$rootScope_;
+
+                  act = function () {
+                    $rootScope.$digest();
+                  }
+                }));
+
+                describe('updating string >', function () {
+                  beforeEach(function () {
+                    liveData['abc123'].string = 'hello there';
+                    act();
+                  });
+
+                  it('calls setDiff', function () {
+                    expect(racerModel.setDiff).toHaveBeenCalledWith('objectModelPathToSave.abc123.string', 'hello there');
+                  });
+                });
+
+                describe('updating bool >', function () {
+                  beforeEach(function () {
+                    liveData['abc123'].bool = false;
+                    act();
+                  });
+
+                  it('calls setDiff', function () {
+                    expect(racerModel.setDiff).toHaveBeenCalledWith('objectModelPathToSave.abc123.bool', false);
+                  });
+                });
+
+                describe('updating number >', function () {
+                  beforeEach(function () {
+                    liveData['abc123'].number = 100000;
+                    act();
+                  });
+
+                  it('calls setDiff', function () {
+                    expect(racerModel.setDiff).toHaveBeenCalledWith('objectModelPathToSave.abc123.number', 100000);
+                  });
+                });
+
+                describe('adding new property >', function () {
+                  beforeEach(function () {
+                    liveData['abc123'].newString = 'why hello there';
+                    act();
+                  });
+
+                  it('calls setDiff', function () {
+                    expect(racerModel.setDiff).toHaveBeenCalledWith('objectModelPathToSave.abc123.newString', 'why hello there');
+                  });
+                });
+
+                xdescribe('updating array item 0 >', function () {
+                  beforeEach(function () {
+                    liveData['abc123'].array[0].arrayItem0String = 'hello there';
+                    act();
+                  });
+
+                  it('calls setDiff', function () {
+                    expect(racerModel.setDiff).toHaveBeenCalledWith('objectModelPathToSave.abc123.array.0.arrayItem0String', 'hello there');
+                  });
+                });
               });
             });
           });
         });
       });
     });
-  })
-
+  });
 });

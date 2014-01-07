@@ -100,6 +100,8 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
 //
 //      };
 
+      this.debugRootscope = $rootScope;
+
       // when local modifications are made, update the server model
       $rootScope.$watch(function () {
         return JSON.stringify(liveData);
@@ -169,7 +171,7 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
           setPath += '.' + propertyKey;
 
           if (_.isArray(newModel[propertyKey])) {
-            throw 'Sorry arrays are super broken, please use a collection instead'
+            //throw 'Sorry arrays are super broken, please use a collection instead'
             // updateArrayModel(newModel[propertyKey], oldModel ? oldModel[propertyKey] : null, setPath);
             continue;
           }
