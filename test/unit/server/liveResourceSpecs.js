@@ -98,47 +98,27 @@ describe('liveResource.js >', function () {
       });
 
       describe('liveResource >', function () {
-        var getPathData, model;
-        var string, bool, number, object;
-        var objectString, childObject, childObjectString;
-        var array, arrayItem0, arrayItem1, arrayItem2;
+        var getPathData, arrayItem0, arrayItem1, arrayItem2;
 
         beforeEach(function () {
-          string = 'foobar123';
-          bool = true;
-          number = 123;
-
-          childObjectString = 'mr fancy pants';
-          childObject = {
-            childObjectString: childObjectString
-          };
-
-          objectString = 'hello world';
-          object = {
-            objectString: objectString,
-            childObject: childObject
-          };
-
           arrayItem0 = {
-            id: 'arrayItem0',
             string: 'arrayItem0String'
           };
           arrayItem1 = 'arrayItem1';
           arrayItem2 = ['arrayItem2'];
-          array = [arrayItem0, arrayItem1, arrayItem2];
-
-          model = {
-            'id': 'abc123',
-            string: string,
-            bool: bool,
-            number: number,
-            object: object,
-            array: array
-          };
 
           getPathData = {
-            'abc123': model,
-            'def456': {id:'def456', value:'this will be deleted'}
+            'abc123': {
+              'id': 'abc123',
+              string: 'foobar123',
+              bool: true,
+              number: 123,
+              object: {
+                childObjectString: 'mr fancy pants'
+              },
+              array: [arrayItem0, arrayItem1, arrayItem2]
+            },
+            'def456': {id: 'def456', value: 'this will be deleted'}
           };
         });
 
@@ -424,16 +404,16 @@ describe('liveResource.js >', function () {
                   }
                 }));
 
-                describe('no changes made', function() {
-                  beforeEach(function() {
+                describe('no changes made', function () {
+                  beforeEach(function () {
                     act();
                   });
 
-                  it('should not change any data', function() {
+                  it('should not change any data', function () {
                     expect(liveData).toEqual(getPathData);
                   });
 
-                  it('should not call racer model setdiff', function() {
+                  it('should not call racer model setdiff', function () {
                     expect(racerModel.setDiff).not.toHaveBeenCalled();
                   });
                 });
@@ -555,7 +535,7 @@ describe('liveResource.js >', function () {
                     expect(liveData['abc123'].object.objectString).toEqual('hello world update');
                   });
 
-                  it('doesnt create a new object', function() {
+                  it('doesnt create a new object', function () {
                     expect(originalObject).toBe(liveData['abc123'].object);
                   });
                 });
@@ -564,7 +544,7 @@ describe('liveResource.js >', function () {
                   var originalObject;
                   beforeEach(function () {
                     originalObject = liveData['abc123'].object;
-                    updatedRemovePathData['abc123'].object = {newBool: true, newString:'hello world update'};
+                    updatedRemovePathData['abc123'].object = {newBool: true, newString: 'hello world update'};
                     act();
                   });
 
@@ -580,7 +560,7 @@ describe('liveResource.js >', function () {
                     expect(liveData['abc123'].object.objectString).toBeUndefined();
                   });
 
-                  it('doesnt create a new object', function() {
+                  it('doesnt create a new object', function () {
                     expect(originalObject).toBe(liveData['abc123'].object);
                   });
                 });
@@ -597,7 +577,7 @@ describe('liveResource.js >', function () {
                     expect(liveData['abc123'].array[0]).toEqual('arrayItem1 update');
                   });
 
-                  it('doesnt create a new array', function() {
+                  it('doesnt create a new array', function () {
                     expect(originalArray).toBe(liveData['abc123'].array);
                   });
                 });
@@ -616,26 +596,26 @@ describe('liveResource.js >', function () {
                     expect(liveData['abc123'].array[0]).not.toContain(arrayItem2);
                   });
 
-                  it('adds new array item', function() {
+                  it('adds new array item', function () {
                     expect(liveData['abc123'].array[0]).toEqual('new item');
                   });
 
-                  it('doesnt create a new array', function() {
+                  it('doesnt create a new array', function () {
                     expect(originalArray).toBe(liveData['abc123'].array);
                   });
                 });
 
-                describe('remote removed item from collection', function() {
-                  beforeEach(function() {
+                describe('remote removed item from collection', function () {
+                  beforeEach(function () {
                     delete updatedRemovePathData['def456'];
                     act();
                   });
 
-                  it('removes def456 from liveData', function() {
+                  it('removes def456 from liveData', function () {
                     expect(liveData['def456']).toBeUndefined();
                   });
 
-                  it('doesnt remove abc123',function() {
+                  it('doesnt remove abc123', function () {
                     expect(liveData['abc123']).toBeDefined();
                   });
                 });
