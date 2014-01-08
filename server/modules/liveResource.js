@@ -136,10 +136,7 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
           childPath = path;
         }
 
-        var newModelJson = JSON.stringify(newModel);
-        var oldModelJson = JSON.stringify(oldModel);
-
-        if ((newModelJson === oldModelJson)) {
+        if (angular.equals(newModel, oldModel)) {
           return;
         }
 
@@ -170,7 +167,7 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
 
           if (_.isArray(newModel[propertyKey])) {
             //throw 'Sorry arrays are super broken, please use a collection instead'
-            // updateArrayModel(newModel[propertyKey], oldModel ? oldModel[propertyKey] : null, setPath);
+            updateArrayModel(newModel[propertyKey], oldModel ? oldModel[propertyKey] : null, setPath);
             continue;
           }
 
@@ -196,8 +193,6 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
           if (_.contains(removed, oldModelArray[i])) {
             racerModel.remove(childPath, i);
           }
-
-
         }
 
         var oldModelArrayWithoutRemovedItems = _.without(oldModelArray, removed);

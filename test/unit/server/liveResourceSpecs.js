@@ -14,7 +14,8 @@ describe('liveResource.js >', function () {
       'get',
       'subscribe',
       'scope',
-      'setDiff'
+      'setDiff',
+      'remove'
     ]);
 
     racer = {
@@ -423,6 +424,20 @@ describe('liveResource.js >', function () {
                   }
                 }));
 
+                describe('no changes made', function() {
+                  beforeEach(function() {
+                    act();
+                  });
+
+                  it('should not change any data', function() {
+                    expect(liveData).toEqual(getPathData);
+                  });
+
+                  it('should not call racer model setdiff', function() {
+                    expect(racerModel.setDiff).not.toHaveBeenCalled();
+                  });
+                });
+
                 describe('updating string >', function () {
                   beforeEach(function () {
                     liveData['abc123'].string = 'hello there';
@@ -467,14 +482,14 @@ describe('liveResource.js >', function () {
                   });
                 });
 
-                xdescribe('updating array item 0 >', function () {
+                describe('updating array item 0 >', function () {
                   beforeEach(function () {
-                    liveData['abc123'].array[0].arrayItem0String = 'hello there';
+                    liveData['abc123'].array[0].string = 'hello there';
                     act();
                   });
 
                   it('calls setDiff', function () {
-                    expect(racerModel.setDiff).toHaveBeenCalledWith('objectModelPathToSave.abc123.array.0.arrayItem0String', 'hello there');
+                    expect(racerModel.setDiff).toHaveBeenCalledWith('objectModelPathToSave.abc123.array.0.string', 'hello there');
                   });
                 });
               });
@@ -622,7 +637,7 @@ describe('liveResource.js >', function () {
 
                   it('doesnt remove abc123',function() {
                     expect(liveData['abc123']).toBeDefined();
-                  })
+                  });
                 });
               });
             });

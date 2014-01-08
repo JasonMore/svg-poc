@@ -42,7 +42,7 @@ module.exports = function (karma) {
       // app code
       'server/modules/liveResource.js',
       'app/modules/**/*.js',
-      'app/modules/**/*.html',
+//      'app/modules/**/*.html',
 
       // app tests
       'test/unit/**/*.js'
@@ -58,7 +58,7 @@ module.exports = function (karma) {
       // prepend this to the
 //      prependPrefix: 'served/',
 
-      // or define a custom transform function
+      // or define a cu‰stom transform function
 //      cacheIdFromPath: function (filepath) {
 //        return cacheId;
 //      },

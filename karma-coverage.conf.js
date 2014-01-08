@@ -11,6 +11,7 @@ module.exports = function(karma) {
     frameworks: ['jasmine'],
 
     preprocessors : {
+      'server/modules/**/*.js' : 'coverage',
       'app/modules/**/*.js': 'coverage'
     },
 
@@ -40,8 +41,9 @@ module.exports = function(karma) {
       'test/_mocks/**/*.js',
 
       // app code
+      'server/modules/liveResource.js',
       'app/modules/**/*.js',
-      'app/modules/**/*.html',
+//      'app/modules/**/*.html',
 
       // app tests
       'test/unit/**/*.js'
