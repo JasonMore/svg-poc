@@ -19,34 +19,57 @@
           ng-attr-d="{{viewModel.model.path}}"></path>
   </clipPath>
 
-  <!--drop shadow-->
-  <filter id="{{viewModel.model.id + '_shadow'}}"
-          x="-50%" y="-50%" width="200%" height="200%">
-    <feOffset result="offOut" in="SourceAlpha"
+  <filter id="Bevel" filterUnits="objectBoundingBox" x="-10%" y="-10%" width="150%" height="150%">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="0.5" result="blur" />
+    <feSpecularLighting in="blur" surfaceScale="5" specularConstant="0.5" specularExponent="10" result="specOut" lighting-color="white">
+      <fePointLight x="-5000" y="-10000" z="20000" />
+    </feSpecularLighting>
+    <feComposite in="specOut" in2="SourceAlpha" operator="in" result="specOut2" />
+    <feComposite in="SourceGraphic" in2="specOut2" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="litPaint" />
+  </filter>
+
+  <filter id="{{viewModel.model.id + '_combinedFilter'}}"
+          filterUnits="objectBoundingBox" x="-10%" y="-10%" width="150%" height="150%">
+    <!--bevel-->
+    <feGaussianBlur ng-if="viewModel.model.bevel.enabled"
+                    in="SourceAlpha" stdDeviation="0.5" result="blur"/>
+    <feSpecularLighting ng-if="viewModel.model.bevel.enabled"
+                        in="blur"
+                        surfaceScale="5" specularConstant="0.5" specularExponent="10"
+                        lighting-color="white"
+                        result="specOut">
+      <fePointLight x="-5000" y="-10000" z="20000"/>
+    </feSpecularLighting>
+    <feComposite ng-if="viewModel.model.bevel.enabled"
+                 in="specOut" in2="SourceAlpha" operator="in" result="specOut2"/>
+    <feComposite ng-if="viewModel.model.bevel.enabled"
+                 in="SourceGraphic" in2="specOut2"
+                 operator="arithmetic" k1="0" k2="1" k3="1" k4="0"
+                 result="litPaint"/>
+
+    <!--blur-->
+    <feGaussianBlur ng-if="viewModel.model.blur.enabled"
+                    in="{{viewModel.model.bevel.enabled ? 'litPaint' : 'SourceGraphic'}}"
+                    stdDeviation="0.25" result="endresult"/>
+
+    <!--shadow-->
+    <feOffset ng-if="viewModel.model.shadow.enabled"
+              result="offOut" in="SourceAlpha"
               dx="{{viewModel.model.shadow.offsetX}}"
               dy="{{viewModel.model.shadow.offsetY}}"/>
-    <!--<feGaussianBlur result="blurOut" in="offOut" stdDeviation="10"/>-->
-    <feGaussianBlur result="blurOut" in="offOut" svg-attr-stddeviation="{{viewModel.model.shadow.density}}"/>
-    <feBlend in="SourceGraphic" in2="blurOut" mode="normal"/>
+    <feGaussianBlur ng-if="viewModel.model.shadow.enabled"
+        result="blurOut" in="offOut" svg-attr-stddeviation="{{viewModel.model.shadow.density}}"/>
+    <feBlend ng-if="viewModel.model.shadow.enabled"
+             in="SourceGraphic" in2="blurOut" mode="normal"/>
   </filter>
 </defs>
-
-<!--<defs ng-if="shadowShape">-->
-  <!--&lt;!&ndash;shadow shape clip path&ndash;&gt;-->
-  <!--<clipPath id="{{shadowShape.model.id + '_shadowShapeClipPath'}}"-->
-            <!--clipPathUnits="userSpaceOnUse">-->
-    <!--<path id="{{shadowShape.model.id}}"-->
-          <!--stroke-width="{{shadowShape.model.borderWidth}}"-->
-          <!--ng-attr-d="{{shadowShape.model.path}}"></path>-->
-  <!--</clipPath>-->
-<!--</defs>-->
 
 <g class="shapes">
   <g ng-repeat="viewModel in computedShapes() | objectOrderBy:'model.order'"
      ng-svg-shape
      opacity="{{viewModel.model.transparency}}"
      transform="translate({{viewModel.model.left}},{{viewModel.model.top}}), rotate({{viewModel.model.rotation}},{{viewModel.midPointX()}},{{viewModel.midPointY()}})"
-     filter="url({{viewModel.shadowId()}})">
+     filter="url({{viewModel.filterId()}})">
     <!--shape-->
     <g class="shape">
       <use
@@ -306,5 +329,8 @@
           ng-attr-height="{{height}}"></rect>
   </g>
 </g>
+<!--<text x="50" y="200" fill="blue" font-family="Times New Roman" font-size="64" filter="url(#Bevel)">-->
+  <!--hello world-->
+<!--</text>-->
 </svg>
 

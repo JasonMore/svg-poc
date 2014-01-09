@@ -40,6 +40,12 @@
             offsetY: 20,
             density: 10
           },
+          bevel:{
+            enabled: false
+          },
+          blur: {
+            enabled: false
+          },
           fieldBindings: {}
         });
       }
@@ -162,8 +168,18 @@
           return this.hasImage() ? this.model.image.rotation + this.model.rotation : 0;
         },
 
-        shadowId: function () {
-          return this.model.shadow.enabled ? '#' + this.model.id + '_shadow' : '';
+        hasFilter: function() {
+          return this.model.shadow.enabled
+            || this.model.bevel.enabled
+            || this.model.blur.enabled;
+        },
+
+        filterId: function () {
+          return this.hasFilter() ? '#' + this.model.id + '_combinedFilter' : '';
+        },
+
+        bevelBlurFilterId: function() {
+
         }
       });
 
