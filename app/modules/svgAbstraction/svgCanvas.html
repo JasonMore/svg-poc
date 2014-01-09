@@ -50,7 +50,7 @@
     <!--blur-->
     <feGaussianBlur ng-if="viewModel.model.blur.enabled"
                     in="{{viewModel.model.bevel.enabled ? 'litPaint' : 'SourceGraphic'}}"
-                    stdDeviation="0.25" result="endresult"/>
+                    stdDeviation="4" result="endresult"/>
 
     <!--shadow-->
     <feOffset ng-if="viewModel.model.shadow.enabled"
