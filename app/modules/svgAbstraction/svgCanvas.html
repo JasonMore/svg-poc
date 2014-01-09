@@ -32,7 +32,7 @@
           filterUnits="objectBoundingBox" x="-10%" y="-10%" width="150%" height="150%">
     <!--bevel-->
     <feGaussianBlur ng-if="viewModel.model.bevel.enabled"
-                    in="SourceAlpha" stdDeviation="0.5" result="blur"/>
+                    in="SourceAlpha" stdDeviation="3.0" result="blur"/>
     <feSpecularLighting ng-if="viewModel.model.bevel.enabled"
                         in="blur"
                         surfaceScale="5" specularConstant="0.5" specularExponent="10"
