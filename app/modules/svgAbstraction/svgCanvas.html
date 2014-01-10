@@ -30,6 +30,14 @@
 
   <filter id="{{viewModel.model.id + '_combinedFilter'}}"
           filterUnits="objectBoundingBox" x="-10%" y="-10%" width="150%" height="150%">
+
+    <!--copy of source graphic-->
+    <feColorMatrix  type="matrix" in="SourceGraphic" result="endResult"
+                    values="1 0 0 0 0
+                            0 1 0 0 0
+                            0 0 1 0 0
+                            0 0 0 1 0"/>
+
     <!--bevel-->
     <feGaussianBlur ng-if="viewModel.model.bevel.enabled"
                     in="SourceAlpha" svg-attr-stddeviation="{{viewModel.model.bevel.density}}" result="blur"/>
@@ -43,15 +51,15 @@
     <feComposite ng-if="viewModel.model.bevel.enabled"
                  in="specOut" in2="SourceAlpha" operator="in" result="specOut2"/>
     <feComposite ng-if="viewModel.model.bevel.enabled"
-                 in="SourceGraphic" in2="specOut2"
+                 in="endResult" in2="specOut2"
                  operator="arithmetic" k1="0" k2="1" k3="1" k4="0"
-                 result="litPaint"/>
+                 result="endResult"/>
 
     <!--blur-->
     <feGaussianBlur ng-if="viewModel.model.blur.enabled"
-                    in="{{viewModel.model.bevel.enabled ? 'litPaint' : 'SourceGraphic'}}"
+                    in="endResult"
                     svg-attr-stddeviation="{{viewModel.model.blur.density}}"
-                    result="endresult"/>
+                    result="endResult"/>
 
     <!--shadow-->
     <feOffset ng-if="viewModel.model.shadow.enabled"
@@ -61,7 +69,7 @@
     <feGaussianBlur ng-if="viewModel.model.shadow.enabled"
         result="blurOut" in="offOut" svg-attr-stddeviation="{{viewModel.model.shadow.density}}"/>
     <feBlend ng-if="viewModel.model.shadow.enabled"
-             in="SourceGraphic" in2="blurOut" mode="normal"/>
+             in="endResult" in2="blurOut" mode="normal"/>
   </filter>
 </defs>
 
