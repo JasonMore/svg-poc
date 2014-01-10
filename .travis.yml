@@ -10,5 +10,5 @@ before_script:
   - sleep 1 # give server time to start
 
 script:
-  - karma start karma.js --no-auto-watch --single-run --reporters=dots --browsers=PhantomJS
+  - karma start karma.conf.js --no-auto-watch --single-run --reporters=dots --browsers=PhantomJS
 #  - karma start karma-e2e.conf.js --reporters=dots --browsers=PhantomJS
