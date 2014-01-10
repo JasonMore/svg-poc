@@ -41,10 +41,12 @@
             density: 10
           },
           bevel:{
-            enabled: false
+            enabled: false,
+            density: 4
           },
           blur: {
-            enabled: false
+            enabled: false,
+            density: 4
           },
           fieldBindings: {}
         });

@@ -32,7 +32,7 @@
           filterUnits="objectBoundingBox" x="-10%" y="-10%" width="150%" height="150%">
     <!--bevel-->
     <feGaussianBlur ng-if="viewModel.model.bevel.enabled"
-                    in="SourceAlpha" stdDeviation="3.0" result="blur"/>
+                    in="SourceAlpha" svg-attr-stddeviation="{{viewModel.model.bevel.density}}" result="blur"/>
     <feSpecularLighting ng-if="viewModel.model.bevel.enabled"
                         in="blur"
                         surfaceScale="5" specularConstant="0.5" specularExponent="10"
@@ -50,7 +50,8 @@
     <!--blur-->
     <feGaussianBlur ng-if="viewModel.model.blur.enabled"
                     in="{{viewModel.model.bevel.enabled ? 'litPaint' : 'SourceGraphic'}}"
-                    stdDeviation="4" result="endresult"/>
+                    svg-attr-stddeviation="{{viewModel.model.blur.density}}"
+                    result="endresult"/>
 
     <!--shadow-->
     <feOffset ng-if="viewModel.model.shadow.enabled"
