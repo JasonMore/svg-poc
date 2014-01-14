@@ -1,11 +1,18 @@
 <div ng-include="'modules/svgAbstraction/svgTopNav.html'"></div>
 <!--<div ng-include="'modules/svgAbstraction/svgShapeMenu.html'"></div>-->
-<div ng-include="'modules/svgAbstraction/svgLeftMenu.html'"></div>
+<!--<div ng-include="'modules/svgAbstraction/svgLeftMenu.html'"></div>-->
+<svg-canvas-left-menu is-open="sideMenuOpen"
+                      template="template"></svg-canvas-left-menu>
 
 <div class="wrapper"
      ng-class="{'side-menu-open':sideMenuOpen}"
      ng-click-stop="unSelectShape()">
-  <svg-canvas canvas="canvas"></svg-canvas>
+
+  <svg-canvas template="template"
+              shapes="shapes"
+              computed-shapes="computedShapes"
+              selected-shape="selectedShape"
+              zoom="zoom"></svg-canvas>
 </div>
 
 

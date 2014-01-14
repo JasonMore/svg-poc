@@ -19,14 +19,15 @@ describe('svgCanvas.js >', function() {
       };
 
       element = angular.element('<svg-canvas canvas="canvas"></svg-canvas>');
-      controller = $controller('svgCanvasController', {$scope: scope, $element: element});
+      controller = $controller('svgCanvasCtrl', {$scope: scope, $element: element});
       $compile(element)(scope);
       scope.$digest();
     }));
 
-    it('creates svg element', function() {
-      console.log(element);
+    it('template creates svg element', function() {
       expect(element[0].nodeName).toBe('svg');
     });
+
+
   });
 });

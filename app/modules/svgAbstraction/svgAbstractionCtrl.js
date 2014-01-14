@@ -31,7 +31,7 @@
       $scope.showSettingsMenu = false;
       $scope.showDataMenu = false;
       $scope.selectedShape = null;
-      $scope.shadowShape = null;
+//      $scope.shadowShape = null;
       $scope.shapeToDraw = null;
       $scope.shapePaths = shapePaths.list;
       $scope.shapeKeyValues = shapePaths.keyValues;
@@ -40,68 +40,9 @@
       $scope.templatedShapes = {};
       $scope.openShapeMenu = false;
       $scope.sideMenuOpen = true;
-      $scope.leftSubmenu = null;
+//      $scope.leftSubmenu = null;
 
-      $scope.canvas = {
-        shapes: $scope.shapes,
-        computedShapes: computedShapes,
-        template: $scope.template,
-        zoom: 1
-      };
-
-      $scope.colorOptions = [
-        {id: 'red', name: 'Red'},
-        {id: 'yellow', name: 'Yellow'},
-        {id: 'green', name: 'Green'},
-        {id: 'blue', name: 'Blue'},
-        {id: 'white', name: 'White'},
-        {id: 'gray', name: 'Gray'},
-        {id: 'black', name: 'Black'},
-        {id: 'none', name: '-- None -- '}
-      ];
-
-      $scope.strokeWidthOptions = [
-        {id: 1, name: '1'},
-        {id: 2, name: '2'},
-        {id: 3, name: '3'},
-        {id: 4, name: '4'},
-        {id: 5, name: '5'},
-        {id: 6, name: '6'},
-        {id: 7, name: '7'},
-        {id: 8, name: '8'},
-        {id: 9, name: '9'},
-        {id: 10, name: '10'},
-        {id: 11, name: '11'},
-        {id: 12, name: '12'},
-        {id: 13, name: '13'},
-        {id: 14, name: '14'}
-      ];
-
-      $scope.fontSizeOptions = [
-        {id: '8.0', name: '8'},
-        {id: '9.0', name: '9'},
-        {id: '10.0', name: '10'},
-        {id: '11.0', name: '11'},
-        {id: '12.0', name: '12'},
-        {id: '13.0', name: '13'},
-        {id: '14.0', name: '14'},
-        {id: '18.0', name: '18'},
-        {id: '24.0', name: '24'},
-        {id: '30.0', name: '30'},
-        {id: '36.0', name: '36'},
-        {id: '48.0', name: '48'},
-        {id: '60.0', name: '60'},
-        {id: '72.0', name: '72'},
-        {id: '96.0', name: '96'}
-      ];
-
-      $scope.fontFamilyOptions = [
-        {id: 'Arial', name: 'Arial'},
-        {id: 'Cambria', name: 'Cambria'},
-        {id: 'Consolas', name: 'Consolas'},
-        {id: 'Verdana', name: 'Verdana'},
-        {id: 'Code39Azalea', name: 'Barcode 39'}
-      ];
+      $scope.zoom=1;
 
       // watches
       $scope.$watch(function () {
@@ -215,18 +156,12 @@
 
         // when creating a new shape, its not always drawn yet
         $timeout(function () {
-          var modelCopy = angular.copy(shape.model);
-          $scope.shadowShape = shapeViewModelService.create(modelCopy);
+//          var modelCopy = angular.copy(shape.model);
+//          $scope.shadowShape = shapeViewModelService.create(modelCopy);
           $scope.selectedShape = shape;
           $scope.shapeToDraw = null;
         })
       };
-
-      function createShadowShape(shape) {
-        var modelCopy = angular.copy(shape.model);
-        var modelFn = function() { return modelCopy;};
-        return ;
-      }
 
       $scope.deleteShape = function (selectedShape) {
         moveShapesAboveDownOneInOrder(selectedShape);
@@ -234,9 +169,9 @@
         liveShapes.del(selectedShape.model.id);
       };
 
-      $scope.canDragShape = function (shape) {
-        return !$scope.mergeDataId;
-      };
+//      $scope.canDragShape = function (shape) {
+//        return !$scope.mergeDataId;
+//      };
 
       $scope.drawShape = function (shape) {
         $scope.openMenu('close');
@@ -256,7 +191,7 @@
 
       $scope.unSelectShape = function () {
         $scope.openShapeMenu = false;
-        $scope.leftSubmenu = null;
+//        $scope.leftSubmenu = null;
 
         if (!$scope.selectedShape) {
           return;
@@ -268,7 +203,7 @@
 
         $scope.selectedShape.isEditingText = false;
         $scope.selectedShape.showPreviewImage = false;
-        $scope.shadowShape = null;
+//        $scope.shadowShape = null;
         $scope.selectedShape = null;
 
         $scope.openMenu('close');
@@ -353,14 +288,14 @@
         }
       };
 
-      $scope.closeSideMenu = function () {
-        if ($scope.leftSubmenu) {
-          $scope.leftSubmenu = null;
-          return;
-        }
-
-        $scope.sideMenuOpen = false;
-      };
+//      $scope.closeSideMenu = function () {
+//        if ($scope.leftSubmenu) {
+//          $scope.leftSubmenu = null;
+//          return;
+//        }
+//
+//        $scope.sideMenuOpen = false;
+//      };
 
       var bindingViewMap = {
         'background': 'color',
@@ -419,15 +354,13 @@
       };
 
       // computed
-      function computedShapes() {
+      $scope.computedShapes = function computedShapes() {
         if ($scope.mergeDataId) {
           return $scope.templatedShapes;
         }
 
         return $scope.shapes;
-      }
-
-      $scope.computedShapes = computedShapes;;
+      };
 
       $scope.shapeType = function () {
         if ($scope.shapeToDraw) {
@@ -467,13 +400,13 @@
         $scope.unSelectShape();
       });
 
-      $scope.$on('shapeDoneResizing', function($event) {
-        _.merge($scope.selectedShape.model, $scope.shadowShape.model)
-      });
-
-      $scope.$on('shapeDoneDragging', function($event) {
-        _.merge($scope.selectedShape.model, $scope.shadowShape.model)
-      });
+//      $scope.$on('shapeDoneResizing', function($event) {
+//        _.merge($scope.selectedShape.model, $scope.shadowShape.model)
+//      });
+//
+//      $scope.$on('shapeDoneDragging', function($event) {
+//        _.merge($scope.selectedShape.model, $scope.shadowShape.model)
+//      });
 
       // keyboard shortcuts
 

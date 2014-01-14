@@ -1,3 +1,19 @@
+describe('selectionBox.js >', function() {
+  beforeEach(module('preloadAllHtmlTemplates'));
+  beforeEach(module('svgAbstraction'));
+
+  describe('init >', function() {
+    var scope, element;
+
+    beforeEach(inject(function($rootScope, $compile) {
+      scope = $rootScope.$new();
+      element = angular.element('<svg-canvas></svg-canvas>');
+      $compile(element)(scope);
+    }));
+
+  });
+});
+
 xdescribe('selectionBoxSpec.js', function () {
   var
 //    mock,
@@ -120,7 +136,7 @@ xdescribe('selectionBoxSpec.js', function () {
   });
 
   
-  describe('when there is a selected shape', function () {
+  xdescribe('when there is a selected shape', function () {
     beforeEach(function () {
       scope.selectedShape = scope.shapes['abc123'];
       scope.$digest();
@@ -137,7 +153,7 @@ xdescribe('selectionBoxSpec.js', function () {
     });
   });
 
-  describe('when resizing square', function () {
+  xdescribe('when resizing square', function () {
     var act,
       corner,
       move;
