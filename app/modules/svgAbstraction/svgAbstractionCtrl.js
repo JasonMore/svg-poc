@@ -26,6 +26,7 @@
       }
 
       // properties
+
       $scope.showDrawMenu = false;
       $scope.showSettingsMenu = false;
       $scope.showDataMenu = false;
@@ -35,14 +36,18 @@
       $scope.shapePaths = shapePaths.list;
       $scope.shapeKeyValues = shapePaths.keyValues;
       $scope.shapes = {};
-      $scope.zoom = 1;
       $scope.mergeDataId = null;
       $scope.templatedShapes = {};
       $scope.openShapeMenu = false;
       $scope.sideMenuOpen = true;
       $scope.leftSubmenu = null;
-      $scope.menuTop = 0;
-      $scope.menuLeft = 0;
+
+      $scope.canvas = {
+        shapes: $scope.shapes,
+        computedShapes: computedShapes,
+        template: $scope.template,
+        zoom: 1
+      };
 
       $scope.colorOptions = [
         {id: 'red', name: 'Red'},
@@ -185,11 +190,10 @@
       }, true);
 
       // actions
-
-      $scope.shapeClick = function (shape) {
+      $scope.$on('shapeClick', function shapeClick(event, shape) {
         $scope.openShapeMenu = false;
         $scope.setSelectedShape(shape);
-      };
+      });
 
       $scope.setSelectedShape = function (shape) {
         if ($scope.selectedShape === shape || $scope.mergeDataId) {
@@ -245,6 +249,10 @@
           $scope.shapeToDraw = shape;
         }
       };
+
+      $scope.$on('unSelectShape',function() {
+        $scope.unSelectShape();
+      });
 
       $scope.unSelectShape = function () {
         $scope.openShapeMenu = false;
@@ -411,13 +419,15 @@
       };
 
       // computed
-      $scope.computedShapes = function () {
+      function computedShapes() {
         if ($scope.mergeDataId) {
           return $scope.templatedShapes;
         }
 
         return $scope.shapes;
-      };
+      }
+
+      $scope.computedShapes = computedShapes;;
 
       $scope.shapeType = function () {
         if ($scope.shapeToDraw) {
