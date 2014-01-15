@@ -1,14 +1,16 @@
 (function () {
   angular.module('svgAbstraction.directives')
     .directive('drawingSurface', function ($compile, pathService, uuidService, shapePaths, svgReferenceService) {
+
+      // since svgReferenceService.svg is null initially, this helper method
+      // lets me have a local var svg I can call
       var svg = function() {
         return svgReferenceService.svg;
       };
 
       return {
         scope: {
-          whenDone: '&',
-          shape: '='
+          shapeToDraw: '=shape'
         },
         controller: function ($scope) {
           resetSelectionBox($scope);
@@ -60,7 +62,7 @@
         }
 
         function endDrag() {
-          var shape = svg().path(shapePaths.keyValues[$scope.shape]);
+          var shape = svg().path(shapePaths.keyValues[$scope.shapeToDraw.key]);
 
           var selectionBox = pathService.getSelectionBox(shape);
           var scaleX = $scope.$parent.width / selectionBox.width;
@@ -91,7 +93,7 @@
           };
 
           $scope.$apply(function () {
-            $scope.whenDone({shape: newShape});
+            $scope.$emit('shapeDrawn', newShape);
             resetSelectionBox($scope);
           });
 

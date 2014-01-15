@@ -1,4 +1,6 @@
-<div ng-include="'modules/svgAbstraction/svgTopNav.html'"></div>
+<!--<div ng-include="'modules/svgAbstraction/svgTopNav.html'"></div>-->
+<svg-canvas-top-menu is-datamode="dataMode"
+                     shape-to-draw="shapeToDraw"></svg-canvas-top-menu>
 <!--<div ng-include="'modules/svgAbstraction/svgShapeMenu.html'"></div>-->
 <!--<div ng-include="'modules/svgAbstraction/svgLeftMenu.html'"></div>-->
 <svg-canvas-left-menu is-open="sideMenuOpen"
@@ -12,6 +14,7 @@
               shapes="shapes"
               computed-shapes="computedShapes"
               selected-shape="selectedShape"
+              shape-to-draw="shapeToDraw"
               zoom="zoom"></svg-canvas>
 </div>
 

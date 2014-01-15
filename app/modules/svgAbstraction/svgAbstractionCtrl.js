@@ -1,6 +1,6 @@
 (function() {
   angular.module('svgAbstraction.controllers')
-    .controller('svgAbstractionCtrl', function($scope, $stateParams, $timeout, shapePaths, shapeViewModelService, liveResource, textReflowService, dotNotation, $modal, dataMergeService) {
+    .controller('svgAbstractionCtrl', function($scope, $stateParams, $timeout, shapeViewModelService, liveResource, textReflowService, dotNotation, $modal, dataMergeService) {
       window.debugScope = $scope;
 
       // load data
@@ -27,13 +27,13 @@
 
       // properties
 
-      $scope.showDrawMenu = false;
-      $scope.showSettingsMenu = false;
-      $scope.showDataMenu = false;
+//      $scope.showDrawMenu = false;
+//      $scope.showSettingsMenu = false;
+//      $scope.showDataMenu = false;
       $scope.selectedShape = null;
       $scope.shapeToDraw = null;
-      $scope.shapePaths = shapePaths.list;
-      $scope.shapeKeyValues = shapePaths.keyValues;
+//      $scope.shapePaths = shapePaths.list;
+//      $scope.shapeKeyValues = shapePaths.keyValues;
       $scope.shapes = {};
       $scope.mergeDataId = null;
       $scope.templatedShapes = {};
@@ -130,33 +130,33 @@
       // actions
       $scope.$on('shapeClick', function shapeClick(event, shape) {
         $scope.openShapeMenu = false;
-        $scope.setSelectedShape(shape);
+//        $scope.setSelectedShape(shape);
       });
 
-      $scope.setSelectedShape = function(shape) {
-        if ($scope.selectedShape === shape || $scope.mergeDataId) {
-          return;
-        }
-
-        // sent a model instead of viewmodel
-        if (!shape.model) {
-          $timeout(function() {
-            var viewModel = _.find($scope.shapes, function(viewModel) {
-              return viewModel.model.id === shape.id;
-            });
-            $scope.setSelectedShape(viewModel);
-          });
-          return;
-        }
-
-        $scope.unSelectShape();
-
-        // when creating a new shape, its not always drawn yet
-        $timeout(function() {
-          $scope.selectedShape = shape;
-          $scope.shapeToDraw = null;
-        })
-      };
+//      $scope.setSelectedShape = function(shape) {
+//        if ($scope.selectedShape === shape || $scope.mergeDataId) {
+//          return;
+//        }
+//
+//        // sent a model instead of viewmodel
+//        if (!shape.model) {
+//          $timeout(function() {
+//            var viewModel = _.find($scope.shapes, function(viewModel) {
+//              return viewModel.model.id === shape.id;
+//            });
+//            $scope.setSelectedShape(viewModel);
+//          });
+//          return;
+//        }
+//
+//        $scope.unSelectShape();
+//
+//        // when creating a new shape, its not always drawn yet
+//        $timeout(function() {
+//          $scope.selectedShape = shape;
+//          $scope.shapeToDraw = null;
+//        })
+//      };
 
       $scope.deleteShape = function(selectedShape) {
         moveShapesAboveDownOneInOrder(selectedShape);
@@ -168,17 +168,17 @@
         return !$scope.mergeDataId;
       };
 
-      $scope.drawShape = function(shape) {
-        $scope.openMenu('close');
-        $scope.unSelectShape();
-
-        // if they click the button twice, undo
-        if ($scope.shapeToDraw === shape) {
-          $scope.shapeToDraw = null;
-        } else {
-          $scope.shapeToDraw = shape;
-        }
-      };
+//      $scope.drawShape = function(shape) {
+//        $scope.openMenu('close');
+//        $scope.unSelectShape();
+//
+//        // if they click the button twice, undo
+//        if ($scope.shapeToDraw === shape) {
+//          $scope.shapeToDraw = null;
+//        } else {
+//          $scope.shapeToDraw = shape;
+//        }
+//      };
 
       $scope.$on('unSelectShape', function() {
         $scope.unSelectShape();
@@ -205,12 +205,19 @@
         updateAllTextReflows();
       };
 
-      $scope.shapeDrawn = function(shape) {
+      $scope.$on('shapeDrawn', function(event, shape){
         shape.order = nextOrderNumber();
 
         liveShapes.add(shape);
-        $scope.setSelectedShape(shape);
-      };
+//        $scope.setSelectedShape(shape);
+      });
+
+//      $scope.shapeDrawn = function(shape) {
+//        shape.order = nextOrderNumber();
+//
+//        liveShapes.add(shape);
+//        $scope.setSelectedShape(shape);
+//      };
 
       $scope.fontSize = function(addHowMuch) {
         addHowMuch = parseInt(addHowMuch);
@@ -233,8 +240,10 @@
         $scope.copiedShapeModel.order = nextOrderNumber();
 
         liveShapes.add($scope.copiedShapeModel);
-        $scope.setSelectedShape($scope.copiedShapeModel);
-//        $scope.copyCurrentShape();
+
+        //TODO: figure out how to set selected shape after paste
+//        $scope.setSelectedShape($scope.copiedShapeModel);
+
         $scope.copiedShapeModel = null;
       };
 
@@ -243,27 +252,27 @@
         $scope.$broadcast('submitSvgToBatik');
       };
 
-      $scope.openMenu = function(menu) {
-        var oldVal = $scope[menu];
-
-        $scope.showDrawMenu = false;
-        $scope.showSettingsMenu = false;
-        $scope.showDataMenu = false;
-
-        if (menu !== 'close') {
-          $scope[menu] = !oldVal;
-        }
-
-        //HACK
-        $timeout(function() {
-          if (oldVal) {
-            updateAllTextReflows();
-          }
-
-        }, 200)
-
-
-      };
+//      $scope.openMenu = function(menu) {
+//        var oldVal = $scope[menu];
+//
+//        $scope.showDrawMenu = false;
+//        $scope.showSettingsMenu = false;
+//        $scope.showDataMenu = false;
+//
+//        if (menu !== 'close') {
+//          $scope[menu] = !oldVal;
+//        }
+//
+//        //HACK
+//        $timeout(function() {
+//          if (oldVal) {
+//            updateAllTextReflows();
+//          }
+//
+//        }, 200)
+//
+//
+//      };
 
       $scope.mergeData = function(id) {
         $scope.mergeDataId = id;
@@ -346,37 +355,37 @@
         return $scope.shapes;
       };
 
-      $scope.shapeType = function() {
-        if ($scope.shapeToDraw) {
-          return $scope.shapeToDraw.key;
-        }
-      };
+//      $scope.shapeType = function() {
+//        if ($scope.shapeToDraw) {
+//          return $scope.shapeToDraw.key;
+//        }
+//      };
 
       $scope.isDrawing = function() {
         return _.isObject($scope.shapeToDraw);
       };
 
-      $scope.isActiveShape = function(shape) {
-        return $scope.shapeToDraw === shape;
-      };
+//      $scope.isActiveShape = function(shape) {
+//        return $scope.shapeToDraw === shape;
+//      };
 
-      $scope.showShapeMenu = function() {
-        if (!$scope.openShapeMenu) {
-          return false;
-        }
-
-        var shape = $scope.selectedShape;
-
-        if (shape.isDragging || shape.isResizing) {
-          return false;
-        }
-
-        if ($scope.showDrawMenu || $scope.showSettingsMenu || $scope.showDataMenu) {
-          return false;
-        }
-
-        return true;
-      };
+//      $scope.showShapeMenu = function() {
+//        if (!$scope.openShapeMenu) {
+//          return false;
+//        }
+//
+//        var shape = $scope.selectedShape;
+//
+//        if (shape.isDragging || shape.isResizing) {
+//          return false;
+//        }
+//
+//        if ($scope.showDrawMenu || $scope.showSettingsMenu || $scope.showDataMenu) {
+//          return false;
+//        }
+//
+//        return true;
+//      };
 
       // events
 
