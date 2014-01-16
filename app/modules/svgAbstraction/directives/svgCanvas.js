@@ -7,7 +7,6 @@
         replace: true,
         scope: {
           template: '=',
-          shapes: '=',
           computedShapes: '=',
           selectedShape: '=',
           shapeToDraw: '=',
@@ -32,10 +31,10 @@
           return;
         }
 
-        // sent a model instead of viewmodel
+        // sent a model instead of viewmodel when shape was created
         if (!shape.model) {
           $timeout(function() {
-            var viewModel = _.find($scope.shapes, function(viewModel) {
+            var viewModel = _.find($scope.computedShapes(), function(viewModel) {
               return viewModel.model.id === shape.id;
             });
 
@@ -57,10 +56,6 @@
           $scope.shapeToDraw = null;
         })
       };
-
-      $scope.$on('shapeDrawn', function(event, shape){
-        $scope.setSelectedShape(shape);
-      });
 
       // Functions
       $scope.canDragShape = function (shape) {
@@ -113,6 +108,8 @@
         _.merge($scope.selectedShape.model, $scope.shadowShape.model);
       });
 
-//      $scope.$on('shapeDrawn')
+      $scope.$on('shapeDrawn', function(event, shape){
+        $scope.setSelectedShape(shape);
+      });
     });
 }());

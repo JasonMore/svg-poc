@@ -11,7 +11,7 @@
 <rect ng-click="unSelectShape()"
       x="0" y="0" width="100%" height="100%" fill="white"></rect>
 
-<defs ng-repeat="viewModel in shapes">
+<defs ng-repeat="viewModel in computedShapes()">
 
   <!--shape clip path-->
   <clipPath id="{{viewModel.model.id + '_clipPath'}}"
