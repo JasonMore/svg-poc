@@ -13,6 +13,8 @@
       };
     })
     .controller('svgCanvasLeftMenuCtrl', function($scope) {
+      window.debugLeftMenuCtrl = $scope;
+
       // Properties
       $scope.leftSubmenu = null;
 

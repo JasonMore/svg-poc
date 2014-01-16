@@ -37,7 +37,7 @@
       $scope.shapes = {};
       $scope.mergeDataId = null;
       $scope.templatedShapes = {};
-      $scope.openShapeMenu = false;
+//      $scope.openShapeMenu = false;
       $scope.sideMenuOpen = true;
       $scope.zoom = 1;
 
@@ -129,7 +129,7 @@
 
       // actions
       $scope.$on('shapeClick', function shapeClick(event, shape) {
-        $scope.openShapeMenu = false;
+//        $scope.openShapeMenu = false;
 //        $scope.setSelectedShape(shape);
       });
 
@@ -160,8 +160,9 @@
 
       $scope.deleteShape = function(selectedShape) {
         moveShapesAboveDownOneInOrder(selectedShape);
-        $scope.unSelectShape();
+//        $scope.unSelectShape();
         liveShapes.del(selectedShape.model.id);
+        $scope.$broadcast('shapeDeleted', selectedShape);
       };
 
       $scope.canDragShape = function(shape) {
@@ -282,17 +283,17 @@
         $scope.mergeDataId = id;
       };
 
-      $scope.shapeMenuOpen = function($event, toggle) {
-        $scope.menuTop = $event.pageY + 10;
-        $scope.menuLeft = $event.pageX + 10;
-
-        if (toggle) {
-          $scope.openShapeMenu = !$scope.openShapeMenu;
-        }
-        else {
-          $scope.openShapeMenu = true;
-        }
-      };
+//      $scope.shapeMenuOpen = function($event, toggle) {
+//        $scope.menuTop = $event.pageY + 10;
+//        $scope.menuLeft = $event.pageX + 10;
+//
+//        if (toggle) {
+//          $scope.openShapeMenu = !$scope.openShapeMenu;
+//        }
+//        else {
+//          $scope.openShapeMenu = true;
+//        }
+//      };
 
       var bindingViewMap = {
         'background': 'color',
@@ -393,9 +394,9 @@
 
       // events
 
-      $scope.$on('blankSpaceOnBodyClicked', function($event) {
+//      $scope.$on('blankSpaceOnBodyClicked', function($event) {
 //        $scope.unSelectShape();
-      });
+//      });
 
       // keyboard shortcuts
 

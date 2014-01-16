@@ -58,14 +58,6 @@
         })
       };
 
-//      $scope.shapeDrawn = function(shape) {
-//        $scope.$emit('shapeDrawn', shape);
-//        shape.order = nextOrderNumber();
-//
-//        liveShapes.add(shape);
-//        $scope.setSelectedShape(shape);
-//      };
-
       $scope.$on('shapeDrawn', function(event, shape){
         $scope.setSelectedShape(shape);
       });
@@ -76,10 +68,7 @@
         return !$scope.mergeDataId;
       };
 
-      // Computed
-
-      // Clicks
-      $scope.unSelectShape = function unSelectShape() {
+      function unSelectShape() {
         $scope.shadowShape = null;
 
         if (!$scope.selectedShape) {
@@ -90,7 +79,12 @@
         $scope.selectedShape.showPreviewImage = false;
         $scope.selectedShape = null;
         $scope.$emit('unSelectShape');
-      };
+      }
+
+      // Computed
+
+      // Clicks
+      $scope.unSelectShape = unSelectShape;
 
       $scope.shapeClick = function shapeClick(viewModel) {
         $scope.setSelectedShape(viewModel);
@@ -106,13 +100,10 @@
       });
 
       // events
-      $scope.$on('blankSpaceOnBodyClicked', function($event){
-        $scope.unSelectShape();
-      });
-
-      $scope.$on('shapePickedForDrawing', function($event, shapeForDrawing){
-        $scope.unSelectShape();
-      });
+      $scope.$on('blankSpaceOnBodyClicked',unSelectShape);
+      $scope.$on('shapePickedForDrawing', unSelectShape);
+      $scope.$on('behindCanvasClick', unSelectShape);
+      $scope.$on('shapeDeleted', unSelectShape);
 
       $scope.$on('shapeDoneResizing', function($event) {
         _.merge($scope.selectedShape.model, $scope.shadowShape.model);
