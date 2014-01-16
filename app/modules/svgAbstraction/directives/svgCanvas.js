@@ -81,6 +81,14 @@
       // Clicks
       $scope.unSelectShape = function unSelectShape() {
         $scope.shadowShape = null;
+
+        if (!$scope.selectedShape) {
+          return;
+        }
+
+        $scope.selectedShape.isEditingText = false;
+        $scope.selectedShape.showPreviewImage = false;
+        $scope.selectedShape = null;
         $scope.$emit('unSelectShape');
       };
 
@@ -98,16 +106,20 @@
       });
 
       // events
+      $scope.$on('blankSpaceOnBodyClicked', function($event){
+        $scope.unSelectShape();
+      });
+
+      $scope.$on('shapePickedForDrawing', function($event, shapeForDrawing){
+        $scope.unSelectShape();
+      });
+
       $scope.$on('shapeDoneResizing', function($event) {
         _.merge($scope.selectedShape.model, $scope.shadowShape.model);
       });
 
       $scope.$on('shapeDoneDragging', function($event) {
         _.merge($scope.selectedShape.model, $scope.shadowShape.model);
-      });
-
-      $scope.$on('shapePickedForDrawing', function($event, shapeForDrawing){
-        $scope.unSelectShape();
       });
 
 //      $scope.$on('shapeDrawn')

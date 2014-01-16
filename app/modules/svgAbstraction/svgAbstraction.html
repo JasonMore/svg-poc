@@ -4,11 +4,12 @@
 <!--<div ng-include="'modules/svgAbstraction/svgShapeMenu.html'"></div>-->
 <!--<div ng-include="'modules/svgAbstraction/svgLeftMenu.html'"></div>-->
 <svg-canvas-left-menu is-open="sideMenuOpen"
+                      selected-shape="selectedShape"
                       template="template"></svg-canvas-left-menu>
 
 <div class="wrapper"
      ng-class="{'side-menu-open':sideMenuOpen}"
-     ng-click-stop="unSelectShape()">
+     ng-click-stop="behindCanvasClick()">
 
   <svg-canvas template="template"
               shapes="shapes"

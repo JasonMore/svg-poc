@@ -181,25 +181,29 @@
 //      };
 
       $scope.$on('unSelectShape', function() {
-        $scope.unSelectShape();
+        // HACK
+        updateAllTextReflows();
       });
 
-      $scope.unSelectShape = function() {
-        $scope.openShapeMenu = false;
 
-        if (!$scope.selectedShape) {
-          return;
-        }
+      $scope.behindCanvasClick = function() {
+        // when the background behind canvas is clicked, let everyone know
+        $scope.$broadcast('behindCanvasClick');
+//        $scope.openShapeMenu = false;
+//
+//        if (!$scope.selectedShape) {
+//          return;
+//        }
+//
+//        if ($scope.selectedShape.isEditingText) {
+//          updateAllTextReflows();
+//        }
+//
+//        $scope.selectedShape.isEditingText = false;
+//        $scope.selectedShape.showPreviewImage = false;
+//        $scope.selectedShape = null;
 
-        if ($scope.selectedShape.isEditingText) {
-          updateAllTextReflows();
-        }
-
-        $scope.selectedShape.isEditingText = false;
-        $scope.selectedShape.showPreviewImage = false;
-        $scope.selectedShape = null;
-
-        $scope.openMenu('close');
+//        $scope.openMenu('close');
 
         // HACK
         updateAllTextReflows();
@@ -390,7 +394,7 @@
       // events
 
       $scope.$on('blankSpaceOnBodyClicked', function($event) {
-        $scope.unSelectShape();
+//        $scope.unSelectShape();
       });
 
       // keyboard shortcuts
@@ -401,7 +405,7 @@
             $scope.mergeDataId = null;
           }
 
-          $scope.unSelectShape();
+//          $scope.unSelectShape();
         });
       });
 

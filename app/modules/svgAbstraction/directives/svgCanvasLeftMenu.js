@@ -7,16 +7,19 @@
         controller: 'svgCanvasLeftMenuCtrl',
         scope: {
           sideMenuOpen: '=isOpen',
+          selectedShape: '=',
           template: '='
         }
       };
     })
     .controller('svgCanvasLeftMenuCtrl', function($scope) {
-      // properties
+      // Properties
       $scope.leftSubmenu = null;
 
       // text
       // open/close
+
+      // Actions
 
       $scope.closeSideMenu = function () {
         if ($scope.leftSubmenu) {
@@ -27,8 +30,7 @@
         $scope.sideMenuOpen = false;
       };
 
-      // submenus
-
+      // Events
 
       $scope.$on('unSelectShape',function() {
         $scope.leftSubmenu = null;
