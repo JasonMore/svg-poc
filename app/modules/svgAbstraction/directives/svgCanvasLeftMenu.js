@@ -8,11 +8,12 @@
         scope: {
           sideMenuOpen: '=isOpen',
           selectedShape: '=',
-          template: '='
+          template: '=',
+          liveTemplate:'='
         }
       };
     })
-    .controller('svgCanvasLeftMenuCtrl', function($scope) {
+    .controller('svgCanvasLeftMenuCtrl', function($scope, $modal) {
       window.debugLeftMenuCtrl = $scope;
 
       // Properties
@@ -39,6 +40,54 @@
       });
 
       // binding modal windows
+      var bindingViewMap = {
+        'background': 'color',
+        'borderColor': 'color',
+        'fontColor': 'color',
+        'image': 'image'
+      };
+
+      $scope.openBindingsWindow = function(selectedShape, property) {
+        if (!selectedShape.model.fieldBindings[property]) {
+          selectedShape.model.fieldBindings[property] = {
+            boundTo: '',
+            bindings: {}
+          };
+        }
+
+        var fieldBinding = selectedShape.model.fieldBindings[property];
+        var vocabularyGroups = $scope.vocabularyGroups;
+        var bindingsKey = ['shapes', selectedShape.model.id, 'fieldBindings', property, 'bindings'].join('.');
+        var liveBindings = $scope.liveTemplate.scope(bindingsKey);
+
+        var modalInstance = $modal.open({
+          templateUrl: 'modules/svgAbstraction/bindingViews/' + bindingViewMap[property] + '.html',
+          controller: function($scope, $modalInstance) {
+            $scope.fieldBinding = fieldBinding;
+            $scope.vocabularyGroups = vocabularyGroups;
+
+            $scope.addNewBinding = function() {
+              liveBindings.add({type: 'eq', fieldValue: '', overrideValue: ''});
+            };
+
+            $scope.removeBinding = function(binding) {
+              liveBindings.del(binding.id);
+            };
+
+            $scope.save = function() {
+              $modalInstance.close();
+            };
+
+            $scope.cancel = function() {
+              $modalInstance.dismiss('cancel');
+            };
+          }
+        });
+
+        modalInstance.result.then(function(template) {
+
+        });
+      };
 
       // fonts / colors
       $scope.colorOptions = [

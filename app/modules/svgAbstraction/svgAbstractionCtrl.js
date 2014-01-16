@@ -6,6 +6,7 @@
       // load data
       var templateKey = 'templates.' + $stateParams.id;
       var liveTemplate = liveResource(templateKey);
+      $scope.liveTemplate = liveTemplate;
       $scope.template = liveTemplate.subscribe();
 
       var liveStudents = liveResource('students');
@@ -191,61 +192,61 @@
         $scope.mergeDataId = id;
       };
 
-      var bindingViewMap = {
-        'background': 'color',
-        'borderColor': 'color',
-        'fontColor': 'color',
-        'image': 'image'
-      };
+//      var bindingViewMap = {
+//        'background': 'color',
+//        'borderColor': 'color',
+//        'fontColor': 'color',
+//        'image': 'image'
+//      };
 
-      $scope.openBindingsWindow = function(selectedShape, property) {
-        if (!selectedShape.model.fieldBindings[property]) {
-          selectedShape.model.fieldBindings[property] = {
-            boundTo: '',
-            bindings: {}
-          };
-        }
-
-        var fieldBinding = selectedShape.model.fieldBindings[property];
-        var vocabularyGroups = $scope.vocabularyGroups;
-        var bindingsKey = ['shapes', selectedShape.model.id, 'fieldBindings', property, 'bindings'].join('.');
-        var liveBindings = liveTemplate.scope(bindingsKey);
-
-        var modalInstance = $modal.open({
-          templateUrl: 'modules/svgAbstraction/bindingViews/' + bindingViewMap[property] + '.html',
-          controller: function($scope, $modalInstance) {
-//            $scope.isNew = template ? false : true;
-//            $scope.template = template || {};
-
-            $scope.fieldBinding = fieldBinding;
-            $scope.vocabularyGroups = vocabularyGroups;
-
-            $scope.addNewBinding = function() {
-              liveBindings.add({type: 'eq', fieldValue: '', overrideValue: ''});
-            };
-
-            $scope.removeBinding = function(binding) {
-              liveBindings.del(binding.id);
-            };
-
-            $scope.save = function() {
-              $modalInstance.close();
-            };
-
-            $scope.cancel = function(isNew) {
-              $modalInstance.dismiss('cancel');
-            };
-          }
-        });
-
-        modalInstance.result.then(function(template) {
-//          if(!template.id){
-//            template.templateType = $scope.templateType.id;
-//            template.created = new Date();
-//            liveTemplates.add(template);
+//      $scope.openBindingsWindow = function(selectedShape, property) {
+//        if (!selectedShape.model.fieldBindings[property]) {
+//          selectedShape.model.fieldBindings[property] = {
+//            boundTo: '',
+//            bindings: {}
+//          };
+//        }
+//
+//        var fieldBinding = selectedShape.model.fieldBindings[property];
+//        var vocabularyGroups = $scope.vocabularyGroups;
+//        var bindingsKey = ['shapes', selectedShape.model.id, 'fieldBindings', property, 'bindings'].join('.');
+//        var liveBindings = liveTemplate.scope(bindingsKey);
+//
+//        var modalInstance = $modal.open({
+//          templateUrl: 'modules/svgAbstraction/bindingViews/' + bindingViewMap[property] + '.html',
+//          controller: function($scope, $modalInstance) {
+////            $scope.isNew = template ? false : true;
+////            $scope.template = template || {};
+//
+//            $scope.fieldBinding = fieldBinding;
+//            $scope.vocabularyGroups = vocabularyGroups;
+//
+//            $scope.addNewBinding = function() {
+//              liveBindings.add({type: 'eq', fieldValue: '', overrideValue: ''});
+//            };
+//
+//            $scope.removeBinding = function(binding) {
+//              liveBindings.del(binding.id);
+//            };
+//
+//            $scope.save = function() {
+//              $modalInstance.close();
+//            };
+//
+//            $scope.cancel = function(isNew) {
+//              $modalInstance.dismiss('cancel');
+//            };
 //          }
-        });
-      };
+//        });
+//
+//        modalInstance.result.then(function(template) {
+////          if(!template.id){
+////            template.templateType = $scope.templateType.id;
+////            template.created = new Date();
+////            liveTemplates.add(template);
+////          }
+//        });
+//      };
 
       // computed
       $scope.computedShapes = function computedShapes() {
@@ -363,8 +364,5 @@
             shape.model.order -= 1;
           });
       }
-
     });
-
-
 }());
