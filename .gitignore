@@ -8,3 +8,4 @@ Test Results - karma-coverage_conf_js.html
 app/modules/.DS_Store
 dump.rdb
 node_modules/karma/*
+node_modules/karma-phantomjs-launcher/*

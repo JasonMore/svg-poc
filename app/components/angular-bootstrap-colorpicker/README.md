@@ -47,3 +47,13 @@ Position of the colorpicker (top, right, bottom, left).
 ```html
 <input colorpicker colorpicker-position="right" class="span2" type="text" ng-model="your_model" />
 ```
+
+Put the colorpicker is used in a fixed element.
+```html
+<input colorpicker colorpicker-fixed-position="true" class="span2" type="text" ng-model="your_model" />
+```
+
+When using fixed positioning, you can also put the picker into the parent element (this allows more styling control)
+```html
+<input colorpicker colorpicker-fixed-position="true" colorpicker-parent="true" class="span2" type="text" ng-model="your_model" />
+```

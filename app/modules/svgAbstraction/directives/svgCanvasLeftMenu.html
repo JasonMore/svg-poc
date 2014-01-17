@@ -56,6 +56,17 @@
     </div>
   </div>
 
+  <div class="form-group">
+    <label class="col-md-5 control-label">
+
+    </label>
+
+    <div class="col-md-7">
+      <button ng-click="exportPdf()"
+              class="btn btn-default">Create PDF</button>
+    </div>
+  </div>
+
 </form>
 <form ng-show="selectedShape && !leftSubmenu" class="form-horizontal" role="form">
   <div class="form-group">
@@ -69,6 +80,7 @@
       <button class="btn btn-default"
               ng-style="{'background-color':selectedShape.model.backgroundColor}"
               colorpicker="rgba"
+              colorpicker-fixed-position="true"
               ng-model="selectedShape.model.backgroundColor">
         <i class="fa fa-lg fa-tint"></i>
       </button>
@@ -95,6 +107,7 @@
       <button class="btn btn-default"
               ng-style="{'background-color':selectedShape.model.borderColor}"
               colorpicker="rgba"
+              colorpicker-fixed-position="true"
               ng-model="selectedShape.model.borderColor">
         <i class="fa fa-lg fa-tint"></i>
       </button>
@@ -135,6 +148,7 @@
       <button class="btn btn-default"
               ng-style="{'background-color':selectedShape.model.fontColor}"
               colorpicker="rgba"
+              colorpicker-fixed-position="true"
               ng-model="selectedShape.model.fontColor">
         <i class="fa fa-lg fa-tint"></i>
       </button>

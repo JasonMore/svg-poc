@@ -141,6 +141,17 @@
              ng-class="{noTextWrap: viewModel.model.wrapTextAround}"
              mask="url({{'#' + viewModel.model.id + '_previewImageMask'}})"></image>
       <!--shape outline-->
+<<<<<<< HEAD:app/modules/svgAbstraction/directives/svgCanvas.html
+      <use ng-href="{{'#' + viewModel.model.id}}"
+           xlink:href="{{'#' + viewModel.model.id}}"
+          fill="none"
+          stroke="{{viewModel.model.borderColor}}"
+          stroke-width="{{viewModel.model.borderWidth}}"
+          ng-mousedown="shapeClick(viewModel)"
+          ng-rightclick="shapeMenuOpen($event)"
+          ng-dblclick="viewModel.isEditingText = true"
+          ng-class="{noTextWrap: viewModel.model.wrapTextAround}"></use>
+=======
       <use xlink:href="{{'#' + viewModel.model.id}}"
            fill="none"
            stroke="{{viewModel.model.borderColor | rgbaToHex}}"
@@ -150,6 +161,7 @@
            ng-rightclick="shapeMenuOpen($event)"
            ng-dblclick="viewModel.isEditingText = true"
            ng-class="{noTextWrap: viewModel.model.wrapTextAround}"></use>
+>>>>>>> master:app/modules/svgAbstraction/svgCanvas.html
     </g>
     <!--shape text-->
     <text x=""
