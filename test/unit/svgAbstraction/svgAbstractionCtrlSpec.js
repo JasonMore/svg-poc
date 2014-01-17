@@ -12,4 +12,21 @@ describe('svgAbstractionCtrl.js >', function () {
     $scope = $rootScope;
     svgAbstractionCtrl = $controller('svgAbstractionCtrl', {$scope:$scope});
   }));
+
+  describe('copy current shape >', function() {
+    beforeEach(function() {
+//      $scope.selectedShape = {
+//        model
+//      }
+    });
+
+
+
+    it('makes a new copy of the selected shape');
+    it('deletes the id');
+  });
+
+
+
+
 });
