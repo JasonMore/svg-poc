@@ -1,8 +1,8 @@
-xdescribe('selectionBoxSpec.js', function () {
+describe('selectionBoxSpec.js >', function () {
   var
 //    mock,
-//    element,
-//    scope,
+    element,
+    scope,
     selectionBox,
     selectionBoxGroup,
     selectionBoxLine,
@@ -23,104 +23,121 @@ xdescribe('selectionBoxSpec.js', function () {
     });
   }));
 
-  beforeEach(inject(function ($rootScope, $compile, $timeout) {
-    timeout = $timeout;
-    element = angular.element('<ng-include src="\'modules/svgAbstraction/svgCanvas.html\'"></ng-include>');
-    scope = $rootScope;
-    $compile(element)(scope);
-  }));
+  xdescribe('init >', function() {
+    beforeEach(inject(function ($rootScope, $compile, $timeout) {
+      timeout = $timeout;
+      scope = $rootScope.$new();
 
+      scope.zoom = 1;
+      scope.template = {
+        width:100,
+        height:100
+      }
+
+      element = angular.element('<ng-include src="\'modules/svgAbstraction/svgCanvas.html\'"></ng-include>');
+
+      $compile(element)(scope);
+      scope.$digest()
+
+      console.log(element)
+    }));
+
+    it('creates the selection box', function() {
+      console.log(element)
+      expect(element.find('g[selection-box]').length).toBe(1)
+    });
+  });
+
+//  beforeEach(inject(function ($rootScope, $compile) {
+//    var model = {
+//      top: 100,
+//      left: 100,
+//      path: 'M0,0L100,0L100,100L0,100z',
+//      "width": 100,
+//      "height": 100,
+//      "rotation": 75,
+//      "backgroundColor": "gray",
+//      "borderColor": "black",
+//      "borderWidth": 4,
+//      "image": {
+//        "url": null,
+//        "top": 0,
+//        "left": 0,
+//        "width": 0,
+//        "height": 0,
+//        "rotation": 0
+//      },
+//      "id": "abc123",
+//      "order": 2,
+//      "text": "",
+//      "font": "Verdana",
+//      "fontSize": "12.0",
+//      "fontColor": "black",
+//      "wrapTextAround": true
+//    }
+//
+////    scope.shapes = {
+////      "abc123": vmService.create(function () {
+////        return 0;
+////      }, function () {
+////        return model;
+////      })};
+//
+//    scope.computedShapes = function() { return scope.shapes;}
+//
+//    scope.$digest();
+//    timeout.flush();
 //
 //
-  beforeEach(inject(function ($rootScope, $compile) {
-    var model = {
-      top: 100,
-      left: 100,
-      path: 'M0,0L100,0L100,100L0,100z',
-      "width": 100,
-      "height": 100,
-      "rotation": 75,
-      "backgroundColor": "gray",
-      "borderColor": "black",
-      "borderWidth": 4,
-      "image": {
-        "url": null,
-        "top": 0,
-        "left": 0,
-        "width": 0,
-        "height": 0,
-        "rotation": 0
-      },
-      "id": "abc123",
-      "order": 2,
-      "text": "",
-      "font": "Verdana",
-      "fontSize": "12.0",
-      "fontColor": "black",
-      "wrapTextAround": true
-    }
+////    element = angular.element(
+////      '<ng-svg style="height: 600px">' +
+////        ' <selection-box shape="selectedShape"></selection-box>' +
+////        '<ng-shape view-model="shape"' +
+////        ' draggable="canDragShape(shape)"' +
+////        ' when-click="setSelectedShape(shape)"' +
+////        ' ng-repeat="shape in shapes"' +
+////        '></ng-shape>' +
+////        '</ng-svg>');
+////
+////    scope = $rootScope;
+////    $compile(element)(scope);
+////
+////    scope.shapes = [
+////      {
+////        midPointX: 50,
+////        midPointY: 50,
+////        model: {
+////          top: 100,
+////          left: 100,
+////          rotation: 75,
+////          path: 'M0,0L100,0L100,100L0,100z',
+////          backgroundColor: 'gray',
+////          borderColor: 'black',
+////          borderWidth: 2
+////        }}
+////    ];
+//  }));
 
-    scope.shapes = {
-      "abc123": vmService.create(function () {
-        return 0;
-      }, function () {
-        return model;
-      })};
-
-    scope.computedShapes = function() { return scope.shapes;}
-
-    scope.$digest();
-    timeout.flush();
-
-
-//    element = angular.element(
-//      '<ng-svg style="height: 600px">' +
-//        ' <selection-box shape="selectedShape"></selection-box>' +
-//        '<ng-shape view-model="shape"' +
-//        ' draggable="canDragShape(shape)"' +
-//        ' when-click="setSelectedShape(shape)"' +
-//        ' ng-repeat="shape in shapes"' +
-//        '></ng-shape>' +
-//        '</ng-svg>');
-//
-//    scope = $rootScope;
-//    $compile(element)(scope);
-//
-//    scope.shapes = [
-//      {
-//        midPointX: 50,
-//        midPointY: 50,
-//        model: {
-//          top: 100,
-//          left: 100,
-//          rotation: 75,
-//          path: 'M0,0L100,0L100,100L0,100z',
-//          backgroundColor: 'gray',
-//          borderColor: 'black',
-//          borderWidth: 2
-//        }}
-//    ];
-  }));
-//
-  describe('when no selected shape', function () {
+  xdescribe('when no selected shape >', function () {
     beforeEach(function () {
       scope.selectedShape = null;
 
       scope.$digest();
-      selectionBoxGroup = element.find('g.selection g.selection');
+      selectionBoxGroup = element.find('g[selection-box]');
     });
 
     it('creates a selection box', function () {
+      console.log(element)
       expect(selectionBoxGroup.length).toEqual(1);
     });
 
-    it('selection box is not visible', function () {
+    xit('selection box is not visible', function () {
       expect(selectionBoxGroup.is(':visible')).toBeFalsy();
     });
   });
 
   
-  describe('when there is a selected shape', function () {
+  xdescribe('when there is a selected shape', function () {
     beforeEach(function () {
       scope.selectedShape = scope.shapes['abc123'];
       scope.$digest();
@@ -137,7 +154,7 @@ xdescribe('selectionBoxSpec.js', function () {
     });
   });
 
-  describe('when resizing square', function () {
+  xdescribe('when resizing square', function () {
     var act,
       corner,
       move;

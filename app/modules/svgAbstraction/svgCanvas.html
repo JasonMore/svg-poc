@@ -20,20 +20,21 @@
   </clipPath>
 
   <filter id="Bevel" filterUnits="objectBoundingBox" x="-10%" y="-10%" width="150%" height="150%">
-    <feGaussianBlur in="SourceAlpha" stdDeviation="0.5" result="blur" />
-    <feSpecularLighting in="blur" surfaceScale="5" specularConstant="0.5" specularExponent="10" result="specOut" lighting-color="white">
-      <fePointLight x="-5000" y="-10000" z="20000" />
+    <feGaussianBlur in="SourceAlpha" stdDeviation="0.5" result="blur"/>
+    <feSpecularLighting in="blur" surfaceScale="5" specularConstant="0.5" specularExponent="10" result="specOut"
+                        lighting-color="white">
+      <fePointLight x="-5000" y="-10000" z="20000"/>
     </feSpecularLighting>
-    <feComposite in="specOut" in2="SourceAlpha" operator="in" result="specOut2" />
-    <feComposite in="SourceGraphic" in2="specOut2" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="litPaint" />
+    <feComposite in="specOut" in2="SourceAlpha" operator="in" result="specOut2"/>
+    <feComposite in="SourceGraphic" in2="specOut2" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="litPaint"/>
   </filter>
 
   <filter id="{{viewModel.model.id + '_combinedFilter'}}"
           filterUnits="objectBoundingBox" x="-10%" y="-10%" width="150%" height="150%">
 
     <!--copy of source graphic-->
-    <feColorMatrix  type="matrix" in="SourceGraphic" result="endResult"
-                    values="1 0 0 0 0
+    <feColorMatrix type="matrix" in="SourceGraphic" result="endResult"
+                   values="1 0 0 0 0
                             0 1 0 0 0
                             0 0 1 0 0
                             0 0 0 1 0"/>
@@ -67,7 +68,7 @@
               dx="{{viewModel.model.shadow.offsetX}}"
               dy="{{viewModel.model.shadow.offsetY}}"/>
     <feGaussianBlur ng-if="viewModel.model.shadow.enabled"
-        result="blurOut" in="offOut" svg-attr-stddeviation="{{viewModel.model.shadow.density}}"/>
+                    result="blurOut" in="offOut" svg-attr-stddeviation="{{viewModel.model.shadow.density}}"/>
     <feBlend ng-if="viewModel.model.shadow.enabled"
              in="endResult" in2="blurOut" mode="normal"/>
   </filter>
@@ -108,7 +109,8 @@
               ng-class="{noTextWrap: viewModel.model.wrapTextAround}"></rect>
       </mask>
       <!--image clipped by shape-->
-      <g clip-path="url({{'#' + viewModel.model.id + '_clipPath'}})">
+      <g ng-if="viewModel.model.image.url"
+         clip-path="url({{'#' + viewModel.model.id + '_clipPath'}})">
         <image xlink:href="{{viewModel.model.image.url}}"
                ng-mousedown="shapeClick(viewModel)"
                ng-rightclick="shapeMenuOpen($event)"
@@ -123,7 +125,8 @@
                ng-class="{noTextWrap: viewModel.model.wrapTextAround}"></image>
       </g>
       <!-- full image -->
-      <image xlink:href="{{viewModel.model.image.url}}"
+      <image ng-if="viewModel.model.image.url"
+             xlink:href="{{viewModel.model.image.url}}"
              ng-attr-mask="url({{viewModel.urlRef('previewImageMask')}})"
              transform="rotate({{viewModel.model.image.rotation}},{{viewModel.imageMidPointX() + viewModel.imageLeft()}},{{viewModel.imageMidPointY() + viewModel.imageTop()}})"
              ng-show="viewModel.showPreviewImage"
@@ -339,7 +342,7 @@
   </g>
 </g>
 <!--<text x="50" y="200" fill="blue" font-family="Times New Roman" font-size="64" filter="url(#Bevel)">-->
-  <!--hello world-->
+<!--hello world-->
 <!--</text>-->
 </svg>
 

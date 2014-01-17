@@ -4,10 +4,10 @@
       return {
         restrict: 'E',
         templateUrl: 'modules/svgAbstraction/directives/batikUpload.html',
-        link: function ($scope, element, attr) {
+        link: function ($scope, el, attr) {
           $scope.$on('submitSvgToBatik', function () {
             el.find("textarea").val(svgReferenceService.svg.toSVG());
-            el.submit();
+            el.find('form').submit();
           })
         }
       }
