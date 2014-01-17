@@ -9,139 +9,153 @@
           sideMenuOpen: '=isOpen',
           selectedShape: '=',
           template: '=',
-          liveTemplate:'='
+          liveTemplate: '=',
+          vocabulary:'='
         }
       };
     })
-    .controller('svgCanvasLeftMenuCtrl', function($scope, $modal) {
-      window.debugLeftMenuCtrl = $scope;
+    .controller('svgCanvasLeftMenuCtrl', svgCanvasLeftMenuCtrl);
 
-      // Properties
-      $scope.leftSubmenu = null;
+  function svgCanvasLeftMenuCtrl($scope, $modal) {
+    window.debugLeftMenuCtrl = $scope;
 
-      // text
-      // open/close
+    // Properties
+    $scope.leftSubmenu = null;
 
-      // Actions
+    // text
+    // open/close
 
-      $scope.closeSideMenu = function () {
-        if ($scope.leftSubmenu) {
-          $scope.leftSubmenu = null;
-          return;
-        }
+    // Actions
 
-        $scope.sideMenuOpen = false;
-      };
-
-      // Events
-
-      $scope.$on('unSelectShape',function() {
+    $scope.closeSideMenu = function() {
+      if ($scope.leftSubmenu) {
         $scope.leftSubmenu = null;
-      });
+        return;
+      }
 
-      // binding modal windows
-      var bindingViewMap = {
-        'background': 'color',
-        'borderColor': 'color',
-        'fontColor': 'color',
-        'image': 'image'
-      };
+      $scope.sideMenuOpen = false;
+    };
 
-      $scope.openBindingsWindow = function(selectedShape, property) {
-        if (!selectedShape.model.fieldBindings[property]) {
-          selectedShape.model.fieldBindings[property] = {
-            boundTo: '',
-            bindings: {}
+    // Events
+
+    $scope.$on('unSelectShape', function() {
+      $scope.leftSubmenu = null;
+    });
+
+    // Watches
+
+    $scope.$watch('vocabulary', computedVocabularyGroup, true);
+    function computedVocabularyGroup(vocabulary, oldValues) {
+      if (vocabulary === oldValues) return;
+
+      $scope.vocabularyGroups = _.groupBy(vocabulary, 'type');
+    }
+
+    // binding modal windows
+    var bindingViewMap = {
+      'background': 'color',
+      'borderColor': 'color',
+      'fontColor': 'color',
+      'image': 'image'
+    };
+
+    $scope.openBindingsWindow = function(selectedShape, property) {
+      if (!selectedShape.model.fieldBindings[property]) {
+        selectedShape.model.fieldBindings[property] = {
+          boundTo: '',
+          bindings: {}
+        };
+      }
+
+      var fieldBinding = selectedShape.model.fieldBindings[property];
+      var vocabularyGroups = $scope.vocabularyGroups;
+      var bindingsKey = ['shapes', selectedShape.model.id, 'fieldBindings', property, 'bindings'].join('.');
+      var liveBindings = $scope.liveTemplate.scope(bindingsKey);
+
+      var modalInstance = $modal.open({
+        templateUrl: 'modules/svgAbstraction/bindingViews/' + bindingViewMap[property] + '.html',
+        controller: function($scope, $modalInstance) {
+          $scope.fieldBinding = fieldBinding;
+          $scope.vocabularyGroups = vocabularyGroups;
+
+          $scope.addNewBinding = function() {
+            liveBindings.add({type: 'eq', fieldValue: '', overrideValue: ''});
+          };
+
+          $scope.removeBinding = function(binding) {
+            liveBindings.del(binding.id);
+          };
+
+          $scope.save = function() {
+            $modalInstance.close();
+          };
+
+          $scope.cancel = function() {
+            $modalInstance.dismiss('cancel');
           };
         }
+      });
 
-        var fieldBinding = selectedShape.model.fieldBindings[property];
-        var vocabularyGroups = $scope.vocabularyGroups;
-        var bindingsKey = ['shapes', selectedShape.model.id, 'fieldBindings', property, 'bindings'].join('.');
-        var liveBindings = $scope.liveTemplate.scope(bindingsKey);
+      modalInstance.result.then(function(template) {
 
-        var modalInstance = $modal.open({
-          templateUrl: 'modules/svgAbstraction/bindingViews/' + bindingViewMap[property] + '.html',
-          controller: function($scope, $modalInstance) {
-            $scope.fieldBinding = fieldBinding;
-            $scope.vocabularyGroups = vocabularyGroups;
+      });
+    };
 
-            $scope.addNewBinding = function() {
-              liveBindings.add({type: 'eq', fieldValue: '', overrideValue: ''});
-            };
+    // fonts / colors
+    $scope.colorOptions = [
+      {id: 'red', name: 'Red'},
+      {id: 'yellow', name: 'Yellow'},
+      {id: 'green', name: 'Green'},
+      {id: 'blue', name: 'Blue'},
+      {id: 'white', name: 'White'},
+      {id: 'gray', name: 'Gray'},
+      {id: 'black', name: 'Black'},
+      {id: 'none', name: '-- None -- '}
+    ];
 
-            $scope.removeBinding = function(binding) {
-              liveBindings.del(binding.id);
-            };
+    $scope.strokeWidthOptions = [
+      {id: 1, name: '1'},
+      {id: 2, name: '2'},
+      {id: 3, name: '3'},
+      {id: 4, name: '4'},
+      {id: 5, name: '5'},
+      {id: 6, name: '6'},
+      {id: 7, name: '7'},
+      {id: 8, name: '8'},
+      {id: 9, name: '9'},
+      {id: 10, name: '10'},
+      {id: 11, name: '11'},
+      {id: 12, name: '12'},
+      {id: 13, name: '13'},
+      {id: 14, name: '14'}
+    ];
 
-            $scope.save = function() {
-              $modalInstance.close();
-            };
+    $scope.fontSizeOptions = [
+      {id: '8.0', name: '8'},
+      {id: '9.0', name: '9'},
+      {id: '10.0', name: '10'},
+      {id: '11.0', name: '11'},
+      {id: '12.0', name: '12'},
+      {id: '13.0', name: '13'},
+      {id: '14.0', name: '14'},
+      {id: '18.0', name: '18'},
+      {id: '24.0', name: '24'},
+      {id: '30.0', name: '30'},
+      {id: '36.0', name: '36'},
+      {id: '48.0', name: '48'},
+      {id: '60.0', name: '60'},
+      {id: '72.0', name: '72'},
+      {id: '96.0', name: '96'}
+    ];
 
-            $scope.cancel = function() {
-              $modalInstance.dismiss('cancel');
-            };
-          }
-        });
+    $scope.fontFamilyOptions = [
+      {id: 'Arial', name: 'Arial'},
+      {id: 'Cambria', name: 'Cambria'},
+      {id: 'Consolas', name: 'Consolas'},
+      {id: 'Verdana', name: 'Verdana'},
+      {id: 'Code39Azalea', name: 'Barcode 39'}
+    ];
+  }
 
-        modalInstance.result.then(function(template) {
 
-        });
-      };
-
-      // fonts / colors
-      $scope.colorOptions = [
-        {id: 'red', name: 'Red'},
-        {id: 'yellow', name: 'Yellow'},
-        {id: 'green', name: 'Green'},
-        {id: 'blue', name: 'Blue'},
-        {id: 'white', name: 'White'},
-        {id: 'gray', name: 'Gray'},
-        {id: 'black', name: 'Black'},
-        {id: 'none', name: '-- None -- '}
-      ];
-
-      $scope.strokeWidthOptions = [
-        {id: 1, name: '1'},
-        {id: 2, name: '2'},
-        {id: 3, name: '3'},
-        {id: 4, name: '4'},
-        {id: 5, name: '5'},
-        {id: 6, name: '6'},
-        {id: 7, name: '7'},
-        {id: 8, name: '8'},
-        {id: 9, name: '9'},
-        {id: 10, name: '10'},
-        {id: 11, name: '11'},
-        {id: 12, name: '12'},
-        {id: 13, name: '13'},
-        {id: 14, name: '14'}
-      ];
-
-      $scope.fontSizeOptions = [
-        {id: '8.0', name: '8'},
-        {id: '9.0', name: '9'},
-        {id: '10.0', name: '10'},
-        {id: '11.0', name: '11'},
-        {id: '12.0', name: '12'},
-        {id: '13.0', name: '13'},
-        {id: '14.0', name: '14'},
-        {id: '18.0', name: '18'},
-        {id: '24.0', name: '24'},
-        {id: '30.0', name: '30'},
-        {id: '36.0', name: '36'},
-        {id: '48.0', name: '48'},
-        {id: '60.0', name: '60'},
-        {id: '72.0', name: '72'},
-        {id: '96.0', name: '96'}
-      ];
-
-      $scope.fontFamilyOptions = [
-        {id: 'Arial', name: 'Arial'},
-        {id: 'Cambria', name: 'Cambria'},
-        {id: 'Consolas', name: 'Consolas'},
-        {id: 'Verdana', name: 'Verdana'},
-        {id: 'Code39Azalea', name: 'Barcode 39'}
-      ];
-    });
 }());
