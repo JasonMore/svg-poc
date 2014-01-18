@@ -1,5 +1,5 @@
 describe('svgAbstractionCtrl.js >', function() {
-  var $scope, svgAbstractionCtrl;
+  var $scope, svgAbstractionCtrl, digestAct;
 
 
   beforeEach(useMock('service', 'liveResource', window.liveResourceMock));
@@ -11,6 +11,9 @@ describe('svgAbstractionCtrl.js >', function() {
   beforeEach(inject(function($rootScope, $controller) {
     $scope = $rootScope;
     svgAbstractionCtrl = $controller('svgAbstractionCtrl', {$scope: $scope});
+    digestAct = function() {
+      $scope.$digest();
+    }
   }));
 
   describe('copy current shape >', function() {
@@ -29,7 +32,7 @@ describe('svgAbstractionCtrl.js >', function() {
     });
 
     it('makes a new copy of the selected shape without the id', function() {
-      expect($scope.copiedShapeModel).toEqual({foo:'bar'});
+      expect($scope.copiedShapeModel).toEqual({foo: 'bar'});
     });
 
     it('is not a reference to the original selected shape', function() {
@@ -37,21 +40,16 @@ describe('svgAbstractionCtrl.js >', function() {
     });
   });
 
-  describe('watching template shapes to create shape view models', function() {
-    var act;
+  describe('watching template shapes to create shape view models >', function() {
     beforeEach(function() {
       $scope.template = {
         shapes: {}
       };
-
-      act = function() {
-        $scope.$digest();
-      }
     });
 
-    describe('no template shapes', function() {
-      beforeEach(function(){
-        act();
+    describe('no template shapes >', function() {
+      beforeEach(function() {
+        digestAct();
       });
 
       it('does not set any shapes', function() {
@@ -59,31 +57,31 @@ describe('svgAbstractionCtrl.js >', function() {
       });
     });
 
-    describe('adding a shape to template', function() {
+    describe('adding a shape to template >', function() {
       var shapeModel;
       beforeEach(function() {
         shapeModel = {
           id: "abc123",
-          foo:'bar'
+          foo: 'bar'
         };
 
         $scope.template.shapes['abc123'] = shapeModel;
 
-        act();
+        digestAct();
       });
 
       it('adds abc123 viewmodel to shapes', function() {
         expect($scope.shapes['abc123']).toBeDefined();
       });
 
-      it('puts abc123 model on viewmodel', function(){
+      it('puts abc123 model on viewmodel', function() {
         expect($scope.shapes['abc123'].model).toBe(shapeModel);
       });
 
-      describe('deleting template shape', function() {
+      describe('deleting template shape >', function() {
         beforeEach(function() {
           delete $scope.template.shapes['abc123'];
-          act();
+          digestAct();
         });
 
         it('deletes scope shape viewmodel', function() {
@@ -91,5 +89,28 @@ describe('svgAbstractionCtrl.js >', function() {
         });
       });
     })
+  });
+
+  describe('merge data >', function() {
+    beforeEach(function() {
+      $scope.mergeDataId = null;
+      $scope.$digest();
+    });
+
+    beforeEach(function() {
+      $scope.template.shapes = {
+        'abc123': {
+          id: 'abc123',
+          foo: 'bar'
+        }
+      };
+
+      $scope.mergeDataId = 'abc123';
+      $scope.$digest();
+    });
+
+    it('creates copy of shapes', function() {
+      expect($scope.shapesCopy).toEqual($scope.template.shapes);
+    });
   });
 });
