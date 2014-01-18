@@ -1,5 +1,5 @@
 describe('svgAbstractionCtrl.js >', function() {
-  var $scope, svgAbstractionCtrl, digestAct;
+  var $scope, svgAbstractionCtrl, shapeViewModelService;
 
 
   beforeEach(useMock('service', 'liveResource', window.liveResourceMock));
@@ -11,9 +11,6 @@ describe('svgAbstractionCtrl.js >', function() {
   beforeEach(inject(function($rootScope, $controller) {
     $scope = $rootScope;
     svgAbstractionCtrl = $controller('svgAbstractionCtrl', {$scope: $scope});
-    digestAct = function() {
-      $scope.$digest();
-    }
   }));
 
   describe('copy current shape >', function() {
@@ -49,7 +46,7 @@ describe('svgAbstractionCtrl.js >', function() {
 
     describe('no template shapes >', function() {
       beforeEach(function() {
-        digestAct();
+        $scope.$digest(); //Act
       });
 
       it('does not set any shapes', function() {
@@ -67,7 +64,7 @@ describe('svgAbstractionCtrl.js >', function() {
 
         $scope.template.shapes['abc123'] = shapeModel;
 
-        digestAct();
+        $scope.$digest(); //Act
       });
 
       it('adds abc123 viewmodel to shapes', function() {
@@ -81,7 +78,7 @@ describe('svgAbstractionCtrl.js >', function() {
       describe('deleting template shape >', function() {
         beforeEach(function() {
           delete $scope.template.shapes['abc123'];
-          digestAct();
+          $scope.$digest(); //Act
         });
 
         it('deletes scope shape viewmodel', function() {
@@ -92,25 +89,103 @@ describe('svgAbstractionCtrl.js >', function() {
   });
 
   describe('merge data >', function() {
-    beforeEach(function() {
-      $scope.mergeDataId = null;
-      $scope.$digest();
-    });
+    var dataMergeService, mergedShapesFromData;
 
     beforeEach(function() {
+      $scope.mergeDataId = null;
+      $scope.$digest(); //Act
+    });
+
+    beforeEach(inject(function(_dataMergeService_, _shapeViewModelService_) {
+      dataMergeService = _dataMergeService_;
+      shapeViewModelService = _shapeViewModelService_;
+
       $scope.template.shapes = {
         'abc123': {
           id: 'abc123',
-          foo: 'bar'
+          foo: 'bar',
+          color: 'green'
         }
       };
 
-      $scope.mergeDataId = 'abc123';
-      $scope.$digest();
+      mergedShapesFromData = {};
+
+      spyOn(dataMergeService, 'shapesWithData').andReturn(mergedShapesFromData);
+
+      $scope.mergeDataId = 'student123';
+    }));
+
+    describe('with no merged data >', function() {
+      beforeEach(function() {
+        $scope.$digest(); //Act
+      });
+
+      it('creates copy of shapes', function() {
+        expect($scope.shapesCopy).toEqual($scope.template.shapes);
+      });
+
+      it('copy is not a reference', function() {
+        expect($scope.shapesCopy).not.toBe($scope.template.shapes);
+      });
+
+      it('creates a templated shape viewmodel with no changes', function() {
+        expect($scope.templatedShapes['abc123'].model).toEqual($scope.template.shapes['abc123']);
+      });
     });
 
-    it('creates copy of shapes', function() {
-      expect($scope.shapesCopy).toEqual($scope.template.shapes);
+    describe('with merged data >', function() {
+      beforeEach(function() {
+        mergedShapesFromData['abc123'] = {
+          id: 'abc123',
+          foo: 'hello world',
+          color: 'green'
+        };
+
+        // real calls are mocked above
+        $scope.students = {
+          'student123': {},
+          'student456': {}
+        };
+
+        $scope.$digest(); //Act
+      });
+
+      it('updates foo to hello world', function() {
+        expect($scope.templatedShapes['abc123'].model.foo).toEqual('hello world');
+      });
+
+      it('merges data from original shapes, not copy', function() {
+        expect(dataMergeService.shapesWithData)
+          .toHaveBeenCalledWith($scope.template.shapes, $scope.students['student123']);
+      });
+
+      describe('second merge on different properties >', function() {
+        beforeEach(function() {
+          spyOn(shapeViewModelService, 'create');
+
+          mergedShapesFromData['abc123'] = {
+            id: 'abc123',
+            foo: 'bar',
+            color: 'black'
+          };
+
+          $scope.mergeDataId = 'student456';
+
+          $scope.$digest();
+        });
+
+        it('does not create new viewmodels', function() {
+          expect(shapeViewModelService.create).not.toHaveBeenCalled();
+        });
+
+        it('sets default values back', function() {
+          expect($scope.templatedShapes['abc123'].model.foo).toEqual('bar');
+        });
+
+        it('updates color', function() {
+          expect($scope.templatedShapes['abc123'].model.color).toEqual('black');
+        });
+      });
     });
   });
 });

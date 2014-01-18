@@ -7,7 +7,7 @@
       "fontColor": "fontColor"
     };
 
-    this.getMergedShapesWithData = function (shapes, data) {
+    this.shapesWithData = function (shapes, data) {
       var mergedData = angular.copy(shapes);
 
       _(mergedData).each(function (shape) {

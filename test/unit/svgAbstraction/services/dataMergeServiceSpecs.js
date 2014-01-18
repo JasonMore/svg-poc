@@ -41,23 +41,25 @@ describe('dataMergeService.js > ', function () {
 
   var shape = shapes['abc123'];
 
-  describe('getMergedShapesWithData >', function () {
+  describe('shapesWithData >', function () {
     var act, mergedShapes;
 
     beforeEach(inject(function (dataMergeService) {
       act = function () {
-        mergedShapes = dataMergeService.getMergedShapesWithData(shapes, data, vocabulary);
+        mergedShapes = dataMergeService.shapesWithData(shapes, data, vocabulary);
       };
     }));
 
     describe('when no data to merge with >', function () {
-      it('returns a copy of the shapes', function () {
+      beforeEach(function() {
         act();
+      });
+
+      it('returns a copy of the shapes', function () {
         expect(mergedShapes).toEqual(shapes);
       });
 
       it('should not return the same object', function () {
-        act();
         expect(mergedShapes).toNotBe(shapes);
       })
     });
@@ -85,10 +87,11 @@ describe('dataMergeService.js > ', function () {
           shape.fieldBindings.text = {
             boundTo: 'First_Name'
           };
+
+          act();
         });
 
         it('should replace shape text with data text', function () {
-          act();
           expect(mergedShapes['abc123'].text).toEqual("Marcus");
         })
       });
@@ -106,11 +109,17 @@ describe('dataMergeService.js > ', function () {
               }
             }
           };
+
+          act();
         });
 
         it('should replace shape background with rgba value', function () {
-          act();
           expect(mergedShapes['abc123'].backgroundColor).toEqual("rgba(0,80,255,1)");
+        });
+
+        it('property without field binding should be original', function() {
+          expect(mergedShapes['abc123'].borderColor).toEqual('black');
+
         });
       });
 
@@ -120,10 +129,11 @@ describe('dataMergeService.js > ', function () {
             "boundTo": "Portrait",
             "bindings": {}
           };
+
+          act();
         });
 
         it('should replace shape image url', function () {
-          act();
           expect(mergedShapes['abc123'].image.url).toEqual("img/CO/Flash5.jpg");
         });
       })

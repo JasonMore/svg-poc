@@ -138,7 +138,7 @@
 
       function applyTemplateDataToTemplateShapes() {
         var data = $scope.students[$scope.mergeDataId];
-        var mergedShapes = dataMergeService.getMergedShapesWithData($scope.shapesCopy, data);
+        var mergedShapes = dataMergeService.shapesWithData($scope.template.shapes, data);
         _.merge($scope.shapesCopy, mergedShapes);
       }
 
