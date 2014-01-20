@@ -4,7 +4,7 @@
 
       // see http://plnkr.co/edit/lo0thC?p=preview for usage
       this.getSet = function getSetDescendantProp(obj, desc, value) {
-        var arr = desc.split(".");
+        var arr = desc ? desc.split(".") : [];
 
         while (arr.length && obj) {
           var comp = arr.shift();
@@ -44,5 +44,5 @@
 
         return obj;
       }
-    })
+    });
 }());

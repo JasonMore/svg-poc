@@ -1,4 +1,6 @@
-<svg version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"
+<svg version="1.1"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     xmlns="http://www.w3.org/2000/svg"
      class="drawing-surface"
      svg-attr-viewbox="0 0 {{template.width}} {{template.height}}"
      ng-attr-width="{{template.width * zoom}}"
@@ -9,7 +11,7 @@
 <rect ng-click="unSelectShape()"
       x="0" y="0" width="100%" height="100%" fill="white"></rect>
 
-<defs ng-repeat="viewModel in shapes">
+<defs ng-repeat="viewModel in computedShapes()">
 
   <!--shape clip path-->
   <clipPath id="{{viewModel.model.id + '_clipPath'}}"
@@ -325,9 +327,8 @@
 </g>
 <g class="drawing">
   <g drawing-surface
-     when-done="shapeDrawn(shape);"
      ng-show="$parent.isDrawing()"
-     shape="$parent.shapeType()">
+     shape="$parent.shapeToDraw">
     <rect x="0"
           y="0"
           width="100%"

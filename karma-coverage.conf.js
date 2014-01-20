@@ -43,7 +43,7 @@ module.exports = function(karma) {
       // app code
       'server/modules/liveResource.js',
       'app/modules/**/*.js',
-//      'app/modules/**/*.html',
+      'app/modules/**/*.html',
 
       // app tests
       'test/unit/**/*.js'

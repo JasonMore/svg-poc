@@ -1,5 +1,5 @@
-describe('svgAbstractionCtrl.js >', function () {
-  var $scope, svgAbstractionCtrl;
+describe('svgAbstractionCtrl.js >', function() {
+  var $scope, svgAbstractionCtrl, shapeViewModelService;
 
 
   beforeEach(useMock('service', 'liveResource', window.liveResourceMock));
@@ -10,163 +10,182 @@ describe('svgAbstractionCtrl.js >', function () {
 
   beforeEach(inject(function($rootScope, $controller) {
     $scope = $rootScope;
-    svgAbstractionCtrl = $controller('svgAbstractionCtrl', {$scope:$scope});
+    svgAbstractionCtrl = $controller('svgAbstractionCtrl', {$scope: $scope});
   }));
 
-  describe('re-ordering shapes >', function () {
-    var shape;
+  describe('copy current shape >', function() {
+    var model;
 
-    beforeEach(function () {
-      $scope.shapes = {
-        'shapeAlpha': {
-          model: {
-            order: 0
-          }
-        },
-        'shapeBeta': {
-          model: {
-            order: 1
-          }
-        },
-        'shapeCharlie': {
-          model: {
-            order: 2
-          }
-        },
-        'shapeDelta': {
-          model: {
-            order: 3
-          }
+    beforeEach(function() {
+      $scope.selectedShape = {
+        model: {
+          id: 'abc123',
+          foo: 'bar'
         }
+      };
+
+      // Act
+      $scope.copyCurrentShape();
+    });
+
+    it('makes a new copy of the selected shape without the id', function() {
+      expect($scope.copiedShapeModel).toEqual({foo: 'bar'});
+    });
+
+    it('is not a reference to the original selected shape', function() {
+      expect($scope.copiedShapeModel).not.toBe($scope.selectedShape);
+    });
+  });
+
+  describe('watching template shapes to create shape view models >', function() {
+    beforeEach(function() {
+      $scope.template = {
+        shapes: {}
       };
     });
 
-    describe('can move down >', function() {
-      it('can not move alpha down', function() {
-        expect($scope.canMoveDown($scope.shapes.shapeAlpha)).toBeFalsy();
-      });it('can move beta down', function() {
-        expect($scope.canMoveDown($scope.shapes.shapeBeta)).toBeTruthy();
+    describe('no template shapes >', function() {
+      beforeEach(function() {
+        $scope.$digest(); //Act
+      });
+
+      it('does not set any shapes', function() {
+        expect($scope.shapes).toEqual({});
       });
     });
 
-    describe('can move up >', function() {
-      it('can move charlie up', function() {
-        expect($scope.canMoveUp($scope.shapes.shapeAlpha)).toBeTruthy();
-      });it('can not move delta up', function() {
-        expect($scope.canMoveUp($scope.shapes.shapeDelta)).toBeFalsy();
+    describe('adding a shape to template >', function() {
+      var shapeModel;
+      beforeEach(function() {
+        shapeModel = {
+          id: "abc123",
+          foo: 'bar'
+        };
+
+        $scope.template.shapes['abc123'] = shapeModel;
+
+        $scope.$digest(); //Act
+      });
+
+      it('adds abc123 viewmodel to shapes', function() {
+        expect($scope.shapes['abc123']).toBeDefined();
+      });
+
+      it('puts abc123 model on viewmodel', function() {
+        expect($scope.shapes['abc123'].model).toBe(shapeModel);
+      });
+
+      describe('deleting template shape >', function() {
+        beforeEach(function() {
+          delete $scope.template.shapes['abc123'];
+          $scope.$digest(); //Act
+        });
+
+        it('deletes scope shape viewmodel', function() {
+          expect($scope.shapes['abc123']).not.toBeDefined();
+        });
+      });
+    })
+  });
+
+  describe('merge data >', function() {
+    var dataMergeService, mergedShapesFromData;
+
+    beforeEach(function() {
+      $scope.mergeDataId = null;
+      $scope.$digest(); //Act
+    });
+
+    beforeEach(inject(function(_dataMergeService_, _shapeViewModelService_) {
+      dataMergeService = _dataMergeService_;
+      shapeViewModelService = _shapeViewModelService_;
+
+      $scope.template.shapes = {
+        'abc123': {
+          id: 'abc123',
+          foo: 'bar',
+          color: 'green'
+        }
+      };
+
+      mergedShapesFromData = {};
+
+      spyOn(dataMergeService, 'shapesWithData').andReturn(mergedShapesFromData);
+
+      $scope.mergeDataId = 'student123';
+    }));
+
+    describe('with no merged data >', function() {
+      beforeEach(function() {
+        $scope.$digest(); //Act
+      });
+
+      it('creates copy of shapes', function() {
+        expect($scope.shapesCopy).toEqual($scope.template.shapes);
+      });
+
+      it('copy is not a reference', function() {
+        expect($scope.shapesCopy).not.toBe($scope.template.shapes);
+      });
+
+      it('creates a templated shape viewmodel with no changes', function() {
+        expect($scope.templatedShapes['abc123'].model).toEqual($scope.template.shapes['abc123']);
       });
     });
 
-    describe('charlie up one >', function () {
-      beforeEach(function () {
-        $scope.moveUp($scope.shapes.shapeCharlie);
+    describe('with merged data >', function() {
+      beforeEach(function() {
+        mergedShapesFromData['abc123'] = {
+          id: 'abc123',
+          foo: 'hello world',
+          color: 'green'
+        };
+
+        // real calls are mocked above
+        $scope.students = {
+          'student123': {},
+          'student456': {}
+        };
+
+        $scope.$digest(); //Act
       });
 
-      it('alpha stays 0', function() {
-        expect($scope.shapes.shapeAlpha.model.order).toEqual(0);
+      it('updates foo to hello world', function() {
+        expect($scope.templatedShapes['abc123'].model.foo).toEqual('hello world');
       });
-      it('beta stays 1', function() {
-        expect($scope.shapes.shapeBeta.model.order).toEqual(1);
+
+      it('merges data from original shapes, not copy', function() {
+        expect(dataMergeService.shapesWithData)
+          .toHaveBeenCalledWith($scope.template.shapes, $scope.students['student123']);
       });
-      it('moves charlie from 2 to 3', function () {
-        expect($scope.shapes.shapeCharlie.model.order).toEqual(3);
-      });
-      it('moves delta from 3 to 2', function() {
-        expect($scope.shapes.shapeDelta.model.order).toEqual(2);
+
+      describe('second merge on different properties >', function() {
+        beforeEach(function() {
+          spyOn(shapeViewModelService, 'create');
+
+          mergedShapesFromData['abc123'] = {
+            id: 'abc123',
+            foo: 'bar',
+            color: 'black'
+          };
+
+          $scope.mergeDataId = 'student456';
+
+          $scope.$digest();
+        });
+
+        it('does not create new viewmodels', function() {
+          expect(shapeViewModelService.create).not.toHaveBeenCalled();
+        });
+
+        it('sets default values back', function() {
+          expect($scope.templatedShapes['abc123'].model.foo).toEqual('bar');
+        });
+
+        it('updates color', function() {
+          expect($scope.templatedShapes['abc123'].model.color).toEqual('black');
+        });
       });
     });
-
-    describe('charlie down one >', function () {
-      beforeEach(function () {
-        $scope.moveDown($scope.shapes.shapeCharlie);
-      });
-
-      it('alpha stays 0', function() {
-        expect($scope.shapes.shapeAlpha.model.order).toEqual(0);
-      });
-      it('beta moves from 1 to 2', function() {
-        expect($scope.shapes.shapeBeta.model.order).toEqual(2);
-      });
-      it('moves charlie from 2 to 1', function () {
-        expect($scope.shapes.shapeCharlie.model.order).toEqual(1);
-      });
-      it('delta stays 3', function() {
-        expect($scope.shapes.shapeDelta.model.order).toEqual(3);
-      });
-    });
-
-    describe('beta down one >', function () {
-      beforeEach(function () {
-        $scope.moveDown($scope.shapes.shapeBeta);
-      });
-
-      it('alpha moves from 0 to 1', function() {
-        expect($scope.shapes.shapeAlpha.model.order).toEqual(1);
-      });
-      it('beta moves from 1 to 0', function() {
-        expect($scope.shapes.shapeBeta.model.order).toEqual(0);
-      });
-      it('charlie stays 2', function () {
-        expect($scope.shapes.shapeCharlie.model.order).toEqual(2);
-      });
-      it('delta stays 3', function() {
-        expect($scope.shapes.shapeDelta.model.order).toEqual(3);
-      });
-    });
-
-    describe('to top >', function () {
-      beforeEach(function () {
-        $scope.moveToTop($scope.shapes.shapeBeta);
-      });
-
-      it('alpha stays 0', function() {
-        expect($scope.shapes.shapeAlpha.model.order).toEqual(0);
-      });
-      it('beta moves from 1 to 3', function() {
-        expect($scope.shapes.shapeBeta.model.order).toEqual(3);
-      });
-      it('charlie moves from 2 to 1', function () {
-        expect($scope.shapes.shapeCharlie.model.order).toEqual(1);
-      });
-      it('delta moves from 3 to 2', function() {
-        expect($scope.shapes.shapeDelta.model.order).toEqual(2);
-      });
-    });
-
-    describe('to bottom >', function () {
-      beforeEach(function () {
-        $scope.moveToBottom($scope.shapes.shapeCharlie);
-      });
-
-      it('alpha moves from 0 to 1', function() {
-        expect($scope.shapes.shapeAlpha.model.order).toEqual(1);
-      });
-      it('beta moves from 1 to 2', function() {
-        expect($scope.shapes.shapeBeta.model.order).toEqual(2);
-      });
-      it('charlie moves from 2 to 0', function () {
-        expect($scope.shapes.shapeCharlie.model.order).toEqual(0);
-      });
-      it('delta stays 3', function() {
-        expect($scope.shapes.shapeDelta.model.order).toEqual(3);
-      });
-    });
-
-    describe('deleting shape >', function() {
-      beforeEach(function () {
-        $scope.deleteShape($scope.shapes.shapeBeta);
-      });
-
-      it('alpha stays at 0', function() {
-        expect($scope.shapes.shapeAlpha.model.order).toEqual(0);
-      });
-
-      it('charlie moves from 2 to 1', function () {
-        expect($scope.shapes.shapeCharlie.model.order).toEqual(1);
-      });
-      it('delta moves from 3 to 2', function() {
-        expect($scope.shapes.shapeDelta.model.order).toEqual(2);
-      });
-    });
-  })
+  });
 });

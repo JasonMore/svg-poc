@@ -68,7 +68,7 @@
   </div>
 
 </form>
-<form ng-show="selectedShape && !$parent.leftSubmenu" class="form-horizontal" role="form">
+<form ng-show="selectedShape && !leftSubmenu" class="form-horizontal" role="form">
   <div class="form-group">
     <label class="col-md-5 control-label">
       <a href ng-click="openBindingsWindow(selectedShape, 'background')">
@@ -175,7 +175,7 @@
   </div>
   <div class="form-group">
     <label class="col-md-5 control-label">
-      <a href ng-click="$parent.leftSubmenu = 'Image'">Image</a>
+      <a href ng-click="leftSubmenu = 'Image'">Image</a>
     </label>
 
     <div class="col-md-7">
@@ -214,7 +214,7 @@
     <label class="col-md-5 control-label">
       <a href
          ng-show="selectedShape.model.bevel.enabled"
-         ng-click="$parent.leftSubmenu = 'Bevel'">
+         ng-click="leftSubmenu = 'Bevel'">
         Bevel
       </a>
       {{ selectedShape.model.bevel.enabled ? '' : 'Bevel'}}
@@ -231,7 +231,7 @@
     <label class="col-md-5 control-label">
       <a href
          ng-show="selectedShape.model.blur.enabled"
-         ng-click="$parent.leftSubmenu = 'Blur'">
+         ng-click="leftSubmenu = 'Blur'">
         Blur
       </a>
       {{ selectedShape.model.blur.enabled ? '' : 'Blur'}}
@@ -248,7 +248,7 @@
     <label class="col-md-5 control-label">
       <a href
          ng-show="selectedShape.model.shadow.enabled"
-         ng-click="$parent.leftSubmenu = 'Shadow'">
+         ng-click="leftSubmenu = 'Shadow'">
         Drop Shadow
       </a>
       {{ selectedShape.model.shadow.enabled ? '' : 'Drop Shadow'}}
@@ -287,7 +287,7 @@
     </label>
 
     <div class="col-md-7">
-      <a href ng-click="$parent.leftSubmenu = 'Delete'">Delete Shape</a>
+      <a href ng-click="leftSubmenu = 'Delete'">Delete Shape</a>
     </div>
   </div>
   <!--<div class="form-group">-->
@@ -312,49 +312,49 @@
   <!--</div>-->
   <!--</div>-->
 </form>
-<form ng-show="$parent.leftSubmenu === 'Bevel'" class="form-horizontal" role="form">
+<form ng-show="leftSubmenu === 'Bevel'" class="form-horizontal" role="form">
   <div class="form-group">
     <label class="col-md-5 control-label">Density</label>
 
     <div class="col-md-7">
-      <input type="range" ng-model="selectedShape.model.bevel.density" min="0" max="6" step="0.2">
+      <input class="form-control" type="range" ng-model="selectedShape.model.bevel.density" min="0" max="6" step="0.2">
     </div>
   </div>
 </form>
-<form ng-show="$parent.leftSubmenu === 'Blur'" class="form-horizontal" role="form">
+<form ng-show="leftSubmenu === 'Blur'" class="form-horizontal" role="form">
   <div class="form-group">
     <label class="col-md-5 control-label">Density</label>
 
     <div class="col-md-7">
-      <input type="range" ng-model="selectedShape.model.blur.density" min="0" max="12" step="0.2">
+      <input class="form-control" type="range" ng-model="selectedShape.model.blur.density" min="0" max="12" step="0.2">
     </div>
   </div>
 </form>
-<form ng-show="$parent.leftSubmenu === 'Shadow'" class="form-horizontal" role="form">
+<form ng-show="leftSubmenu === 'Shadow'" class="form-horizontal" role="form">
   <div class="form-group">
     <label class="col-md-5 control-label">Right</label>
 
     <div class="col-md-7">
-      <input type="range" ng-model="selectedShape.model.shadow.offsetX" min="0" max="100">
+      <input class="form-control" type="range" ng-model="selectedShape.model.shadow.offsetX" min="0" max="100">
     </div>
   </div>
   <div class="form-group">
     <label class="col-md-5 control-label">Bottom</label>
 
     <div class="col-md-7">
-      <input type="range" ng-model="selectedShape.model.shadow.offsetY" min="0" max="100">
+      <input class="form-control" type="range" ng-model="selectedShape.model.shadow.offsetY" min="0" max="100">
     </div>
   </div>
   <div class="form-group">
     <label class="col-md-5 control-label">Density</label>
 
     <div class="col-md-7">
-      <input type="range" ng-model="selectedShape.model.shadow.density" min="0" max="20" step="0.2">
+      <input class="form-control" type="range" ng-model="selectedShape.model.shadow.density" min="0" max="20" step="0.2">
     </div>
   </div>
 </form>
 
-<form ng-show="$parent.leftSubmenu === 'Image'" class="form-horizontal" role="form">
+<form ng-show="leftSubmenu === 'Image'" class="form-horizontal" role="form">
   <div class="form-group">
     <label class="col-md-5 control-label">
       <a href ng-click="openBindingsWindow(selectedShape, 'image')">
@@ -386,7 +386,7 @@
     </div>
   </div>
 </form>
-<form ng-show="$parent.leftSubmenu === 'Delete'" class="form-horizontal" role="form">
+<form ng-show="leftSubmenu === 'Delete'" class="form-horizontal" role="form">
   <div class="form-group">
     <label class="col-md-5 control-label">Are you sure?</label>
 

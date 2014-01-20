@@ -1,11 +1,23 @@
-<div ng-include="'modules/svgAbstraction/svgTopNav.html'"></div>
-<div ng-include="'modules/svgAbstraction/svgShapeMenu.html'"></div>
-<div ng-include="'modules/svgAbstraction/svgLeftMenu.html'"></div>
+<svg-canvas-top-menu data="students"
+                     mergedata-id="mergeDataId"
+                     shape-to-draw="shapeToDraw"></svg-canvas-top-menu>
+<svg-canvas-left-menu is-open="sideMenuOpen"
+                      selected-shape="selectedShape"
+                      live-template="liveTemplate"
+                      template="template"
+                      vocabulary="vocabulary"
+                      shapes="shapes"
+                      live-shapes="liveShapes"></svg-canvas-left-menu>
 
 <div class="wrapper"
      ng-class="{'side-menu-open':sideMenuOpen}"
-     ng-click-stop="unSelectShape()"
-     ng-include="'modules/svgAbstraction/svgCanvas.html'">
+     ng-click-stop="behindCanvasClick()">
+
+  <svg-canvas template="template"
+              computed-shapes="computedShapes"
+              selected-shape="selectedShape"
+              shape-to-draw="shapeToDraw"
+              zoom="zoom"></svg-canvas>
 </div>
 
 
