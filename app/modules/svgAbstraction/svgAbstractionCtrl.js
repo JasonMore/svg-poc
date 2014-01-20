@@ -164,11 +164,6 @@
         return _.keys($scope.shapes).length;
       }
 
-      $scope.exportPdf = function() {
-        $scope.unSelectShape();
-        $scope.$broadcast('submitSvgToBatik');
-      };
-
 //      $scope.mergeData = function(id) {
 //        $scope.mergeDataId = id;
 //      };

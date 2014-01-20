@@ -34,6 +34,10 @@
         $scope.sideMenuOpen = false;
       };
 
+      $scope.exportPdf = function() {
+        $scope.$emit('submitSvgToBatik');
+      };
+
       $scope.deleteShape = function(selectedShape) {
         moveShapesAboveDownOneInOrder(selectedShape);
         $scope.leftSubmenu = null;
