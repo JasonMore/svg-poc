@@ -36,8 +36,13 @@
 
       $scope.deleteShape = function(selectedShape) {
         moveShapesAboveDownOneInOrder(selectedShape);
+        $scope.leftSubmenu = null;
+
         $scope.liveShapes.del(selectedShape.model.id);
-        $scope.$broadcast('shapeDeleted', selectedShape);
+
+        // Since the canvas directives appear to be siblings,
+        // regular broadcast is not being caught by other directives
+        $scope.$parent.$broadcast('shapeDeleted', selectedShape);
       };
 
       $scope.canMoveUp = function(shape) {
