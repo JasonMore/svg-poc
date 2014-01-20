@@ -169,9 +169,9 @@
         $scope.$broadcast('submitSvgToBatik');
       };
 
-      $scope.mergeData = function(id) {
-        $scope.mergeDataId = id;
-      };
+//      $scope.mergeData = function(id) {
+//        $scope.mergeDataId = id;
+//      };
 
       // Computed
 

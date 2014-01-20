@@ -14,7 +14,7 @@
       </a>
       <a class="btn btn-primary btn-text"
          ng-mousedown="openMenu('showDrawMenu')"
-         ng-disabled="dataMode">
+         ng-disabled="mergeDataId">
         <div class="IconWrapper">
           <i class="fa fa-pencil fa-3x "></i>
         </div>
@@ -135,8 +135,8 @@
   </div>
   <div class="spmenu-contents">
     <ul>
-      <li ng-repeat="data in students">
-        <a href ng-click="mergeData(data.id)">{{data.First_Name}} {{data.Last_Name}}</a>
+      <li ng-repeat="item in data">
+        <a href ng-click="mergeData(item.id)">{{item.First_Name}} {{item.Last_Name}}</a>
       </li>
     </ul>
   </div>

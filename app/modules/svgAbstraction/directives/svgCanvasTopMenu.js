@@ -5,13 +5,14 @@
         restrict: 'E',
         templateUrl: 'modules/svgAbstraction/directives/svgCanvasTopMenu.html',
         controller: 'svgCanvasTopMenuCtrl',
-        scope:{
-          dataMode: '=isDatamode',
+        scope: {
+          data: '=',
+          mergeDataId: '=mergedataId',
           shapeToDraw: '='
         }
       }
     })
-    .controller('svgCanvasTopMenuCtrl', function($scope, shapePaths){
+    .controller('svgCanvasTopMenuCtrl', function($scope, shapePaths) {
 
       // Properties
 
@@ -47,6 +48,10 @@
       };
 
       // Clicks
+
+      $scope.mergeData = function(id) {
+        $scope.mergeDataId = id;
+      };
 
       $scope.drawShape = function(shape) {
         $scope.openMenu('close');
