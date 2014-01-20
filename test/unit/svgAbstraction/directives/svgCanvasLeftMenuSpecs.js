@@ -5,7 +5,7 @@ describe('svgCanvasLeftMenu.js >', function() {
   beforeEach(module('svgAbstraction'));
 
   beforeEach(inject(function($rootScope, $controller) {
-    $scope = $rootScope;
+    $scope = $rootScope.$new();
     svgCanvasLeftMenuCtrl = $controller('svgCanvasLeftMenuCtrl', {$scope:$scope});
   }));
 

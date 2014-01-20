@@ -32,18 +32,18 @@ describe('selectionBoxSpec.js >', function () {
       scope.template = {
         width:100,
         height:100
-      }
+      };
 
       element = angular.element('<ng-include src="\'modules/svgAbstraction/svgCanvas.html\'"></ng-include>');
 
       $compile(element)(scope);
-      scope.$digest()
+      scope.$digest();
 
       console.log(element)
     }));
 
     it('creates the selection box', function() {
-      console.log(element)
+      console.log(element);
       expect(element.find('g[selection-box]').length).toBe(1)
     });
   });
