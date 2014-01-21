@@ -23,66 +23,60 @@ describe('selectionBoxSpec.js >', function () {
     });
   }));
 
-  xdescribe('init >', function() {
-    beforeEach(inject(function ($rootScope, $compile, $timeout) {
+  describe('init >', function() {
+    beforeEach(inject(function ($rootScope, $compile, $timeout, $templateCache) {
       timeout = $timeout;
       scope = $rootScope.$new();
 
+      scope.template = {width: 100, height: 100};
       scope.zoom = 1;
-      scope.template = {
-        width:100,
-        height:100
-      };
 
-      element = angular.element('<ng-include src="\'modules/svgAbstraction/svgCanvas.html\'"></ng-include>');
+      element = angular.element($templateCache.get('modules/svgAbstraction/svgAbstraction.html')).find('svg-canvas');
 
       $compile(element)(scope);
       scope.$digest();
-
-      console.log(element)
     }));
 
-    it('creates the selection box', function() {
-      console.log(element);
-      expect(element.find('g[selection-box]').length).toBe(1)
+    it('selection box does not show up without selected shape', function() {
+      expect(element.find('g[selection-box]').length).toBe(0)
     });
-  });
 
-//  beforeEach(inject(function ($rootScope, $compile) {
-//    var model = {
-//      top: 100,
-//      left: 100,
-//      path: 'M0,0L100,0L100,100L0,100z',
-//      "width": 100,
-//      "height": 100,
-//      "rotation": 75,
-//      "backgroundColor": "gray",
-//      "borderColor": "black",
-//      "borderWidth": 4,
-//      "image": {
-//        "url": null,
-//        "top": 0,
-//        "left": 0,
-//        "width": 0,
-//        "height": 0,
-//        "rotation": 0
-//      },
-//      "id": "abc123",
-//      "order": 2,
-//      "text": "",
-//      "font": "Verdana",
-//      "fontSize": "12.0",
-//      "fontColor": "black",
-//      "wrapTextAround": true
-//    }
-//
-////    scope.shapes = {
-////      "abc123": vmService.create(function () {
-////        return 0;
-////      }, function () {
-////        return model;
-////      })};
-//
+    describe('setting a selected shape >', function() {
+      beforeEach(inject(function (shapeViewModelService) {
+        var model = {
+          top: 100,
+          left: 100,
+          path: 'M0,0L100,0L100,100L0,100z',
+          "width": 100,
+          "height": 100,
+          "rotation": 75,
+          "backgroundColor": "gray",
+          "borderColor": "black",
+          "borderWidth": 4,
+          "image": {
+            "url": null,
+            "top": 0,
+            "left": 0,
+            "width": 0,
+            "height": 0,
+            "rotation": 0
+          },
+          "id": "abc123",
+          "order": 2,
+          "text": "",
+          "font": "Verdana",
+          "fontSize": "12.0",
+          "fontColor": "black",
+          "wrapTextAround": true
+        };
+
+        scope.shapes = {
+          "abc123": shapeViewModelService.create(function () {
+            return model;
+          })};
+
+//        scope.shadowShape =
+
 //    scope.computedShapes = function() { return scope.shapes;}
 //
 //    scope.$digest();
@@ -116,48 +110,33 @@ describe('selectionBoxSpec.js >', function () {
 ////          borderWidth: 2
 ////        }}
 ////    ];
-//  }));
+      }));
 
-  xdescribe('when no selected shape >', function () {
-    beforeEach(function () {
-      scope.selectedShape = null;
+      describe('when there is a selected shape', function () {
+        beforeEach(function () {
+          scope.selectedShape = scope.shapes['abc123'];
+          scope.$digest();
 
-      scope.$digest();
-      selectionBoxGroup = element.find('g[selection-box]');
-    });
+          selectionBoxGroup = element.find('g.selection g.selection');
+          selectionBoxLine = selectionBoxGroup.find('path');
+        });
 
-    it('creates a selection box', function () {
-      console.log(element)
-      expect(selectionBoxGroup.length).toEqual(1);
-    });
+        it('draws a box around shape with 1px line width buffer for top and left', function () {
+          expect(selectionBoxGroup.attr('transform')).toEqual('translate(98,98), rotate(75,52,52)');
+        });
 
-    xit('selection box is not visible', function () {
-      expect(selectionBoxGroup.is(':visible')).toBeFalsy();
-    });
-  });
-
-  
-  xdescribe('when there is a selected shape', function () {
-    beforeEach(function () {
-      scope.selectedShape = scope.shapes['abc123'];
-      scope.$digest();
-      selectionBoxGroup = element.find('g.selection g.selection');
-      selectionBoxLine = selectionBoxGroup.find('path');
-    });
-
-    it('draws a box around shape with 1px line width buffer for top and left', function () {
-      expect(selectionBoxGroup.attr('transform')).toEqual('translate(98,98), rotate(75,52,52)');
-    });
-
-    it('box width/height is 100 width + 10px line width', function () {
-      expect(selectionBoxLine.attr('d')).toEqual('M0,0L104,0L104,104L0,104z');
+        it('box width/height is 100 width + 10px line width', function () {
+          expect(selectionBoxLine.attr('d')).toEqual('M0,0L104,0L104,104L0,104z');
+        });
+      });
     });
   });
 
-  xdescribe('when resizing square', function () {
+  describe('when resizing square', function () {
     var act,
       corner,
-      move;
+      move,
+      cornerScope;
 //
     beforeEach(function () {
       scope.shapes['abc123'].model.rotation = 0;
@@ -176,6 +155,8 @@ describe('selectionBoxSpec.js >', function () {
       selectionBoxLine = selectionBoxGroup.find('path');
 //
       act = function () {
+        cornerScope = $(corner).scope();
+
         var ctm = corner[0].getScreenCTM();
 
         var drag = {
@@ -201,7 +182,7 @@ describe('selectionBoxSpec.js >', function () {
       }
     });
 
-    describe('nw corner', function () {
+    xdescribe('nw corner', function () {
       beforeEach(function () {
         corner = selectionBoxGroup.find('[data-cornerid=cornerNW]');
       });
@@ -211,43 +192,43 @@ describe('selectionBoxSpec.js >', function () {
           act();
         });
 
-        it('decreases outline height and width by 10', function () {
+        xit('decreases outline height and width by 10', function () {
           expect(selectionBoxLine.attr('d')).toEqual('M0,0L94,0L94,94L0,94z');
         });
 
-        it('increases shape top', function () {
-          expect(scope.shapes['abc123'].model.top).toEqual(110);
+        xit('increases shape top', function () {
+          expect(cornerScope.shadowShape.model.top).toEqual(110);
         });
 
-        it('increases shape left', function () {
+        xit('increases shape left', function () {
           expect(scope.shapes['abc123'].model.left).toEqual(110);
         });
 
-        it('decreases shape width', function () {
+        xit('decreases shape width', function () {
           expect(scope.shapes['abc123'].width()).toEqual(92);
         });
 
-        it('decreases shape height', function () {
+        xit('decreases shape height', function () {
           expect(scope.shapes['abc123'].height()).toEqual(92);
         });
 
-        it('decreases shape midpointX including border width', function () {
+        xit('decreases shape midpointX including border width', function () {
           expect(scope.shapes['abc123'].midPointX()).toEqual(45);
         });
 
-        it('decreases shape midpointY including border width', function () {
+        xit('decreases shape midpointY including border width', function () {
           expect(scope.shapes['abc123'].midPointY()).toEqual(45);
         });
 
-        it('shape rotation stays the same', function () {
+        xit('shape rotation stays the same', function () {
           expect(scope.shapes['abc123'].model.rotation).toEqual(0);
         });
 
-        it('decreases shape height and width by 10', function () {
+        xit('decreases shape height and width by 10', function () {
           expect(scope.shapes['abc123'].model.path).toEqual('M0,0L90.196,0L90.196,90.196L0,90.196z');
         });
       });
-      describe('up and left', function () {
+      xdescribe('up and left', function () {
         beforeEach(function () {
           move = { x: -10, y: -10 };
           act();
@@ -292,7 +273,7 @@ describe('selectionBoxSpec.js >', function () {
       });
     });
 
-    describe('ne corner', function () {
+    xdescribe('ne corner', function () {
       beforeEach(function () {
         corner = selectionBoxGroup.find('[data-cornerid=cornerNE]');
       });
