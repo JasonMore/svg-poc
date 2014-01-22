@@ -2,7 +2,8 @@
      xmlns:xlink="http://www.w3.org/1999/xlink"
      xmlns="http://www.w3.org/2000/svg"
      class="drawing-surface"
-     svg-attr-viewbox="0 0 {{template.width}} {{template.height}}"
+
+     svg-attr="{name:'viewBox', value:'0 0 {{template.width}} {{template.height}}'}"
      ng-attr-width="{{template.width * zoom}}"
      ng-attr-height="{{template.height * zoom}}"
      ng-svg>
@@ -43,7 +44,10 @@
 
     <!--bevel-->
     <feGaussianBlur ng-if="viewModel.model.bevel.enabled"
-                    in="SourceAlpha" svg-attr-stddeviation="{{viewModel.model.bevel.density}}" result="blur"/>
+                    in="SourceAlpha"
+                    svg-attr="{name:'stdDeviation', value:'{{viewModel.model.bevel.density}}'}"
+
+                    result="blur"/>
     <feSpecularLighting ng-if="viewModel.model.bevel.enabled"
                         in="blur"
                         surfaceScale="5" specularConstant="0.5" specularExponent="10"
@@ -61,7 +65,7 @@
     <!--blur-->
     <feGaussianBlur ng-if="viewModel.model.blur.enabled"
                     in="endResult"
-                    svg-attr-stddeviation="{{viewModel.model.blur.density}}"
+                    svg-attr="{name:'stdDeviation', value:'{{viewModel.model.blur.density}}'}"
                     result="endResult"/>
 
     <!--shadow-->
@@ -70,7 +74,8 @@
               dx="{{viewModel.model.shadow.offsetX}}"
               dy="{{viewModel.model.shadow.offsetY}}"/>
     <feGaussianBlur ng-if="viewModel.model.shadow.enabled"
-                    result="blurOut" in="offOut" svg-attr-stddeviation="{{viewModel.model.shadow.density}}"/>
+                    result="blurOut" in="offOut"
+                    svg-attr="{name:'stdDeviation', value:'{{viewModel.model.shadow.density}}'}"/>
     <feBlend ng-if="viewModel.model.shadow.enabled"
              in="endResult" in2="blurOut" mode="normal"/>
   </filter>
