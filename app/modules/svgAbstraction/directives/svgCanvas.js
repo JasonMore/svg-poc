@@ -94,6 +94,10 @@
         $scope.shadowShape = shapeViewModelService.create(modelCopy);
       });
 
+      $scope.$watch('selectedShape.model', function() {
+        _.merge($scope.shadowShape.model, $scope.selectedShape.model);
+      }, true);
+
       // events
       $scope.$on('blankSpaceOnBodyClicked',unSelectShape);
       $scope.$on('shapePickedForDrawing', unSelectShape);
