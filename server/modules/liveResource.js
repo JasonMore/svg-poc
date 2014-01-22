@@ -103,7 +103,7 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
       // when local modifications are made, update the server model
       $rootScope.$watch(function () {
         return JSON.stringify(liveData);
-      }, function (newModels, oldModels) {
+      }, _.throttle(function (newModels, oldModels) {
         if (!oldModels || newModels === oldModels) {
           return;
         }
@@ -129,7 +129,7 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
 
           updateModel(newModels[modelKey], oldModels[modelKey]);
         }
-      }, true);
+      }, 200), true);
 
       function updateModel(newModel, oldModel, childPath) {
         if (!childPath) {

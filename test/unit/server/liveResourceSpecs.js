@@ -30,6 +30,11 @@ describe('liveResource.js >', function () {
       // assuming racer.js
       return racer;
     };
+
+    spyOn(_, 'throttle').andCallFake(function(fn){
+      return fn;
+    });
+
   });
 
   beforeEach(module('liveResource'));

@@ -96,7 +96,7 @@
 
       $scope.$watch('selectedShape.model', function() {
         if(!$scope.selectedShape) return;
-        
+
         _.merge($scope.shadowShape.model, $scope.selectedShape.model);
       }, true);
 

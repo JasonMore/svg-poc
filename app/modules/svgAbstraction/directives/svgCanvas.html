@@ -188,7 +188,7 @@
       ng-dblclick="selectedShape.isEditingText = true"
       fill-opacity="{{shadowShape.isDragging || shadowShape.isResizing ? '0.8' : '0'}}"
       stroke="black"
-      stroke-width="{{shadowShape.model.borderWidth}}"
+      stroke-width="{{shadowShape.isDragging || shadowShape.isResizing ? shadowShape.model.borderWidth : '0'}}"
       class="shadowShape noTextWrap"></path>
 
   <g transform="translate({{shadowShape.left()}},{{shadowShape.top()}}), rotate({{shadowShape.model.rotation}},{{shadowShape.midPointX() + shadowShape.borderOffset()}},{{shadowShape.midPointY() + shadowShape.borderOffset()}})"
