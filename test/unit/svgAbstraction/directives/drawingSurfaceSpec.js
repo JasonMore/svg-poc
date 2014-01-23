@@ -40,7 +40,7 @@ xdescribe('drawingSurfaceSpec.js', function() {
 
       scope.shapeType = function(){
         return 'square';
-      }
+      };
 
       scope.$digest();
 

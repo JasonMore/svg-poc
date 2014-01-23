@@ -27,10 +27,14 @@
     "font-awesome": "~4.0.3",
     "jquery-ui": "~1.10.3",
     "angular-ui-router": "0.2.0",
-    "angular-mocks": "~1.2.5"
+    "angular-mocks": "~1.2.5",
+    "angular-ui-sortable": "~0.10.0"
   },
   "devDependencies": {
     "sinonjs": "~1.7.3",
     "jasmine-sinon": "~0.3.1"
+  },
+  "resolutions": {
+    "angular": ">=1.2.0"
   }
 }
