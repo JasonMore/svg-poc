@@ -12,7 +12,8 @@
     'ui.router',
 //    'ngAnimate',
     'colorpicker.module',
-    'ui.select2'
+    'ui.select2',
+    'ui.sortable'
 //    'ngSvg'
   ];
 

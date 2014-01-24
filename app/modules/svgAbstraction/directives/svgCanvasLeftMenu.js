@@ -11,12 +11,12 @@
           template: '=',
           liveTemplate: '=',
           vocabulary: '=',
-          liveShapes:'=',
+          liveShapes: '=',
           shapes: '='
         }
       };
     })
-    .controller('svgCanvasLeftMenuCtrl', function($scope, $modal) {
+    .controller('svgCanvasLeftMenuCtrl', function($scope, $modal, collectionArraySync) {
       window.debugLeftMenuCtrl = $scope;
 
       // Properties
@@ -159,8 +159,11 @@
             $scope.fieldBinding = fieldBinding;
             $scope.vocabularyGroups = vocabularyGroups;
 
+            $scope.mappedBindings = collectionArraySync.create(fieldBinding.bindings, liveBindings);
+
             $scope.addNewBinding = function() {
               liveBindings.add({type: 'eq', fieldValue: '', overrideValue: ''});
+//              $scope.mappedBindings.push({type: 'eq', fieldValue: '', overrideValue: ''});
             };
 
             $scope.removeBinding = function(binding) {

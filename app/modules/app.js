@@ -50,8 +50,16 @@
       }
       return this;
     }
-  })
+  });
 
+
+  Object.defineProperty(Array.prototype,'extend',{
+    value: function (other_array) {
+      if (other_array instanceof Array) {
+        other_array.forEach(function(v) {this.push(v)}, this);
+      }
+    }
+  });
 
   // Decimal round
   Math.roundPrecision = function (value, points) {
