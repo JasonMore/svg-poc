@@ -52,10 +52,9 @@
     }
   });
 
-
   Object.defineProperty(Array.prototype,'extend',{
     value: function (other_array) {
-      if (other_array instanceof Array) {
+      if (_.isArray(other_array)) {
         other_array.forEach(function(v) {this.push(v)}, this);
       }
     }

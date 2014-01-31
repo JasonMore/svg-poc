@@ -20,7 +20,7 @@
           mappedArray.length = 0;
 
           // add the new values onto the existing array
-          mappedArray.extend(updatedValues);
+          _.extend(mappedArray, updatedValues);
         }, true);
 
         // update order of object when its position changes in mapped array

@@ -33,6 +33,7 @@ module.exports = function (karma) {
       'app/components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js',
       'app/components/select2/select2.js',
       'app/components/angular-ui-select2/src/select2.js',
+      'app/components/angular-ui-sortable/src/sortable.js',
       // end of libraries
 
       // testing libraries
