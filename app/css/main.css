@@ -539,16 +539,6 @@ label.form-control {
 }
 
 /* binding items */
-.row.item {
-    /*width: 200px;*/
-    /*padding: 5px 10px;*/
-    /*margin: 5px 0;*/
-    border: 2px solid #444;
-    border-radius: 1px;
-    /*background-color: #EA8A8A;*/
-
-    /*font-size: 1.1em;*/
-    /*font-weight: bold;*/
-    /*text-align: center;*/
-    cursor: move;
+.row.item, .row.item label.form-control {
+    cursor: -webkit-grab;
 }

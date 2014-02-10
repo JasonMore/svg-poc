@@ -7,19 +7,35 @@ var express = require('express'),
   http = require('http'),
   path = require('path'),
   racer = require('racer'),
-  liveDbMongo = require('livedb-mongo')
+  liveDbMongo = require('livedb-mongo'),
+  cas = require('connect-cas')
   ;
+
+cas.configure({
+  hostname: 'dev-dmz-las.lifetouch.net',
+  paths: {
+    serviceValidate: '/las2/serviceValidate',
+    login: '/las2/login'
+  }
+});
 
 
 // configure express
 var app = express();
 
 //noinspection JSCheckFunctionSignatures,JSValidateTypes
-app.configure(function () {
+app.configure(function() {
   app.set('port', process.env.VMC_APP_PORT || process.env.PORT || 3000);
 //  app.set('port', process.env.VMC_APP_PORT || 3000);
   app.set('views', __dirname + '/views');
   app.engine('html', require('ejs').renderFile);
+
+  //uncomment for cas validation
+//  app.use(express.cookieParser('derp secret key'));
+//  app.use(express.cookieSession());
+//  app.use(cas.serviceValidate());
+//  app.use(cas.authenticate());
+
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
@@ -28,16 +44,15 @@ app.configure(function () {
   app.use(express.static(path.join(__dirname, 'app')));
 
 
-
 });
 
-app.configure('development', function () {
+app.configure('development', function() {
   app.use(express.errorHandler());
 });
 
 app.get('/', routes.index);
 
-var server = http.createServer(app).listen(app.get('port'), function () {
+var server = http.createServer(app).listen(app.get('port'), function() {
   console.log("Express server listening on port " + app.get('port'));
 });
 
@@ -72,9 +87,9 @@ var store = racer.createStore({
 app.use(require('racer-browserchannel')(store));
 app.use(store.modelMiddleware());
 
-app.get('/racerInit', function (req, res) {
+app.get('/racerInit', function(req, res) {
   var model = store.createModel({fetchOnly: true}, req);
-  model.bundle(function (err, bundle) {
+  model.bundle(function(err, bundle) {
     if (err) {
       res.status(500);
       res.send(err);
@@ -85,10 +100,9 @@ app.get('/racerInit', function (req, res) {
 });
 
 // TODO: figure out how to have more than one of these with browserify
-store.bundle(__dirname + '/server/modules/liveResource.js', function (err, js) {
-  app.get('/serverModules-script.js', function (req, res) {
+store.bundle(__dirname + '/server/modules/liveResource.js', function(err, js) {
+  app.get('/serverModules-script.js', function(req, res) {
     res.type('js');
     res.send(js);
   });
 });
-
