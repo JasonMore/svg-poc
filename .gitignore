@@ -7,13 +7,4 @@ Test Results - karma-coverage_conf_js.html
 .idea/workspace.xml
 app/modules/.DS_Store
 dump.rdb
-node_modules/karma/*
-node_modules/karma-phantomjs-launcher/*
-node_modules/.bin/
-node_modules/gulp-jshint/
-node_modules/gulp-nodemon/
-node_modules/gulp-util/
-node_modules/gulp/
-node_modules/gulp-debug/
-node_modules/gulp-spawn-shim/
-node_modules/through2/
+node_modules/
