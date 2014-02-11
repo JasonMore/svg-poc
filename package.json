@@ -36,7 +36,11 @@
     "karma-phantomjs-launcher": "~0.1.1",
     "karma": "~0.10.8",
     "karma-ng-html2js-preprocessor": "~0.1.0",
-    "karma-coverage": "~0.1.4"
+    "karma-coverage": "~0.1.4",
+    "gulp-util": "~2.2.14",
+    "gulp": "~3.5.2",
+    "gulp-nodemon": "~0.1.2",
+    "gulp-jshint": "~1.4.0"
   },
   "repository": {
     "type": "git",

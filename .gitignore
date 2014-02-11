@@ -9,3 +9,8 @@ app/modules/.DS_Store
 dump.rdb
 node_modules/karma/*
 node_modules/karma-phantomjs-launcher/*
+node_modules/.bin/
+node_modules/gulp-jshint/
+node_modules/gulp-nodemon/
+node_modules/gulp-util/
+node_modules/gulp/
