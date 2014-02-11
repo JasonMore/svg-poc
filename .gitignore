@@ -14,3 +14,6 @@ node_modules/gulp-jshint/
 node_modules/gulp-nodemon/
 node_modules/gulp-util/
 node_modules/gulp/
+node_modules/gulp-debug/
+node_modules/gulp-spawn-shim/
+node_modules/through2/
