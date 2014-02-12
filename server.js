@@ -78,10 +78,19 @@ var mongoUrl = process.env.MONGO_URL || process.env.MONGOHQ_URL ||
   'mongodb://localhost:27017/svgPoc';
 
 // configure racer.js store
+var livedb = require('livedb');
+
+//var store = racer.createStore({
+//  server: server,
+//  db: liveDbMongo(mongoUrl + '?auto_reconnect', {safe: true}),
+//  redis: redis
+//});
+
 var store = racer.createStore({
-  server: server,
-  db: liveDbMongo(mongoUrl + '?auto_reconnect', {safe: true}),
-  redis: redis
+  backend:livedb.client({
+    redis:redis,
+    db: liveDbMongo(mongoUrl + '?auto_reconnect', {safe: true})
+  })
 });
 
 app.use(require('racer-browserchannel')(store));

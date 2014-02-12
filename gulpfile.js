@@ -49,7 +49,13 @@ gulp.task('startNode', ['mongo', 'redis'], function () {
 //    .on('restart', ['lint'])
 });
 
+gulp.task('startNodeDebug', ['mongo', 'redis'], function () {
+  return nodemon({ script: 'server.js', options: '-i app --debug-brk' });
+//    .on('restart', ['lint'])
+});
+
 gulp.task('server', ['mongo', 'redis', 'startNode']);
+gulp.task('debug', ['mongo', 'redis', 'startNodeDebug']);
 
 // The default task (called when you run `gulp` from cli)
 gulp.task('default', ['server']);
