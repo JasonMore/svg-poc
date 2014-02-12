@@ -86,6 +86,8 @@ var livedb = require('livedb');
 //  redis: redis
 //});
 
+console.log('port: ',redis.port, ' host: ', redis.host, ' options: ', redis.options, ' auth_path: ', redis.auth_path);
+
 var store = racer.createStore({
   backend:livedb.client({
     redis:redis,
