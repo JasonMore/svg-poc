@@ -61,16 +61,27 @@ var server = http.createServer(app).listen(app.get('port'), function() {
 ///
 
 //Get Redis configuration
+var createRedisClient =  require('redis').createClient,
+  redis, redisObserver;
+
 if (process.env.REDIS_HOST) {
-  var redis = require('redis').createClient(process.env.REDIS_PORT, process.env.REDIS_HOST);
+  redis = createRedisClient(process.env.REDIS_PORT, process.env.REDIS_HOST);
   redis.auth(process.env.REDIS_PASSWORD);
+
+  redisObserver = createRedisClient(process.env.REDIS_PORT, process.env.REDIS_HOST);
+  redisObserver.auth(process.env.REDIS_PASSWORD);
 } else if (process.env.REDISCLOUD_URL) {
   var redisUrl = require('url').parse(process.env.REDISCLOUD_URL);
-  var redis = require('redis').createClient(redisUrl.port, redisUrl.hostname);
   var password = redisUrl.auth.split(":")[1];
+
+  redis = createRedisClient(redisUrl.port, redisUrl.hostname);
   redis.auth(password);
+
+  redisObserver = createRedisClient(redisUrl.port, redisUrl.hostname);
+  redisObserver.auth(password);
 } else {
-  var redis = require('redis').createClient();
+  redis = createRedisClient();
+  redisObserver = createRedisClient();
 }
 
 // configure mongo
@@ -86,11 +97,10 @@ var livedb = require('livedb');
 //  redis: redis
 //});
 
-console.log('port: ',redis.port, ' host: ', redis.host, ' options: ', redis.options, ' auth_path: ', redis.auth_path);
-
 var store = racer.createStore({
   backend:livedb.client({
     redis:redis,
+    redisObserver: redisObserver,
     db: liveDbMongo(mongoUrl + '?auto_reconnect', {safe: true})
   })
 });
