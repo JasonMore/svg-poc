@@ -1,5 +1,5 @@
 (function () {
-  angular.module('svgAbstraction.directives')
+  angular.module('svgAbstraction')
     .directive('ngRightclick', function ($parse) {
       return function (scope, element, attrs) {
         var fn = $parse(attrs.ngRightclick);

@@ -1,5 +1,5 @@
 (function () {
-  angular.module('svgAbstraction.services').service('dataMergeService', function (dotNotation) {
+  angular.module('svgAbstraction').service('dataMergeService', function (dotNotation) {
     var modelTranslate = {
       "text": "text",
       "background": "backgroundColor",

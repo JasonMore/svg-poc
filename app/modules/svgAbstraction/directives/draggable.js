@@ -1,5 +1,5 @@
 (function () {
-  angular.module('svgAbstraction.directives')
+  angular.module('svgAbstraction')
     .directive('ngSvgDraggable', function ($compile) {
       return {
         restrict: 'A',

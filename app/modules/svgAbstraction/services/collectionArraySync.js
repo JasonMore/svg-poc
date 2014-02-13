@@ -1,5 +1,5 @@
 (function() {
-  angular.module('svgAbstraction.services').factory('collectionArraySync', function($rootScope) {
+  angular.module('svgAbstraction').factory('collectionArraySync', function($rootScope) {
 
     return {
       create: function create(collection, liveResourceScope) {

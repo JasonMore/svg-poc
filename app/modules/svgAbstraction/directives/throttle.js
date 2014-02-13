@@ -1,5 +1,5 @@
 (function () {
-  angular.module('svgAbstraction.directives')
+  angular.module('svgAbstraction')
     .directive('throttle', function ($parse) {
       return {
         restrict: 'A',

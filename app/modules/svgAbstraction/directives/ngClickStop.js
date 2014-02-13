@@ -2,7 +2,7 @@
 // Stops propagation of the click from the elements children
 
 (function () {
-  angular.module('svgAbstraction.directives')
+  angular.module('svgAbstraction')
     .directive('ngClickStop', function ($parse) {
       return function (scope, element, attr) {
         var fn = $parse(attr['ngClickStop']);

@@ -5,8 +5,6 @@
 
   ];
 
-  angular.module('renderTemplate');
-
   angular.module('renderTemplate', using)
     .config(function ($stateProvider) {
       $stateProvider.state('renderTemplate', {

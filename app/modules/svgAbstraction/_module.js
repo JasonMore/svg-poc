@@ -2,25 +2,14 @@
   'use strict';
 
   var using = [
-    'svgAbstraction.controllers',
-    'svgAbstraction.directives',
-    'svgAbstraction.services',
-    'svgAbstraction.filters',
     'ui.bootstrap',
     'menuAim',
     'liveResource',
     'ui.router',
-//    'ngAnimate',
     'colorpicker.module',
     'ui.select2',
     'ui.sortable'
-//    'ngSvg'
   ];
-
-  angular.module('svgAbstraction.controllers', ['colorpicker.module', 'ui.select2']);
-  angular.module('svgAbstraction.services',[]);
-  angular.module('svgAbstraction.directives', []);
-  angular.module('svgAbstraction.filters', []);
 
   angular.module('svgAbstraction', using)
     .config(function ($stateProvider) {

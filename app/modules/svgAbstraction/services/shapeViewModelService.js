@@ -1,5 +1,5 @@
 (function () {
-  angular.module('svgAbstraction.services').service('shapeViewModelService', function (pathService) {
+  angular.module('svgAbstraction').service('shapeViewModelService', function (pathService) {
     this.create = function create(modelOrFn) {
       var selectionBox;
 

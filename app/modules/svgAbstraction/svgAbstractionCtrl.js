@@ -1,5 +1,5 @@
 (function() {
-  angular.module('svgAbstraction.controllers')
+  angular.module('svgAbstraction')
     .controller('svgAbstractionCtrl', function($scope, $stateParams, shapeViewModelService, liveResource, textReflowService, dataMergeService) {
       window.debugScope = $scope;
 
@@ -189,7 +189,7 @@
         updateAllTextReflows();
       });
 
-      $scope.$on('shapeDrawn', function(event, shape){
+      $scope.$on('shapeDrawn', function(event, shape) {
         shape.order = nextOrderNumber();
         liveShapes.add(shape);
       });

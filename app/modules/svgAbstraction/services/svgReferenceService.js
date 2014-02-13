@@ -1,5 +1,5 @@
 (function(){
-  angular.module('svgAbstraction.services')
+  angular.module('svgAbstraction')
     .service('svgReferenceService', function() {
       this.svg = null;
     });

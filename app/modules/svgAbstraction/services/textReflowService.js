@@ -1,5 +1,5 @@
 (function () {
-  angular.module('svgAbstraction.services').service('textReflowService', function() {
+  angular.module('svgAbstraction').service('textReflowService', function() {
 
     function resetVisibility(elt) {
       if (elt.nodeType != 1) {

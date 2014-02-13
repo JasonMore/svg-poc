@@ -1,5 +1,5 @@
 (function () {
-  angular.module('svgAbstraction.services').service('uuidService', function () {
+  angular.module('svgAbstraction').service('uuidService', function () {
     this.generateUUID = function generateUUID() {
       var d = Date.now();
       var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {

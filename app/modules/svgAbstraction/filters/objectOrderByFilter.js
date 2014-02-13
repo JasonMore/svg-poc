@@ -1,5 +1,5 @@
 (function () {
-  angular.module('svgAbstraction.filters').filter('objectOrderBy', function (orderByFilter) {
+  angular.module('svgAbstraction').filter('objectOrderBy', function (orderByFilter) {
     return function (value, predicate, reverse) {
       if (_.isObject(value)) {
         value = _.values(value);
