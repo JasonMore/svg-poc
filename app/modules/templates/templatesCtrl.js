@@ -1,5 +1,5 @@
 (function() {
-  angular.module('templates.controllers')
+  angular.module('templates')
     .controller('templatesCtrl', function($scope, $stateParams, liveResource, $modal) {
 
       // load data

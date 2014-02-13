@@ -2,7 +2,6 @@
   'use strict';
   var using = [
     'main',
-//    'svgShell',
     'svgAbstraction',
     'templates',
     'testData',
@@ -21,10 +20,6 @@
         // Allow loading assets from anywhere.
         '**'
       ]);
-
-
-
-
     });
 
   app.controller('bodyCtrl', function($scope){

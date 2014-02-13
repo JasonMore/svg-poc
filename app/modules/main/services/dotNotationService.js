@@ -1,5 +1,5 @@
 (function() {
-  angular.module('main.services')
+  angular.module('main')
     .service('dotNotation', function() {
 
       // see http://plnkr.co/edit/lo0thC?p=preview for usage

@@ -1,5 +1,5 @@
 (function () {
-  angular.module('main.directives')
+  angular.module('main')
     .directive('editableField', function($compile, $templateCache, $http) {
     var templateUrl = 'modules/main/directives/editableField.html';
     return {

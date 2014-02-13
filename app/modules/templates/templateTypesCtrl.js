@@ -1,5 +1,5 @@
 (function () {
-  angular.module('templates.controllers')
+  angular.module('templates')
     .controller('templateTypesCtrl', function ($scope, liveResource, $modal) {
 
       var liveTemplateTypes = liveResource('templateTypes');

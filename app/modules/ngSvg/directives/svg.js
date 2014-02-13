@@ -1,5 +1,5 @@
 (function () {
-  angular.module('ngSvg.directives')
+  angular.module('ngSvg')
     .directive('svg', function () {
       return {
         restrict: "E",

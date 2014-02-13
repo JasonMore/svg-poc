@@ -1,5 +1,5 @@
 (function() {
-  angular.module('main.directives')
+  angular.module('main')
     .directive('editableGroupButton', function () {
       return {
         restrict:'EA',
