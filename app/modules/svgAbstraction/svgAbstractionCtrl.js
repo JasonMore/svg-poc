@@ -1,5 +1,5 @@
 (function() {
-  angular.module('svgAbstraction')
+  angular.module('svg-poc')
     .controller('svgAbstractionCtrl', function($scope, $stateParams, shapeViewModelService, liveResource, textReflowService, dataMergeService) {
       window.debugScope = $scope;
 

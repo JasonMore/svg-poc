@@ -1,5 +1,5 @@
 (function () {
-  angular.module('svgAbstraction')
+  angular.module('svg-poc')
     .directive('drawingSurface', function ($compile, pathService, uuidService, shapePaths, svgReferenceService) {
 
       // since svgReferenceService.svg is null initially, this helper method

@@ -1,7 +1,7 @@
 describe('rgbaToHex.js >', function() {
   var rgbaToHex, rgbaToOpacity;
 
-  beforeEach(module('svgAbstraction'));
+  beforeEach(module('svg-poc'));
   beforeEach(inject(function(_rgbaToHexFilter_, _rgbaToOpacityFilter_){
     rgbaToHex = _rgbaToHexFilter_;
     rgbaToOpacity = _rgbaToOpacityFilter_;

@@ -2,7 +2,7 @@ describe('svgCanvas.js >', function() {
   var element, scope, controller;
 
   beforeEach(module('preloadAllHtmlTemplates'));
-  beforeEach(module('svgAbstraction'));
+  beforeEach(module('svg-poc'));
 
   describe('creating >', function() {
     var shapes;

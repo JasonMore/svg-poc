@@ -2,7 +2,7 @@
 
   var rgbaRegex = /rgba\((\d+),(\d+),(\d+),(\d+|\d+\.\d+)\)/;
 
-  angular.module('svgAbstraction').filter('rgbaToHex', function () {
+  angular.module('svg-poc').filter('rgbaToHex', function () {
     return function (value) {
       var rgba = rgbaRegex.exec(value);
       if(!rgba) return value;
@@ -10,7 +10,7 @@
     };
   });
 
-  angular.module('svgAbstraction').filter('rgbaToOpacity', function () {
+  angular.module('svg-poc').filter('rgbaToOpacity', function () {
     return function (value) {
       var rgba = rgbaRegex.exec(value);
       if(!rgba) return value;

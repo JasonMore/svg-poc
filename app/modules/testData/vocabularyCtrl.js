@@ -1,6 +1,6 @@
 (function () {
 
-  angular.module('testData')
+  angular.module('svg-poc')
     .controller('testData.vocabularyCtrl', function ($scope, liveResource) {
       var liveVocabulary = liveResource('vocabulary');
       var vocabularyQuery = liveVocabulary.query({});

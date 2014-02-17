@@ -1,5 +1,5 @@
 (function () {
-  angular.module('testData')
+  angular.module('svg-poc')
     .controller('testData.templatesCtrl', function ($scope, liveResource) {
       window.debugScope = $scope;
       var liveTemplateTypes = liveResource('templateTypes');

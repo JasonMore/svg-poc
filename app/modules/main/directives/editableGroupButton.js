@@ -1,5 +1,5 @@
 (function() {
-  angular.module('main')
+  angular.module('svg-poc')
     .directive('editableGroupButton', function () {
       return {
         restrict:'EA',

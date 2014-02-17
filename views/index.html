@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="app" ng-click-stop="blankSpaceClicked($event)" ng-controller="bodyCtrl">
+<html ng-app="svg-poc" ng-click-stop="blankSpaceClicked($event)" ng-controller="bodyCtrl">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -43,8 +43,12 @@
 
 <!-- build:js scripts/scripts.js -->
 <script src="modules/app.js"></script>
+<script src="modules/bodyCtrl.js"></script>
 
-<script src="modules/main/_module.js"></script>
+<script src="modules/extensions/array.js"></script>
+<script src="modules/extensions/math.js"></script>
+
+<script src="modules/main/mainCtrl.js"></script>
 <script src="modules/main/directives/editableField.js"></script>
 <script src="modules/main/directives/editableGroupButton.js"></script>
 <script src="modules/main/services/dotNotationService.js"></script>
@@ -52,7 +56,6 @@
 
 <script src="modules/menuAim/_module.js"></script>
 
-<script src="modules/svgAbstraction/_module.js"></script>
 <script src="modules/svgAbstraction/svgAbstractionCtrl.js"></script>
 <script src="modules/svgAbstraction/services/pathService.js"></script>
 <script src="modules/svgAbstraction/services/uuidService.js"></script>
@@ -80,16 +83,13 @@
 <script src="modules/svgAbstraction/filters/objectOrderByFilter.js"></script>
 <script src="modules/svgAbstraction/filters/rgbaToHex.js"></script>
 
-<script src="modules/testData/_module.js"></script>
 <script src="modules/testData/templatesCtrl.js"></script>
 <script src="modules/testData/studentsCtrl.js"></script>
 <script src="modules/testData/vocabularyCtrl.js"></script>
 
-<script src="modules/templates/_module.js"></script>
 <script src="modules/templates/templatesCtrl.js"></script>
 <script src="modules/templates/templateTypesCtrl.js"></script>
 
-<script src="modules/renderTemplate/_module.js"></script>
 <script src="modules/renderTemplate/renderTemplateCtrl.js"></script>
 
 <script src="serverModules-script.js"></script>

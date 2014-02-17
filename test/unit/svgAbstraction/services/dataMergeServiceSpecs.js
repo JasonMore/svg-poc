@@ -1,6 +1,5 @@
 describe('dataMergeService.js > ', function () {
-  beforeEach(module('main'));
-  beforeEach(module('svgAbstraction'));
+  beforeEach(module('svg-poc'));
   var data, vocabulary,
     shapes = {
       "abc123": {

@@ -1,17 +1,99 @@
-(function () {
+(function() {
   'use strict';
   var using = [
-    'main',
-    'svgAbstraction',
-    'templates',
-    'testData',
-    'renderTemplate',
-    'ui.router'
+    'ui.router',
+    'ui.bootstrap',
+    'ui.router',
+    'liveResource',
+    'colorpicker.module',
+    'ui.select2',
+    'ui.sortable'
   ];
 
-  var app = angular.module('app', using)
-    .config(function ($urlRouterProvider, $sceDelegateProvider) {
+  var app = angular.module('svg-poc', using)
+    .config(function($urlRouterProvider, $sceDelegateProvider, $stateProvider) {
       $urlRouterProvider.otherwise("/");
+
+      $stateProvider
+        .state('main', {
+          url: "/",
+          templateUrl: "modules/main/main.html",
+          controller: 'mainCtrl'
+        })
+
+        .state('svgAbstraction', {
+          url: '/svgAbstraction/:id',
+          templateUrl: 'modules/svgAbstraction/svgAbstraction.html',
+          controller: 'svgAbstractionCtrl',
+          resolve: {
+            liveResource: liveResourceFactory
+          }
+        })
+
+        .state('renderTemplate', {
+          url: '/renderTemplate/:templateId?dataSet',
+
+          templateUrl: 'modules/renderTemplate/renderTemplate.html',
+          controller: 'renderTemplateCtrl',
+          resolve: {
+            liveResource: liveResourceFactory
+          }
+        })
+
+        .state('templates', {
+          abstract: true,
+          url: "/templates",
+          templateUrl: "modules/templates/templatesShell.html"
+        })
+        .state('templates.list', {
+          url: '',
+          templateUrl: 'modules/templates/templateTypes.html',
+          controller: 'templateTypesCtrl',
+          resolve: {
+            liveResource: liveResourceFactory
+          }
+        })
+        .state('templates.item', {
+          url: "/{id}",
+          templateUrl: "modules/templates/templates.html",
+          controller: 'templatesCtrl',
+          resolve: {
+            liveResource: liveResourceFactory
+          }
+        })
+
+        .state('testData', {
+          url: '/testData',
+          templateUrl: 'modules/testData/testData.html'
+        })
+        .state('testData.templates', {
+          url: '/templates',
+          templateUrl: "modules/testData/templates.html",
+          controller: 'testData.templatesCtrl',
+          resolve: {
+            liveResource: liveResourceFactory
+          }
+        })
+        .state('testData.students', {
+          url: '/students',
+          templateUrl: "modules/testData/students.html",
+          controller: 'testData.studentsCtrl',
+          resolve: {
+            liveResource: liveResourceFactory
+          }
+        })
+        .state('testData.vocabulary', {
+          url: '/vocabulary',
+          templateUrl: "modules/testData/vocabulary.html",
+          controller: 'testData.vocabularyCtrl',
+          resolve: {
+            liveResource: liveResourceFactory
+          }
+        });
+
+      function liveResourceFactory(liveResourceProvider) {
+        return liveResourceProvider.createLiveResource;
+      }
 
       $sceDelegateProvider.resourceUrlWhitelist([
         // Allow same origin resource loads.
@@ -22,48 +104,5 @@
         '**'
       ]);
     });
-
-  app.controller('bodyCtrl', function($scope){
-    $scope.blankSpaceClicked = function($event){
-      $scope.$broadcast('blankSpaceOnBodyClicked', $event);
-    }
-  });
-
-  // best place for extensions? not sure
-  Object.defineProperty(Array.prototype,'remove',{
-    value: function (valueOrPredicate) {
-      var predicate = typeof valueOrPredicate == "function" ? valueOrPredicate
-        : function (value) {
-        return value === valueOrPredicate;
-      };
-
-      for (var i = 0; i < this.length; i++) {
-        var value = this[i];
-        if (predicate(value)) {
-          this.splice(i, 1);
-          i--;
-        }
-      }
-      return this;
-    }
-  });
-
-  Object.defineProperty(Array.prototype,'extend',{
-    value: function (other_array) {
-      if (_.isArray(other_array)) {
-        other_array.forEach(function(v) {this.push(v)}, this);
-      }
-    }
-  });
-
-  // Decimal round
-  Math.roundPrecision = function (value, points) {
-    if(!points){
-      return Math.round(value);
-    }
-    var precision = Math.pow(10, points);
-    return Math.round(value * precision) / precision;
-  };
-
 
 }());

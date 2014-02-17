@@ -1,5 +1,5 @@
 (function () {
-  angular.module('svgAbstraction')
+  angular.module('svg-poc')
     .directive('batikUpload', function (svgReferenceService) {
       return {
         restrict: 'E',

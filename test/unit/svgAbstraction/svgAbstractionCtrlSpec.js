@@ -5,8 +5,7 @@ describe('svgAbstractionCtrl.js >', function() {
   beforeEach(useMock('service', 'liveResource', window.liveResourceMock));
   beforeEach(module('liveResource'));
 
-  beforeEach(module('main'));
-  beforeEach(module('svgAbstraction'));
+  beforeEach(module('svg-poc'));
 
   beforeEach(inject(function($rootScope, $controller) {
     $scope = $rootScope;

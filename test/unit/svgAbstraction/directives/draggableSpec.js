@@ -9,7 +9,7 @@ xdescribe('draggableSpec.js', function () {
 
   beforeEach(module('preloadAllHtmlTemplates'));
   beforeEach(module('liveResource'));
-  beforeEach(module('svgAbstraction'));
+  beforeEach(module('svg-poc'));
 
   beforeEach(inject(function ($rootScope, $compile, shapeViewModelService) {
     vmService = shapeViewModelService;

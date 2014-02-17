@@ -1,5 +1,5 @@
 (function () {
-  angular.module('templates')
+  angular.module('svg-poc')
     .controller('templateTypesCtrl', function ($scope, liveResource, $modal) {
 
       var liveTemplateTypes = liveResource('templateTypes');

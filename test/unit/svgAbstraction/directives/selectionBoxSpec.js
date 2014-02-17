@@ -11,9 +11,9 @@ describe('selectionBoxSpec.js >', function () {
 //
   beforeEach(module('preloadAllHtmlTemplates'));
   beforeEach(module('liveResource'));
-  beforeEach(module('svgAbstraction'));
+  beforeEach(module('svg-poc'));
 //
-  beforeEach(module('svgAbstraction', function ($provide) {
+  beforeEach(module('svg-poc', function ($provide) {
     $provide.decorator('pathService', function ($delegate) {
       $delegate.getSelectionBox = function (shape) {
         return selectionBox;

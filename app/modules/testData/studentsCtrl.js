@@ -1,5 +1,5 @@
 (function () {
-  angular.module('testData')
+  angular.module('svg-poc')
     .controller('testData.studentsCtrl', function ($scope, liveResource) {
       window.debugScope = $scope;
 

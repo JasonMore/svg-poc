@@ -1,5 +1,5 @@
 describe('collectionArraySync.js', function() {
-  beforeEach(module('svgAbstraction'));
+  beforeEach(module('svg-poc'));
 
   describe('init >', function() {
     var collectionArraySync, $rootScope;

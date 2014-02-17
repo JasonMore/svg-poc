@@ -1,5 +1,5 @@
 (function() {
-  angular.module('templates')
+  angular.module('svg-poc')
     .controller('templatesCtrl', function($scope, $stateParams, liveResource, $modal) {
 
       // load data

@@ -1,5 +1,5 @@
 (function() {
-  angular.module('svgAbstraction')
+  angular.module('svg-poc')
     .directive('svgCanvasLeftMenu', function() {
       return {
         restrict: 'E',

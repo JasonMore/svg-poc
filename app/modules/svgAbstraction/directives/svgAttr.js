@@ -1,5 +1,5 @@
 (function() {
-  angular.module('svgAbstraction')
+  angular.module('svg-poc')
     .directive('svgAttr', function() {
       return function(scope, el, attr) {
         scope.$watch(function() { return attr.svgAttr; }, function(svgAttr){

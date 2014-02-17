@@ -1,5 +1,5 @@
 (function () {
-  angular.module('svgAbstraction').service('pathService', function (svgReferenceService) {
+  angular.module('svg-poc').service('pathService', function (svgReferenceService) {
 
     ///
     // Gets all the points on a path, and calculates the x/y min/max

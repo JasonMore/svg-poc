@@ -2,7 +2,7 @@ describe('svgCanvasLeftMenu.js >', function() {
   var $scope, svgCanvasLeftMenuCtrl,
     noop = function() {};
 
-  beforeEach(module('svgAbstraction'));
+  beforeEach(module('svg-poc'));
 
   beforeEach(inject(function($rootScope, $controller) {
     $scope = $rootScope.$new();

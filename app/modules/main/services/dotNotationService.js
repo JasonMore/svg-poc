@@ -1,5 +1,5 @@
 (function() {
-  angular.module('main')
+  angular.module('svg-poc')
     .service('dotNotation', function() {
 
       // see http://plnkr.co/edit/lo0thC?p=preview for usage

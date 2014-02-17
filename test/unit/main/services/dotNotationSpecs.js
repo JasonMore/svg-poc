@@ -1,7 +1,7 @@
 describe('dotNotationService.js >', function() {
   var dotNotation, model;
 
-  beforeEach(module('main'));
+  beforeEach(module('svg-poc'));
 
   beforeEach(inject(function(_dotNotation_) {
     dotNotation = _dotNotation_;

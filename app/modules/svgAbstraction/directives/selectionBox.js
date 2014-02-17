@@ -1,5 +1,5 @@
 (function () {
-  angular.module('svgAbstraction')
+  angular.module('svg-poc')
     .directive('selectionBox', function ($compile, pathService, svgReferenceService) {
       var rawElement,
         svg = function () {

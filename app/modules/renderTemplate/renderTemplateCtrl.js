@@ -1,7 +1,7 @@
 (function() {
   "use strict";
 
-  angular.module('renderTemplate')
+  angular.module('svg-poc')
     .controller('renderTemplateCtrl', function($scope, $stateParams, liveResource, shapeViewModelService, textReflowService, dataMergeService) {
 
       // load data
