@@ -9,6 +9,7 @@
     .config(function ($stateProvider) {
       $stateProvider.state('renderTemplate', {
         url:'/renderTemplate/:templateId?dataSet',
+
         templateUrl:'modules/renderTemplate/renderTemplate.html',
         controller:'renderTemplateCtrl',
         resolve: {

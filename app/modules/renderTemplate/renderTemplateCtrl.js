@@ -19,8 +19,7 @@
 
       // propeties
       $scope.templatedShapes = {};
-$scope.mergeDataId = $stateParams.dataSet;
-
+      $scope.mergeDataId = $stateParams.dataSet;
 
       // computed
       $scope.computedShapes = function computedShapes() {

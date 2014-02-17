@@ -37,7 +37,9 @@
     "gulp-jshint": "~1.4.0",
     "gulp-debug": "~0.2.0",
     "gulp-spawn-shim": "~0.1.1",
-    "through2": "~0.4.1"
+    "through2": "~0.4.1",
+    "gulp-concat": "~2.1.7",
+    "gulp-uglify": "~0.2.1"
   },
   "repository": {
     "type": "git",

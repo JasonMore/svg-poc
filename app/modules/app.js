@@ -5,6 +5,7 @@
     'svgAbstraction',
     'templates',
     'testData',
+    'renderTemplate',
     'ui.router'
   ];
 
