@@ -2,24 +2,37 @@
   "use strict";
 
   angular.module('svg-poc')
-    .controller('renderTemplateCtrl', function($scope, $stateParams, liveResource, shapeViewModelService, textReflowService, dataMergeService) {
+    .controller('renderTemplateCtrl', function($scope, $stateParams, liveResource, shapeViewModelService, textReflowService, dataMergeService, $timeout) {
+      window.debugScope = $scope;
 
       // load data
       var templateKey = 'templates.' + $stateParams.templateId;
       var liveTemplate = liveResource(templateKey);
       $scope.liveTemplate = liveTemplate;
-      $scope.template = liveTemplate.get();
+      $scope.template = liveTemplate.subscribe();
 
-      var dataKey = 'students' + $stateParams.dataSet;
-      var liveStudents = liveResource(dataKey);
-      $scope.students = liveStudents.get();
+      var liveStudents = liveResource('students');
+      var studentsQuery = liveStudents.query({});
+      $scope.students = liveStudents.subscribe(studentsQuery);
 
       var liveVocabulary = liveResource('vocabulary');
-      $scope.vocabulary = liveVocabulary.get();
+      var vocabularyQuery = liveVocabulary.query({});
+      $scope.vocabulary = liveVocabulary.subscribe(vocabularyQuery);
+
+      // lets you do crud on templates.[id].shapes directly
+      var liveShapes = liveTemplate.scope('shapes');
+      $scope.liveShapes = liveShapes;
+
+      // add default template data
+      if (!$scope.template.width || !scope.template.height) {
+        $scope.template.width = 1500;
+        $scope.template.height = 1500;
+      }
 
       // propeties
+      $scope.zoom = 1;
       $scope.templatedShapes = {};
-      $scope.mergeDataId = $stateParams.dataSet;
+      $scope.mergeDataId;
 
       // computed
       $scope.computedShapes = function computedShapes() {
@@ -32,6 +45,22 @@
       }, 200);
 
       // watch
+
+
+      // wait for shapes and data to load first
+      $scope.hasShapes = function() {
+        return _.keys($scope.template.shapes).length > 0;
+      };
+
+      $scope.hasData = function() {
+        return _.keys($scope.students).length > 0;
+      };
+
+      $scope.$watch('hasShapes() && hasData()', function(ready) {
+        if(!ready) return;
+        $scope.mergeDataId = $stateParams.dataSet;
+      });
+
       $scope.$watch('mergeDataId', function(mergeDataId, oldValue) {
         if (mergeDataId === oldValue) return;
 
@@ -63,5 +92,16 @@
         _.merge($scope.shapesCopy, mergedShapes);
       }
 
+      // wait for the dom to settle down before submitting to batik
+      var exportPdf = _.debounce(function() {
+        $scope.$emit('submitSvgToBatik');
+      },250);
+
+
+      $scope.$watch(function(){
+        exportPdf();
+      });
+
+
     });
-});
+}());
