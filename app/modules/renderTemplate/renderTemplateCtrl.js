@@ -2,7 +2,7 @@
   "use strict";
 
   angular.module('svg-poc')
-    .controller('renderTemplateCtrl', function($scope, $stateParams, liveResource, shapeViewModelService, textReflowService, dataMergeService, $timeout) {
+    .controller('renderTemplateCtrl', function($scope, $stateParams, liveResource, shapeViewModelService, textReflowService, dataMergeService, $timeout, svgReferenceService) {
       window.debugScope = $scope;
 
       // load data
@@ -57,7 +57,7 @@
       };
 
       $scope.$watch('hasShapes() && hasData()', function(ready) {
-        if(!ready) return;
+        if (!ready) return;
         $scope.mergeDataId = $stateParams.dataSet;
       });
 
@@ -92,13 +92,20 @@
         _.merge($scope.shapesCopy, mergedShapes);
       }
 
-      // wait for the dom to settle down before submitting to batik
+      // wait for the dom to settle down
       var exportPdf = _.debounce(function() {
-        $scope.$emit('submitSvgToBatik');
-      },250);
+
+        var status = window.callPhantom({
+          emit: 'doneRendering',
+          svg: svgReferenceService.svg.toSVG()
+        });
+
+        console.log(status);  // Will either print 'Accepted.' or 'DENIED!'
+
+      }, 150);
 
 
-      $scope.$watch(function(){
+      $scope.$watch(function() {
         exportPdf();
       });
 
