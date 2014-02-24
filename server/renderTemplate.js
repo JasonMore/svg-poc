@@ -3,7 +3,7 @@ var request = require('request'),
   spawn = require('child_process').spawn;
 
 function createTemplate(req, res) {
-  var phantom = spawn('phantomjs', ['./phantomjs/downloadSvg.js']);
+  var phantom = spawn('phantomjs', ['./phantomjs/downloadSvg.js', req.params.templateId, req.params. dataSet]);
 
 
   phantom.on('close', function(code, signal) {
@@ -12,6 +12,8 @@ function createTemplate(req, res) {
 //    console.log('child process terminated due to receipt of signal '+signal);
   });
 }
+
+var path = 'doodle.pdf';
 
 function renderTemplate(req, res) {
   console.log('--- start rendering');
@@ -34,11 +36,9 @@ function renderTemplate(req, res) {
       res.send(500);
     }
   })
-    .pipe(fs.createWriteStream('doodle.pdf'));
-
+    .pipe(fs.createWriteStream(path + 'broken'));
 }
 
-var path = 'doodle.pdf';
 
 function downloadTemplate(req, res) {
 
@@ -57,8 +57,9 @@ function downloadTemplate(req, res) {
       return;
     }
 
-    var readStream = fs.createReadStream(path);
-    readStream.pipe(res);
+//    var readStream = fs.createReadStream(path);
+//    readStream.pipe(res);
+    res.download(path);
   }
 }
 
