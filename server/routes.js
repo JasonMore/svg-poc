@@ -7,6 +7,7 @@ var http = require('http'),
 
 exports.setup = function(app) {
   app.get('/', index);
+  app.get('/test', renderTemplate.test);
   app.get('/createTemplate', renderTemplate.createTemplate);
   app.post('/renderTemplate', renderTemplate.renderTemplate);
   app.get('/downloadTemplate', renderTemplate.downloadTemplate);

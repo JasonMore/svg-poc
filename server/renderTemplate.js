@@ -36,7 +36,7 @@ function renderTemplate(req, res) {
       res.send(500);
     }
   })
-    .pipe(fs.createWriteStream(path + 'broken'));
+    .pipe(fs.createWriteStream(path));
 }
 
 
@@ -48,23 +48,57 @@ function downloadTemplate(req, res) {
 
   function checkForPath() {
     if (!fs.existsSync(path)) {
-      count++;
-      if(count > 1000){
-        res.end();
-        return;
-      }
+//      count++;
+//      if(count > 1000){
+//        res.end();
+//        return;
+//      }
       setTimeout(checkForPath, 10);
       return;
     }
 
-//    var readStream = fs.createReadStream(path);
-//    readStream.pipe(res);
-    res.download(path);
+    // hack?
+    // look for way to be notified when file is done writing
+    setTimeout(function() {
+      var readStream = fs.createReadStream(path);
+      readStream.pipe(res);
+//    res.download(path);
+    },1000);
+
   }
 }
 
+
+var webdriver = require('selenium-webdriver');
+var url = 'http://localhost:3000/#/renderTemplate/8cadc1aa-9cea-400a-9348-3090b16b66c1?dataSet=3ff12b9f-6620-4450-84fd-7cfe86905975';
+
+function test(req, res){
+  var driver = new webdriver.Builder().
+    withCapabilities(webdriver.Capabilities.chrome()).
+    build();
+
+  driver.get(url);
+//  driver.findElement(webdriver.By.name('q')).sendKeys('webdriver');
+//  driver.findElement(webdriver.By.name('btnG')).click();
+  driver.wait(function() {
+    return driver.getTitle().then(function(title) {
+      return title === 'doneRendering';
+    });
+  }, 10000);
+
+
+  console.log('woohooo')
+  driver.quit();
+  res.redirect('/downloadTemplate');
+//  res.end();
+}
+
+
+
+
 module.exports = {
-  createTemplate: createTemplate,
+  test: test,
+  createTemplate: test,
   renderTemplate: renderTemplate,
   downloadTemplate: downloadTemplate
 };
