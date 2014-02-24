@@ -5,7 +5,14 @@ var http = require('http'),
  * GET home page.
  */
 
-exports.index = function(req, res){
+exports.setup = function(app) {
+  app.get('/', index);
+  app.get('/createTemplate', renderTemplate.createTemplate);
+  app.post('/renderTemplate', renderTemplate.renderTemplate);
+  app.get('/downloadTemplate', renderTemplate.downloadTemplate);
+};
+
+function index(req, res){
   var match = /ticket=/.exec(req.url);
 
   if(match){
@@ -13,10 +20,4 @@ exports.index = function(req, res){
   }
 
   res.render('index.html');
-};
-
-exports.renderTemplate = function(req,res){
-  renderTemplate.test();
-  res.end();
-//  res.render('index.html');
 }

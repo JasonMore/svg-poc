@@ -2,7 +2,7 @@
   "use strict";
 
   angular.module('svg-poc')
-    .controller('renderTemplateCtrl', function($scope, $stateParams, liveResource, shapeViewModelService, textReflowService, dataMergeService, $timeout, svgReferenceService) {
+    .controller('renderTemplateCtrl', function($scope, $stateParams, liveResource, shapeViewModelService, textReflowService, dataMergeService, $timeout, svgReferenceService, $http) {
       window.debugScope = $scope;
 
       // load data
@@ -92,17 +92,34 @@
         _.merge($scope.shapesCopy, mergedShapes);
       }
 
+      window.callPhantom = window.callPhantom || function() {
+        return 'no phantom';
+      };
+
       // wait for the dom to settle down
-      var exportPdf = _.debounce(function() {
+      var exportPdf = _.debounce(_.once(function() {
 
-        var status = window.callPhantom({
-          emit: 'doneRendering',
-          svg: svgReferenceService.svg.toSVG()
-        });
+        $http.post('/renderTemplate', {
+          svgTemplate: svgReferenceService.svg.toSVG()
+        })
+          .then(function() {
+            var status = window.callPhantom({
+              emit: 'renderingDone',
+              svg: svgReferenceService.svg._svg.outerHTML
+            });
+            console.log(status);  // Will either print 'Accepted.' or 'DENIED!'
 
-        console.log(status);  // Will either print 'Accepted.' or 'DENIED!'
+          })
+          .catch(function(status) {
+            var status = window.callPhantom({
+              emit: 'renderingFail',
+              message: status
+            });
+            console.log(status);  // Will either print 'Accepted.' or 'DENIED!'
+          });
 
-      }, 150);
+
+      }), 200);
 
 
       $scope.$watch(function() {

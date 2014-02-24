@@ -8,11 +8,11 @@ page.open(url, function(status) {
   console.log(page.url);
 
   page.onCallback = function(message) {
-    var callbackMessage = 'DENIED!';
+    var callbackMessage = 'Rendering Failed!';
 
     if (message && message.emit === 'doneRendering'){
-      callbackMessage = 'Accepted.';
-      console.log(message.svg);
+      callbackMessage = 'Done Rendering';
+      console.log(callbackMessage);
     }
 
     setTimeout(function() {
@@ -22,11 +22,11 @@ page.open(url, function(status) {
     return callbackMessage;
   };
 
-  page.onAlert = function(msg) {
-    console.log('ALERT: ' + msg);
-  };
-
-  page.onConsoleMessage = function(msg, lineNum, sourceId) {
-    console.log('CONSOLE: ' + msg);
-  };
+//  page.onAlert = function(msg) {
+//    console.log('ALERT: ' + msg);
+//  };
+//
+//  page.onConsoleMessage = function(msg, lineNum, sourceId) {
+//    console.log('CONSOLE: ' + msg);
+//  };
 });

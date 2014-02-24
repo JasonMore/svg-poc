@@ -22,7 +22,7 @@ xdescribe('draggableSpec.js', function () {
     beforeEach(function () {
       scope.canDragShape = function (shape) {
         return canDrag;
-      }
+      };
 
       var model = {
         top: 0,
