@@ -2,7 +2,7 @@
   "use strict";
 
   angular.module('svg-poc')
-    .controller('renderTemplateCtrl', function($scope, $stateParams, liveResource, shapeViewModelService, textReflowService, dataMergeService, $timeout, svgReferenceService, $http) {
+    .controller('renderTemplateCtrl', function($scope, $stateParams, liveResource, shapeViewModelService, textReflowService, dataMergeService, $timeout, svgReferenceService, $http, $document) {
       window.debugScope = $scope;
 
       // load data
@@ -92,10 +92,6 @@
         _.merge($scope.shapesCopy, mergedShapes);
       }
 
-      window.callPhantom = window.callPhantom || function() {
-        return 'no phantom';
-      };
-
       // wait for the dom to settle down
       var exportPdf = _.debounce(_.once(function() {
 
@@ -103,19 +99,10 @@
           svgTemplate: svgReferenceService.svg.toSVG()
         })
           .then(function() {
-            var status = window.callPhantom({
-              emit: 'renderingDone',
-              svg: svgReferenceService.svg._svg.outerHTML
-            });
-            console.log(status);  // Will either print 'Accepted.' or 'DENIED!'
-
+            $document[0].title = "doneRendering";
           })
           .catch(function(status) {
-            var status = window.callPhantom({
-              emit: 'renderingFail',
-              message: status
-            });
-            console.log(status);  // Will either print 'Accepted.' or 'DENIED!'
+            $document[0].title = "failedRendering";
           });
 
 
