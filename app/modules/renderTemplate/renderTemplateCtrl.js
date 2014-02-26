@@ -96,7 +96,8 @@
       var exportPdf = _.debounce(_.once(function() {
 
         $http.post('/renderTemplate', {
-          svgTemplate: svgReferenceService.svg.toSVG()
+          svgTemplate: svgReferenceService.svg.toSVG(),
+          renderId: $stateParams.renderId
         })
           .then(function() {
             $document[0].title = "doneRendering";

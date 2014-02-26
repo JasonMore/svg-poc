@@ -5,16 +5,16 @@ var request = require('request'),
   template = require('lodash-node/modern/utilities/template'),
   uuid = require('node-uuid');
 
-var path = 'doodle.pdf';
+//var path = 'doodle.pdf';
 
 function createTemplate(req, res) {
   var hashData = {
-//    renderId: uuid.v4(),
+    renderId: uuid.v4(),
     templateId: req.params.templateId,
     dataSetId: req.query.dataSetId
   };
 
-  var hashTemplate = template('#/renderTemplate/${templateId}?dataSetId=${dataSetId}', hashData);
+  var hashTemplate = template('#/renderTemplate/${templateId}?dataSetId=${dataSetId}&renderId=${renderId}', hashData);
 
   var templateToRender = url.format({
     protocol: 'http',
@@ -46,7 +46,7 @@ function createTemplate(req, res) {
   function renderSuccess(value) {
     console.log(value);
     if (value === 'doneRendering') {
-      res.redirect('/downloadTemplate');
+      res.redirect('/downloadTemplate/' + hashData.renderId);
     } else {
       res.send(500, 'Failed Rendering');
     }
@@ -74,7 +74,7 @@ function renderTemplate(req, res) {
     }
   });
 
-  var fileStream = fs.createWriteStream(path);
+  var fileStream = fs.createWriteStream(req.body.renderId + '.pdf');
 
   // take the streamed file from postRequest and save it
   postRequest.pipe(fileStream);
@@ -92,8 +92,8 @@ function downloadTemplate(req, res) {
 //      readStream.pipe(res);
 
   // uncomment to download file
-  res.download(path, 'renderedTemplate.pdf', function(err) {
-    fs.unlink(path);
+  res.download(req.params.renderId + '.pdf', 'renderedTemplate.pdf', function(err) {
+    fs.unlink(req.params.renderId + '.pdf');
 
     if (err) {
       // handle error, keep in mind the response may be partially-sent
@@ -111,9 +111,9 @@ function downloadTemplate(req, res) {
 //  });
 }
 
-function getFilePath(req){
-  return  [req.params.templateId, req.query.dataSetId].join('_');
-}
+//function getFilePath(req) {
+//  return  [req.params.templateId, req.query.dataSetId].join('_');
+//}
 
 module.exports = {
   createTemplate: createTemplate,

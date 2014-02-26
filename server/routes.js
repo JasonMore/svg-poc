@@ -9,7 +9,7 @@ exports.setup = function(app) {
   app.get('/', index);
   app.get('/createTemplate/:templateId', renderTemplate.createTemplate);
   app.post('/renderTemplate', renderTemplate.renderTemplate);
-  app.get('/downloadTemplate', renderTemplate.downloadTemplate);
+  app.get('/downloadTemplate/:renderId', renderTemplate.downloadTemplate);
 };
 
 function index(req, res){
