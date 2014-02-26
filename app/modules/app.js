@@ -31,7 +31,7 @@
         })
 
         .state('renderTemplate', {
-          url: '/renderTemplate/:templateId?dataSet',
+          url: '/renderTemplate/:templateId?dataSetId',
 
           templateUrl: 'modules/renderTemplate/renderTemplate.html',
           controller: 'renderTemplateCtrl',

@@ -58,7 +58,7 @@
 
       $scope.$watch('hasShapes() && hasData()', function(ready) {
         if (!ready) return;
-        $scope.mergeDataId = $stateParams.dataSet;
+        $scope.mergeDataId = $stateParams.dataSetId;
       });
 
       $scope.$watch('mergeDataId', function(mergeDataId, oldValue) {

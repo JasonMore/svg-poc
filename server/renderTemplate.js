@@ -1,25 +1,43 @@
 var request = require('request'),
   fs = require('fs'),
-  webdriver = require('selenium-webdriver');
+  webdriver = require('selenium-webdriver'),
+  url = require('url'),
+  template = require('lodash-node/modern/utilities/template');
 
 var path = 'doodle.pdf';
-var url = 'http://localhost:3000/#/renderTemplate/8cadc1aa-9cea-400a-9348-3090b16b66c1?dataSet=3ff12b9f-6620-4450-84fd-7cfe86905975';
 
 function createTemplate(req, res) {
+  var hashData = {
+    templateId: req.params.templateId,
+    dataSetId: req.query.dataSetId
+  };
+
+  var hashTemplate = template('#/renderTemplate/${templateId}?dataSetId=${dataSetId}', hashData);
+
+  var templateToRender = url.format({
+    protocol: 'http',
+    hostname: 'localhost',
+    port: 3000,
+    pathname:'/',
+    hash: hashTemplate
+  });
+
   var driver = new webdriver.Builder()
     .withCapabilities(webdriver.Capabilities.chrome())
     .build();
 
-  driver.get(url);
-  driver.wait(waitForTitle, 10000)
-    .then(renderSuccess)
+  driver.get(templateToRender)
     .then(null, renderError); // catch error
+
+  driver.wait(waitForTitle, 1000000)
+    .then(renderSuccess)
+    .then(null, renderError);
 
   driver.quit();
 
   function waitForTitle() {
     return driver.getTitle().then(function(title) {
-      return title === 'doneRendering' || title === 'failedRendering';
+      return (title === 'doneRendering' || title === 'failedRendering') ? title : false;
     });
   }
 
@@ -33,7 +51,7 @@ function createTemplate(req, res) {
   }
 
   function renderError(error) {
-    res.send(500);
+    res.send(500, error);
     driver.quit();
   }
 }
