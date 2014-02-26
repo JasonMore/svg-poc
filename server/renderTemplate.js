@@ -2,12 +2,14 @@ var request = require('request'),
   fs = require('fs'),
   webdriver = require('selenium-webdriver'),
   url = require('url'),
-  template = require('lodash-node/modern/utilities/template');
+  template = require('lodash-node/modern/utilities/template'),
+  uuid = require('node-uuid');
 
 var path = 'doodle.pdf';
 
 function createTemplate(req, res) {
   var hashData = {
+//    renderId: uuid.v4(),
     templateId: req.params.templateId,
     dataSetId: req.query.dataSetId
   };
@@ -18,7 +20,7 @@ function createTemplate(req, res) {
     protocol: 'http',
     hostname: 'localhost',
     port: 3000,
-    pathname:'/',
+    pathname: '/',
     hash: hashTemplate
   });
 
@@ -90,8 +92,27 @@ function downloadTemplate(req, res) {
 //      readStream.pipe(res);
 
   // uncomment to download file
-  res.download(path);
+  res.download(path, 'renderedTemplate.pdf', function(err) {
+    fs.unlink(path);
 
+    if (err) {
+      // handle error, keep in mind the response may be partially-sent
+      // so check res.headerSent
+    } else {
+      // decrement a download credit etc
+    }
+  });
+
+//  var stream = fs.createReadStream(path, {bufferSize: 64 * 1024})
+//  stream.pipe(res);
+//
+//  stream.on('close', function(){
+//    if (!had_error) fs.unlink(path);
+//  });
+}
+
+function getFilePath(req){
+  return  [req.params.templateId, req.query.dataSetId].join('_');
 }
 
 module.exports = {

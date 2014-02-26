@@ -21,7 +21,8 @@
     "connect-cas": "~1.4.0",
     "livedb": ">=0.2.3",
     "request": "~2.34.0",
-    "lodash-node": "~2.4.1"
+    "lodash-node": "~2.4.1",
+    "node-uuid": "~1.4.1"
   },
   "devDependencies": {
     "karma-firefox-launcher": "~0.1.3",
