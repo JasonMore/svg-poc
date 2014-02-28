@@ -22,7 +22,8 @@
     "livedb": ">=0.2.3",
     "request": "~2.34.0",
     "lodash-node": "~2.4.1",
-    "node-uuid": "~1.4.1"
+    "node-uuid": "~1.4.1",
+    "selenium-webdriver": "~2.40.0"
   },
   "devDependencies": {
     "karma-firefox-launcher": "~0.1.3",
