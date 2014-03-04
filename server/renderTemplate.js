@@ -26,49 +26,9 @@ function createTemplateGet(req, res) {
 
   var hashTemplate = template('#/renderTemplate/${templateId}?dataSetId=${dataSetId}&renderId=${renderId}', hashData);
 
-  var templateToRender = url.format({
-    protocol: 'http',
-    hostname: 'localhost', // TODO: replace with env variable
-    port: 3000,
-    pathname: '/',
-    hash: hashTemplate
-  });
-
-  var driver = new webdriver.Builder()
-    .withCapabilities(webdriver.Capabilities.chrome())
-    .build();
-
-  driver.get(templateToRender)
-    .then(null, renderError); // catch error
-
-  driver.wait(waitForTitle, 1000000)
-    .then(renderSuccess)
-    .then(null, renderError);
-
-  driver.quit();
-
-  function waitForTitle() {
-    return driver.getTitle().then(function(title) {
-      return (title === 'doneRendering' || title === 'failedRendering') ? title : false;
-    });
-  }
-
-  function renderSuccess(value) {
-    console.log(value);
-    if (value === 'doneRendering') {
-      downloadTemplate();
-    } else {
-      res.send(500, 'Batik Rendering Error');
-    }
-  }
-
-  function renderError(error) {
-    res.send(500, error);
-    driver.quit();
-  }
+  renderTemplateInWebDriver(res, hashTemplate, downloadTemplate);
 
   function downloadTemplate() {
-    // uncomment to download file
     res.download(hashData.renderId + '.pdf', 'renderedTemplate.pdf', function(err) {
       fs.unlink(hashData.renderId + '.pdf');
     });
@@ -98,7 +58,14 @@ function createTemplatePost(req, res) {
   redisClient.set("renderTemplate:data:" + hashData.renderId, req.body.templateTempData);
 
   var hashTemplate = template('#/renderTemplate/${templateId}?renderId=${renderId}', hashData);
+  renderTemplateInWebDriver(res, hashTemplate, success);
 
+  function success() {
+    res.send(201, {url: '/downloadTemplate/' + hashData.renderId});
+  }
+}
+
+function renderTemplateInWebDriver(res, hashTemplate, successCallback) {
   var templateToRender = url.format({
     protocol: 'http',
     hostname: 'localhost', // TODO: replace with env variable
@@ -129,9 +96,7 @@ function createTemplatePost(req, res) {
   function renderSuccess(value) {
     console.log(value);
     if (value === 'doneRendering') {
-      // do we want to have a POST return a pdf?
-//      res.redirect('/downloadTemplate/' + hashData.renderId);
-      res.send(201, {url: '/downloadTemplate/' + hashData.renderId});
+      successCallback();
     } else {
       res.send(500, 'Batik Rendering Error');
     }
@@ -154,8 +119,8 @@ function createTemplatePost(req, res) {
  */
 function getTemplateTempData(req, res) {
   var key = "renderTemplate:data:" + req.params.renderId;
-  var result = redisClient.get(key, function(err,reply){
-    if(!reply){
+  var result = redisClient.get(key, function(err, reply) {
+    if (!reply) {
       res.send(404);
       return;
     }
@@ -164,7 +129,7 @@ function getTemplateTempData(req, res) {
     res.send(reply);
   });
 
-  if(!result) res.send(500);
+  if (!result) res.send(500);
 }
 
 /*
