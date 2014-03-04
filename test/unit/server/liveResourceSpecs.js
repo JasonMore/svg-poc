@@ -11,6 +11,7 @@ describe('liveResource.js >', function () {
       'at',
       'query',
       'del',
+      'fetch',
       'get',
       'subscribe',
       'scope',
@@ -272,21 +273,26 @@ describe('liveResource.js >', function () {
         });
 
         describe('get >', function () {
-          var result, getReturnValue;
+          var liveData, getReturnValue;
 
           beforeEach(function () {
             getReturnValue = {foo: 'bar'};
 
-            racerModel.get.andCallFake(function () {
+            racerModel.fetch.andCallFake(function (path, callback) {
+              callback();
+            });
+
+            racerModel.get.andCallFake(function(){
               return getReturnValue;
             });
 
             // act
-            result = liveResource.get();
+            liveData = liveResource.get();
+            $timeout.flush();
           });
 
           it('returns getReturnValue', function () {
-            expect(result).toBe(getReturnValue);
+            expect(liveData).toEqual(getReturnValue);
           });
 
           it('calls racerModel.get', function () {
