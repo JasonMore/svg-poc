@@ -9,6 +9,7 @@ exports.setup = function(app) {
   app.get('/', index);
   app.get('/createTemplate/:templateId', renderTemplate.createTemplateGet);
   app.post('/createTemplate/:templateId', renderTemplate.createTemplatePost);
+  app.get('/getTemplateTempData/:renderId', renderTemplate.getTemplateTempData)
   app.post('/renderTemplate', renderTemplate.renderTemplate);
   app.get('/downloadTemplate/:renderId', renderTemplate.downloadTemplate);
 };

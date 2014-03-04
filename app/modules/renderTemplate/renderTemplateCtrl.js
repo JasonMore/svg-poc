@@ -5,15 +5,15 @@
     .controller('renderTemplateCtrl', function($scope, $stateParams, liveResource, shapeViewModelService, textReflowService, dataMergeService, $timeout, svgReferenceService, $http, $document) {
       window.debugScope = $scope;
 
+      // propeties
+      $scope.zoom = 1;
+      $scope.templatedShapes = {};
+
       // load data
       var templateKey = 'templates.' + $stateParams.templateId;
       var liveTemplate = liveResource(templateKey);
       $scope.liveTemplate = liveTemplate;
       $scope.template = liveTemplate.subscribe();
-
-      var liveStudents = liveResource('students');
-      var studentsQuery = liveStudents.query({});
-      $scope.students = liveStudents.subscribe(studentsQuery);
 
       var liveVocabulary = liveResource('vocabulary');
       var vocabularyQuery = liveVocabulary.query({});
@@ -29,14 +29,30 @@
         $scope.template.height = 1500;
       }
 
-      // propeties
-      $scope.zoom = 1;
-      $scope.templatedShapes = {};
-      $scope.mergeDataId;
+      // If using dataSetId, fetch student data,
+      // otherwise ask server for temp data
+
+      if ($stateParams.dataSetId) {
+        var liveStudents = liveResource('students.' + $stateParams.dataSetId);
+        $scope.data = liveStudents.get();
+      } else {
+        $http.get('/getTemplateTempData/' + $stateParams.renderId).then(function(result) {
+          $scope.data = result.data;
+        });
+      }
 
       // computed
       $scope.computedShapes = function computedShapes() {
         return $scope.templatedShapes;
+      };
+
+      // wait for shapes and data to load first
+      $scope.hasShapes = function() {
+        return _.keys($scope.template.shapes).length > 0;
+      };
+
+      $scope.hasData = function() {
+        return _.keys($scope.data).length > 0;
       };
 
       // actions
@@ -45,41 +61,15 @@
       }, 200);
 
       // watch
-
-
-      // wait for shapes and data to load first
-      $scope.hasShapes = function() {
-        return _.keys($scope.template.shapes).length > 0;
-      };
-
-      $scope.hasData = function() {
-        return _.keys($scope.students).length > 0;
-      };
-
       $scope.$watch('hasShapes() && hasData()', function(ready) {
         if (!ready) return;
-        $scope.mergeDataId = $stateParams.dataSetId;
-      });
 
-      $scope.$watch('mergeDataId', function(mergeDataId, oldValue) {
-        if (mergeDataId === oldValue) return;
+        $scope.templatedShapes = {};
+        $scope.shapesCopy = angular.copy($scope.template.shapes);
 
-        if (!mergeDataId) {
-          updateAllTextReflows();
-          $scope.shapesCopy = null;
-          return;
-        }
-
-        // by only copying the shapes in between merges, prevents flicker
-        // when updating template data or changing templates
-        if (!oldValue) {
-          $scope.templatedShapes = {};
-          $scope.shapesCopy = angular.copy($scope.template.shapes);
-
-          _($scope.shapesCopy).each(function(shape) {
-            $scope.templatedShapes[shape.id] = shapeViewModelService.create(shape);
-          });
-        }
+        _($scope.shapesCopy).each(function(shape) {
+          $scope.templatedShapes[shape.id] = shapeViewModelService.create(shape);
+        });
 
         applyTemplateDataToTemplateShapes();
 
@@ -87,7 +77,7 @@
       });
 
       function applyTemplateDataToTemplateShapes() {
-        var data = $scope.students[$scope.mergeDataId];
+        var data = $scope.data;
         var mergedShapes = dataMergeService.shapesWithData($scope.template.shapes, data);
         _.merge($scope.shapesCopy, mergedShapes);
       }
@@ -106,14 +96,10 @@
             $document[0].title = "failedRendering";
           });
 
-
       }), 200);
-
 
       $scope.$watch(function() {
         exportPdf();
       });
-
-
     });
 }());

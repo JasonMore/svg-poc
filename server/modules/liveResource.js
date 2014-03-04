@@ -2,24 +2,25 @@ var liveResourceModule = angular.module('liveResource', []);
 
 module.exports = liveResourceModule;
 
-liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout, $rootScope) {
+liveResourceModule.service('liveResourceProvider', function($q, $http, $timeout, $rootScope) {
   var racer = require('racer');
 
   // init
   var initDefer = $q.defer();
   this.createLiveResource = initDefer.promise;
 
-  $http.get('/racerInit').success(function (data) {
+  $http.get('/racerInit').success(function(data) {
     racer.init(data);
   });
 
-  racer.ready(function (racerModel) {
+  // Look at http://derbyjs.com/#introduction_to_racer for information regarding racerModel
+  racer.ready(function(racerModel) {
 
     window.debugRacerModel = racerModel;
 
     // link up to ui.router to clear any subscriptions on page changes
     $rootScope.$on('$stateChangeStart',
-      function (event, toState, toParams, fromState, fromParams) {
+      function(event, toState, toParams, fromState, fromParams) {
         racerModel.unload();
       }
     );
@@ -32,20 +33,23 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
       window.debugLiveData = liveData;
 
       // racer functions
-      this.add = function (newModel) {
+      this.add = function(newModel) {
         newModel = angular.copy(newModel);
         return racerModel.add(path, newModel);
       };
 
-      this.at = function () {
+      this.at = function() {
         return racerModel.at(path);
       };
 
-      this.query = function (queryParams) {
+      this.query = function(queryParams) {
         return racerModel.query(path, queryParams);
       };
 
-      this.del = function (modelOrId) {
+      /*
+       Deletes the model by model reference or ID
+       */
+      this.del = function(modelOrId) {
         var idToDelete = modelOrId;
 
         if (modelOrId.id) {
@@ -60,21 +64,12 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
         return racerModel.del(path + "." + idToDelete);
       };
 
-      this.get = function () {
-        return racerModel.get(path);
-      };
-
-      this.subscribe = function (query) {
-        var queryOrPath = query || racerModel.at(path);
-
-        racerModel.subscribe(queryOrPath, function () {
-
-          // not sure why I have to do this
-          if (queryOrPath.constructor.name === 'Query') {
-            queryOrPath.ref('_page_.' + path);
-          }
-
-          $timeout(function () {
+      /*
+       Gets a non-updating copy of the model at the path
+       */
+      this.get = function() {
+        racerModel.fetch(path, function() {
+          $timeout(function() {
             _.extend(liveData, angular.copy(racerModel.get(path)));
           });
         });
@@ -82,7 +77,28 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
         return liveData;
       };
 
-      this.scope = function (subPath) {
+      /*
+       Gets a live updating copy of the model at the path
+       */
+      this.subscribe = function(query) {
+        var queryOrPath = query || racerModel.at(path);
+
+        racerModel.subscribe(queryOrPath, function() {
+
+          // not sure why I have to do this
+          if (queryOrPath.constructor.name === 'Query') {
+            queryOrPath.ref('_page_.' + path);
+          }
+
+          $timeout(function() {
+            _.extend(liveData, angular.copy(racerModel.get(path)));
+          });
+        });
+
+        return liveData;
+      };
+
+      this.scope = function(subPath) {
         return racerModel.scope(path + '.' + subPath);
       };
 
@@ -101,9 +117,9 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
 //      };
 
       // when local modifications are made, update the server model
-      $rootScope.$watch(function () {
+      $rootScope.$watch(function() {
         return JSON.stringify(liveData);
-      }, _.throttle(function (newModels, oldModels) {
+      }, _.throttle(function(newModels, oldModels) {
         if (!oldModels || newModels === oldModels) {
           return;
         }
@@ -203,11 +219,11 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
       }
 
       // when server modificaitons are made, update the local model
-      racerModel.on('all', path + '**', function (property, type, newVal, oldVal, passed) {
+      racerModel.on('all', path + '**', function(property, type, newVal, oldVal, passed) {
 
         // this $timeout is needed to avoid $$hashkey being added
         // to the op insert payload when new items are being created.
-        $timeout(function () {
+        $timeout(function() {
           var newServerModel = angular.copy(racerModel.get(path));
           removeDeletedItemsFromCollection(newServerModel, liveData);
           _.merge(liveData, newServerModel);
@@ -230,14 +246,14 @@ liveResourceModule.service('liveResourceProvider', function ($q, $http, $timeout
       if (!newServerModel || !newServerModel.id) {
         var keysRemoved = _.difference(_.keys(liveData), _.keys(newServerModel));
 
-        _.each(keysRemoved, function (key) {
+        _.each(keysRemoved, function(key) {
           delete liveData[key];
         });
       }
     }
 
-    $timeout(function () {
-      initDefer.resolve(function (path) {
+    $timeout(function() {
+      initDefer.resolve(function(path) {
         return new returnService(path);
       });
     });

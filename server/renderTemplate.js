@@ -3,10 +3,20 @@ var request = require('request'),
   webdriver = require('selenium-webdriver'),
   url = require('url'),
   template = require('lodash-node/modern/utilities/template'),
-  uuid = require('node-uuid');
+  uuid = require('node-uuid'),
+  redisClient = require('./setup/redis').client;
+;
 
-//var path = 'doodle.pdf';
-
+/*
+ Type: GET
+ Url: /createTemplate/:templateID?:dataSetId
+ Description: Merges a template and data
+ Params:{
+ templateId: REQUIRED, The ID of the template you want to render
+ dataSetId: REQUIRED, The ID of the student to merge the template with
+ }
+ Returns: Rendered PDF
+ */
 function createTemplateGet(req, res) {
   var hashData = {
     renderId: uuid.v4(),
@@ -46,7 +56,7 @@ function createTemplateGet(req, res) {
   function renderSuccess(value) {
     console.log(value);
     if (value === 'doneRendering') {
-      res.redirect('/downloadTemplate/' + hashData.renderId);
+      downloadTemplate();
     } else {
       res.send(500, 'Batik Rendering Error');
     }
@@ -56,16 +66,38 @@ function createTemplateGet(req, res) {
     res.send(500, error);
     driver.quit();
   }
+
+  function downloadTemplate() {
+    // uncomment to download file
+    res.download(hashData.renderId + '.pdf', 'renderedTemplate.pdf', function(err) {
+      fs.unlink(hashData.renderId + '.pdf');
+    });
+  }
 }
 
+/*
+ Type: POST
+ Url: /createTemplate/:templateID
+ Description: Merges a template and data. If a dataSetId is passed in, the templateTempData
+ will be ignored
+ Params:{
+ templateId: The ID of the template you want to render
+ }
+ POST Data: {
+ templateTempData: JSON The data you want to render against the template.
+ dataSetId: The ID of the student data you want to merge against.
+ }
+ Returns: URL where to download rendered PDF
+ */
 function createTemplatePost(req, res) {
   var hashData = {
     renderId: uuid.v4(),
-    templateId: req.params.templateId,
-    dataSetId: req.query.dataSetId
+    templateId: req.params.templateId
   };
 
-  var hashTemplate = template('#/renderTemplate/${templateId}?dataSetId=${dataSetId}&renderId=${renderId}', hashData);
+  redisClient.set("renderTemplate:data:" + hashData.renderId, req.body.templateTempData);
+
+  var hashTemplate = template('#/renderTemplate/${templateId}?renderId=${renderId}', hashData);
 
   var templateToRender = url.format({
     protocol: 'http',
@@ -97,7 +129,9 @@ function createTemplatePost(req, res) {
   function renderSuccess(value) {
     console.log(value);
     if (value === 'doneRendering') {
-      res.redirect('/downloadTemplate/' + hashData.renderId);
+      // do we want to have a POST return a pdf?
+//      res.redirect('/downloadTemplate/' + hashData.renderId);
+      res.send(201, {url: '/downloadTemplate/' + hashData.renderId});
     } else {
       res.send(500, 'Batik Rendering Error');
     }
@@ -109,7 +143,40 @@ function createTemplatePost(req, res) {
   }
 }
 
+/*
+ Type: GET
+ Url: /templateTempData/:renderId
+ Description: Fetches temp data sent to createTemplatePost
+ Params:{
+ renderId: The temp ID render session
+ }
+ Returns: Temp Data JSON
+ */
+function getTemplateTempData(req, res) {
+  var key = "renderTemplate:data:" + req.params.renderId;
+  var result = redisClient.get(key, function(err,reply){
+    if(!reply){
+      res.send(404);
+      return;
+    }
 
+    redisClient.del(key);
+    res.send(reply);
+  });
+
+  if(!result) res.send(500);
+}
+
+/*
+ Type: POST
+ Url: /renderTemplate
+ Description: Takes a merged <SVG> template, sends to Batik, then saves PDF
+ Post params:{
+ svgTemplate: The <SVG> you want to turn into a pdf
+ renderId: The temporary id for the render session
+ }
+ Returns: 200 when successfully saved, 500 otherwise
+ */
 function renderTemplate(req, res) {
   var options = {
     url: 'http://default-environment-n3qmimrip3.elasticbeanstalk.com/V1/renderRequest',
@@ -137,6 +204,15 @@ function renderTemplate(req, res) {
   });
 }
 
+/*
+ Type: GET
+ Url: /downloadTemplate/:renderId
+ Description: Downloads the temporary pdf file then deletes it
+ params:{
+ renderId: The temporary id for the render session
+ }
+ Returns: PDF file
+ */
 function downloadTemplate(req, res) {
 
   // uncomment to open in browser
@@ -152,6 +228,7 @@ function downloadTemplate(req, res) {
 module.exports = {
   createTemplateGet: createTemplateGet,
   createTemplatePost: createTemplatePost,
+  getTemplateTempData: getTemplateTempData,
   renderTemplate: renderTemplate,
   downloadTemplate: downloadTemplate
 };
