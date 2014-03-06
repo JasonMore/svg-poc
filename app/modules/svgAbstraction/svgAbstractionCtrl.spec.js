@@ -1,13 +1,20 @@
 describe('svgAbstractionCtrl.js >', function() {
   var $scope, svgAbstractionCtrl, shapeViewModelService;
 
+  beforeEach(function() {
+    spyOn(_, 'debounce').andCallFake(function(fn, timeout){
+      return fn;
+    });
+  });
 
   beforeEach(useMock('service', 'liveResource', window.liveResourceMock));
   beforeEach(module('liveResource'));
 
   beforeEach(module('svg-poc'));
 
-  beforeEach(inject(function($rootScope, $controller) {
+  beforeEach(inject(function($rootScope, $controller, textReflowService) {
+    spyOn(textReflowService, 'recalculateAllText');
+
     $scope = $rootScope;
     svgAbstractionCtrl = $controller('svgAbstractionCtrl', {$scope: $scope});
   }));

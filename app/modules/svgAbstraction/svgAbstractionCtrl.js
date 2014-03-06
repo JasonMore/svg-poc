@@ -70,6 +70,7 @@
       };
 
       var updateAllTextReflows = _.debounce(function() {
+//      var updateAllTextReflows = function() {
         textReflowService.recalculateAllText($scope.computedShapes());
       }, 200);
 

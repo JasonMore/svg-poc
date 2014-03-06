@@ -38,7 +38,7 @@ module.exports = function (karma) {
 
       // testing libraries
       'app/components/angular-mocks/angular-mocks.js',
-      'test/_mocks/**/*.js',
+      'test/mocks/**/*.js',
 
       // app code
       'server/modules/liveResource.js',
@@ -46,7 +46,6 @@ module.exports = function (karma) {
       'app/modules/**/*.html',
 
       // app tests
-      'test/unit/**/*.js',
       'app/modules/**/*.spec.js',
       'server/modules/**/*.spec.js'
     ],
