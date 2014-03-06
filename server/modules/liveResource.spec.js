@@ -32,7 +32,7 @@ describe('liveResource.js >', function () {
       return racer;
     };
 
-    spyOn(_, 'throttle').andCallFake(function(fn){
+    spyOn(_, 'throttle').and.callFake(function(fn){
       return fn;
     });
 
@@ -46,7 +46,7 @@ describe('liveResource.js >', function () {
     var $httpBackend, $timeout;
 
     beforeEach(inject(function (_$httpBackend_) {
-      spyOn(racer, 'ready').andCallThrough();
+      spyOn(racer, 'ready').and.callThrough();
       spyOn(racer, 'init');
 
       $httpBackend = _$httpBackend_;
@@ -74,13 +74,13 @@ describe('liveResource.js >', function () {
 
       beforeEach(function () {
         successFn = jasmine.createSpy('successFn');
-        successFn.andCallFake(function (returnService) {
+        successFn.and.callFake(function (returnService) {
           liveResource = returnService('objectModelPathToSave');
         });
 
         errorFn = jasmine.createSpy('errorFn');
 
-        racerModel.on.andCallFake(function (type, path, callback) {
+        racerModel.on.and.callFake(function (type, path, callback) {
           racerOnModelChangeCallback = function () {
             callback();
           }
@@ -140,7 +140,7 @@ describe('liveResource.js >', function () {
           var newModel, result, addCall;
 
           beforeEach(function () {
-            racerModel.add.andCallFake(function () {
+            racerModel.add.and.callFake(function () {
               return 'objectModelPathToSave.abc123'
             });
 
@@ -153,7 +153,7 @@ describe('liveResource.js >', function () {
             result = liveResource.add(newModel);
 
             // spy result
-            addCall = racerModel.add.mostRecentCall;
+            addCall = racerModel.add.calls.mostRecent();
           });
 
           it('calls racerModel.add', function () {
@@ -184,7 +184,7 @@ describe('liveResource.js >', function () {
           beforeEach(function () {
             atReturnValue = {foo: 'bar'};
 
-            racerModel.at.andCallFake(function () {
+            racerModel.at.and.callFake(function () {
               return atReturnValue;
             });
 
@@ -207,7 +207,7 @@ describe('liveResource.js >', function () {
           beforeEach(function () {
             queryReturnValue = {foo: 'bar'};
 
-            racerModel.query.andCallFake(function () {
+            racerModel.query.and.callFake(function () {
               return queryReturnValue;
             });
 
@@ -230,7 +230,7 @@ describe('liveResource.js >', function () {
           beforeEach(function () {
             delReturnValue = {id: 'abc123', name: 'Jason'};
 
-            racerModel.del.andCallFake(function () {
+            racerModel.del.and.callFake(function () {
               return delReturnValue;
             });
 
@@ -278,11 +278,11 @@ describe('liveResource.js >', function () {
           beforeEach(function () {
             getReturnValue = {foo: 'bar'};
 
-            racerModel.fetch.andCallFake(function (path, callback) {
+            racerModel.fetch.and.callFake(function (path, callback) {
               callback();
             });
 
-            racerModel.get.andCallFake(function(){
+            racerModel.get.and.callFake(function(){
               return getReturnValue;
             });
 
@@ -308,7 +308,7 @@ describe('liveResource.js >', function () {
 
             subpath = 'abc123';
 
-            racerModel.scope.andCallFake(function () {
+            racerModel.scope.and.callFake(function () {
               return scopeReturnValue;
             });
 
@@ -329,7 +329,7 @@ describe('liveResource.js >', function () {
           var act, liveData, query;
 
           beforeEach(function () {
-            racerModel.subscribe.andCallFake(function (queryOrScope, callback) {
+            racerModel.subscribe.and.callFake(function (queryOrScope, callback) {
               callback();
             });
 
@@ -343,7 +343,7 @@ describe('liveResource.js >', function () {
             beforeEach(function () {
               atRoot = {id: 'atRoot'};
 
-              racerModel.at.andCallFake(function () {
+              racerModel.at.and.callFake(function () {
                 return atRoot;
               });
 
@@ -385,7 +385,7 @@ describe('liveResource.js >', function () {
 
             describe('getting data after timeout >', function () {
               beforeEach(function () {
-                racerModel.get.andCallFake(function () {
+                racerModel.get.and.callFake(function () {
                   return getPathData;
                 });
 
@@ -491,7 +491,7 @@ describe('liveResource.js >', function () {
                 beforeEach(function () {
                   updatedRemovePathData = angular.copy(getPathData);
 
-                  racerModel.get.andCallFake(function () {
+                  racerModel.get.and.callFake(function () {
                     return updatedRemovePathData;
                   });
 

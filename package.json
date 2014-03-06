@@ -30,7 +30,7 @@
     "karma-chrome-launcher": "~0.1.2",
     "karma-html2js-preprocessor": "~0.1.0",
     "karma-script-launcher": "~0.1.0",
-    "karma-jasmine": "~0.1.5",
+    "karma-jasmine": "^0.2.1",
     "karma-requirejs": "~0.2.1",
     "karma-coffee-preprocessor": "~0.1.2",
     "karma-phantomjs-launcher": "~0.1.2",

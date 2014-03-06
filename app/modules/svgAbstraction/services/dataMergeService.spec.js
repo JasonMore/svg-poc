@@ -59,7 +59,7 @@ describe('dataMergeService.js > ', function () {
       });
 
       it('should not return the same object', function () {
-        expect(mergedShapes).toNotBe(shapes);
+        expect(mergedShapes).not.toBe(shapes);
       })
     });
 

@@ -2,7 +2,7 @@ describe('svgAbstractionCtrl.js >', function() {
   var $scope, svgAbstractionCtrl, shapeViewModelService;
 
   beforeEach(function() {
-    spyOn(_, 'debounce').andCallFake(function(fn, timeout){
+    spyOn(_, 'debounce').and.callFake(function(fn, timeout){
       return fn;
     });
   });
@@ -116,7 +116,7 @@ describe('svgAbstractionCtrl.js >', function() {
 
       mergedShapesFromData = {};
 
-      spyOn(dataMergeService, 'shapesWithData').andReturn(mergedShapesFromData);
+      spyOn(dataMergeService, 'shapesWithData').and.returnValue(mergedShapesFromData);
 
       $scope.mergeDataId = 'student123';
     }));
