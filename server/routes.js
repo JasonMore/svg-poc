@@ -1,6 +1,6 @@
 var http = require('http'),
   url = require('url'),
-  renderTemplate = require('./renderTemplate');
+  renderTemplate = require('./service/renderTemplate');
 /*
  * GET home page.
  */

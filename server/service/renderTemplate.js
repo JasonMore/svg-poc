@@ -4,7 +4,7 @@ var request = require('request'),
   url = require('url'),
   template = require('lodash-node/modern/utilities/template'),
   uuid = require('node-uuid'),
-  redisClient = require('./setup/redis').client;
+  redisClient = require('./../setup/redis').client;
 ;
 
 /*
@@ -26,12 +26,14 @@ function createTemplateGet(req, res) {
 
   var hashTemplate = template('#/renderTemplate/${templateId}?dataSetId=${dataSetId}&renderId=${renderId}', hashData);
 
-  renderTemplateInWebDriver(res, hashTemplate, downloadTemplate);
+  renderTemplateInWebDriver(res, hashTemplate, successDownload);
 
-  function downloadTemplate() {
-    res.download(hashData.renderId + '.pdf', 'renderedTemplate.pdf', function(err) {
-      fs.unlink(hashData.renderId + '.pdf');
-    });
+  function successSend201() {
+    res.send(201, {url: '/downloadTemplate/' + hashData.renderId});
+  }
+
+  function successDownload() {
+    downloadTemplateSuccess(res, hashData);
   }
 }
 
@@ -61,8 +63,14 @@ function createTemplatePost(req, res) {
   renderTemplateInWebDriver(res, hashTemplate, success);
 
   function success() {
-    res.send(201, {url: '/downloadTemplate/' + hashData.renderId});
+    downloadTemplateSuccess(res, hashData);
   }
+}
+
+function downloadTemplateSuccess(res, hashData) {
+  res.download(hashData.renderId + '.pdf', 'renderedTemplate.pdf', function(err) {
+    fs.unlink(hashData.renderId + '.pdf');
+  });
 }
 
 function renderTemplateInWebDriver(res, hashTemplate, successCallback) {
