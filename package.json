@@ -7,7 +7,8 @@
     "startDev": "supervisor server.js -w server.js,server server.js",
     "startDevDebug": "supervisor --debug server.js -w server.js,server server.js ",
     "test":"npm run test-server && npm run test-client",
-    "test-server": "mocha \"server/service/**/*.spec.js\"",
+    "test-server": "mocha server/service/**/*.spec.js",
+    "test-e2e": "mocha test/e2e/**/*.spec.e2e.js",
     "test-client": "./node_modules/.bin/karma start --single-run --browsers PhantomJS"
   },
   "dependencies": {

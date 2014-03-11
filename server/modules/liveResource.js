@@ -124,7 +124,7 @@ liveResourceModule.service('liveResourceProvider', function($q, $http, $timeout,
           return;
         }
 
-        // remove $$ from objects
+        // remove $$hashkey from objects
         newModels = angular.copy(JSON.parse(newModels));
         oldModels = angular.copy(JSON.parse(oldModels));
 
@@ -145,7 +145,7 @@ liveResourceModule.service('liveResourceProvider', function($q, $http, $timeout,
 
           updateModel(newModels[modelKey], oldModels[modelKey]);
         }
-      }, 200), true);
+      }, 200), true);  // < 200ms throttle
 
       function updateModel(newModel, oldModel, childPath) {
         if (!childPath) {
