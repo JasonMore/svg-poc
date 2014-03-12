@@ -55,7 +55,7 @@
         liveTemplates.add({
           "width": "428",
           "height": "234",
-          "templateType": "fe6c88cd-f0de-4ba5-bae0-008833154e30",
+          "templateType": templateTypeId,
           "name": "Landscape",
           "shapes": {
             "b694df81-413f-4c31-9b7b-8e6c805f9712": {
@@ -516,17 +516,6 @@
           }
         });
 
-//        liveTemplateTypes.add({
-//          name: 'Student ID Card'
-//        });
-//
-//        liveTemplateTypes.add({
-//          name: 'Seating Chart'
-//        });
       }
-
-//      $scope.addTemplateTypes = function() {
-//        liveTemplateTypes
-//      };
     });
 }());
