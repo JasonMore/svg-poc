@@ -11,3 +11,7 @@ node_modules/
 .idea/jsLibraryMappings.xml
 .idea/svg-poc.iml
 
+
+.idea/jsLibraryMappings.xml
+
+npm-debug.log
