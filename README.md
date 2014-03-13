@@ -24,6 +24,13 @@ running the app
 2. start redis run "redis-server"
 3. Run app "npm run startDev"
 
+adding seed data
+=====================
+1. Navigate to [localhost:3000/#/testData](http://localhost:3000/#/testData)
+2. Add [templates](http://localhost:3000/#/testData/templates)
+3. Add [students](http://localhost:3000/#/testData/students)
+4. Add [vocabulary](http://localhost:3000/#/testData/vocabulary)
+
 running client tests
 =====================
 1. "karma start"
@@ -35,3 +42,4 @@ running server tests
 running e2e server tests
 =====================
 1. "npm run test-e2e"
+

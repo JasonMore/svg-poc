@@ -11,6 +11,7 @@ module.exports = function(karma) {
     frameworks: ['jasmine'],
 
     preprocessors : {
+      '**/*.html': ['ng-html2js'],
       'server/modules/**/*.js' : 'coverage',
       'app/modules/**/*.js': 'coverage'
     },
@@ -34,11 +35,12 @@ module.exports = function(karma) {
       'app/components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js',
       'app/components/select2/select2.js',
       'app/components/angular-ui-select2/src/select2.js',
+      'app/components/angular-ui-sortable/src/sortable.js',
       // end of libraries
 
       // testing libraries
       'app/components/angular-mocks/angular-mocks.js',
-      'test/_mocks/**/*.js',
+      'test/mocks/**/*.js',
 
       // app code
       'server/modules/liveResource.js',
@@ -46,10 +48,8 @@ module.exports = function(karma) {
       'app/modules/**/*.html',
 
       // app tests
-      'test/unit/**/*.js'
-//      '*.html'
-
-//      'test/unit/**/*.html'
+      'app/modules/**/*.spec.js',
+      'server/modules/**/*.spec.js'
     ],
 
     ngHtml2JsPreprocessor: {
@@ -70,7 +70,7 @@ module.exports = function(karma) {
 
     // list of files to exclude
     exclude: [
-      
+
     ],
 
     // test results reporter to use

@@ -57,7 +57,7 @@ module.exports = function (karma) {
       // prepend this to the
 //      prependPrefix: 'served/',
 
-      // or define a cu‰stom transform function
+      // or define a custom transform function
 //      cacheIdFromPath: function (filepath) {
 //        return cacheId;
 //      },

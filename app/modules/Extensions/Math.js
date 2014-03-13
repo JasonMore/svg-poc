@@ -1,5 +1,8 @@
 (function() {
 
+  /*
+    Rounds a number to a specific number of decimal places
+   */
   Object.defineProperty(Math, 'roundPrecision', {
     value: function(value, points) {
       if (!points) {
