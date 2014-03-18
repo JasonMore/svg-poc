@@ -30,10 +30,7 @@
     "angular-mocks": "~1.2.5",
     "angular-ui-sortable": "~0.10.0"
   },
-  "devDependencies": {
-    "sinonjs": "~1.7.3",
-    "jasmine-sinon": "~0.3.1"
-  },
+  "devDependencies": {},
   "resolutions": {
     "angular": ">=1.2.0"
   }

@@ -1,7 +1,6 @@
 var http = require('http'),
   url = require('url'),
-  renderTemplate = require('./service/renderTemplate'),
-  template = require('./service/templateType');
+  renderTemplate = require('./service/renderTemplate');
 /*
  * GET home page.
  */
@@ -13,10 +12,6 @@ exports.setup = function(app) {
   app.get('/getTemplateTempData/:renderId', renderTemplate.getTemplateTempData);
   app.post('/renderTemplate', renderTemplate.renderTemplate);
   app.get('/downloadTemplate/:renderId', renderTemplate.downloadTemplate);
-
-  app.put('/api/templateType', template.create);
-  app.get('/api/templateType/:id', template.get);
-  app.del('/api/templateType/:id', template.del);
 };
 
 function index(req, res){
