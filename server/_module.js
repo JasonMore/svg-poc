@@ -1,1 +1,0 @@
-var liveResourceModule = require('./liveResource');

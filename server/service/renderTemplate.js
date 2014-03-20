@@ -4,7 +4,7 @@ var request = require('request'),
   url = require('url'),
   template = require('lodash-node/modern/utilities/template'),
   uuid = require('node-uuid'),
-  redisClient = require('./../setup/redis').client;
+  redisClient = require('./../setup/redis').client
 ;
 
 /*
@@ -17,6 +17,9 @@ var request = require('request'),
  }
  Returns: Rendered PDF
  */
+// THIS FUNCTION SHOULD BE DEPRICATED
+// The get call implies that the client side angular.js code knows how
+// to load the data to be merged, which will probably never happen
 function createTemplateGet(req, res) {
   var hashData = {
     renderId: uuid.v4(),
@@ -47,7 +50,6 @@ function createTemplateGet(req, res) {
  }
  POST Data: {
  templateTempData: JSON The data you want to render against the template.
- dataSetId: The ID of the student data you want to merge against.
  }
  Returns: URL where to download rendered PDF
  */

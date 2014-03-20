@@ -182,8 +182,8 @@ liveResourceModule.service('liveResourceProvider', function($q, $http, $timeout,
           setPath += '.' + propertyKey;
 
           if (_.isArray(newModel[propertyKey])) {
-            //throw 'Sorry arrays are super broken, please use a collection instead'
-            updateArrayModel(newModel[propertyKey], oldModel ? oldModel[propertyKey] : null, setPath);
+            throw 'Sorry arrays are super broken, please use a collection instead'
+//            updateArrayModel(newModel[propertyKey], oldModel ? oldModel[propertyKey] : null, setPath);
             continue;
           }
 

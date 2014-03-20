@@ -121,8 +121,8 @@ describe('liveResource.js >', function () {
               number: 123,
               object: {
                 childObjectString: 'mr fancy pants'
-              },
-              array: [arrayItem0, arrayItem1, arrayItem2]
+              }
+//              array: [arrayItem0, arrayItem1, arrayItem2]
             },
             'def456': {id: 'def456', value: 'this will be deleted'}
           };
@@ -473,7 +473,7 @@ describe('liveResource.js >', function () {
                   });
                 });
 
-                describe('updating array item 0 >', function () {
+                xdescribe('updating array item 0 >', function () {
                   beforeEach(function () {
                     liveData['abc123'].array[0].string = 'hello there';
                     act();
@@ -576,7 +576,7 @@ describe('liveResource.js >', function () {
                   });
                 });
 
-                describe('remote updated array >', function () {
+                xdescribe('remote updated array >', function () {
                   var originalArray;
                   beforeEach(function () {
                     originalArray = liveData['abc123'].array;
@@ -593,7 +593,7 @@ describe('liveResource.js >', function () {
                   });
                 });
 
-                describe('remote updated array >', function () {
+                xdescribe('remote updated array >', function () {
                   var originalArray;
                   beforeEach(function () {
                     originalArray = liveData['abc123'].array;
